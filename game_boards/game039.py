@@ -1,0 +1,210 @@
+# -*- coding: utf-8 -*-
+import classes.level_controller as lc
+import classes.game_driver as gd
+import classes.extras as ex
+
+import classes.board
+import random
+
+class Board(gd.BoardGame):
+    def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
+        self.level = lc.Level(self,mainloop,5,11)
+        gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,10,7)
+        
+        
+    def create_game_objects(self, level = 1):
+        self.vis_buttons = [1,1,1,1,1,1,1,0,0]
+        self.mainloop.info.hide_buttonsa(self.vis_buttons)
+        #create non-movable objects
+        
+        s = random.randrange(30, 80)
+        v = random.randrange(200, 255)
+        h = random.randrange(0, 255)
+        color1 = ex.hsv_to_rgb(h,s,v)
+        color2 = ex.hsv_to_rgb(h,150,v)  
+        color3 = ex.hsv_to_rgb(h,150,75) 
+        
+        #self.chapters = [1,12,23,30,36]
+        #data = [0-x_count, 1-y_count, 2-bottom_range1, 3-top_range1, 4-bottom_range2, 5-top_range2, 6-operator, 7-font_size]
+        if self.mainloop.m.game_variant == 0:  
+            self.level.lvl_count = 11  
+            if self.level.lvl == 1:#addition - ch0
+                data = [10,7,1,5,1,5,"+",2]
+            elif self.level.lvl == 2:
+                data = [10,7,3,9,1,5,"+",2]
+            elif self.level.lvl == 3:
+                data = [10,7,5,15,3,9,"+",2]
+            elif self.level.lvl == 4:
+                data = [10,7,5,15,5,15,"+",2]
+            elif self.level.lvl == 5:
+                data = [10,7,15,55,5,35,"+",2]
+            elif self.level.lvl == 6:
+                data = [10,7,35,75,15,25,"+",2]
+            elif self.level.lvl == 7:
+                data = [10,7,55,99,55,99,"+",2]
+            elif self.level.lvl == 8:
+                data = [10,7,100,250,100,250,"+",4]
+            elif self.level.lvl == 9:
+                data = [10,7,300,500,250,499,"+",4]
+            elif self.level.lvl == 10:
+                data = [10,7,400,650,150,349,"+",4]
+            elif self.level.lvl == 11:
+                data = [10,7,500,850,100,149,"+",4]
+        elif self.mainloop.m.game_variant == 1:
+            self.level.lvl_count = 11
+            if self.level.lvl == 1:#subtraction  - ch1
+                data = [10,7,3,10,1,0,"-",2]
+            elif self.level.lvl == 2:
+                data = [10,7,5,10,3,0,"-",2]
+            elif self.level.lvl == 3:
+                data = [10,7,10,15,3,0,"-",2]
+            elif self.level.lvl == 4:
+                data = [10,7,15,20,5,0,"-",2]
+            elif self.level.lvl == 5:
+                data = [10,7,20,49,9,0,"-",2]
+            elif self.level.lvl == 6:
+                data = [10,7,49,99,9,0,"-",2]
+            elif self.level.lvl == 7:
+                data = [10,7,100,250,30,0,"-",4]
+            elif self.level.lvl == 8:
+                data = [10,7,100,250,30,0,"-",4]
+            elif self.level.lvl == 9:
+                data = [10,7,100,250,30,0,"-",4]
+            elif self.level.lvl == 10:
+                data = [10,7,250,499,50,0,"-",4]
+            elif self.level.lvl == 11:
+                data = [10,7,499,999,99,0,"-",4]
+        elif self.mainloop.m.game_variant == 2:
+            self.level.lvl_count = 7
+            if self.level.lvl > 7:
+                self.level.lvl = 7
+            if self.level.lvl == 1:#multiplication  - ch2
+                data = [10,7,1,3,1,3,"*",2]
+            elif self.level.lvl == 2:
+                data = [10,7,1,9,1,2,"*",2]
+            elif self.level.lvl == 3:
+                data = [10,7,2,6,2,6,"*",2]
+            elif self.level.lvl == 4:
+                data = [10,7,2,7,3,7,"*",2]
+            elif self.level.lvl == 5:
+                data = [10,7,2,9,2,9,"*",2]
+            elif self.level.lvl == 6:
+                data = [10,7,2,15,2,15,"*",4]
+            elif self.level.lvl == 7:
+                data = [10,7,2,20,2,20,"*",4]
+        elif self.mainloop.m.game_variant == 3:
+            self.level.lvl_count = 7
+            if self.level.lvl > 7:
+                self.level.lvl = 7
+            if self.level.lvl == 1:#division - ch3
+                data = [10,7,1,3,1,3,"/",2]
+            elif self.level.lvl == 2:
+                data = [10,7,1,9,1,2,"/",2]
+            elif self.level.lvl == 3:
+                data = [10,7,2,6,2,6,"/",2]
+            elif self.level.lvl == 4:
+                data = [10,7,2,7,3,7,"/",2]
+            elif self.level.lvl == 5:
+                data = [10,7,2,9,2,9,"/",2]
+            elif self.level.lvl == 6:
+                data = [10,7,2,15,2,15,"/",4]
+            elif self.level.lvl == 7:
+                data = [10,7,2,20,2,20,"/",4]
+        #stretch width to fit the screen size
+        data[0] = self.get_x_count(data[1],even=True)
+        if data[0] < 8:
+            data[0] = 8
+        self.data = data
+
+        self.layout.update_layout(data[0],data[1])
+        scale = self.layout.scale
+        self.board.level_start(data[0],data[1],scale)
+        
+        self.num_list = []
+        self.num_list2 = []
+        self.solution = []
+
+        for i in range(5):
+            if data[6]=="+":
+                first_num = random.randrange(data[2],data[3]+1)
+                second_num = random.randrange(data[4],data[5]+1)
+                self.solution.append(first_num + second_num)
+                
+            elif data[6]=="-":
+                first_num = random.randrange(data[2],data[3]+1)
+                second_num = random.randrange(data[4],first_num-1)
+                self.solution.append(first_num - second_num)
+                
+            elif data[6]=="*":
+                first_num = random.randrange(data[2],data[3]+1)
+                second_num = random.randrange(data[4],data[5]+1)
+                self.solution.append(first_num * second_num)
+                
+            elif data[6]=="/": #reversed multiplication - looking for the first factor
+                first = random.randrange(data[2],data[3]+1)
+                second_num = random.randrange(data[4],data[5]+1)
+                first_num = first * second_num
+                self.solution.append(first)
+            
+            self.num_list.append(first_num)
+            self.num_list2.append(second_num)
+
+        self.shuffled = self.solution[:]
+        random.shuffle(self.shuffled)
+
+        #create objects
+        if data[6]=="*":
+            operator = chr(215)
+        elif data[6]=="/":
+            operator = chr(247)
+        else:
+            operator = data[6]
+            
+        x = (data[0]-4)//2
+        y = 1
+        for i in range(5):
+            caption = "%d %s %d" % (self.num_list[i],operator,self.num_list2[i])
+            
+            self.board.add_unit(x,y,2,1,classes.board.Label,caption,color1,"",data[7])
+            self.board.add_unit(x+2,y,1,1,classes.board.Label,"=",color1,"",data[7])
+            self.board.add_door(x+3,y,1,1,classes.board.Door,"",color1,"")
+            self.board.units[-1].door_outline = True
+            self.board.add_unit(x+5,y,1,1,classes.board.Letter,str(self.shuffled[i]),color2,"",data[7])
+            self.board.ships[-1].audible = False
+            self.outline_all(1,1)
+            y += 1
+        
+        for i in range(2,15,3):
+            self.board.all_sprites_list.move_to_front(self.board.units[i])
+        for each in self.board.units:
+            each.font_color = color3
+        for each in self.board.ships:
+            each.font_color = color3
+        
+    def handle(self,event):
+        gd.BoardGame.handle(self, event) #send event handling up
+
+    def update(self,game):
+        game.fill((255,255,255))
+        gd.BoardGame.update(self, game) #rest of painting done by parent
+
+    def check_result(self):
+        if self.changed_since_check:
+            correct = True
+            for i in range(5):
+                if self.board.ships[i].grid_x == self.board.units[-1].grid_x and 0 < self.board.ships[i].grid_y < 6:
+                    #if position from the left is in line with target squares
+                    if self.board.ships[i].value != str(self.solution[self.board.ships[i].grid_y-1]):
+                        correct = False
+                        break
+                else:
+                    correct = False
+                    break
+            if correct:
+                tts = self.d["Perfect! Task solved!"]
+                self.level.next_board(tts)
+            else:
+                self.say(self.d["Please try again."],6)
+                self.level.try_again()
+                self.changed_since_check = False
+            

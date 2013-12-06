@@ -1,0 +1,153 @@
+# -*- coding: utf-8 -*-
+import classes.level_controller as lc
+import classes.game_driver as gd
+import classes.extras as ex
+import pygame
+
+import classes.board
+import random
+
+class Board(gd.BoardGame):
+    def __init__(self, mainloop, speaker, config, screen_w, screen_h):
+        self.level = lc.Level(self,mainloop,5,10)
+        gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,20,10)
+        
+    def create_game_objects(self, level = 1):
+        self.vis_buttons = [1,1,1,1,1,1,1,0,0]
+        self.mainloop.info.hide_buttonsa(self.vis_buttons)
+        #create non-movable objects
+        self.board.draw_grid = False
+        s = random.randrange(150, 190, 5)
+        v = random.randrange(230, 255, 5)
+        h = random.randrange(0, 255, 5)
+        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
+        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
+        color2 = ex.hsv_to_rgb(h,s,v) #normal color
+        color3 = ex.hsv_to_rgb(h,230,100)
+        font_color = ex.hsv_to_rgb(h,255,140)
+        white = ((255,255,255))
+
+        #data = [x_count, y_count, number of items on the list, top_quntity,font-size]
+        if self.level.lvl == 1: #images 42x42
+            data = [20,14,3,3,2]
+        elif self.level.lvl == 2:
+            data = [20,14,3,5,2]
+        elif self.level.lvl == 3:
+            data = [20,14,3,7,2]
+        elif self.level.lvl == 4:
+            data = [20,14,4,3,2]
+        elif self.level.lvl == 5:
+            data = [20,14,4,5,2]
+        elif self.level.lvl == 6:
+            data = [20,14,4,7,2]
+        elif self.level.lvl == 7:
+            data = [20,14,5,3,2]
+        elif self.level.lvl == 8:
+            data = [20,14,5,5,2]
+        elif self.level.lvl == 9:
+            data = [20,14,6,3,2]
+        elif self.level.lvl == 10:
+            data = [20,14,6,5,2]
+            
+        #rescale the number of squares horizontally to better match the screen width
+        x_count = self.get_x_count(data[1],even=None)
+        if x_count > 20 :
+            data[0] = x_count
+            
+        self.data = data
+        self.layout.update_layout(data[0],data[1])
+        self.board.level_start(data[0],data[1],self.layout.scale)
+        
+        shelf_len = 7
+        #basket
+        basket_w = data[0]- shelf_len - 1
+        self.board.add_door(data[0]-basket_w,data[1]-6,basket_w,5,classes.board.Door,"",white,"")
+        self.board.units[0].door_outline = True
+        #basket image - 260 x 220
+        self.board.add_door(data[0]-6,data[1]-6,6,5,classes.board.Door,"",white,"basket.png")
+
+        
+        self.board.add_unit(data[0]-7,0,7,1,classes.board.Label,self.d["Shopping List"],white,"",data[4]+1)
+        f_end = ".png"
+        items = ["fr_apple1","fr_apple2","fr_strawberry","fr_pear","fr_orange","fr_onion","fr_tomato","fr_lemon","fr_cherry","fr_pepper","fr_carrot","fr_banana","fr_wmelon"]
+        self.items = items   
+         
+        singular_items = self.lang.fruit  #["green apple","red apple","strawberry","pear","orange","onion","tomato","lemon","cherry","pepper","carrot","banana","watermelon"]    
+        multiple_items_1 = self.lang.fruits_1 #["green apples","red apples","strawberries","pears","oranges","onions","tomatoes","lemons","cherries","peppers","carrots","bananas","watermelons"]     
+        multiple_items_2 = self.lang.fruits_2
+        self.singular_items = singular_items        
+        
+        item_indexes = [x for x in range(len(items))]
+        #quantities = [x for x in range(1,data[3]+1)]
+        self.chosen_items = [[],[]]
+        self.solution = {}
+        #pick items and quantities
+        for i in range(data[2]):
+            index = random.randrange(0,len(item_indexes))
+            self.chosen_items[0].append(item_indexes[index])
+            quantity = random.randrange(1,data[3]+1)
+            self.chosen_items[1].append(quantity)
+            self.solution[str(item_indexes[index])] = quantity
+            del(item_indexes[index])
+            
+        #create shopping list
+        for i in range(data[2]):
+            ind = self.chosen_items[0][i]
+            if self.chosen_items[1][i]>1:
+                if self.chosen_items[1][i] in self.lang.plural_rules[0]:
+                    caption = multiple_items_1[ind]
+                else:
+                    caption = multiple_items_2[ind]
+            else:
+                caption = singular_items[ind]
+            self.board.add_unit(data[0]-7,i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])
+            self.board.add_unit(data[0]-6,i+1,1,1,classes.board.ImgShip,"",white,items[ind]+f_end,data[4])
+            self.board.add_unit(data[0]-5,i+1,5,1,classes.board.Label,caption,white,"",data[4])
+            self.board.ships[i].immobilize()
+            self.board.ships[i].outline = False
+            self.board.units[-1].align = 1
+        #rearange z-order of red outlines (shopping list and basket)
+        for i in range(2):
+            self.board.all_sprites_list.move_to_front(self.board.units[i])
+        
+        #put stuff on shelves:
+        for i in range(len(items)):
+            image = items[i]+f_end
+            
+            for j in range(0,shelf_len):
+                self.board.add_unit(j,i,1,1,classes.board.ImgShip,singular_items[i],white,image,data[4])
+                self.board.ships[-1].audible = False
+        self.board.all_sprites_list.move_to_front(self.board.units[0]) 
+        instruction = self.d["Check the shopping list"]
+        self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",3)
+        self.board.ships[-1].set_outline(0, 1)
+        self.board.ships[-1].immobilize() 
+        self.board.ships[-1].font_color = font_color
+
+
+    def handle(self,event):
+        gd.BoardGame.handle(self, event) #send event handling up
+            
+    def update(self,game):
+        game.fill((255,255,255))
+        gd.BoardGame.update(self, game) #rest of painting done by parent
+
+    def check_result(self):
+        if self.changed_since_check:
+            #checking what sprites collide with the basket sprite
+            purchased = pygame.sprite.spritecollide(self.board.units[0], self.board.ship_list, False, collided = None)
+            result = {}
+            #count each item and check if they are the items from the shopping list
+            for i in range(len(self.items)):
+                count = 0
+                for each in purchased:
+                    if each.value == self.singular_items[i]: #self.items[i]:
+                        count += 1
+                if count > 0:
+                    result[str(i)] = count
+            if result == self.solution:
+                self.level.next_board()
+            else:
+                self.say(self.d["Please try again."])
+                self.level.try_again()
+                self.changed_since_check = False

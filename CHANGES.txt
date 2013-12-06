@@ -1,0 +1,122 @@
+Changelog:
+pySioGame - 1.30.7xx - beta:
+    - level data and game preferences including currently selected language are now stored in $XDG_DATA_HOME/pysiogame or $HOME/.local/share/pysiogame depending on configuration.
+    - new games added including activities to teach kids reading clock hands, one more multiplication table activity and a little tool useful in learning various types of shapes.
+    - some tweaks done to the way titles are being displayed
+    - scrolling categories/games in menu now moves them one at a time rather than skipping to the very bottom + added support for mouse wheel for scrolling.
+    - quitting game through the bottom-right button requires two clicks (not necessarily double click), Esc and in windowed version "X" button gets you out of the game without confirmation.
+    - paint game - brush size now being changed by slider rather than +/- buttons
+    - window can now be resized (but exactly as with toggling fullscreen on and off - changing window size will also reload the current activity, so don't do it in the middle of working on something) 
+    - handwriting font redrawn: advantages: one font for all languages, no more unknown authors and licences for fonts, more letters available including accents, tildes and what not, disadvantages: it's not as visually pleasing as the previous ones and there's no arrow guides the previous fonts had.
+    - and many other changes to the way the game looks and works.
+    - PS. changed the version numbering system and since this large leap in numbers
+    
+pySioGame - 0.4.1 - beta:
+    - added Spanish translation - thanks to Miriam Ruiz
+    - removed a bug in calculating window size
+
+pySioGame - 0.4.0 - beta:
+    - added partially translated Russian Version - thanks to Anton Kayukov (Антон Каюков) - sorry I forgot do do it earlier
+    - added new activities
+    - 3 math games split into separate games so different operations are now under separate launching button
+    - made cosmetic changes to some of the existing activities.
+    - optimized images further
+    - now it is possible to change child's name in settings screen (just start typing and press enter when finished)
+    
+pySioGame - 0.3.1.2 - beta:
+    - corrected some area/volume formulas and changed shape/solid images - added labels
+    - paint - flat brush behaviour changed slightly.
+
+pySioGame - 0.3.1 - beta:
+    - changed the Paint activity:
+        - added short history (undo/redo)
+        - added new straight line tool
+        - changed the painting functions slightly
+    - changed 'circumference' to 'perimeter' in shape flashcards
+
+pySioGame - 0.3.0 - beta:
+    - levels are now being saved to file, so when you switch activities or close the game - next time you come back levels will be set just as they were when you left (auto-save on activity change and on program close).
+    - object surfaces are only repainted when something changed on them (ie. colour, text or image) - helped to speed up the game in some cases - mainly paint and letter tracing activities. But all activities should work faster now. (unfortunately they are still all blitted to the screen when screen needs to be updated - no plans to change it)
+    - added new colour creation activities
+    - Hit the Mole game still not perfect but now the game finishes earlier if maximum number of allowed escapes is exceeded.
+    - "read game instructions at the start of games" now disabled - it turned out to be a bit annoying - now you can listen to this text if you click on the instruction box.
+
+pySioGame - 0.2.3 - pre-alpha:
+    - added Touch Typing program - only available in English US and UK, Polish and Russian language versions (sorry to other language speakers - I do not know how to guide someone to use dead keys, etc. in multiple languages)
+        - this will remain unfinished - I have started it and realized that it is more like an idea for an entire standalone application rather than a small add-on to this game - but still did not want to throw away the work I have done on it so far
+        - there are programs like this already out there - ie. KTouch, Klavaro, etc.
+    - converted some of the largest .png files to .jpg format - saved over 2MB
+    - completed* the letter flashcards - added new words and images (in some languages where I could not find a reasonable word the letter was left uncompleted) - done as much as possible without any knowledge of some of the languages - take it with pinch of salt and let me know about any errors.
+    - The multiplication/division games now additionally accept numbers typed on a keyboard as a faster way of response (type answer and press enter to confirm)
+    - added another Connect numbers game - but this time numbers are stacked vertically - makes more use of space if you have a wide-screen monitor.
+    - corrected pronunciation of Polish letters in the alphabet/letter games (ł,ń,ó,ś,w,z,ź,ż)
+
+pySioGame - 0.2.2 - pre-alpha:
+    - added multi-row functionality to the multi-sprite object, which in turn:
+    - fixed the problem with game crashing on letter flashcard game
+    
+pySioGame - 0.2.1 - pre-alpha:
+	- corrected few errors
+	- added new colour matching game - colours stacked vertically so there is more space for colour names
+
+pySioGame - 0.2.0 - pre-alpha: (jump to 0.2 in order to be in line with upubuntu.com version which started at 0.1 instead of 0.0.1) 
+    - added Greek translation thanks to Στέλιος, versys650gr and other members of the Official Greek Community of Linux Mint who helped with the translation
+    - changed some icons - categories colour coded
+    - added further support for multiple languages
+    - added new flashcard game to work with all languages supported
+        - currently works with English, Russian and Greek - other languages will be completed soon
+    - fixed some bugs
+    - corrected the error with triangles - swapped the descriptions over Obtuse Triangle and Acute Triangle - again thanks to Στέλιος for pointing it out
+
+pySioGame - 0.0.2.1 - pre-alpha:
+    Some minor changes to make the game more touch-screen friendly:
+        - replaced the right button click function to skip the levels with additional 2 graphical buttons (available when needed).
+        - added little graphical arrow key pad in games that require the arrow keys - not tested on touch screens - are the buttons large enough for little fingers?
+        - in the owl memory game - the "in-game" arrows are now clickable/tapable
+    Other changes:
+        - sheep maze - sheep movement now slightly changed - now the object (the sheep) behaves nearly the same as other movable objects in the game 
+            - holding the arrow key will make it move till it hits the wall or end of board
+        - enabled the game to be translated to Finnish.
+
+pySioGame - 0.0.2 - (0.0.2.0) - pre-alpha:
+    End User Point of View:
+    	- added preferences panel:
+    		- used to select language - so far English, American English and Polish are somewhat complete
+    		- other languages can be enabled - but are untranslated - this is for translators to test their work
+    		- now you can turn off the eSpeak - if you want to - as well as enable instructions for the games - uncompleted yet
+    		- you can now select to start the game full screen next time - enable Fullscreen
+    		- your selected settings will automatically be saved in languages/lang_config.txt - make sure it can be written to
+    	- added 2 (+1) new games:
+    		1. 3D shapes - flashcards
+    		2. Another alphabet completion game
+    			- but this one includes special characters of selected language
+    			- no big difference in English apart from it being now on 2 lines
+    		3. Letter writing game with Russian Letters - uncompleted / needs a better font / no arrows yet
+    	- changed few games:
+    		- made them capable of displaying non standard characters, ie. accents, Cyrllica, etc.
+    		- the letter sorting games now use full alphabet of a selected language
+    		- added little word lists to each of the languages that I plan to support
+    			- these will be used by word builder/word maze games
+    		- added few colors to the colour game, ie. brown (silly me - I forgot about brown :)
+    		- first level in colour game is now indented as a learning tool rather than testing knowledge of colours
+    		- shopping list now has limited number of fruits/veg in each row to 7, and the basket rectangle is closer to the items
+    		- Hit the Mole game now moved to games - this game is in fact still unfinished - no hammer yet - and the graphic could be hanged
+    		- some games had it's number of games per level and number of levels changed
+    		- word list has changed completely - the words in it are kind of more commonly used words in English
+    	- renamed first category to hold game information, copyright info and settings, and some related stuff in the future
+    	- changed few category icons
+    	
+    Technical changes:
+    	- changed coding of all source files to utf-8
+    	- enabled the objects to render/speak and deal with utf-8 characters
+    		- and all this to still keep it py2.7.2 and py3+ compatible (let me know if it is not)
+    	- fixed scaling problem in older pygame versions ( < 1.8 - hopefully fixed - untested)
+    	- cleaned up a little bit, removed (emptied) some disused/replaced game files that has been left in game_boards folder 
+    		- the empty files are still there as placeholders for new stuff in the future did not want to rename files to fill the gap, and the way the games are added to __all__ does not allow for number skipping.
+    	- removed old icons and disused images, renamed some images so related stuff stays together.
+    	- changed font from default None to FreeSansBold (which BTW was default), but specifying the font name dealt with a problem of cropping accents at the top.
+    	- added loadable/savable settings - as above the languages/lang_config.txt needs to be writable.
+    	- now most of the changes in the Config object/class will be overridden by data loaded from file
+    		- only changes to screen auto-detect and screen size related stuff works, rest of settings in file.
+    
+    I guess that's a long story short, I hope I haven't missed anything important, if any of the new changes or anything else breaks the game than let me know.

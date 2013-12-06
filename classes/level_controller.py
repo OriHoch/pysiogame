@@ -1,0 +1,154 @@
+# -*- coding: utf-8 -*-
+import gc
+import os, sys
+import random
+import pygame.mixer
+sounds = pygame.mixer
+sounds.init()
+
+sound_9 = '140511__blackstalian__click-sfx7.ogg'
+sound_2 = '146731__fins__game-fail.ogg'
+s4 = sounds.Sound(os.path.join('sounds', sound_9))
+s5 = sounds.Sound(os.path.join('sounds', sound_2))
+
+
+#file initialising level control
+class Level:
+    def __init__(self,board,mainloop,gpl,lvl_count):
+        self.game_board = board
+        self.mainloop = mainloop
+        self.name = self.mainloop.user_name
+        self.prev_lvl = -1 #used to check if level changed
+        self.games_per_lvl = gpl #number of games to play in order to level up
+        self.lvl_count = lvl_count #number of levels
+        self.restart()
+        
+    def restart(self):
+        self.lvl = 1 #current level
+        self.game_step = 1 #used to store number of games played in this level 
+
+    def levelup(self):
+        if self.lvl < self.lvl_count:
+            self.lvl += 1
+            self.load_level_plus()
+
+    def leveldown(self):
+        if self.lvl > 1:
+            self.lvl -= 1
+            self.load_level_plus()
+
+    def chapter_up(self):
+        chs = self.game_board.chapters
+        lch = len(chs)
+        if lch > 1:
+            current_chapter = self.get_current_chapter(chs,lch)
+            if current_chapter < lch-1:
+                self.lvl = chs[current_chapter+1]
+                self.load_level_plus()
+                    
+    def chapter_down(self):
+        chs = self.game_board.chapters
+        lch = len(chs)
+        if lch > 1:
+            current_chapter = self.get_current_chapter(chs,lch)
+            if self.lvl > chs[current_chapter] > 0:
+                self.lvl = chs[current_chapter]
+                self.load_level_plus()
+            elif chs[current_chapter] == self.lvl > 1:
+                self.lvl = chs[current_chapter-1]
+                self.load_level_plus()
+        
+    def get_current_chapter(self,chs,lch):
+        if self.lvl == self.lvl_count:
+            return lch-1
+        elif self.lvl == 1:
+            return 0
+        else:
+            for i in range(0,lch-1):
+                if chs[i] <= self.lvl < chs[i+1]:
+                    return i
+            return None
+
+    def update_level_dict(self):
+        saved_levels = self.game_board.mainloop.m.saved_levels
+        active_item = self.game_board.mainloop.m.games[self.game_board.mainloop.m.active_game_id]
+        saved_levels[active_item.game_constructor][str(active_item.variant)] = self.lvl
+
+    def welcome(self):
+        pass
+ 
+    def game_over(self,tts=""):
+        #self.load_level()
+        if tts=="":
+            self.game_board.say(self.d["Game Over!"],6)
+        else:
+            self.game_board.say(tts,6)
+        self.dialog_type = 1
+        self.game_step -= 1
+        self.game_board.show_msg = True
+        self.game_board.mainloop.redraw_needed[0] = True
+    
+
+    def game_won(self):
+        #print("Congratulations you won the game")
+        self.game_board.say(self.d["Congratulations! Game Completed."],6)
+        self.restart()
+        self.game_step = 0
+        self.load_level()
+        self.dialog_type = 0
+        self.game_board.show_msg = True
+        self.game_board.mainloop.score = 0
+        
+        
+    def try_again(self, silent = False):
+        self.mainloop.info.btns[0].img = self.mainloop.info.btns[0].img_3
+        self.game_board.changed_since_check = False
+        if silent:
+            pass
+        s5.play()
+        #self.game_board.say("Not really",6)
+        
+    def next_board(self,tts=""):
+        self.game_board.changed_since_check = False
+        self.game_board.mainloop.redraw_needed[0] = True
+        if self.game_step < self.games_per_lvl:
+            if tts=="":
+                #pick a praise phrase
+                index = random.randrange(0,len(self.d["Great job!"]))
+                praise = self.d["Great job!"][index]
+                self.game_board.say(praise,6)
+            else:
+                self.game_board.say(tts,6)
+            self.dialog_type = 0
+            self.game_board.show_msg = True
+        else:
+            if self.lvl < self.lvl_count:
+                #self.levelup()
+                self.game_board.say(self.d["Perfect! Level completed!"],6)
+                self.dialog_type = 0
+                self.game_board.show_msg = True
+            else:
+                self.game_won()
+
+    def next_board_load(self,tts=""):
+        if self.game_step < self.games_per_lvl:
+            self.game_step += 1
+            self.load_level()
+        else:
+            if self.lvl < self.lvl_count:
+                self.levelup()
+            else:
+                pass #self.game_won()
+        
+    def load_level(self):
+        self.update_level_dict()
+        self.game_board.create_game_objects(self.lvl)
+        gc.collect()
+        if self.game_board.game_type == "Board":
+            self.game_board.board.board_bg.update_me = True
+        self.game_board.mainloop.redraw_needed = [True, True, True]
+
+    def load_level_plus(self):
+        self.game_step = 1
+        self.load_level()
+        s4.play()
