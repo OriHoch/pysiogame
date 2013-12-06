@@ -34,7 +34,7 @@ class Board(gd.BoardGame):
             data = [9,5,3,7,2,5]
         elif self.level.lvl == 3:
             data = [9,5,3,10,2,5]
-            
+        self.points = 2
         self.data = data
         self.board.level_start(data[0],data[1],self.layout.scale)
         
@@ -214,11 +214,13 @@ class Board(gd.BoardGame):
                 eval_string = s = ''.join(self.expression)
                 eval_string.strip()
                 if eval(eval_string)==True:
+                    self.update_score(self.points)
                     self.level.next_board()
                 else:
-                    self.say(self.d["Sorry! It is wrong."])
+                    self.points = 0
                     self.level.try_again()
                     self.changed_since_check = False
             else:
+                self.points = 0
                 self.level.try_again(True)
                     

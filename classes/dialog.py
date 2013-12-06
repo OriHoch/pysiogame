@@ -7,7 +7,7 @@ class Dialog:
         self.lines = ["CONGRATULATIONS!!!", "YOU HAVE COMPLETED", "THIS LEVEL"]
         self.lines_game_over = ["GAME OVER!!!"]
         self.game_board = game_board
-        self.color = (70,70,70)
+        self.color = (255,255,255)#(70,70,70)
         if self.game_board.lang.lang in ['en_gb','en_us']:
             self.img_src = "congrats.jpg"
         else:
@@ -27,8 +27,8 @@ class Dialog:
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
         self.rect.topleft = [0, 0]
-        self.img = pygame.image.load(os.path.join('images', self.img_src)).convert()
-        self.img2 = pygame.image.load(os.path.join('images', self.img_src2)).convert()
+        self.img = pygame.image.load(os.path.join('res', 'images', self.img_src)).convert()
+        self.img2 = pygame.image.load(os.path.join('res', 'images', self.img_src2)).convert()
         
         #img2 has the same size
         img_pos_x = self.img.get_rect(centerx=self.image.get_width()//2)

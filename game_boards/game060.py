@@ -97,6 +97,8 @@ class Board(gd.BoardGame):
         self.found = 0
         self.clicks = 0
         self.square_count = self.data[3]*self.data[4]
+        self.points = self.square_count // 2
+        
         self.history = [None,None]
         
         self.layout.update_layout(data[0],data[1])
@@ -271,6 +273,8 @@ class Board(gd.BoardGame):
                         if self.chosen[self.history[0].unit_id] != self.chosen[self.history[1].unit_id]:
                             self.ai_enabled = True
                             self.history[0].uncovered = False
+                            if self.points > 0:
+                                self.points -= 1
                         else:
                             self.history[0].uncovered = True
                             self.history[1].uncovered = True
@@ -282,6 +286,7 @@ class Board(gd.BoardGame):
                             self.history[1].update_me = True
                             self.found += 2
                             if self.found == self.square_count:
+                                self.update_score(self.points)
                                 self.completed_mode = True
                                 self.ai_enabled = True
                             self.history = [None, None]

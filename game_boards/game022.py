@@ -84,7 +84,7 @@ class Board(gd.BoardGame):
         tool_len = len(self.board.ships)
         tool_max = tool_len - 3
         
-        self.word_list = ['Арбуз', 'Банки', 'Вода', 'Горы', 'Дом', 'Еда', 'Ёлка', 'Жук', 'Зебра', 'Игра', 'Йогурт', 'Коза', 'Лист', 'Муха', 'Нить', 'Орех', 'Палец', 'Рука', 'Собака', 'Танец', 'Утка', 'Флаг', 'Хлеб', 'Цветок', 'Чай', 'Шапка', 'Щека', '', '', '', 'Экран', 'Юбка', 'Яблоко','арбуз', 'банки', 'вода', 'горы', 'дом', 'еда', 'ёлка', 'жук', 'зебра', 'игра', 'йогурт', 'коза', 'лист', 'муха', 'нить', 'орех', 'палец', 'рука', 'собака', 'танец', 'утка', 'флаг', 'хлеб', 'цветок', 'чай', 'шапка', 'щека', 'съёмка', 'горы', 'соль', 'экран', 'юбка', 'яблоко']
+        self.word_list = ['Арбуз', 'Банки', 'Вода', 'Горы', 'Дом', 'Еда', 'Ёлка', 'Жук', 'Зебра', 'Игра', 'Йога', 'Коза', 'Лист', 'Муха', 'Нить', 'Орех', 'Пять', 'Рука', 'Собака', 'Танк', 'Утка', 'Флаг', 'Хлеб', 'Цвет', 'Чай', 'Шар', 'Щека', '', '', '', 'Экран', 'Юбка', 'Яма','арбуз', 'банки', 'вода', 'горы', 'дом', 'еда', 'ёлка', 'жук', 'зебра', 'игра', 'йога', 'коза', 'лист', 'муха', 'нить', 'орех', 'пять', 'рука', 'собака', 'танк', 'утка', 'флаг', 'хлеб', 'цвет', 'чай', 'шар', 'щека', 'объём', 'горы', 'соль', 'экран', 'юбка', 'яма']
 
         self.active_word = self.word_list[0]
         h = 0
@@ -159,7 +159,7 @@ class Board(gd.BoardGame):
             if event.button == 1:
                 if active == 0:
                     self.btn_down = True
-                    canvas_pos = [pos[0]-self.layout.menu_w-12*self.layout.scale,pos[1]]
+                    canvas_pos = [pos[0]-self.layout.game_left-12*self.layout.scale,pos[1]-self.layout.top_margin]
                     self.p_first = canvas_pos
                     self.p_prev = canvas_pos
                     self.p_current = canvas_pos
@@ -184,10 +184,10 @@ class Board(gd.BoardGame):
         elif event.type == pygame.MOUSEMOTION and self.btn_down == True:
             active = self.board.active_ship
             pos = event.pos
-            column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            column=(pos[0]-self.layout.game_left) // (self.layout.width)
+            row=(pos[1]-self.layout.top_margin) // (self.layout.height)
             if active == 0 and self.data[0]-6 > column > 9 and row < self.data[1]:
-                canvas_pos = [pos[0]-self.layout.menu_w-12*self.layout.scale,pos[1]]
+                canvas_pos = [pos[0]-self.layout.game_left-12*self.layout.scale,pos[1]-self.layout.top_margin]
                 self.p_prev = self.p_current
                 self.p_current = canvas_pos
                 self.paint_pencil(1)
@@ -196,11 +196,11 @@ class Board(gd.BoardGame):
             
             active = self.board.active_ship
             pos = event.pos
-            column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            column=(pos[0]-self.layout.game_left) // (self.layout.width)
+            row=(pos[1]-self.layout.top_margin) // (self.layout.height)
             if active == 0 and self.data[0]-6 > column > 9 and row < self.data[1]:
                 #drop the new object onto the painting
-                canvas_pos = [pos[0]-self.layout.menu_w-12*self.layout.scale,pos[1]]
+                canvas_pos = [pos[0]-self.layout.game_left-12*self.layout.scale,pos[1]-self.layout.top_margin]
                 self.p_last = canvas_pos
                 self.paint_pencil(2)
             else:

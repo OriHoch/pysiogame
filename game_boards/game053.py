@@ -94,7 +94,7 @@ class Board(gd.BoardGame):
                 self.board.all_sprites_list.move_to_back(self.board.units[i])
             else:
                 self.board.all_sprites_list.move_to_front(self.board.units[i])
-        self.canvas.set_outline([255,229,127],1)
+        self.canvas.set_outline((255,75,0),1)
         self.canv = []
         for i in range(4):
             self.canv.append(pygame.Surface([self.canvas.grid_w*self.board.scale, self.canvas.grid_h*self.board.scale-1]))

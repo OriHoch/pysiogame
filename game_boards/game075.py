@@ -102,7 +102,7 @@ class Board(gd.BoardGame):
         self.ship_id = 0
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
         
-        if self.lang.lang == 'gr':
+        if self.lang.lang == 'el':
             qm = ";"
         else:
             qm = "?"
@@ -143,6 +143,7 @@ class Board(gd.BoardGame):
         #line
         line = "―" * (self.sumn1n2sl*2)
         self.board.add_unit(data[0]-self.sumn1n2sl*3,9,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+        self.board.units[-1].text_wrap = False
         for i in range(self.sumn1n2sl - 2):
             self.board.add_unit(data[0]-8-i*3,10,1,1,classes.board.Letter,"",white,"",0)
             self.carrysuml.append(self.board.ships[-1])
@@ -159,6 +160,7 @@ class Board(gd.BoardGame):
                 self.semiresultlall.append(self.semiresultl[j][-1])
         
         self.board.add_unit(data[0]-self.sumn1n2sl*3,10+self.n2sl*3+1,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+        self.board.units[-1].text_wrap = False
         self.board.add_unit(data[0]-(self.sumn1n2sl+1)*3,7+self.n2sl*3+1,3,3,classes.board.Label," + ",white,"",21)
         self.plus2_label = self.board.units[-1]
         for i in range(self.sumn1n2sl):

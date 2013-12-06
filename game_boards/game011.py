@@ -47,7 +47,7 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 9:
             data = [14,5,20,99,2]
         self.chapters = [1,4,7,9]
-
+        self.points = data[2] // 5
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
@@ -88,6 +88,9 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
+        
+        self.board.ships[-1].speaker_val = self.dp["Find and separate"]
+        self.board.ships[-1].speaker_val_update = False
         self.outline_all(0,1)
         self.board.all_sprites_list.move_to_front(self.board.units[-1]) 
 
@@ -108,9 +111,11 @@ class Board(gd.BoardGame):
                 or each.grid_y > 1 and self.num_list[each.unit_id]%2 == 0:
                     correct = False
             if correct == True:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
-                self.say(self.d["Sorry! It is wrong."],6)
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False
                 

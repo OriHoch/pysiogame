@@ -56,6 +56,7 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 10:
             rngs = [10000,84999,5000,9999]
         data = [39,18]
+        self.points = self.level.lvl
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 39:
@@ -88,7 +89,7 @@ class Board(gd.BoardGame):
         self.ship_id = 0
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
         
-        if self.lang.lang == 'gr':
+        if self.lang.lang == 'el':
             qm = ";"
         else:
             qm = "?"
@@ -139,6 +140,7 @@ class Board(gd.BoardGame):
         #line
         line = "―" * (self.sumn1n2sl*2)
         self.board.add_unit(data[0]-self.sumn1n2sl*3,8,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+        self.board.units[-1].text_wrap = False
         
         #result
         for i in range(self.sumn1n2sl):
@@ -292,6 +294,9 @@ class Board(gd.BoardGame):
                 s += each.value
                 
             if s == self.sumn1n2s:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again() 

@@ -9,6 +9,7 @@ import classes.extras as ex
 import pygame
 import classes.board
 import random
+import os
 
 
 class Board(gd.BoardGame):
@@ -46,8 +47,11 @@ class Board(gd.BoardGame):
         self.board.level_start(data[0],data[1],scale)
         #self.prev_item = None
         self.word_list = ['Ant', 'Boat', 'Cat', 'Duck', 'Elephant', 'Fish', 'Grapes', 'House', 'Igloo', 'Jar', 'Key', 'Lion', 'Mouse', 'Notebook', 'Owl', 'Parrot', 'Queen', 'Rabbit', 'Sun', 'Teapot', 'Umbrella', 'Violin', 'Window', 'Xylophone', 'Yarn', 'Zebra']
-
-        x = 0
+        self.frame_flow = [i for i in range(26)]        
+        if data[0] > 26:
+            x = (data[0] - 26)//2
+        else:
+            x = 0
         x2 = (data[0] - (26 - data[0]))//2
         y = 0
         
@@ -72,18 +76,21 @@ class Board(gd.BoardGame):
         #self.board.add_unit(x-2,y+3,2,2,classes.board.Label,"A",card_color,"",13)
         self.board.add_unit(x+4,y+1,2,4,classes.board.Label,"a",card_color,"",18)
         #self.board.add_unit(x+4,y+3,2,2,classes.board.Label,"a",card_color,"",13)
-        self.board.add_unit(x,y+2,4,3,classes.board.MultiImgSprite,self.word_list[0],card_color,"flashcard_images.jpg",row_data=[10,8])
+        #self.board.add_unit(x,y+2,4,3,classes.board.MultiImgSprite,self.word_list[0],card_color,"flashcard_images.jpg",row_data=[10,8])
+        img_src = os.path.join('fc', "fc%03i.jpg" % self.frame_flow[0])
+        self.board.add_unit(x,y+2,4,3,classes.board.ImgShip,self.word_list[0],card_color,img_src)
+        
         self.board.add_unit(x-2,y+5,8,1,classes.board.Letter,self.word_list[0],card_color,"",2)
         self.board.add_unit(x-2,y+6,8,1,classes.board.Letter,self.word_list[0],card_color,"",15)
-        if self.mainloop.lang.lang not in ['en_gb', 'en_us']:
-            for i in range(-3,0):
-                self.board.ships[i].readable = False
+        #if self.mainloop.lang.lang not in ['en_gb', 'en_us']:
+        #    for i in range(-3,0):
+        #        self.board.ships[i].readable = False
         self.board.add_door(x-2,y+1,8,6,classes.board.Door,"",card_color,"")
         self.board.units[4].door_outline = True
         self.board.all_sprites_list.move_to_front(self.board.units[4])
         self.slide = self.board.ships[26]
-        self.slide.build_frame_flow(26) 
-        self.slide.correction = True
+        #self.slide.build_frame_flow(26) 
+        #self.slide.correction = True
         self.slide.perm_outline = True
         
         for each in self.board.ships:
@@ -122,7 +129,11 @@ class Board(gd.BoardGame):
         self.board.ships[27].value = self.word_list[active.unit_id]
         self.board.ships[28].value = self.word_list[active.unit_id]
         self.mainloop.redraw_needed[0] = True
-        self.slide.set_frame(active.unit_id)
+        #self.slide.set_frame(active.unit_id)
+        
+        img_src = os.path.join('fc', "fc%03i.jpg" %  self.frame_flow[active.unit_id])
+        self.slide.change_image(img_src)
+        
         self.board.active_ship = -1
         self.slide.update_me = True
         for i in [0,1,2,3]:

@@ -36,6 +36,9 @@ class Board(gd.BoardGame):
         data[0] = self.get_x_count(data[1],even=False)
             
         self.data = data
+        
+        self.points = 9
+        
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
         
@@ -55,7 +58,6 @@ class Board(gd.BoardGame):
         else:
             self.bg_img_grey_src = grey_image_src[0]
         self.bg_img = classes.board.ImgSurf(self.board,3,3,white,self.bg_img_src)
-        
             
         self.finished = False
         self.choice_list = [x for x in range(1,data[2]+1)]
@@ -172,13 +174,19 @@ class Board(gd.BoardGame):
                 current[pos]=int(self.board.ships[i].value)
             del(current[-1])          
             if self.choice_list == current:
+                self.update_score(self.points)
+                self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
+                self.level.update_level_dictx()
+                #self.mainloop.info.new_game(self.mainloop.game_board,self.mainloop.info_bar)
+                #self.mainloop.redraw_needed[2] = True
+                self.mainloop.redraw_needed[1] = True
                 self.finished = True
                 self.board.units[0].img = self.bg_img.img.copy()
                 self.board.all_sprites_list.move_to_front(self.board.units[0])
                 self.board.units[0].update_me = True
                 #copied from level controller:
-                index = random.randrange(0,len(self.d["Great job!"]))
-                praise = self.d["Great job!"][index]
+                index = random.randrange(0,len(self.dp["Great job!"]))
+                praise = self.dp["Great job!"][index]
                 self.say(praise,6)
                 self.board.units[2].value = praise
                 self.board.units[2].update_me = True

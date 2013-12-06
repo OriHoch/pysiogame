@@ -188,7 +188,7 @@ class Board(gd.BoardGame):
             if event.button == 1:
                 if active == 0:
                     self.btn_down = True
-                    canvas_pos = [pos[0]-self.layout.menu_w,pos[1]-3*self.layout.scale]
+                    canvas_pos = [pos[0]-self.layout.game_left,pos[1]-self.layout.top_margin-3*self.layout.scale]
                     self.p_first = canvas_pos
                     self.p_prev = canvas_pos
                     self.p_current = canvas_pos
@@ -217,10 +217,10 @@ class Board(gd.BoardGame):
         elif event.type == pygame.MOUSEMOTION and self.btn_down == True:
             active = self.board.active_ship
             pos = event.pos
-            column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            column=(pos[0]-self.layout.game_left) // (self.layout.width)
+            row=(pos[1]-self.layout.top_margin) // (self.layout.height)
             if active == 0 and column >= 0 and 2 < row < self.data[1]-3:
-                canvas_pos = [pos[0]-self.layout.menu_w,pos[1]-3*self.layout.scale]
+                canvas_pos = [pos[0]-self.layout.game_left,pos[1]-self.layout.top_margin-3*self.layout.scale]
                 self.p_prev = self.p_current
                 self.p_current = canvas_pos
                 self.paint_function[self.active_tool](1)
@@ -234,11 +234,11 @@ class Board(gd.BoardGame):
             
             active = self.board.active_ship
             pos = event.pos
-            column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            column=(pos[0]-self.layout.game_left) // (self.layout.width)
+            row=(pos[1]-self.layout.top_margin) // (self.layout.height)
             if active == 0 and column >= 0 and 2 < row < self.data[1]-3:
                 #drop the new object onto the painting
-                canvas_pos = [pos[0]-self.layout.menu_w,pos[1]-3*self.layout.scale]
+                canvas_pos = [pos[0]-self.layout.game_left,pos[1]-self.layout.top_margin-3*self.layout.scale]
                 self.p_last = canvas_pos
                 self.paint_function[self.active_tool](2)
                 self.update_history()

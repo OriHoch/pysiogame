@@ -106,7 +106,7 @@ class Board(gd.BoardGame):
             d_h = 4
             num2_align = 1
             
-        if self.lang.lang == 'gr':
+        if self.lang.lang == 'el':
             qm = ";"
         else:
             qm = "?"
@@ -135,6 +135,7 @@ class Board(gd.BoardGame):
         
         line = "―" * (self.n1sl*2)
         self.board.add_unit(data[0]-self.n1sl*2-r_offset,2,self.n1sl*2,1,classes.board.Label,line,white,"",21)
+        self.board.units[-1].text_wrap = False
         self.board.add_unit(data[0]-self.n1sl*2-1+ds_offset,2,1,d_h,classes.board.Label,d_str,white,"",21)
         self.division_sign = self.board.units[-1]
         
@@ -195,6 +196,7 @@ class Board(gd.BoardGame):
                 self.activables += 1
                 
             self.board.add_unit(xp[4]+(2-len(str(nbr[i]))*2)-r_offset,yp[4],len(str(nbr[i]))*2,1,classes.board.Label,line,white,"",21)
+            self.board.units[-1].text_wrap = False
             for i in range(5):
                 xp[i] += 2
                 if i > 0:

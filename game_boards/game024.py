@@ -41,10 +41,12 @@ class Board(gd.BoardGame):
         if self.level.lvl == 1:
             self.choice = [1,2,4,5,6,7,10,11,12,14,15,16,17,18]
             self.check_sizes = False
+            self.pointsx = 3
         if self.level.lvl == 2:
             self.choice = [1,2,4,5,6,7,10,11,12,14,15,17,18]
             self.check_sizes = True
-            
+            self.pointsx = 6
+        
         
         self.chosen_shape_name = ""
         self.chosen = 0
@@ -72,13 +74,13 @@ class Board(gd.BoardGame):
         self.board.level_start(data[0],data[1],scale)
         
         
-        if self.mainloop.lang.lang == 'gr':
+        if self.mainloop.lang.lang == 'el':
             size_instr_font_size = 2
         else:
             size_instr_font_size = 2
         self.guide_scale = self.board.scale//2
         self.left_padding = 2
-        self.px_padding = self.left_padding * scale + self.layout.menu_w
+        self.px_padding = self.left_padding * scale + self.layout.game_left
         #canvas
         self.board.add_unit(self.left_padding,2,data[0]-self.left_padding,data[1]-2,classes.board.Letter,"",color,"",21)
         self.canvas_block = self.board.ships[-1]
@@ -91,13 +93,14 @@ class Board(gd.BoardGame):
         self.name_label = self.board.ships[-1]
         self.name_label.align = 1     
         self.name_label.font_color = txt_color  
+        self.name_label.readable = False
         
         
         self.board.add_unit(0,1,data[0]-3,1,classes.board.Letter,"",color,"",size_instr_font_size)
         self.size_instr = self.board.ships[-1]
         self.size_instr.align = 1   
         self.size_instr.font_color = txt_color
-        
+        self.size_instr.readable = False
         #Well done!
         #self.board.add_unit(data[0]-8,0,5,1,classes.board.Letter,"",color,"",2)
         #self.well_done = self.board.ships[-1]
@@ -149,6 +152,11 @@ class Board(gd.BoardGame):
         self.reset()
         
     def pick_shape(self):
+        
+        if self.level.lvl == 1:
+            self.pointsx = 3
+        if self.level.lvl == 2:
+            self.pointsx = 6
         #self.chosen_group = random.randrange(0, 2)
         #self.choice = [1,2,4,5,6,7,10,11,12,14,15,17,18]
         
@@ -308,6 +316,8 @@ class Board(gd.BoardGame):
                 self.canvas_block.value = [random.choice(self.lang.d["Great job!"]),"","",""]
                 self.canvas_block.update_me = True
                 self.next_btn.keyable = True
+                self.update_score(self.pointsx)
+                self.pointsx = 0
                 self.show_next()
             
     def show_next(self):
@@ -399,7 +409,7 @@ class Board(gd.BoardGame):
             pos = event.pos
             active = self.board.active_ship
             column=(pos[0]-self.px_padding) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
             if event.button == 1 and column >= 0 and 2 <= row < self.data[1]:
                 if self.points_count == 0:
                     self.new_screen()
@@ -408,7 +418,7 @@ class Board(gd.BoardGame):
             pos = event.pos
             active = self.board.active_ship
             column=(pos[0]-self.px_padding) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
             if active != self.canvas_block.unit_id:
                 if active == self.poli_btn.unit_id:
                     self.change_tool(4)
@@ -422,7 +432,7 @@ class Board(gd.BoardGame):
                 
             if event.button == 1 and column >= 0 and 2 <= row < self.data[1]:
                 if self.points_count < self.max_points:
-                    canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.board.scale*2])
+                    canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.layout.top_margin-self.board.scale*2])
                     if canvas_pos not in self.points:
                         self.points.append(canvas_pos)
 
@@ -440,10 +450,10 @@ class Board(gd.BoardGame):
             active = self.board.active_ship
             pos = event.pos
             column=(pos[0]-self.px_padding) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
                 
             if column >= 0 and 2 <= row < self.data[1]:
-                canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.board.scale*2])
+                canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.layout.top_margin-self.board.scale*2])
                 
                 self.p_current = canvas_pos[:]
                 

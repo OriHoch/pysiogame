@@ -34,7 +34,7 @@ class Board(gd.BoardGame):
             data[0] = x_count
             
         self.data = data
-        
+        self.points = 20
         self.vis_buttons = [1,0,0,0,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -168,26 +168,29 @@ class Board(gd.BoardGame):
         if self.picked_steps != self.rgb_g:
             help = ""
             if self.picked_steps[0] < self.rgb_g[0]:
-                help += " %s %s; " % (self.d['more color'], self.d['of cyan'][0])
+                help += self.d['more cyan'] + ", "
             elif self.picked_steps[0] > self.rgb_g[0]:
-                help += " %s %s; " % (self.d['less color'], self.d['of cyan'][0])
+                help += self.d['less cyan'] + ", "
             else:
-                help += " %s %s; " % (self.d['of cyan'][1],self.d['color is ok'])
+                help += self.d['cyan is ok'] + ", "
 
             if self.picked_steps[1] < self.rgb_g[1]:
-                help += " %s %s; " % (self.d['more color'], self.d['of magenta'][0])
+                help += self.d['more magenta'] + ", "
             elif self.picked_steps[1] > self.rgb_g[1]:
-                help += " %s %s; " % (self.d['less color'], self.d['of magenta'][0])
+                help += self.d['less magenta'] + ", "
             else:
-                help += " %s %s; " % (self.d['of magenta'][1],self.d['color is ok'])
+                help += self.d['magenta is ok'] + ", "
             
             if self.picked_steps[2] < self.rgb_g[2]:
-                help += " %s %s; " % (self.d['more color'], self.d['of yellow'][0])
+                help += self.d['more yellow'] + ". "
             elif self.picked_steps[2] > self.rgb_g[2]:
-                help += " %s %s; " % (self.d['less color'], self.d['of yellow'][0])
+                help += self.d['less yellow'] + ". "
             else:
-                help += " %s %s; " % (self.d['of yellow'][1],self.d['color is ok'])
+                help += self.d['yellow is ok'] + ". "
             self.say(help)
-            self.level.try_again()
+            if self.points > 0:
+                self.points -= 1
+            self.level.try_again(silent = True)
         else:
+            self.update_score(self.points)
             self.level.next_board()

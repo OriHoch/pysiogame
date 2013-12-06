@@ -42,7 +42,7 @@ class Board(gd.BoardGame):
         shuffled = choice[:]
         random.shuffle(shuffled)
         self.chosen = shuffled[0:5]
-        
+        self.points = 3
         self.shuffled2 = self.chosen[:]
         random.shuffle(self.shuffled2)
         x = self.center - 2
@@ -96,8 +96,7 @@ class Board(gd.BoardGame):
                         if ships[i][1] != units[i][1]:
                             correct = False
                 if correct == True:
+                    self.update_score(self.points)
                     self.level.next_board()
                 else:
                     pass
-                    #self.say(self.d["Sorry! It is wrong."],6)
-                    #self.changed_since_check = False

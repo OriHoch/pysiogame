@@ -40,6 +40,8 @@ class Board(gd.BoardGame):
         
         self.data = data
         
+        self.points = (data[0]+data[1]) // 5
+        
         self.vis_buttons = [0,1,1,1,1,1,1,0,1]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -83,4 +85,5 @@ class Board(gd.BoardGame):
     def check_result(self):
         target = pygame.sprite.spritecollide(self.board.units[0], self.board.ship_list, False, collided = None)
         if len(target)>0:
+            self.update_score(self.points)
             self.level.next_board()

@@ -55,8 +55,10 @@ class Board(gd.BoardGame):
             data = [8,8,3,6,6]
         elif self.level.lvl == 10:
             data = [9,8,3,7,6]
-            
+        
         self.chapters = [1,5,10]
+        
+        self.points = (data[3]*data[4]) // 2
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
         if m == 0:
@@ -158,6 +160,8 @@ class Board(gd.BoardGame):
                             #print([self.chosen[self.history[0].unit_id], self.chosen[self.history[1].unit_id]])
                             self.found += 2
                             if self.found == self.square_count:
+                                p = ((self.points * self.found)*2) // self.clicks + 1
+                                self.update_score(p)
                                 self.completed_mode = True
                                 self.ai_enabled = True
                             self.history = [None, None]

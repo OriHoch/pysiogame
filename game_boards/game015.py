@@ -54,6 +54,8 @@ class Board(gd.BoardGame):
             data = [12,9,29,6,5]
         elif self.level.lvl == 14:
             data = [12,9,35,6,6]
+            
+        self.points = (data[3]*data[4]) // 2
         self.chapters = [1,3,6,10,14]
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
@@ -115,6 +117,10 @@ class Board(gd.BoardGame):
         instruction = self.d["Re-arrange right"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",5)#bottom 2
         self.board.ships[-1].immobilize()
+        
+        self.board.ships[-1].speaker_val = self.dp["Re-arrange right"]
+        self.board.ships[-1].speaker_val_update = False
+        
         self.outline_all(0,1)
         
         #horizontal
@@ -148,9 +154,11 @@ class Board(gd.BoardGame):
                 current[pos]=int(self.board.ships[i].value)
             del(current[-1])          
             if self.choice_list == current:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
-                self.say(self.d["Sorry! It is wrong."],6)
+                if self.points > 0 :
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False
 

@@ -48,7 +48,7 @@ class Board(gd.BoardGame):
             data = [20,14,6,3,2]
         elif self.level.lvl == 10:
             data = [20,14,6,5,2]
-            
+        self.points = data[2] - 2
         #rescale the number of squares horizontally to better match the screen width
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 20 :
@@ -71,11 +71,29 @@ class Board(gd.BoardGame):
         f_end = ".png"
         items = ["fr_apple1","fr_apple2","fr_strawberry","fr_pear","fr_orange","fr_onion","fr_tomato","fr_lemon","fr_cherry","fr_pepper","fr_carrot","fr_banana","fr_wmelon"]
         self.items = items   
-         
-        singular_items = self.lang.fruit  #["green apple","red apple","strawberry","pear","orange","onion","tomato","lemon","cherry","pepper","carrot","banana","watermelon"]    
-        multiple_items_1 = self.lang.fruits_1 #["green apples","red apples","strawberries","pears","oranges","onions","tomatoes","lemons","cherries","peppers","carrots","bananas","watermelons"]     
-        multiple_items_2 = self.lang.fruits_2
-        self.singular_items = singular_items        
+        self.img_captions = []
+        self.singular_items = ["green apple", "red apple", "strawberry", "pear", "orange [fruit]", "onion", "tomato", "lemon", "cherry", "pepper", "carrot", "banana", "watermelon"]    
+        for each in self.singular_items:
+            caption = self.lang._n(each, 1)
+            if caption == None:
+                caption = ""
+            self.img_captions.append(caption)
+        
+        if self.lang.lang == "ru":
+            self.img_pcaptions = []
+            si = self.lang.dp["fruit"]
+            for each in si:
+                pcaption = self.lang._n(each, 1)
+                if pcaption == None:
+                    pcaption = ""
+                self.img_pcaptions.append(pcaption)
+        else:
+            self.img_pcaptions = self.img_captions
+        
+        #self.lang.fruit  #["green apple","red apple","strawberry","pear","orange","onion","tomato","lemon","cherry","pepper","carrot","banana","watermelon"]    
+        #multiple_items_1 = self.lang.fruits_1 #["green apples","red apples","strawberries","pears","oranges","onions","tomatoes","lemons","cherries","peppers","carrots","bananas","watermelons"]     
+        #multiple_items_2 = self.lang.fruits_2
+        #self.singular_items = singular_items        
         
         item_indexes = [x for x in range(len(items))]
         #quantities = [x for x in range(1,data[3]+1)]
@@ -93,6 +111,10 @@ class Board(gd.BoardGame):
         #create shopping list
         for i in range(data[2]):
             ind = self.chosen_items[0][i]
+            caption = self.lang._n(self.singular_items[ind], self.chosen_items[1][i])
+            if caption == None:
+                caption = ""
+            """
             if self.chosen_items[1][i]>1:
                 if self.chosen_items[1][i] in self.lang.plural_rules[0]:
                     caption = multiple_items_1[ind]
@@ -100,6 +122,7 @@ class Board(gd.BoardGame):
                     caption = multiple_items_2[ind]
             else:
                 caption = singular_items[ind]
+            """
             self.board.add_unit(data[0]-7,i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])
             self.board.add_unit(data[0]-6,i+1,1,1,classes.board.ImgShip,"",white,items[ind]+f_end,data[4])
             self.board.add_unit(data[0]-5,i+1,5,1,classes.board.Label,caption,white,"",data[4])
@@ -115,14 +138,18 @@ class Board(gd.BoardGame):
             image = items[i]+f_end
             
             for j in range(0,shelf_len):
-                self.board.add_unit(j,i,1,1,classes.board.ImgShip,singular_items[i],white,image,data[4])
+                self.board.add_unit(j,i,1,1,classes.board.ImgShip,self.img_captions[i],white,image,data[4])
                 self.board.ships[-1].audible = False
+                self.board.ships[-1].speaker_val = self.img_pcaptions[i]
+                self.board.ships[-1].speaker_val_update = False
         self.board.all_sprites_list.move_to_front(self.board.units[0]) 
         instruction = self.d["Check the shopping list"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",3)
         self.board.ships[-1].set_outline(0, 1)
         self.board.ships[-1].immobilize() 
         self.board.ships[-1].font_color = font_color
+        self.board.ships[-1].speaker_val = self.dp["Check the shopping list"]
+        self.board.ships[-1].speaker_val_update = False
 
 
     def handle(self,event):
@@ -141,13 +168,15 @@ class Board(gd.BoardGame):
             for i in range(len(self.items)):
                 count = 0
                 for each in purchased:
-                    if each.value == self.singular_items[i]: #self.items[i]:
+                    if each.value == self.img_captions[i]: #self.items[i]:
                         count += 1
                 if count > 0:
                     result[str(i)] = count
             if result == self.solution:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
-                self.say(self.d["Please try again."])
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False

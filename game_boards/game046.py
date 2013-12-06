@@ -38,6 +38,7 @@ class Board(gd.BoardGame):
                 data = [11,8,3,7,7,3,"fr_orange.png","n",0]
             elif self.level.lvl == 5:
                 data = [11,8,3,8,8,2,"fr_plum.png","n",0]
+            self.points = self.level.lvl // 2 + 1
         elif self.mainloop.m.game_variant == 1:
             if self.level.lvl == 1:
                 data = [11,8,1,6,6,2,"fr_cherry.png","+",2]
@@ -49,6 +50,7 @@ class Board(gd.BoardGame):
                 data = [11,8,1,9,9,2,"fr_banana.png","+",2]
             elif self.level.lvl == 5:
                 data = [11,8,1,10,10,2,"fr_strawberry.png","+",2]
+            self.points = self.level.lvl
         elif self.mainloop.m.game_variant == 2:
             if self.level.lvl == 1:
                 data = [11,8,2,6,6,2,"fr_tomato.png","-",2]
@@ -60,6 +62,7 @@ class Board(gd.BoardGame):
                 data = [11,8,2,9,9,2,"fr_onion.png","-",2]
             elif self.level.lvl == 5:
                 data = [11,8,2,10,10,2,"fr_broccoli.png","-",2]
+            self.points = self.level.lvl
         #rescale the number of squares horizontally to better match the screen width
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 11:     
@@ -139,8 +142,10 @@ class Board(gd.BoardGame):
                 self.result.append(total)
 
             if self.result == self.solution:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
-                self.say(self.d["Please try again."],6)
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False

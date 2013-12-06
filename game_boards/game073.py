@@ -82,7 +82,7 @@ class Board(gd.BoardGame):
         
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
         
-        if self.lang.lang == 'gr':
+        if self.lang.lang == 'el':
             qm = ";"
         else:
             qm = "?"
@@ -119,6 +119,7 @@ class Board(gd.BoardGame):
         #line
         line = "―" * (self.sumn1n2sl*2)
         self.board.add_unit(data[0]-self.sumn1n2sl*3,8,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+        self.board.units[-1].text_wrap = False
         
         #result
         for i in range(self.sumn1n2sl):

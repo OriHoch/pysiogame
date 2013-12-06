@@ -19,33 +19,39 @@ class Board(gd.BoardGame):
 
         white = ((255,255,255))
         if self.level.lvl == 1:
-            choice = [x for x in range(0,21)]
-            self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["violet"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
-            #self.color_choice= ["white",    "black",      "grey",       "red",     "orange",  "yellow",   "olive",    "green",  "sea green","teal",     "blue",   "navy",   "purple",   "violet",     "magenta",  "indigo",  "pink"       "maroon",  "brown",     "aqua",      "lime" ]
-            self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[239,131,239],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
-            self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [189,81,189], [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
-            self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255],[95,41,95],   [100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
-            self.init_font_color = [[230,230,230],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[239,131,239],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
-
+            choice = [x for x in range(0,20)]
+            self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
+            self.color_choicep = [self.dp["white"],self.dp["black"],self.dp["grey"],self.dp["red"],self.dp["orange"],self.dp["yellow"],self.dp["olive"],self.dp["green"],self.dp["sea green"],self.dp["teal"],self.dp["blue"],self.dp["navy"],self.dp["purple"],self.dp["magenta"],self.dp["indigo"],self.dp["pink"],self.dp["maroon"],self.dp["brown"],self.dp["aqua"],self.dp["lime"]]
+            #self.color_choice= ["white",    "black",      "grey",       "red",     "orange",  "yellow",   "olive",    "green",  "sea green","teal",     "blue",   "navy",   "purple",    "magenta",  "indigo",  "pink"       "maroon",  "brown",     "aqua",      "lime" ]
+            self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
+            self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
+            self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255],  [100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
+            self.init_font_color = [[230,230,230],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
+            self.points = 3
         elif self.level.lvl == 2:
             choice = [x for x in range(0,13)]
             self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["pink"],self.d["brown"]]
+            self.color_choicep = [self.dp["white"],self.dp["black"],self.dp["grey"],self.dp["red"],self.dp["orange"],self.dp["yellow"],self.dp["olive"],self.dp["green"],self.dp["blue"],self.dp["navy"],self.dp["purple"],self.dp["pink"],self.dp["brown"]]
             #self.color_choice= ["white",    "black",      "grey",      "red",     "orange",   "yellow",   "olive",    "green",  "blue",    "navy",   "purple",   "pink"]
             self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[0,0,255], [0,0,132],[132,0,132],[255,20,138],[140,69,16]]
             self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[0,0,200], [0,0,82], [92,0,92],  [200,10,88],[100,39,6]]
             self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[0,0,100], [0,0,255],[255,0,255],[100,5,48],[200,100,26]]
             self.init_font_color = [[0,0,0] for i in range(13)]
+            self.points = 5
         elif self.level.lvl >= 3:
-            choice = [x for x in range(0,21)]
-            self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["violet"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
-            #self.color_choice= ["white",    "black",      "grey",       "red",     "orange",  "yellow",   "olive",    "green",  "sea green","teal",     "blue",   "navy",   "purple",   "violet",     "magenta",  "indigo",  "pink"       "maroon",  "brown",     "aqua",      "lime" ]
-            self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[239,131,239],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
-            self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [189,81,189], [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
-            self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255],[95,41,95],   [100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
-            self.init_font_color = [[0,0,0] for i in range(21)]
+            choice = [x for x in range(0,20)]
+            self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
+            self.color_choicep = [self.dp["white"],self.dp["black"],self.dp["grey"],self.dp["red"],self.dp["orange"],self.dp["yellow"],self.dp["olive"],self.dp["green"],self.dp["sea green"],self.dp["teal"],self.dp["blue"],self.dp["navy"],self.dp["purple"],self.dp["magenta"],self.dp["indigo"],self.dp["pink"],self.dp["maroon"],self.dp["brown"],self.dp["aqua"],self.dp["lime"]]
+            #self.color_choice= ["white",    "black",      "grey",       "red",     "orange",  "yellow",   "olive",    "green",  "sea green","teal",     "blue",   "navy",   "purple",    "magenta",  "indigo",  "pink"       "maroon",  "brown",     "aqua",      "lime" ]
+            self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
+            self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
+            self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255], [100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
+            self.init_font_color = [[0,0,0] for i in range(20)]
+            
+            self.points = 7
         data = [5,3]
         
-        if self.lang.lang in ["en_gb","en_us"]:
+        if self.lang.lang in ["en_GB","en_US"]:
             font_size = 10
         else:
             font_size = 11
@@ -69,9 +75,13 @@ class Board(gd.BoardGame):
         self.shuffled2 = self.chosen[:]
         random.shuffle(self.shuffled2)
         x = self.center - 2
+        self.color_pos_offset = x
         for i in range(5):
             self.board.add_door(x+i,0,1,1,classes.board.Door,self.color_choice[self.chosen[i]],white)
             self.board.add_unit(x+i,2,1,1,classes.board.Letter,self.color_choice[self.shuffled2[i]],white,"",font_size)
+            
+            self.board.ships[-1].speaker_val = self.color_choicep[self.shuffled2[i]]
+            self.board.ships[-1].speaker_val_update = False
             font_color = self.init_font_color[self.shuffled2[i]]
             if self.level.lvl == 1:
                 self.board.ships[i].font_color = font_color
@@ -138,13 +148,13 @@ class Board(gd.BoardGame):
         
     def swap_font_color(self):
         active_ship = self.board.ships[self.board.active_ship]
-        if active_ship.grid_y == 0:
-            active_ship.initcolor = self.hue_choice[self.chosen[active_ship.grid_x]]
+        if active_ship.grid_y == 0 and self.color_pos_offset <= active_ship.grid_x < 5 + self.color_pos_offset:
+            active_ship.initcolor = self.hue_choice[self.chosen[active_ship.grid_x-self.color_pos_offset]]
             active_ship.color = active_ship.initcolor
             #background 'door'
             #bgd = self.hue_choice[self.chosen[active_ship.grid_x]]
             #if bgd in [[2,2,2],[0,0,132],[132,0,132],[74,0,132]]:
-            active_ship.font_color = self.font_color[self.chosen[active_ship.grid_x]] #(255,85,85,0)
+            active_ship.font_color = self.font_color[self.chosen[active_ship.grid_x-self.color_pos_offset]] #(255,85,85,0)
             #else:
             #    active_ship.font_color = (0,0,0,0)
         else:
@@ -164,26 +174,33 @@ class Board(gd.BoardGame):
     def check_result(self):
         if self.changed_since_check:
             #checking copied from number sorting game and re-done
-            if self.board.grid[0][self.center-2:self.center+3] == [1,1,1,1,1]: #self.solution_grid:
-                ships = []
-                units = []
-                #collect value and x position on the grid from ships list
-                for i in range(5):
-                    ships.append([self.board.ships[i].grid_x, self.board.ships[i].value])
-                    units.append([self.board.units[i].grid_x, self.board.units[i].value])
-                #ships_sorted = sorted(ships)
-                ships.sort()
-                units.sort()
-                correct = True
-                for i in range(5):
-                    if i < 4:
-                        if ships[i][1] != units[i][1]:
-                            correct = False
-                if correct == True:
-                    self.level.next_board()
-                else:
-                    self.say(self.d["Sorry! It is wrong."])
-                    self.level.try_again()
-                    self.changed_since_check = False
+            match_found = False
+            for j in range(3):
+                if self.board.grid[j][self.center-2:self.center+3] == [1,1,1,1,1]: #self.solution_grid:
+                    ships = []
+                    units = []
+                    #collect value and x position on the grid from ships list
+                    for i in range(5):
+                        ships.append([self.board.ships[i].grid_x, self.board.ships[i].value])
+                        units.append([self.board.units[i].grid_x, self.board.units[i].value])
+                    #ships_sorted = sorted(ships)
+                    ships.sort()
+                    units.sort()
+                    correct = True
+                    for i in range(5):
+                        if i < 4:
+                            if ships[i][1] != units[i][1]:
+                                correct = False
+                    if correct == True:
+                        match_found = True
+                        break
+                    else:
+                        if self.points > 0:
+                            self.points -= 1
+            if match_found:
+                self.update_score(self.points)
+                self.level.next_board()
             else:
                 self.level.try_again(True)
+                self.level.try_again()
+                self.changed_since_check = False

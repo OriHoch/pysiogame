@@ -1,15 +1,17 @@
 Translations:
+    Catalan - Guillem Jover - http://www.hadrons.org/~guillem/
     English UK - Ireneusz Imiolek (some corrections needed)
     English US - Ireneusz Imiolek (some corrections needed)
-    Polish - Kamila Roszak-Imiolek, Ireneusz Imiolek
-    Spanish - Miriam Ruiz - http://www.miriamruiz.es
-    Portugese - Américo Monteiro
-    French - Not Translated
-    Italian - Giuliano
-    German - Not Translated
-    Russian - Anton Kayukov (Антон Каюков)
-    Finnish - Not Translated
     Greek - Στέλιος, versys650gr, sdim and other members of the Official Greek Community of Linux Mint - http://linuxmint.gr
+    Italian - Giuliano
+    Polish - Kamila Roszak-Imiolek, Ireneusz Imiolek
+    Portugese - Américo Monteiro
+    Russian - Anton Kayukov (Антон Каюков)
+    Spanish - Miriam Ruiz - http://www.miriamruiz.es
+    
+    Finnish - Not translated yet
+    French - Not translated yet
+    German - Not translated yet
 
 Game Ideas:
     Kamila Roszak-Imiolek & Ireneusz Imiolek
@@ -26,25 +28,28 @@ profiles on either openclipart.org or freesound.org
 Thanks to everyone who shared their hard work on those sites - making project like this is much easier with so much stuff freely available.
 
 Fonts:
-    pysioFont - by Ireneusz Imiolek - GPL + Font Exception.
-    FreeSansBold - GPL
+    pysiogameFonts/* - by Ireneusz Imiolek - GPL + Font Exception.
+    FreeSans, FreeSansBold - GPL
 
 Sounds Licence - Public Domain:
     http://creativecommons.org/publicdomain/zero/1.0/
     
-Sounds downloaded from freesound.org:
-    by various authors:
-        menu / info-bar sounds:
-            http://www.freesound.org/people/blackstalian/packs/8738/
-        object moves - 2 sounds created from:
-            http://www.freesound.org/people/Robinhood76/sounds/104874/
-        hit the mole - section of:
-            http://www.freesound.org/people/AntumDeluge/sounds/188043/
-        game lost - created from:
-            http://www.freesound.org/people/fins/sounds/146731/
-        leaving game:
-            http://www.freesound.org/people/Kastenfrosch/sounds/162465/
-            
+    Sounds downloaded from freesound.org:
+        by various authors:
+            menu / info-bar sounds:
+                http://www.freesound.org/people/blackstalian/packs/8738/
+            object moves - 2 sounds created from:
+                http://www.freesound.org/people/Robinhood76/sounds/104874/
+            hit the mole - section of:
+                http://www.freesound.org/people/AntumDeluge/sounds/188043/
+            game lost - created from:
+                http://www.freesound.org/people/fins/sounds/146731/
+            leaving game:
+                http://www.freesound.org/people/Kastenfrosch/sounds/162465/
+
+Large amount of images used from http://www.art4apps.org/
+    "Art4Apps is a database of images and audio files of words created by Smart4Kids under a Creative Common License (CC BY-SA)"
+
 Some icons used from Tango Project:
     http://tango.freedesktop.org/Tango_Icon_Library
 
@@ -231,6 +236,7 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/35551/hockey-puck-by-j_alves
     http://openclipart.org/detail/38065/hockey-goal-by-j_alves
     http://openclipart.org/detail/24366/tiger-by-anonymous-24366
+    http://openclipart.org/detail/2218/bus-by-drunken_duck
     
     
     Shapes:
@@ -297,9 +303,36 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/23086/beet-root-by-warszawianka-23086
     http://openclipart.org/detail/29827/grape-red-by-vinkafe
 
+    Other:
     http://openclipart.org/detail/140677/sveglia-by-emilie.rollandin
     http://openclipart.org/detail/25516/architetto----clessidra-by-anonymous-25516
     http://openclipart.org/detail/179359/owl-by-rematuche-179359
+    
+    http://openclipart.org/detail/167095/secure-gold-by-rygle
+    
+    http://openclipart.org/detail/171109/filter--funnel-icon-by-mlampret-171109
+    
+    http://openclipart.org/detail/48937/trophy-by-sheikh_tuhin
+    http://openclipart.org/detail/170859/trophy-by-hatalar205-170859
+    http://openclipart.org/detail/25414/architetto----cassa-negozio-by-anonymous-25414
+    http://openclipart.org/detail/173984/pretty-coin-golden-by-qubodup-173984
+    
+    http://openclipart.org/detail/167328/jaguar-by-frankes
+    http://openclipart.org/detail/3469/-by--3469
+    http://openclipart.org/detail/171184/interactive-language-button-by-gmcglinn-171184
+    http://openclipart.org/detail/58735/cat-paw-print-by-j_alves
+    
+    http://openclipart.org/detail/2163/jogging-by-machovka
+    http://openclipart.org/detail/2838/bike-by-machovka
+    http://openclipart.org/detail/138967/people-by-netalloy
+    http://openclipart.org/detail/17436/mechanic-by-jonata
+    http://openclipart.org/detail/9075/fast-food-lunch-dinner-chicken-burger-by-gerald_g
+    http://openclipart.org/detail/142771/t-shirt-outline-by-andy
+    http://openclipart.org/detail/60649/ballet-dancer-by-laobc
+    http://openclipart.org/detail/149353/hand-by-lantaire
+    http://openclipart.org/detail/2026/stylized-house-by-paolo_savini
+    http://openclipart.org/detail/61933/maple-leaf-by-rones
+    http://openclipart.org/detail/131689/apples-by-gnokii
 
 Wikipedia images:
     http://de.wikipedia.org/wiki/Datei:Koala.svg

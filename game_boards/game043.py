@@ -46,6 +46,11 @@ class Board(gd.BoardGame):
         
         t_area = "½ah"
         self.shape_names = self.lang.solid_names
+        
+        if self.lang.lang == "ru":
+            self.shape_namesp = self.lang.dp["solid_names"]
+        else:
+            self.shape_namesp = self.shape_names
         #self.shape_names = ["Cube", "Square Prism","Triangular Prism", "Square Pyramid", "Triangular Pyramid",  "Sphere",    "Cylinder",    "Cone",      "Torus"]
         self.shape_areas = ["6a²",   "2a² + 4aH",   "ah + 3aH",         "a² + 2as",       "½ah + 3/2 × as",      "4πr²",      "2πr² + 2πrH", "πr² + πrs", "4π² × R × r"]
         self.shape_circ =  ["a³",    "a²H",         "½ah × H",          "⅓a² × H",        "ah/6 × H",            "4/3 × πr³", "πr²H",        "⅓πr²H",     "2π² × R × r²"]
@@ -55,6 +60,8 @@ class Board(gd.BoardGame):
         
         for i in range(9):
             self.board.add_unit(x,y,1,1,classes.board.Letter,self.shape_names[i],white,"",2)
+            self.board.ships[-1].speaker_val = self.shape_namesp[i]
+            self.board.ships[-1].speaker_val_update = False
             self.board.ships[-1].font_color=(255,255,255,0)
             x += 1
 
@@ -66,6 +73,9 @@ class Board(gd.BoardGame):
         #Card
         self.board.add_unit(x-2,y+1,9,2,classes.board.Letter,self.shape_names[0],card_color,"",2)
 
+        self.board.ships[-1].speaker_val = self.shape_namesp[0]
+        self.board.ships[-1].speaker_val_update = False
+        
         self.board.add_unit(x+2,y+3,5,1,classes.board.Letter,self.d["surface area:"],card_color,"",3)
         self.board.add_unit(x+2,y+4,5,1,classes.board.Label,"6a"+chr(178),card_color,"",3)
         self.board.add_unit(x+2,y+5,5,1,classes.board.Letter,self.d["volume:"],card_color,"",3)
@@ -73,7 +83,8 @@ class Board(gd.BoardGame):
 
         #frame size 288 x 216        
         self.board.add_unit(x-2,y+3,4,4,classes.board.MultiImgSprite,self.shape_names[0],card_color,"flashcard_solids.jpg",row_data=[9,1])
-        
+        self.board.ships[-1].speaker_val = self.shape_namesp[0]
+        self.board.ships[-1].speaker_val_update = False
         #Frame
         #self.board.add_unit(0,y,x-2,data[1]-2,classes.board.Obstacle,"",frame_color)
         #self.board.add_unit(x+7,y,x-2,data[1]-2,classes.board.Obstacle,"",frame_color)
@@ -111,9 +122,13 @@ class Board(gd.BoardGame):
 
     def create_card(self, active):
         self.board.ships[self.shape_count].value = self.shape_names[active.unit_id]
+        self.board.ships[self.shape_count].speaker_val = self.shape_namesp[active.unit_id]
+        self.board.ships[self.shape_count].speaker_val_update = False
         self.board.units[0].value = self.shape_areas[active.unit_id]
         self.board.units[1].value = self.shape_circ[active.unit_id]
         self.slide.value = self.shape_names[active.unit_id]
+        self.slide.speaker_val = self.shape_namesp[active.unit_id]
+        self.slide.speaker_val_update = False
 
         self.mainloop.redraw_needed[0] = True
         self.slide.set_frame(active.unit_id)

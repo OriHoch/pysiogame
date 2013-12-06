@@ -53,7 +53,7 @@ class Board(gd.BoardGame):
         
         self.guide_scale = self.board.scale//2
         self.left_padding = 2
-        self.px_padding = self.left_padding * scale + self.layout.menu_w
+        self.px_padding = self.left_padding * scale + self.layout.game_left
         #canvas
         self.board.add_unit(self.left_padding,0,data[0]-self.left_padding,data[1],classes.board.Letter,"",color,"",2)
         self.canvas_block = self.board.ships[-1]
@@ -163,7 +163,7 @@ class Board(gd.BoardGame):
             pos = event.pos
             active = self.board.active_ship
             column=(pos[0]-self.px_padding) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
             if event.button == 1 and column >= 0 and 0 <= row < self.data[1]:
                 if self.points_count == 0:
                     pass#self.new_screen()
@@ -172,7 +172,7 @@ class Board(gd.BoardGame):
             pos = event.pos
             active = self.board.active_ship
             column=(pos[0]-self.px_padding) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
             if active != self.canvas_block.unit_id:
                 if active == self.poli_btn.unit_id:
                     self.change_tool(4)
@@ -183,7 +183,7 @@ class Board(gd.BoardGame):
                 
             if event.button == 1 and column >= 0 and 0 <= row < self.data[1]:
                 if self.points_count < self.max_points:
-                    canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]])
+                    canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.layout.top_margin])
                     if canvas_pos not in self.points:
                         self.points.append(canvas_pos)
 
@@ -201,10 +201,10 @@ class Board(gd.BoardGame):
             active = self.board.active_ship
             pos = event.pos
             column=(pos[0]-self.px_padding) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
                 
             if column >= 0 and 0 <= row < self.data[1]:
-                canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]])
+                canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.layout.top_margin])
                 
                 self.p_current = canvas_pos[:]
                 

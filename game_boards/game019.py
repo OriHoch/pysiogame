@@ -27,7 +27,8 @@ class Board(gd.BoardGame):
         
         #self.chapters = [1,12,23,30,36]
         #data = [0-x_count, 1-y_count, 2-bottom_range1, 3-top_range1, 4-bottom_range2, 5-top_range2, 6-operator, 7-font_size]
-        if self.mainloop.m.game_variant == 0:  
+        if self.mainloop.m.game_variant == 0:
+            self.points = self.level.lvl
             self.level.lvl_count = 11   
             if self.level.lvl == 1:#addition - ch0
                 data = [11,7,1,5,1,5,"+",2]
@@ -52,6 +53,7 @@ class Board(gd.BoardGame):
             elif self.level.lvl == 11:
                 data = [11,7,500,850,100,149,"+",4]
         elif self.mainloop.m.game_variant == 1:
+            self.points = self.level.lvl
             self.level.lvl_count = 11
             if self.level.lvl == 1:#subtraction  - ch1
                 data = [11,7,3,10,1,0,"-",2]
@@ -77,6 +79,7 @@ class Board(gd.BoardGame):
                 data = [11,7,499,999,99,0,"-",4]
         
         elif self.mainloop.m.game_variant == 2:
+            self.points = self.level.lvl * 2
             self.level.lvl_count = 7
             if self.level.lvl > 7:
                 self.level.lvl = 7
@@ -96,6 +99,7 @@ class Board(gd.BoardGame):
                 data = [11,7,2,20,2,20,"*",4]
         
         elif self.mainloop.m.game_variant == 3:
+            self.points = self.level.lvl * 2
             self.level.lvl_count = 7
             if self.level.lvl > 7:
                 self.level.lvl = 7
@@ -207,9 +211,11 @@ class Board(gd.BoardGame):
                     break
             if correct:
                 tts = self.d["Perfect! Task solved!"]
+                self.update_score(self.points)
                 self.level.next_board(tts)
             else:
-                self.say(self.d["Please try again."])
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False
             

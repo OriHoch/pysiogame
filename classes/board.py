@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import pygame
 import colorsys
 import os, sys
@@ -11,14 +12,15 @@ sounds = pygame.mixer
 sounds.init()
 sound_8 = '104874__robinhood76__02020-cartoon-slide_1.ogg'
 sound_6 = '104874__robinhood76__02020-cartoon-slide_2.ogg'
-s1 = sounds.Sound(os.path.join('sounds', sound_8))
-s2 = sounds.Sound(os.path.join('sounds', sound_6))
+s1 = sounds.Sound(os.path.join('res', 'sounds', sound_8))
+s2 = sounds.Sound(os.path.join('res', 'sounds', sound_6))
 
 class Unit(pygame.sprite.Sprite):
     'basic class for all on-board objects'
     def __init__(self,board,grid_x=0,grid_y=0,grid_w=1,grid_h=1,value="",color=(0,0,0),**kwargs):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
+        
 
         #grid location and size
         self.grid_x = grid_x
@@ -47,6 +49,7 @@ class Unit(pygame.sprite.Sprite):
         self.outline_highlight = False
         self.font_color = (0,0,0,0)
         self.align = 0 #align: 0 - centered, 1 - left, 2 - right
+        self.valign = 0 #align: 0 - centered, 1 - top
         self.update_me = True
         # Set height, width, the -1 is to give it some space around for the margin
         self.image = pygame.Surface([grid_w*board.scale-1, grid_h*board.scale-1])
@@ -63,6 +66,7 @@ class Unit(pygame.sprite.Sprite):
 
         #scale font size:
         self.font = board.font_sizes[0]
+        self.text_wrap = True
         
     def pos_update(self):
         if self.grid_w > 0 and self.grid_h > 0:
@@ -105,7 +109,48 @@ class Unit(pygame.sprite.Sprite):
                         if sys.version_info < (3, 0):
                             if isinstance(self.value, basestring):
                                 #if a passed argument is a string turn it into a 1 item list
-                                value = [self.value]
+                                if self.font.size(self.value)[0] < self.rect.w or not self.text_wrap:
+                                    value = [self.value]
+                                else:
+                                    #else enter extra line breaks
+                                    if len(self.value) > 5:
+                                        line = ""
+                                        test_line = ""
+                                        word = ""
+                                        value = []
+                                        valx = ""
+                                        try:
+                                            valx = unicode(self.value, "utf-8")
+                                        except UnicodeDecodeError:
+                                            valx = self.value
+                                        except TypeError:
+                                            valx = self.value
+                                        linelen = len(valx)
+                                        
+                                        for i in range(linelen):
+                                            if valx[i] == "\n":
+                                                test_line = "" + word
+                                                word = ""
+                                                value.append(line)
+                                                line = "" + test_line
+                                            elif valx[i] == " " or i == linelen-1:
+                                                test_line = test_line + word + valx[i]
+                                                if self.font.size(test_line)[0] < self.rect.w:
+                                                    line = "" + test_line 
+                                                    word = ""
+                                                else:
+                                                    test_line = "" + word + valx[i]
+                                                    word = ""
+                                                    value.append(line)
+                                                    line = "" + test_line
+                                            else:
+                                                word += valx[i]
+                                        if len(test_line) > 0:
+                                            value.append(test_line)
+                                        
+                                        #value = [self.value]
+                                    else:
+                                        value = [self.value]
                             else:
                                 value = self.value
                         else:
@@ -114,6 +159,8 @@ class Unit(pygame.sprite.Sprite):
                                 value = [self.value]
                             else:
                                 value = self.value
+                                
+                        
 
                         lv = len(value)
                         for i in range(lv):
@@ -126,27 +173,37 @@ class Unit(pygame.sprite.Sprite):
                                     val = value[i]
                             else:
                                 val = value[i]
-                            text = self.font.render("%s" % (val), 1, self.font_color)
-    
+                                
+                            text = self.font.render("%s" % (val), 1, self.font_color) 
+                            
                             if self.align == 0:
                                 font_x = ((board.scale*self.grid_w-self.font.size(val)[0])//2)
                             elif self.align == 1:
                                 font_x = 5
                             elif self.align == 2:
                                 font_x = board.scale*self.grid_w - self.font.size(val)[0]-5
-    
                             if lv == 1:
                                 font_y = ((board.scale*self.grid_h-self.font.size(val)[1])//2)
                             elif lv == self.grid_h: #number of items is equal to grid height of an object - distribute lines equally in each grid square
                                 font_y = ((board.scale-self.font.size(val)[1])//2)+board.scale*i
                             else:
-                                #lv - total
-                                line_h = self.font.size(value[0])[1]
-                                line_margin = 0 #(board.scale*self.grid_h - line_h*lv)//lv #self.font.size(value[0])[1]//4
-                                step = line_h + line_margin
-                                center = (board.scale*self.grid_h)//2
-                                start_at = center - (step*lv - line_margin)//2
-                                font_y = start_at + step*i                        
+                                if self.valign == 0:
+                                    #lv - total
+                                    line_h = self.font.size(value[0])[1]
+                                    line_margin = 0 #(board.scale*self.grid_h - line_h*lv)//lv #self.font.size(value[0])[1]//4
+                                    step = line_h + line_margin
+                                    center = (board.scale*self.grid_h)//2
+                                    start_at = center - (step*lv - line_margin)//2
+                                    font_y = start_at + step*i
+                                else:
+                                    #lv - total
+                                    line_h = self.font.size(value[0])[1]
+                                    line_margin = 0 #(board.scale*self.grid_h - line_h*lv)//lv #self.font.size(value[0])[1]//4
+                                    step = line_h + line_margin
+                                    center = (board.scale*self.grid_h)//2
+                                    start_at = 5#center - (step*lv - line_margin)//2
+                                    font_y = start_at + step*i
+                                
                             self.image.blit(text, (font_x,font_y))
                             
             if self.speaker_val_update:
@@ -300,7 +357,7 @@ class ImgSurf(pygame.sprite.Sprite):
             self.img_pos = (0,0)
             self.outline = True
             try:
-                self.img_org = pygame.image.load(os.path.join('images', self.img_src)).convert()
+                self.img_org = pygame.image.load(os.path.join('res', 'images', self.img_src)).convert()
                 self.img = self.img_org
                 self.img_rect = self.img.get_rect()
                 #resize the image
@@ -323,6 +380,9 @@ class ImgSurf(pygame.sprite.Sprite):
 class ImgShip(Ship):
     def __init__(self,board,grid_x=0,grid_y=0,grid_w=1,grid_h=1,value="",initcolor = (255,157,23), img_src='',**kwargs):
         Ship.__init__(self,board,grid_x,grid_y,grid_w,grid_h,value,initcolor,**kwargs)
+        self.change_image(img_src)
+        
+    def change_image(self, img_src):
         self.img_src = img_src
         if len(self.img_src) > 0:
             self.hasimg = True
@@ -330,22 +390,18 @@ class ImgShip(Ship):
             self.img_pos = (0,0)
             self.outline = True
             try:
-                self.img_org = pygame.image.load(os.path.join('images', self.img_src)).convert()
+                self.img_org = pygame.image.load(os.path.join('res', 'images', self.img_src)).convert()
                 self.img = self.img_org
                 self.img_rect = self.img.get_rect()
                 #resize the image
                 self.scale_img(self.rect.w, self.rect.h)
 
                 self.img_rect = self.img.get_rect()                
-                pos_x = ((board.scale*self.grid_w-self.img_rect.w)//2)
-                pos_y = ((board.scale*self.grid_h-self.img_rect.h)//2)
+                pos_x = ((self.board.scale*self.grid_w-self.img_rect.w)//2)
+                pos_y = ((self.board.scale*self.grid_h-self.img_rect.h)//2)
                 self.img_pos = (pos_x,pos_y)
             except IOError:
                 pass
-        #bg_color = tuple(self.image.get_at((5,5)))
-        #self.image.set_colorkey(bg_color[:3])
-        #self.image.set_colorkey(self.initcolor)
-        #Surface.get_at((x, y)): return Color
 
     def update(self, board, **kwargs):
         if self.update_me:
@@ -374,7 +430,7 @@ class ImgAlphaShip(ImgShip):
             self.img_pos = (0,0)
             self.outline = True
             try:
-                self.img_org = pygame.image.load(os.path.join('images', self.img_src)).convert_alpha()
+                self.img_org = pygame.image.load(os.path.join('res', 'images', self.img_src)).convert_alpha()
                 self.img = self.img_org
                 self.img_rect = self.img.get_rect()
                 #resize the image
@@ -399,7 +455,7 @@ class ImgCenteredShip(Ship):
             self.img_pos = (0,0)
             self.outline = True
             try:
-                self.img_org = pygame.image.load(os.path.join('images', self.img_src)).convert()
+                self.img_org = pygame.image.load(os.path.join('res', 'images', self.img_src)).convert()
                 self.img = self.img_org
                 self.img_rect = self.img.get_rect()
                 old_h = self.img_rect.h
@@ -453,7 +509,7 @@ class MultiImgSprite(ImgShip):
             
             self.frame = 0
             try:
-                self.img_org = pygame.image.load(os.path.join('images', self.img_src)).convert()
+                self.img_org = pygame.image.load(os.path.join('res', 'images', self.img_src)).convert()
                 self.img = self.img_org
                 self.img_rect = self.img.get_rect()
                 
@@ -627,20 +683,28 @@ class Board:
 
         #sizes = [1.0,1.25,1.5,1.75,2.0,2.25,2.5,2.75,3.0,3.5,4.0]
         sizes = [1.25,1.5,1.75,2.0,2.25,2.5,2.75,3.0,3.5,4.0,4.75,7]
-        self.font_sizes = [pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(float(self.points)/float(sizes[i])))) for i in range(len(sizes))]
+        self.font_sizes = [pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(float(self.points)/float(sizes[i])))) for i in range(len(sizes))]
         #12+ handwritten        
         h_sizes = [25,17,10,1.1,1.5,2,2.3,0.7]
-        handwritten_sizes = [pygame.font.Font(os.path.join('fonts', 'pysiogameFonts', 'pysiogameHand.ttf'), (int(float(self.points)*float(h_sizes[i])))) for i in range(len(h_sizes))]
+        handwritten_sizes = [pygame.font.Font(os.path.join('res', 'fonts', 'pysiogameFonts', 'pysiogameHand.ttf'), (int(float(self.points)*float(h_sizes[i])))) for i in range(len(h_sizes))]
         self.font_sizes.extend(handwritten_sizes)
         #20
-        self.font_sizes.append(pygame.font.Font(os.path.join('fonts', 'pysiogameFonts', 'pysiogameLatinPrint.ttf'), (int(float(self.points)*float(30)))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'pysiogameFonts', 'pysiogameLatinPrint.ttf'), (int(float(self.points)*float(30)))))
         #21 - extra large normal print 
-        self.font_sizes.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points*2.0))))   
-        self.font_sizes.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points*1.5))))   
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points*2.0))))   
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points*1.5))))   
         #23 - mini clock sizes
-        self.font_sizes.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/15))))   
-        self.font_sizes.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/25))))  
-               
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/15))))   
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/25))))  
+        
+        #25 - h2 - title size
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points)))) 
+        
+        #26 clock font        
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSans.ttf'), (int(float(self.points)/float(sizes[7])))))  
+        #27 credits line under word building games        
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSans.ttf'), (int(float(self.points)/float(sizes[4])))))  
+        
         self.board_bg = BoardBg(self,0,0,x_count,y_count,"",(255,255,255))
         self.unit_list.add(self.board_bg)
         self.all_sprites_list.add(self.board_bg)
@@ -708,7 +772,7 @@ class Board:
             self.all_sprites_list.add(unit)
             self._set(grid_x,grid_y,grid_w,grid_h)
         else:
-            print('Sorry: position taken: (x:%d, y:%d, w:%d, h:%d), board size: %d x %d, game_id: %d, screen size: %d x %d' % (grid_x,grid_y,grid_w,grid_h,self.x_count,self.y_count,self.mainloop.m.active_game_id,self.mainloop.wn_size[0],self.mainloop.wn_size[1]))
+            print('Sorry: position taken: (x:%d, y:%d, w:%d, h:%d), board size: %d x %d, game_id: %d, screen size: %d x %d' % (grid_x,grid_y,grid_w,grid_h,self.x_count,self.y_count,self.mainloop.m.active_game_id,self.mainloop.size[0],self.mainloop.size[1]))
             
     def add_door(self, grid_x=0, grid_y=0, grid_w=1, grid_h=1, unit_class=Door, value="", color=(0,0,0), img_src='', font_size = 0, door_alpha = True, frame_flow=[0], frame_count=1,row_data=[1,1]):
         #add a unit that will be drawn to the board but will not hold a square in the grid
@@ -774,7 +838,8 @@ class Board:
                 self._move_unit(ship_id,ai,x,y)
             else:
                 if ai == False and s.audible:
-                    s2.play()
+                    if self.mainloop.config.settings["sounds"]:
+                        s2.play()
         elif x != 0 and y != 0:
             self.labi_dir = -1
             #diagonal move simple path finder: check both alternatives in turn and move if possible
@@ -791,7 +856,8 @@ class Board:
                 else: mdir[1]=0
             else:
                 if ai == False and s.audible:
-                    s2.play()
+                    if self.mainloop.config.settings["sounds"]:
+                        s2.play()
             if mdir != [0,0]:
                 self._move_unit(ship_id,ai,mdir[0],mdir[1])
                 
@@ -821,7 +887,8 @@ class Board:
             if ai == False:
                 self.moved()
                 if ship.audible:
-                    s1.play()
+                    if self.mainloop.config.settings["sounds"]:
+                        s1.play()
      
     def _place_unit(self, ship_id, pos):
         ship = self.ships[ship_id]

@@ -12,7 +12,7 @@ sounds = pygame.mixer
 sounds.init()
 
 sound_12 = '188043__antumdeluge__mouse.ogg'
-s12 = sounds.Sound(os.path.join('sounds', sound_12))
+s12 = sounds.Sound(os.path.join('res', 'sounds', sound_12))
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
@@ -33,7 +33,7 @@ class Board(gd.BoardGame):
         self.active_mole = None
 
         self.grass_bg = [51,128,0]
-        self.score_bg = [219,255,187]
+        self.score_bg = (255,255,255)#[219,255,187]
 
         #data = [x_count, y_count, games per lvl, time on surface, 1/x minimum to pass]
         if self.level.lvl == 1:
@@ -137,13 +137,14 @@ class Board(gd.BoardGame):
             self.active_mole_pos = (-1,-1)
             self.hit_ += 1
             self.reset()
-            s12.play()
+            if self.mainloop.config.settings["sounds"]:
+                s12.play()
             self.hit_miss.value = str(self.hit_)
             self.hit_miss.update_me = True
             self.score.update_me = True
             
     def game_over(self):
-        tts = self.d["work harder"]          
+        tts = self.dp["work harder"]          
         self.level.game_step = self.total_ # - 2
         self.level.game_over(tts)
         

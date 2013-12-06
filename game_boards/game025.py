@@ -39,6 +39,7 @@ class Board(gd.BoardGame):
             data = [27,19,10,"bug_32.png",5,gl.lvl1]
         elif self.level.lvl == 5: #img_ 32x32
             data = [27,19,10,"bug_32.png",6,gl.lvl1]
+        self.points = data[4]
             
         self.data = data
         #self.word_set = self.lang.di[data[4]][1:]
@@ -120,7 +121,7 @@ class Board(gd.BoardGame):
         self.letter_pos2 = self.letter_pos[:]
         
         #add the bug        
-        self.board.add_unit(x2,midscreen-1,1,1,classes.board.ImgShipRota,"",white,data[3])
+        self.board.add_unit(x2,midscreen-1,1,1,classes.board.ImgShipRota,self.s_word,white,data[3])
         self.board.ships[0].audible = True
         self.board.ships[0].outline=False
         self.board.ships[0].draggable=False
@@ -139,7 +140,7 @@ class Board(gd.BoardGame):
         self.board.active_ship = 0
         self.ship_id = 0
         self.units_len = len(self.board.units)
-        self.say(self.s_word,2)
+        #self.say(self.s_word,2)
         
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
@@ -156,7 +157,8 @@ class Board(gd.BoardGame):
                     self.letter_pos[i] = [-1,-1]
                     if self.remaining == 0:
                         self.say(self.s_word+".")
-                        self.level.next_board() 
+                        self.update_score(self.points)
+                        self.level.next_board()
                     else:
                         self.searched_letter = self.word[self.word_len - self.remaining]
                         #change colors       

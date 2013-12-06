@@ -7,52 +7,76 @@ class Layout:
         self.update_layout(x_count,y_count)
 
     def update_layout(self,x_count=0,y_count=0):
+        
+        self.mainloop.sb.update_me = True
         self.x_count = x_count
         self.y_count = y_count
-
-        self.menu_w = 124+5 #+5 - extra space to make the gap for tabs to look ok
+        
+        self.score_bar_h = 36
+        self.top_margin = self.score_bar_h
+        
+        self.menu_w = 140#124 #+5 - extra space to make the gap for tabs to look ok
         self.menu_a_w = self.menu_w
         #50+10+50+10+1
         self.grid_line_w = 1
-        self.info_bar_h = 76
-        self.info_bar_offset_h_init = 76
+        self.info_bar_h = 90 #76
+        self.info_bar_offset_h_init = 80 #76
+        #self.info_bar_m_top = 10 #margin top - moved to info_bar
         self.menu_w_offset = 0
-        self.avail_game_w = self.screen_w - self.menu_w  
-        self.avail_game_h = self.screen_h - self.info_bar_h
+        self.avail_game_w = self.screen_w - self.menu_w - 10
+        self.avail_game_h = self.screen_h - self.info_bar_h - self.top_margin
+        #self.score_bar_h = 0 #32
         if self.game_type == "Board":
             #find the right size (scale) for a single square and calculate panels' sizes
-            scale_x = (self.screen_w - self.menu_w - self.grid_line_w) // x_count
-            scale_y = (self.screen_h - self.info_bar_h - self.grid_line_w) // y_count
+            scale_x = (self.screen_w - self.menu_w - self.grid_line_w - 6) // x_count
+            scale_y = (self.screen_h - self.info_bar_h - self.grid_line_w-self.top_margin) // y_count
     
             if scale_x < scale_y:
                 self.scale = scale_x
             else:
                 self.scale = scale_y
                 
-            self.menu_w_offset = (self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w#(screen_w - menu_w) % x_count
-        
-            self.menu_w += self.menu_w_offset
+            self.menu_w_offset = 0#(self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w#(screen_w - menu_w) % x_count
+            
+            #self.game_bg_l = ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w)
+            
+            self.game_left = self.menu_w + ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w) // 2
+            self.menu_w_offset = ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w) // 2  
+            #self.menu_w += self.menu_w_offset
             self.width=self.scale #width of a single square
             self.height=self.scale
             self.game_h = y_count*self.height+self.grid_line_w
             
         elif self.game_type == "Puzzle":
-            self.game_h = self.screen_h - self.info_bar_h
+            self.game_h = self.screen_h - self.info_bar_h - self.top_margin
             
-        self.game_w = self.screen_w - self.menu_w
-        self.info_bar_offset_h = self.info_bar_offset_h_init+ (self.screen_h - self.info_bar_offset_h_init) - self.game_h
+        
+        
+        self.game_w = self.scale*x_count# - self.grid_line_w #self.menu_w
+        self.info_bar_offset_h = self.info_bar_offset_h_init+ (self.screen_h - self.info_bar_offset_h_init) - self.game_h -self.top_margin
+        self.score_bar_top = self.info_bar_offset_h - self.info_bar_h - self.top_margin    
         self.menu_pos = (0,0, self.menu_w, self.screen_h)
 
-        self.menu_l_w = 62
-        self.menu_r_w = 62 #self.menu_w - self.menu_l_w
+        self.menu_l_w = 70
+        self.menu_r_w = 70 #self.menu_w - self.menu_l_w
         self.menu_l_pos = (0,0, self.menu_l_w, self.screen_h)
         self.menu_r_pos = (self.menu_l_w,0, self.menu_r_w, self.screen_h)
         #self.game_pos = (self.menu_w,0, self.game_w, self.game_h) #changed
-        self.game_pos = (self.menu_w,0, self.game_w, self.game_h) #changed
-        self.misio_pos = (0,0, 123, 123)
-        self.info_bar_offset_pos = (self.menu_w - self.menu_w_offset, self.game_h, self.game_w + self.menu_w_offset, self.info_bar_offset_h)
-        self.info_bar_pos = (1, self.info_bar_offset_h - self.info_bar_h, self.game_w-1+self.menu_w_offset, self.info_bar_h)
-        self.info_top = self.game_h + self.info_bar_pos[1]
+        #self.game_pos = (self.menu_w,self.top_margin, self.game_w, self.game_h) #changed
+        self.game_pos = (self.game_left,self.top_margin, self.game_w, self.game_h) #changed
+        
+        self.misio_pos = (0,0, 140, 123)
+        """
+        self.info_bar_offset_pos = (self.menu_w - self.menu_w_offset, self.game_h+self.top_margin, self.game_w + self.menu_w_offset, self.info_bar_offset_h)
+        self.info_bar_pos = (1, self.info_bar_offset_h - self.info_bar_h, self.game_w - 1 + self.menu_w_offset, self.info_bar_h)
+        self.score_bar_pos = (self.menu_w - self.menu_w_offset, 0, self.game_w + self.menu_w_offset, self.score_bar_h)      
+        self.info_top = self.game_h + self.info_bar_pos[1] + self.top_margin
+        """
+        #self.info_bar_offset_pos = (self.menu_w, self.game_h+self.top_margin, self.screen_w - self.menu_w, self.info_bar_offset_h)
+        self.info_bar_pos = (self.menu_w, self.screen_h - self.info_bar_h, self.screen_w - self.menu_w, self.info_bar_h)
+        self.score_bar_pos = (self.menu_w, 0, self.screen_w - self.menu_w, self.score_bar_h)      
+        self.info_top = self.game_h + self.info_bar_pos[1] + self.top_margin
+        self.game_bg_pos = (self.menu_w, self.score_bar_h, self.screen_w - self.menu_w, self.screen_h - self.score_bar_h - self.info_bar_h)
         
     def draw_layout(self):
         pass

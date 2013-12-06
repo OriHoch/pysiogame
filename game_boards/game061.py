@@ -44,11 +44,13 @@ class Board(gd.BoardGame):
             
         if self.level.lvl > self.level.lvl_count:
             self.level.lvl = self.level.lvl_count
-                
+        self.points = 4   
         if self.level.lvl == 1:
             data = [10,5,3,2,3]
+            self.points = 2
         elif self.level.lvl == 2:
             data = [10,6,3,2,4]
+            self.points = 3
         elif self.level.lvl == 3:
             data = [10,7,3,2,5]
         elif self.level.lvl == 4:
@@ -260,8 +262,11 @@ class Board(gd.BoardGame):
         else:
             if self.completed_mode:
                 self.history = [None, None]
+                self.update_score(self.points)
                 self.level.next_board()
             else:
+                if self.points > 0:
+                    self.points -= 1
                 self.history[0].perm_outline_width = 1
                 self.history[0].perm_outline_color = self.color2
                 self.history[1].perm_outline_width = 1

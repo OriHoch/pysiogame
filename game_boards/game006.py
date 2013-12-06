@@ -177,6 +177,9 @@ class Board(gd.BoardGame):
             self.start_sequence = True
             self.ai_enabled = True
         else:
+            self.update_score(self.level.lvl + self.max_games)
+            #self.completed = self.mainloop.db.query_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
+            self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
             self.level.levelup()
         
     

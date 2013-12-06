@@ -159,7 +159,7 @@ class Board(gd.BoardGame):
             if event.button == 1:
                 if active == 0:
                     self.btn_down = True
-                    canvas_pos = [pos[0]-self.layout.menu_w-10*self.layout.scale,pos[1]]
+                    canvas_pos = [pos[0]-self.layout.game_left-10*self.layout.scale,pos[1]-self.layout.top_margin]
                     self.p_first = canvas_pos
                     self.p_prev = canvas_pos
                     self.p_current = canvas_pos
@@ -179,10 +179,10 @@ class Board(gd.BoardGame):
         elif event.type == pygame.MOUSEMOTION and self.btn_down == True:
             active = self.board.active_ship
             pos = event.pos
-            column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            column = (pos[0]-self.layout.game_left) // (self.layout.width)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
             if active == 0 and self.data[0]-6 > column > 9 and row < self.data[1]:
-                canvas_pos = [pos[0]-self.layout.menu_w-10*self.layout.scale,pos[1]]
+                canvas_pos = [pos[0]-self.layout.game_left-10*self.layout.scale,pos[1]-self.layout.top_margin]
                 self.p_prev = self.p_current
                 self.p_current = canvas_pos
                 self.paint_pencil(1)
@@ -191,11 +191,11 @@ class Board(gd.BoardGame):
             
             active = self.board.active_ship
             pos = event.pos
-            column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-            row=pos[1] // (self.layout.height)
+            column = (pos[0]-self.layout.game_left) // (self.layout.width)
+            row = (pos[1]-self.layout.top_margin) // (self.layout.height)
             if active == 0 and self.data[0]-6 > column > 9 and row < self.data[1]:
                 #drop the new object onto the painting
-                canvas_pos = [pos[0]-self.layout.menu_w-10*self.layout.scale,pos[1]]
+                canvas_pos = [pos[0]-self.layout.game_left-10*self.layout.scale,pos[1]-self.layout.top_margin]
                 self.p_last = canvas_pos
                 self.paint_pencil(2)
             else:

@@ -230,6 +230,8 @@ class Board(gd.BoardGame):
             self.disp_counter += 1
             if self.disp_counter > 1:# self.disp_len:
                 self.completed_mode = False
+                self.update_score(self.level.lvl * 2)
+                self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
                 self.disp_counter = 0                
                 self.next_level()
         elif self.game_over_mode:

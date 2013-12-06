@@ -26,76 +26,82 @@ class Board(gd.BoardGame):
         font_color = ex.hsv_to_rgb(h,255,140)
         #data = [x_count, y_count, letter_count, top_limit, ordered]
         if self.level.lvl == 1:
-            data = [26,9,97,123,0,5,0]
+            data = [26,6,97,123,0,5,0]
         elif self.level.lvl == 2:
-            data = [26,9,97,123,0,10,0]
+            data = [26,6,97,123,0,10,0]
         elif self.level.lvl == 3:
-            data = [26,9,97,123,0,15,0]
+            data = [26,6,97,123,0,15,0]
         elif self.level.lvl == 4:
-            data = [26,9,97,123,0,20,0]
+            data = [26,6,97,123,0,20,0]
             
         elif self.level.lvl == 5:
-            data = [26,9,97,123,1,5,0]
+            data = [26,6,97,123,1,5,0]
         elif self.level.lvl == 6:
-            data = [26,9,97,123,1,10,0]
+            data = [26,6,97,123,1,10,0]
         elif self.level.lvl == 7:
-            data = [26,9,97,123,1,15,0]
+            data = [26,6,97,123,1,15,0]
         elif self.level.lvl == 8:
-            data = [26,9,97,123,1,20,0]
+            data = [26,6,97,123,1,20,0]
             
         elif self.level.lvl == 9:
-            data = [26,9,65,91,0,5,0]
+            data = [26,6,65,91,0,5,0]
         elif self.level.lvl == 10:
-            data = [26,9,65,91,0,10,0]
+            data = [26,6,65,91,0,10,0]
         elif self.level.lvl == 11:
-            data = [26,9,65,91,0,15,0]
+            data = [26,6,65,91,0,15,0]
         elif self.level.lvl == 12:
-            data = [26,9,65,91,0,20,0]
+            data = [26,6,65,91,0,20,0]
             
         elif self.level.lvl == 13:
-            data = [26,9,65,91,1,5,0]
+            data = [26,6,65,91,1,5,0]
         elif self.level.lvl == 14:
-            data = [26,9,65,91,1,10,0]
+            data = [26,6,65,91,1,10,0]
         elif self.level.lvl == 15:
-            data = [26,9,65,91,1,15,0]
+            data = [26,6,65,91,1,15,0]
         elif self.level.lvl == 16:
-            data = [26,9,65,91,1,20,0]    
+            data = [26,6,65,91,1,20,0]
+            
+        if self.level.lvl < 9:
+            self.points = data[5] // 5 + (self.level.lvl+3) // 4
+        else:
+            self.points = data[5] // 5 + (self.level.lvl+3) // 8
+        
         """
         if self.level.lvl == 17:
-            data = [26,9,97,123,0,5,11]
+            data = [26,6,97,123,0,5,11]
         elif self.level.lvl == 18:
-            data = [26,9,97,123,0,10,11]
+            data = [26,6,97,123,0,10,11]
         elif self.level.lvl == 19:
-            data = [26,9,97,123,0,15,11]
+            data = [26,6,97,123,0,15,11]
         elif self.level.lvl == 20:
-            data = [26,9,97,123,0,20,11]
+            data = [26,6,97,123,0,20,11]
             
         elif self.level.lvl == 21:
-            data = [26,9,97,123,1,5,11]
+            data = [26,6,97,123,1,5,11]
         elif self.level.lvl == 22:
-            data = [26,9,97,123,1,10,11]
+            data = [26,6,97,123,1,10,11]
         elif self.level.lvl == 23:
-            data = [26,9,97,123,1,15,11]
+            data = [26,6,97,123,1,15,11]
         elif self.level.lvl == 24:
-            data = [26,9,97,123,1,20,11]
+            data = [26,6,97,123,1,20,11]
             
         elif self.level.lvl == 25:
-            data = [26,9,65,91,0,5,11]
+            data = [26,6,65,91,0,5,11]
         elif self.level.lvl == 26:
-            data = [26,9,65,91,0,10,11]
+            data = [26,6,65,91,0,10,11]
         elif self.level.lvl == 27:
-            data = [26,9,65,91,0,15,11]
+            data = [26,6,65,91,0,15,11]
         elif self.level.lvl == 28:
-            data = [26,9,65,91,0,20,11]
+            data = [26,6,65,91,0,20,11]
             
         elif self.level.lvl == 29:
-            data = [26,9,65,91,1,5,11]
+            data = [26,6,65,91,1,5,11]
         elif self.level.lvl == 30:
-            data = [26,9,65,91,1,10,11]
+            data = [26,6,65,91,1,10,11]
         elif self.level.lvl == 31:
-            data = [26,9,65,91,1,15,11]
+            data = [26,6,65,91,1,15,11]
         elif self.level.lvl == 32:
-            data = [26,9,65,91,1,20,11]   
+            data = [26,6,65,91,1,20,11]   
         """
         #self.chapters = [1,5,9,13,17,21,25,29,32]
         self.chapters = [1,5,9,13,16]
@@ -159,10 +165,12 @@ class Board(gd.BoardGame):
                 y += 1
         for each in self.board.units:
             self.board.all_sprites_list.move_to_front(each)
-        instruction = self.d["Complete abc"]
-        self.board.add_unit(0,data[1]-2,data[0],2,classes.board.Letter,instruction,color0,"",0)
-        self.board.ships[-1].immobilize()
-        self.board.ships[-1].font_color = font_color
+        #instruction = self.d["Complete abc"]
+        #self.board.add_unit(0,data[1]-2,data[0],2,classes.board.Letter,instruction,color0,"",0)
+        #self.board.ships[-1].immobilize()
+        #self.board.ships[-1].font_color = font_color
+        #if self.lang.lang[0:2] != "en":
+        #    self.board.ships[-1].readable = False
         self.outline_all(0,1)     
                  
 
@@ -177,13 +185,15 @@ class Board(gd.BoardGame):
         result = [" " for i in range(self.data[0])]
         if self.changed_since_check:
             if self.board.grid[0] == self.solution_grid:
-                for i in range(len(self.board.ships)-1):
+                for i in range(len(self.board.ships)):
                     if self.board.ships[i].grid_y == 0:
                         result[self.board.ships[i].grid_x] = self.board.ships[i].value
                 if self.word == result:
+                    self.update_score(self.points)
                     self.level.next_board()
                 else:
-                    self.say(self.d["Sorry! It is wrong."],6)
+                    if self.points > 0:
+                        self.points -= 1
                     self.level.try_again()
                     self.changed_since_check = False
             else:

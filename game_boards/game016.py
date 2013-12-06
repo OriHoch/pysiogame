@@ -137,8 +137,8 @@ class KeyBoard:
         self.keys = []
         self.keys_list = pygame.sprite.RenderPlain()
         self.kbrd_font = []
-        self.kbrd_font.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/2))))
-        self.kbrd_font.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/3))))       
+        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/2))))
+        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/3))))       
         self.canvas = pygame.Surface([kbrd_w, kbrd_h])
         self.canvas.fill((255,255,255))
         self.add_keys()
@@ -261,7 +261,7 @@ class KeyBoard:
        	left = (self.kbrd_w - img_size)//2
 
         try:
-            img_org = pygame.image.load(os.path.join('images', 'hands.jpg')).convert()
+            img_org = pygame.image.load(os.path.join('res', 'images', 'hands.jpg')).convert()
             img = img_org.copy()
             img_rect = img.get_rect()
           
@@ -313,13 +313,13 @@ class Board(gd.BoardGame):
 
         self.level.lvl_count = len(self.course)
         
-        if self.lang.lang in ["en_gb", "en_us"]:
+        if self.lang.lang in ["en_GB", "en_US"]:
             self.chapters = [1,3,5,7,10,13,15,18,20,22,24,26,28]
         elif self.lang.lang == "pl":
             self.chapters = [1,3,5,7,10,12,14,16,18,20,23,26,29,32]
         elif self.lang.lang == "ru":
             self.chapters = [1,3,5,7,10,13,15,18,20,22,24,26,28]
-            
+        #self.points = (self.level.lvl+3) // 4
         self.t_string = self.course[self.level.lvl-1][1]
         self.t_multi  = self.course[self.level.lvl-1][0]
        
@@ -327,6 +327,8 @@ class Board(gd.BoardGame):
             self.current_line = unicode((self.t_string[0]*self.t_multi[0]).strip(), "utf-8")
         else:
             self.current_line = (self.t_string[0]*self.t_multi[0]).strip()
+            
+        self.pointsx = len(self.current_line) // 15 + 1
         self.level.games_per_lvl = len(self.t_string)
         self.level.game_step = 1
         label_w = self.data[0]//2
@@ -340,6 +342,7 @@ class Board(gd.BoardGame):
 
         self.board.add_unit(0,0,label_w,1,classes.board.Label,"",color,"",0)
         self.left = self.board.units[-1]
+        self.left.text_wrap = False
         self.left.align = 2
         self.left.font_color = font_color1
         
@@ -350,6 +353,7 @@ class Board(gd.BoardGame):
         
         self.board.add_unit(label_w+1,0,label_w,1,classes.board.Label,self.current_line[1:],color,"",0)
         self.right = self.board.units[-1]
+        self.right.text_wrap = False
         self.right.align = 1
         self.right.font_color = font_color3
         
@@ -372,7 +376,8 @@ class Board(gd.BoardGame):
                             self.middle.value = next_letter
                             self.right.value = self.right.value[1:]
                             self.kbrd.get_btns_to_hl(next_letter)
-                            self.board.s1.play()
+                            if self.mainloop.config.settings["sounds"]:
+                                self.board.s1.play()
                         elif len(self.middle.value) > 0:
                             self.left.value += char
                             self.middle.value = ""
@@ -380,7 +385,10 @@ class Board(gd.BoardGame):
                         for each in [self.left, self.middle, self.right]:
                             each.update_me = True
                     else:
-                        self.board.s2.play()
+                        if self.mainloop.config.settings["sounds"]:
+                            self.board.s2.play()
+                        if self.pointsx > 0:
+                            self.pointsx -= 1
                         
                 self.mainloop.redraw_needed[0] = True
 
@@ -407,5 +415,6 @@ class Board(gd.BoardGame):
             self.kbrd.get_btns_to_hl(self.current_line[0])
             self.mainloop.redraw_needed[1] = True
         else:
+            self.update_score(self.pointsx)
             self.level.next_board()
         

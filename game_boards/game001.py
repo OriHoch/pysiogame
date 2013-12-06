@@ -11,13 +11,13 @@ import random
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,1)
-        gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
+        gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,8)
         
         
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
         
-        self.color = (234,218,225)
+        self.color = (255,255,255)#(234,218,225)
 
         font_color = ex.hsv_to_rgb(227,255,50)
         data = [23,15]
@@ -39,21 +39,14 @@ class Board(gd.BoardGame):
         self.board.board_bg.update_me = True
         
         self.board.add_unit(0,0,data[0],1,classes.board.Label,"Copyright (C) 2012 - 2013  Ireneusz Imiolek",self.color,"",1)
-        self.board.add_unit(0,1,data[0],1,classes.board.Label,"Game ideas: Kamila Roszak-Imiolek, Ireneusz Imiolek",self.color,"",2)
-        self.board.add_unit(0,2,data[0],1,classes.board.Label,"",self.color,"",2)
-        self.board.add_unit(0,3,data[0],1,classes.board.Label,"Laby, 2010 by Mehdi Cherti(mehdidc)",self.color,"",2)
-        self.board.add_unit(0,4,data[0],1,classes.board.Label,"Sounds by various authors who contributed their works to freesound.org",self.color,"",2)
-        self.board.add_unit(0,5,data[0],1,classes.board.Label,"Images by various authors who contributed their works to openclipart.org",self.color,"",2)
-        self.board.add_unit(0,6,data[0],1,classes.board.Label,"Please view credits.txt for more info about authors of media files used in this project",self.color,"",2)
+        #self.board.add_unit(0,1,data[0],1,classes.board.Label,"",self.color,"",2)
+        self.board.add_unit(0,1,data[0],1,classes.board.Label,"",self.color,"",2)
+        self.board.add_unit(0,2,data[0],5,classes.board.Label,self.lang.d["Credits_long"],self.color,"",2)
+        self.board.units[-1].valign = 1
         self.board.add_unit(0,7,data[0],1,classes.board.Label,"",self.color,"",2)
-        self.board.add_unit(0,8,data[0],1,classes.board.Label,"Licence",self.color,"",1)
-        self.board.add_unit(0,9,data[0],6,classes.board.Label,["This program is free software: you can redistribute it and/or modify",
-        "it under the terms of the GNU General Public License as published by",
-        "the Free Software Foundation, either version 3 of the License, or",
-        "(at your option) any later version.",
-        "You should have received a copy of the GNU General Public License",
-        "along with this program.  If not, see <http://www.gnu.org/licenses/>."],self.color,"",2)
-
+        self.board.add_unit(0,8,data[0],1,classes.board.Label,self.lang.d["Lic_title"],self.color,"",1)
+        self.board.add_unit(0,9,data[0],6,classes.board.Label,self.lang.d["Lic_desc"],self.color,"",2)
+        self.board.units[-1].valign = 1
         #self.outline_all(1,1)
         for each in self.board.units:
             each.font_color = font_color

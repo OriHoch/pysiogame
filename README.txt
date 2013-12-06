@@ -1,6 +1,4 @@
-pySioGame - Educational Activity Pack for Kids by Ireneusz Imiolek
-
-Original version is here: http://sourceforge.net/projects/pysiogame/
+pySioGame - Educational Activity Pack for Kids
 
 Please note - this game is playable but still unfinished - or rather is being continuously improved (not so much recently - not enough hours in a day).
 
@@ -19,7 +17,9 @@ $ python
 If you have no errors importing it you are set, else you need to install it, in Debian based distros run: 
 $ sudo apt-get install python-pygame
 
-And if you want to enable the voice in game you also need eSpeak which - if you are using linux, is most likely already installed, if you are using any other OS - well no luck - I'm afraid it won't work - but can't test it really.
+And if you want to enable the voice in game you also need eSpeak which - if you are using Linux, is most likely already installed, if you are using any other OS - well no luck - I'm afraid it won't work - but can't test it really.
+
+In some cases you may also need to install fonts-freefont-ttf (Debian/Ubuntu) or gnu-free-sans-fonts (Fedora) or equivalent in your distro - maintainers please add it to dependencies.
 
 To start the game from terminal:
 python /home/user/path/to/the/game/pysiogame.py
@@ -27,7 +27,7 @@ python /home/user/path/to/the/game/pysiogame.py
 #or using python3:
 python3 /home/user/path/to/the/game/pysiogame.py
 
-Should start with double click if marked as executable (Right-click -> Properties -> Permissions -> Allow executing file as program) or if you like you can create a custom launcher using one of the above lines for the command line field (obviously after changing the path to the program first). The pysiogame_icon_48.png file from pysiogame_icon folder can be used as the icon for the launcher.
+Should start with double click if marked as executable (Right-click -> Properties -> Permissions -> Allow executing file as program) or if you like you can create a custom launcher using one of the above lines for the command line field (obviously after changing the path to the program first). The pysiogame_icon_48.png file from res/pysiogame_icon folder can be used as the icon for the launcher.
 
 ----------------------------------------------
 
@@ -37,18 +37,31 @@ or go to Preferences and enable full screen - this will be saved and game will s
 
 ----------------------------------------------
 Translating:
-If you would like to help translating this game please use one of the included files within languages folders. If your langauage is not there yet copy the en_gb.py and start working with the new file.
-ie. if you are translating to Spanish open es.py, French - fr.py, etc.
+If you would like to help translating this game please use one of the included files within the i18n/po directory. 
+If your langauage is not there yet copy the default.pot file rename it temporarily to te_ST.po and start working with the new file using ie. the Poedit.
+To test your translation save the file - Poedit will create the .mo file for you - move the .mo file to the locale/te_ST/ directory and rename the file to pysiogame.mo and start the game select the Test Language.
+
+There are few things translated using custom translation files in custom directory - these are usually done by me - but I might need some help to do them - I will get in touch with you if I'll be struggling.
+
+When everything is working ok please email me your .po file.
+
 The es_di.py, fr_di.py, etc. are lists of words used by word building activities. 
-These are partial translations from English - English version is just a list of words most commonly used in English - you may check these as well if they contain any words not necessarily suitable for children.
+These are partial (google) translations from English. The English version is just a list of words most commonly used in English - you may like to check these as well for any words not necessarily suitable for children.
 ----------------------------------------------
 
 Interface:
 Menu Panel - left:
-    left column - list of categories
-    right column - list of games in the current category
+    left column         - list of categories
+    right column        - list of games in the current category
     
-Game Panel - top right - the largest part of screen:
+Score Panel:
+    sound               - toggle game sound effects
+    voice               - toggle espeak voice synthesiser (if espeak is not installed this icon will not be available)
+    score               - shows user's score
+    user name           - displays name of currently logged in user
+    logout link         - takes you back to the initial screen where you can login as a different user
+    
+Game Panel - centre - the largest part of screen:
     piece of screen where all game objects are placed for you to drag around :)
     
 Game Controls - bottom:
@@ -82,7 +95,7 @@ Game Controls - bottom:
                             
 
 Technical Stuff:
-	This game used to be optimized for 1024x768, but recently rebuild to work on larger (and smaller) screens as well.
+	This game used to be optimized for 1024x768, but later rebuild to work on larger (and smaller) screens as well.
 	The layout is a mixture of fluid, elastic and fixed elements.
 	The menu is fixed to the left with static size (doesn't scale, but is scrollable)
 	

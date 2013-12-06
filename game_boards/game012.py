@@ -97,7 +97,7 @@ class Board(gd.BoardGame):
             if self.moveable == True:
                 pos = event.pos
                 column=(pos[0]-self.layout.menu_w) // (self.layout.width)
-                row=pos[1] // (self.layout.height)
+                row=(pos[1]-self.layout.top_margin) // (self.layout.height)
                 self.direction = [0,0]
                 arrow_clicked = False
                 if column == self.owl_pos[0]-1 and row == self.owl_pos[1]:
@@ -221,6 +221,7 @@ class Board(gd.BoardGame):
         
     def check_result(self):
         if self.current_step == len(self.moves)-1:
+            self.update_score(len(self.moves)*2)
             self.add_next_move()
             self.next_level()
             self.level.games_per_lvl = len(self.moves) #gpl #number of games to play in order to level up
@@ -233,3 +234,4 @@ class Board(gd.BoardGame):
             self.ai_enabled = True
             self.ai_speed = self.data[2]
             self.moveable = False
+            

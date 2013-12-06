@@ -1,4 +1,36 @@
 Changelog:
+pySioGame - 1.31.127-dev:
+    - Russian language updated by Алексей Логинов
+    - language files moved around again - most of the files are still stored in the i18n folder, but compiled .mo files are now stored under locale in appriopriate folders
+        - if necessary for packaging copy each of those files to the corresponding folder in usr/share/locale and change the new location link in lang.py
+    - game resources moved to res directory
+    - English language related activities moved to a separate category in non English speaking locales
+    - additional espeak process is being started to enable the game to read text in English when playing with one of above mentioned activities
+    - added option to auto-login you on next visit - the login screen will appear for a fraction of a second and then tha main window will open
+    - to go back to the initial screen or admin settings you have to press the log out "link" in top right corner.
+    - added exit button on the initial screen
+    - other bugs fixed - thanks to Алексей Логинов for finding and reporting them.
+    
+pySioGame - 1.31.111-dev:
+    - added an initial screen used for login and administrative settings
+    - some settings have been moved to administrator's settings
+    - enabling sound and eSpeak in game is now done by clicking on the icons in left top corner of the game area
+      when connecting with espeak is not possible the option to enable it is hidden, and the wording of the console message is changed - partly solved bug #721899
+    - all user data is now saved in a 'pysiogame.db' database stored in $XDG_DATA_HOME/pysiogame or $HOME/.local/share/pysiogame - solves bug #721830
+    - country flags are no longer used for language selection - solves bug #721829
+    - added ability to create accounts, a default account Guest is automatically created for you
+    - on first start the game tries to detect your local language and uses it if translation or close translation is available,
+      ie. if your detected language is pt_BR, but only pt_PT translation is available, the later will be used for both Portugal and Brazil
+      as the default language for the login screen and newly created accounts. This can be changed in language settings on login screen.
+      English is still used as default if language is not found.
+    - Translations are now a mixture of .po files and some custom translations (where more control over the translation was required) - solves wishlist item #721852
+    - solved a critical bug in "Color Matching" game (the game crashed when the width was larger than 5 squares and the colour label was dragged onto the empty square in the top line)
+    - minor fixes to some of the games    
+    - where completing a level is possible the completed level numbers are highlighted
+    - added possibility to receive points (where applicable) for completing games
+    - flashcard images are now stored as a separate files rather than sprite - takes up more space but is easier to add new images.
+    - added Catalan Language - thanks to Guillem Jover.
+    - 2 new activities
 pySioGame - 1.30.7xx - beta:
     - level data and game preferences including currently selected language are now stored in $XDG_DATA_HOME/pysiogame or $HOME/.local/share/pysiogame depending on configuration.
     - new games added including activities to teach kids reading clock hands, one more multiplication table activity and a little tool useful in learning various types of shapes.
@@ -6,10 +38,10 @@ pySioGame - 1.30.7xx - beta:
     - scrolling categories/games in menu now moves them one at a time rather than skipping to the very bottom + added support for mouse wheel for scrolling.
     - quitting game through the bottom-right button requires two clicks (not necessarily double click), Esc and in windowed version "X" button gets you out of the game without confirmation.
     - paint game - brush size now being changed by slider rather than +/- buttons
-    - window can now be resized (but exactly as with toggling fullscreen on and off - changing window size will also reload the current activity, so don't do it in the middle of working on something) 
+    - window can now be resized (but exactly as with toggling full-screen on and off - changing window size will also reload the current activity, so don't do it in the middle of working on something) 
     - handwriting font redrawn: advantages: one font for all languages, no more unknown authors and licences for fonts, more letters available including accents, tildes and what not, disadvantages: it's not as visually pleasing as the previous ones and there's no arrow guides the previous fonts had.
     - and many other changes to the way the game looks and works.
-    - PS. changed the version numbering system and since this large leap in numbers
+    - PS. changed the version numbering system and since this large leap in numbers, and yes still beta and the game is very likely to stay in beta through its entire life
     
 pySioGame - 0.4.1 - beta:
     - added Spanish translation - thanks to Miriam Ruiz

@@ -41,6 +41,8 @@ class Board(gd.BoardGame):
             numbero = 14
         elif self.level.lvl == 10:
             numbero = 15
+        self.points = 1
+        self.bonus = numbero * numbero
         data = [numbero*2,numbero]
         self.data = data
         self.layout.update_layout(data[0],data[1])
@@ -51,12 +53,19 @@ class Board(gd.BoardGame):
             for j in range(1,data[1]+1):
                 mul = ((i+1)//2)*j
                 if i == 1 or j == 1:
-                    caption = str(mul)
+                    if i == 1 and j == 1:
+                        caption = chr(215)
+                        fs = 0
+                    else:
+                        fs = 1
+                        caption = str(mul)
                 else:
+                    fs = 1
                     caption = ""
                     key = "%02d%02d" % ((i+1)//2, j)
                     self.number_hat.append(key)
-                self.board.add_unit(i-1,j-1,2,1,classes.board.Label,caption,white,"",1)
+                self.board.add_unit(i-1,j-1,2,1,classes.board.Label,caption,white,"",fs)
+        
         self.next_number()
         self.outline_all(0,1)
         #self.level.lvl = ""
@@ -72,7 +81,7 @@ class Board(gd.BoardGame):
         color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
         color2 = ex.hsv_to_rgb(h,s,v) #normal color
         color3 = ex.hsv_to_rgb(h,230,100)
-        
+        self.points = 1
         ln = len(self.number_hat) 
         if ln > 0:
             index = random.randrange(0,ln)
@@ -111,13 +120,14 @@ class Board(gd.BoardGame):
                     
                     self.board.units[unit_id].color = color
                     self.board.units[unit_id].update_me = True
-            
+            self.board.units[0].font_color = color3
             self.outline_all(0,1)
     
             self.home_square = self.board.units[(num1-1)*self.data[1] + num2-1]
             
             self.mainloop.redraw_needed[0] = True
         else:
+            self.update_score(self.bonus)
             self.level.next_board()
         
     def handle(self,event):
@@ -146,9 +156,14 @@ class Board(gd.BoardGame):
     def check_result(self):
         if self.changed_since_check:
             if self.home_square.value != "" and (int(self.home_square.value) == self.solution[2]):
+                self.update_score(self.points)
                 self.quick_passed()
                 
             else:
+                if self.bonus > 0:
+                    self.bonus -= 1
+                if self.points > 0:
+                    self.points = 0
                 self.failed()
                 
     def passed(self):
@@ -163,7 +178,6 @@ class Board(gd.BoardGame):
         #self.level.next_board(tts)
         
     def failed(self):
-        #self.say(self.d["Sorry! It is wrong."],6)
         self.level.try_again()
         self.changed_since_check = False
         self.home_square.value = ""

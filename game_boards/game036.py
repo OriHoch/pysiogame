@@ -46,7 +46,7 @@ class Board(gd.BoardGame):
             data = [11,4,9,99,5,2]  
         self.chapters = [1,4,7,10,12]
         self.data = data
-        
+        self.points = data[4] - 1
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
         signs = ["+","-"]
@@ -114,6 +114,10 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,3,11,1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize() 
         self.board.ships[-1].font_color = font_color
+        
+        self.board.ships[-1].speaker_val = self.dp["Drag the slider"]
+        self.board.ships[-1].speaker_val_update = False
+
         self.outline_all(0,1)
         
         
@@ -133,9 +137,11 @@ class Board(gd.BoardGame):
             eval_string = ''.join(self.expression)
             eval_string.strip()
             if eval(eval_string)==self.total: #True:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
-                self.say(self.d["Sorry! It is wrong."],6)
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False
                 

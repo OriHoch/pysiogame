@@ -100,7 +100,8 @@ class Board(gd.BoardGame):
             data = [19,10,True,False,False,True,False,False,False,False,True,25]
             h_pool = range(1,13)
             m_pool = range(0,60)
-        
+            
+        self.points = self.level.lvl // 2 + 1
         
         #visual display properties
         self.show_outer_ring = data[2]
@@ -117,101 +118,8 @@ class Board(gd.BoardGame):
         
         tt = [random.choice(h_pool), random.choice(m_pool)]
         self.target_time = tt
-        if self.lang.d["time_string_1_59_past_mh"] == "" and self.lang.d["time_string_1_59_past_hm"] == "":
-            #if (tt[1] < 30 and self.lang.d["time_string_half_to"] != "") or (tt[1] <= 30 and self.lang.d["time_string_half_past"] != "") :
-            h_index = tt[0]-1 
-            #else:
-            if tt[0] == 12:
-                h_indexp1 = 0
-            else:
-                h_indexp1 = tt[0]
-            if tt[1] < 30:
-                m = tt[1]
-            else:
-                m = 60 - tt[1]
-                
-            if m < 30:
-                minutes = self.lang.d["minute_numbers_1to29"][m-1]
-        else:
-            h_index = tt[0]-1
-            if tt[0] == 12:
-                h_indexp1 = 0
-            else:
-                h_indexp1 = tt[0]
-            m = tt[1]
-            minutes = self.lang.n2txt(m)
-            """
-            if m <= 29:
-                minutes = self.lang.d["minute_numbers_1to29"][m-1]
-            else:
-                tens = self.lang.numbers2090[(m/10)-2]
-                ones = self.lang.d["minute_numbers_1to29"][(m % 10)-1]
-                minutes = tens + " " + ones
-            """
-                
-        if self.lang.d["time_string_1_59_past_mh"] == "" and self.lang.d["time_string_1_59_past_hm"] == "":
-            if tt[1] == 0:
-                self.text_string = self.lang.d["time_string_full"] % self.lang.d["hours_a"][h_index]
-            elif tt[1] == 15:
-                self.text_string = self.lang.d["time_string_q_past"] % self.lang.d["hours_b"][h_index]
-            elif tt[1] == 45:
-                self.text_string = self.lang.d["time_string_q_to"] % self.lang.d["hours_c"][h_indexp1]
-            elif tt[1] == 30:
-                if self.lang.d["time_string_half_past"] != "":
-                    self.text_string = self.lang.d["time_string_half_past"] % self.lang.d["hours_c"][h_index]
-                else:
-                    self.text_string = self.lang.d["time_string_half_to"] % self.lang.d["hours_b"][h_indexp1]
-            elif tt[1] == 1:
-                self.text_string = self.lang.d["time_string_one_past"] % self.lang.d["hours_b"][h_index]
-            elif tt[1] == 59:
-                self.text_string = self.lang.d["time_string_one_to"] % self.lang.d["hours_c"][h_indexp1]
-            elif tt[1] < 30:
-                if self.lang.d["time_string_past_mh"] != "":
-                    self.text_string = self.lang.d["time_string_past_mh"] % (minutes, self.lang.d["hours_b"][h_index])
-                elif self.lang.d["time_string_past_hm"] != "":
-                    self.text_string = self.lang.d["time_string_past_hm"] % (self.lang.d["hours_b"][h_index], minutes)
-                else:
-                    self.text_string = ""
-            elif tt[1] > 30:
-                if self.lang.d["time_string_to_mh"] != "":
-                    self.text_string = self.lang.d["time_string_to_mh"] % (minutes, self.lang.d["hours_c"][h_indexp1])
-                elif self.lang.d["time_string_to_hm"] != "":
-                    self.text_string = self.lang.d["time_string_to_hm"] % (self.lang.d["hours_c"][h_indexp1], minutes)
-                else:
-                    self.text_string = ""
-        else:
-            if tt[1] == 0:
-                self.text_string = self.lang.d["time_string_full"] % self.lang.d["hours_a"][h_index]
-            elif tt[1] == 15:
-                self.text_string = self.lang.d["time_string_q_past"] % self.lang.d["hours_b"][h_index]
-            elif tt[1] == 45:
-                if self.lang.d["time_string_q_to"] != "":
-                    self.text_string = self.lang.d["time_string_q_to"] % self.lang.d["hours_c"][h_indexp1]
-                elif self.lang.d["time_string_3q_past"] != "":
-                    self.text_string = self.lang.d["time_string_3q_past"] % self.lang.d["hours_c"][h_index]
-            elif tt[1] == 30:
-                if self.lang.d["time_string_half_past"] != "":
-                    self.text_string = self.lang.d["time_string_half_past"] % self.lang.d["hours_c"][h_index]
-                else:
-                    self.text_string = self.lang.d["time_string_half_to"] % self.lang.d["hours_b"][h_indexp1]
-            elif tt[1] == 1:
-                self.text_string = self.lang.d["time_string_one_past"] % self.lang.d["hours_b"][h_index]
-            elif tt[1] == 59:
-                if self.lang.d["time_string_one_to"] != "":
-                    self.text_string = self.lang.d["time_string_one_to"] % self.lang.d["hours_c"][h_indexp1]
-                else:
-                    if self.lang.d["time_string_1_59_past_mh"] != "":
-                        self.text_string = self.lang.d["time_string_1_59_past_mh"] % (minutes, self.lang.d["hours_b"][h_index])
-                    elif self.lang.d["time_string_1_59_past_hm"] != "":
-                        self.text_string = self.lang.d["time_string_1_59_past_hm"] % (self.lang.d["hours_b"][h_index], minutes)
-            else:
-                if self.lang.d["time_string_1_59_past_mh"] != "":
-                    self.text_string = self.lang.d["time_string_1_59_past_mh"] % (minutes, self.lang.d["hours_b"][h_index])
-                elif self.lang.d["time_string_1_59_past_hm"] != "":
-                    self.text_string = self.lang.d["time_string_1_59_past_hm"] % (self.lang.d["hours_b"][h_index], minutes)
-                else:
-                    self.text_string = ""
         
+        self.text_string = self.lang.time2str(tt[0],tt[1])
         self.time = [6,0]
         self.tm = self.time[:]
         
@@ -265,12 +173,16 @@ class Board(gd.BoardGame):
         self.board.active_ship = self.clock_canvas.unit_id 
         self.clock_canvas.font = self.clock_canvas.board.font_sizes[2]
         self.clock_canvas.font2 = self.clock_canvas.board.font_sizes[7]
+        self.clock_canvas.font3 = self.clock_canvas.board.font_sizes[26]
         self.clock_canvas.immobilize()
         
         self.board.add_unit(10,3,data[0]-10,1,classes.board.Letter,self.text_string,white,"",4)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = gray
-        
+        if self.lang.lang == "ru":
+            spk_txt = self.lang.time2spk(tt[0],tt[1])
+            self.board.ships[-1].speaker_val = spk_txt
+            self.board.ships[-1].speaker_val_update = False
         self.canvas = pygame.Surface([self.size, self.size-1]) 
         self.canvas.fill((255,255,255))
         self.hands_vars()
@@ -279,6 +191,7 @@ class Board(gd.BoardGame):
         self.clock_canvas.hidden_value = [2,3]#numbers[i]
         self.clock_canvas.font_color = color2
         self.clock_canvas.painting = self.canvas.copy()
+        
         
     def hands_vars(self):
         numbers = [2,2]
@@ -328,12 +241,12 @@ class Board(gd.BoardGame):
                     val = "0"
                 a = self.angle_start + self.angle_step_60*(i+1)
                 if self.show_minutes:
-                    font_size = self.clock_canvas.font2.size(val)
+                    font_size = self.clock_canvas.font3.size(val)
                     #if self.show_highlight:
                     if not self.show_highlight or (i+1 == time[1] or (time[1] == 0 and i==59)):
-                        text = self.clock_canvas.font2.render("%s" % (val), 1, self.colors2[1])
+                        text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors2[1])
                     else:
-                        text = self.clock_canvas.font2.render("%s" % (val), 1, self.colors[1])
+                        text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors[1])
                     x3=(rs[1]+30+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
                     y3=(rs[1]+30+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
                     #x3=(rs[0]+20 + self.clock_canvas.font.size(val)[0]//2)*cos(a)+center[0]
@@ -506,7 +419,7 @@ class Board(gd.BoardGame):
         self.tm = self.time[:]
         
         if event.type == pygame.MOUSEMOTION and self.hand_id > 0:
-            pos = [event.pos[0]-self.layout.menu_w,event.pos[1]]
+            pos = [event.pos[0]-self.layout.game_left,event.pos[1]-self.layout.top_margin]
             r = self.vector_len([pos[0]-self.center[0], pos[1] - self.center[1]])
             if r == 0: r = 0.1
             
@@ -533,7 +446,7 @@ class Board(gd.BoardGame):
             
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             active = self.board.active_ship
-            pos = [event.pos[0]-self.layout.menu_w,event.pos[1]]
+            pos = [event.pos[0]-self.layout.game_left,event.pos[1]-self.layout.top_margin]
             if active == 0:
                 r = self.vector_len([pos[0]-self.center[0], pos[1] - self.center[1]])
                 if r == 0: r = 0.1
@@ -626,8 +539,11 @@ class Board(gd.BoardGame):
     def check_result(self):
         if self.changed_since_check:
             if self.time == self.target_time:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 
                 

@@ -34,7 +34,7 @@ class Board(gd.BoardGame):
             data[0] = x_count
             
         self.data = data
-        
+        self.points = 20
         self.vis_buttons = [1,0,0,0,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -103,7 +103,7 @@ class Board(gd.BoardGame):
             else:
                 self.board.all_sprites_list.move_to_front(self.board.units[i])
             
-        self.canvas.set_outline([255,229,127],1)
+        self.canvas.set_outline((255,75,0),1)
         self.canv = []
         for i in range(4):
             self.canv.append(pygame.Surface([self.canvas.grid_w*self.board.scale, self.canvas.grid_h*self.board.scale-1]))
@@ -172,35 +172,38 @@ class Board(gd.BoardGame):
             help = ""
             if self.picked[0] > r:
                 #help += " more red; "
-                help += " %s %s; " % (self.d['more color'], self.d['of red'][0])
+                help += self.d['more red'] + ", "
             elif self.picked[0] < r:
                 #help += " less red; "
-                help += " %s %s; " % (self.d['less color'], self.d['of red'][0])
+                help += self.d['less red'] + ", "
             else:
                 #help += " red is ok; "
-                help += " %s %s; " % (self.d['of red'][1],self.d['color is ok'])
+                help += self.d['red is ok'] + ", "
 
             if self.picked[1] > g:
                 #help += " more green; "
-                help += " %s %s; " % (self.d['more color'], self.d['of green'][0])
+                help += self.d['more green'] + ", "
             elif self.picked[1] < g:
                 #help += " less green; "
-                help += " %s %s; " % (self.d['less color'], self.d['of green'][0])
+                help += self.d['less green'] + ", "
             else:
                 #help += " green is ok; "
-                help += " %s %s; " % (self.d['of green'][1],self.d['color is ok'])
+                help += self.d['green is ok'] + ", "
             
             if self.picked[2] > b:
                 #help += " more blue; "
-                help += " %s %s; " % (self.d['more color'], self.d['of blue'][0])
+                help += self.d['more blue'] + ". "
             elif self.picked[2] < b:
                 #help += " less blue; "
-                help += " %s %s; " % (self.d['less color'], self.d['of blue'][0])
+                help += self.d['less blue'] + ". "
             else:
                 #help += " blue is ok."
-                help += " %s %s; " % (self.d['of blue'][1],self.d['color is ok'])
+                help += self.d['blue is ok'] + ". "
             self.say(help)
-            self.level.try_again()
+            if self.points > 0:
+                self.points -= 1
+            self.level.try_again(silent = True)
         else:
+            self.update_score(self.points)
             self.level.next_board()
 

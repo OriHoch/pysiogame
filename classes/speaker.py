@@ -10,9 +10,13 @@ class Speaker(threading.Thread):
         threading.Thread.__init__(self)
         self.lang = lang
         self.enabled = True
+        self.started = False
         
-        self.talkative = configo.settings[1]
-        self.start_server()
+        self.started_en = False
+        
+        self.spk = None
+        self.talkative = False
+        #self.start_server()
         if sys.version_info < (3, 0):
             self.needs_encode = False
         else:
@@ -28,20 +32,41 @@ class Speaker(threading.Thread):
             cmd.extend(self.lang.voice)
             try:
                 self.process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                self.started = True
+                #self.contactable = True
+                self.spk = self.process
             except:
                 self.enabled = False
-                print("Failed to connect with espeak")
+                self.started = False
+                print("pySioGame: You may like to install espeak to get some extra functionality, however this is not required to successfully use the game.")
             #stdout and stderr only used to hide the messages from terminal
-    
+            
+    def start_server_en(self):
+        if self.enabled:
+            cmd = ['espeak']
+            cmd.extend(["-ven+m1"])
+            try:
+                self.process_en = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                self.started_en = True
+            except:
+                self.started_en = False
+            
+    def switch_spk(self, spk):
+        if spk == 1:
+            self.spk = self.process
+        elif spk == 2:
+            self.spk = self.process_en
+            
     def restart_server(self):
-        self.stop_server()
+        if self.started:
+            self.stop_server()
         self.start_server()
         
     def run(self):
         pass
         
     def stop_server(self):
-        if self.enabled:
+        if self.enabled and self.started:
             self.process.stdin.close()
             self.process.stdout.close()
             self.process.stderr.close()
@@ -49,21 +74,35 @@ class Speaker(threading.Thread):
                 os.kill(self.process.pid, signal.SIGTERM)
             except OSError:
                 print("Error killing the espeak process")
-        
+                
+    def stop_server_en(self):
+        if self.enabled and self.started_en:
+            self.process_en.stdin.close()
+            self.process_en.stdout.close()
+            self.process_en.stderr.close()
+            try:
+                os.kill(self.process_en.pid, signal.SIGTERM)
+            except OSError:
+                print("Error killing the espeak process")
+                
     def say(self,text,voice=1):
         if self.enabled and self.talkative:
-            text = self.check_letter_name(text)
+            if self.spk == self.process:
+                text = self.check_letter_name(text)
             text = text + "\n"
-            if self.needs_encode:
-                text = text.encode("utf-8")
+            #if self.needs_encode:
             try:
-                self.process.stdin.write(text)
-                #self.process.stdin.write(text.encode())
-                self.process.stdin.flush()
+                text = text.encode("utf-8")
             except:
                 pass
-        else:
-            pass
+                
+            try:
+                #print(text)
+                self.spk.stdin.write(text)
+                #self.process.stdin.write(text.encode())
+                self.spk.stdin.flush()
+            except:
+                pass
             
     def check_letter_name(self,text):
         if sys.version_info < (3, 0):

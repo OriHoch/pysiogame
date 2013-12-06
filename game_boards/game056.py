@@ -27,6 +27,7 @@ class Board(gd.BoardGame):
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
         color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
         self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
+        bg_color = ex.hsv_to_rgb(h,40,255)
 
         if self.level.lvl == 1:
             data = [9,6,3,5,5,1]
@@ -40,6 +41,9 @@ class Board(gd.BoardGame):
             data = [9,6,3,11,5,6]
         elif self.level.lvl == 6:
             data = [9,6,3,11,5,10]
+
+        self.points = self.level.lvl * 5
+        
         self.font_size = 7
         extra_w = 0
         #obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Letter]
@@ -47,23 +51,28 @@ class Board(gd.BoardGame):
             drawing_f = [self.draw_circles,self.draw_rectangles,self.draw_minicircles,self.draw_polygons,self.draw_petals]
             obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Ship]
             instruction = self.d["Fract instr0"]
+            instrp = self.dp["Fract instr0"]
         elif self.mainloop.m.game_variant == 1:
             drawing_f = [self.draw_circles,self.draw_rectangles,self.draw_minicircles,self.draw_polygons,self.draw_fractions]
             obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Letter]
             instruction = self.d["Fract instr1"]
+            instrp = self.dp["Fract instr1"]
         elif self.mainloop.m.game_variant == 2:
             drawing_f = [self.draw_fractions,self.draw_circles,self.draw_rectangles,self.draw_minicircles,self.draw_polygons]
             obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Ship]
             instruction = self.d["Fract instr2"]
+            instrp = self.dp["Fract instr2"]
         elif self.mainloop.m.game_variant == 3:
             drawing_f = [self.draw_percents,self.draw_circles,self.draw_rectangles,self.draw_decimals,self.draw_fractions]
             obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Letter,classes.board.Letter]
             instruction = self.d["Fract instr3"]
+            instrp = self.dp["Fract instr3"]
             extra_w = 1
         elif self.mainloop.m.game_variant == 4:
             drawing_f = [self.draw_ratios,self.draw_circles,self.draw_rectangles,self.draw_minicircles,self.draw_polygons]
             obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Ship]
             instruction = self.d["Fract instr4"]
+            instrp = self.dp["Fract instr4"]
             extra_w = 1
         
         data[0] = data[0] + extra_w
@@ -173,9 +182,12 @@ class Board(gd.BoardGame):
             self.board.units[ind + i].perm_outline_color = self.color2
             
             self.board.all_sprites_list.move_to_front(self.board.units[ind + i])      
-        self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,white,"",9)
+        self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,bg_color,"",9)
+        self.board.ships[-1].set_outline(self.color2, 1)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = self.color2
+        self.board.ships[-1].speaker_val = instrp
+        self.board.ships[-1].speaker_val_update = False
 
     def draw_circles(self,numbers,canvas,size,center,color):
         angle_step = 2*pi/numbers[1]
@@ -360,9 +372,11 @@ class Board(gd.BoardGame):
                 ship = self.board.ships[i]
                 if ship.hidden_value != self.board.units[ship.grid_y].hidden_value:
                     correct = False
-                    self.say(self.d["Sorry! It is wrong."],6)
+                    if self.points > 0:
+                        self.points -= 1
                     self.level.try_again()
                     self.changed_since_check = False
                     break;
             if correct:
+                self.update_score(self.points)
                 self.level.next_board()

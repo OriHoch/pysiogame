@@ -64,6 +64,8 @@ class Board(gd.BoardGame):
             self.divisor_pos = 0
             
         data = [39,25]
+        
+        self.points = self.level.lvl
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 39:
@@ -113,7 +115,7 @@ class Board(gd.BoardGame):
             d_h = 4
             num2_align = 1
             
-        if self.lang.lang == 'gr':
+        if self.lang.lang == 'el':
             qm = ";"
         else:
             qm = "?"
@@ -136,7 +138,9 @@ class Board(gd.BoardGame):
         self.num2.align = num2_align            
         
         line = "―" * (self.n1sl*2)
+        
         self.board.add_unit(data[0]-self.n1sl*2-r_offset,2,self.n1sl*2,1,classes.board.Label,line,white,"",21)
+        self.board.units[-1].text_wrap = False
         self.board.add_unit(data[0]-self.n1sl*2-1+ds_offset,2,1,d_h,classes.board.Label,d_str,white,"",21)
         self.division_sign = self.board.units[-1]
         self.resl = []
@@ -196,6 +200,7 @@ class Board(gd.BoardGame):
                 self.activables += 1
                 
             self.board.add_unit(xp[4]+(2-len(str(nbr[i]))*2)-r_offset,yp[4],len(str(nbr[i]))*2,1,classes.board.Label,line,white,"",21)
+            self.board.units[-1].text_wrap = False
             for i in range(5):
                 xp[i] += 2
                 if i > 0:
@@ -345,8 +350,13 @@ class Board(gd.BoardGame):
             s = ""
             for each in self.resl:
                 s += each.value
-                
-            if int(s) == self.sumn1n2:
-                self.level.next_board()
+            if len(s) > 0:
+                if int(s) == self.sumn1n2:
+                    self.update_score(self.points)
+                    self.level.next_board()
+                else:
+                    if self.points > 0:
+                        self.points -= 1
+                    self.level.try_again()
             else:
-                self.level.try_again() 
+                self.level.try_again()

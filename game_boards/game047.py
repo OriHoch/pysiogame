@@ -45,8 +45,10 @@ class Board(gd.BoardGame):
             data = [11,6,11,True,1]
         elif self.level.lvl == 10:
             data = [11,6,11,False,1]
-            
+        
         self.chapters = [1,3,5,7,9,10]
+        
+        self.points = (data[2]+2) // 3 + self.level.lvl // 4
         
         self.data = data
         self.layout.update_layout(data[0],data[1])
@@ -104,6 +106,8 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,5,11,1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize()      
         self.board.ships[-1].font_color = font_color  
+        self.board.ships[-1].speaker_val = self.dp["Re-arrange alphabetical"]
+        self.board.ships[-1].speaker_val_update = False
         self.outline_all(0,1)
 
 
@@ -129,9 +133,11 @@ class Board(gd.BoardGame):
                         if ships_sorted[i][1] != self.alphabet[self.indexes[i]]:
                             correct = False
                 if correct == True:
+                    self.update_score(self.points)
                     self.level.next_board()
                 else:
-                    self.say(self.d["Sorry! It is wrong."])
+                    if self.points > 0:
+                        self.points -= 1
                     self.level.try_again()
                     self.changed_since_check = False
             else:

@@ -44,6 +44,10 @@ class Board(gd.BoardGame):
         t_area = "½ah"
 
         self.shape_names = self.lang.shape_names
+        if self.lang.lang == "ru":
+            self.shape_namesp = self.lang.dp["shape_names"]
+        else:
+            self.shape_namesp = self.shape_names
         #self.shape_names = ["Equilateral Triangle", "Isosceles Triangle", "Acute Triangle", "Right Triangle", "Obtuse Triangle", "Square", "Rectangle", "Trapezium", "Isosceles Trapezium", "Rhombus", "Parallelogram", "Pentagon", "Hexagon", "Circle", "Ellipse"]
         self.shape_areas = ["½ah", "½ah", "½ah", "½ab", "½ah", "a²", "ab", "½(a+b)h", "½(a+b)h", "ah", "ah", "------", "------", "πr²", "πab"]
         self.shape_circ = ["3a", "a + 2b", "a + b + c", "a + b + c", "a + b + c", "4a", "2a + 2b", "a + b + c + d", "a + b + 2c", "4a", "2a + 2b", "5a", "6a", "2πr", "------"]
@@ -54,6 +58,9 @@ class Board(gd.BoardGame):
         
         for i in range(15):
             self.board.add_unit(x,y,1,1,classes.board.Letter,self.shape_names[i],white,"",2)
+            self.board.ships[-1].speaker_val = self.shape_namesp[i]
+            self.board.ships[-1].speaker_val_update = False
+            
             #self.board.ships[i].perm_outline = True
             #self.board.ships[i].set_outline(outline_color,1)
             self.board.ships[-1].font_color=(255,255,255,0)
@@ -66,15 +73,23 @@ class Board(gd.BoardGame):
         
         #Card
         self.board.add_unit(x-2,y+1,9,2,classes.board.Letter,self.shape_names[0],card_color,"",2)
-
+        self.board.ships[-1].speaker_val = self.shape_namesp[0]
+        self.board.ships[-1].speaker_val_update = False
+        
         self.board.add_unit(x+2,y+3,5,1,classes.board.Letter,self.d["area:"],card_color,"",3)
+        self.board.ships[-1].speaker_val = self.dp["area:"]
+        self.board.ships[-1].speaker_val_update = False
         self.board.add_unit(x+2,y+4,5,1,classes.board.Label,t_area,card_color,"",3)
         self.board.add_unit(x+2,y+5,5,1,classes.board.Letter,self.d["perimeter:"],card_color,"",3)
+        self.board.ships[-1].speaker_val = self.dp["perimeter:"]
+        self.board.ships[-1].speaker_val_update = False
+        self.perimeter = self.board.ships[-1]
         self.board.add_unit(x+2,y+6,5,1,classes.board.Label,"3a",card_color,"",3)
 
         #frame size 288 x 216        
         self.board.add_unit(x-2,y+3,4,4,classes.board.MultiImgSprite,self.shape_names[0],card_color,"flashcard_shapes.jpg",row_data=[15,1])
-        
+        self.board.ships[-1].speaker_val = self.shape_namesp[0]
+        self.board.ships[-1].speaker_val_update = False
 
         self.board.add_door(x-2,y+1,9,6,classes.board.Door,"",card_color,"")
         
@@ -111,20 +126,31 @@ class Board(gd.BoardGame):
                 self.create_card(self.active_item)
 
     def create_card(self, active):
-        #self.say(active.value[0])
         self.board.ships[self.shape_count].value = self.shape_names[active.unit_id]
+        self.board.ships[self.shape_count].speaker_val = self.shape_namesp[active.unit_id]
+        self.board.ships[self.shape_count].speaker_val_update = False
         self.board.units[0].value = self.shape_areas[active.unit_id]
         self.board.units[1].value = self.shape_circ[active.unit_id]
         self.slide.value = self.shape_names[active.unit_id]
-
+        self.slide.speaker_val = self.shape_namesp[active.unit_id]
+        self.slide.speaker_val_update = False
         self.mainloop.redraw_needed[0] = True
         self.slide.set_frame(active.unit_id)
         self.board.active_ship = -1
         
+        if active.unit_id < 13:
+            self.perimeter.value = self.d["perimeter:"]
+            self.perimeter.speaker_val = self.dp["perimeter:"]
+        else:
+            self.perimeter.value = self.d["circumference:"]
+            self.perimeter.speaker_val = self.dp["circumference:"]
+        self.perimeter.speaker_val_update = False
+        self.perimeter.update_me = True
         self.slide.update_me = True
         for i in [0,1]:
             self.board.units[i].update_me = True
         self.board.ships[self.shape_count].update_me = True
+            
         
     def update(self,game):
         game.fill((255,255,255))

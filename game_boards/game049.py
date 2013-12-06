@@ -94,7 +94,12 @@ class Board(gd.BoardGame):
             data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[2]]
         elif self.level.lvl == 16:
             data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[3]]    
-
+            
+        if self.level.lvl < 9:
+            self.points = data[4] // 5 + (self.level.lvl+3) // 4
+        else:
+            self.points = data[4] // 5 + (self.level.lvl+3) // 8
+            
         self.chapters = [1,5,9,13,16]
         self.data = data
         self.layout.update_layout(data[0],data[1])
@@ -184,6 +189,8 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",5)
         self.board.ships[-1].font_color = font_color
         self.board.ships[-1].immobilize()
+        self.board.ships[-1].speaker_val = self.dp["Complete abc"]
+        self.board.ships[-1].speaker_val_update = False
         self.outline_all(0,1)   
 
     def handle(self,event):
@@ -203,9 +210,11 @@ class Board(gd.BoardGame):
                     elif self.board.ships[i].grid_y == self.data[1]-2:
                         result[self.data[0] + self.board.ships[i].grid_x] = self.board.ships[i].value
                 if self.word == result:
+                    self.update_score(self.points)
                     self.level.next_board()
                 else:
-                    self.say(self.d["Sorry! It is wrong."],6)
+                    if self.points > 0:
+                        self.points -= 1
                     self.level.try_again()
                     self.changed_since_check = False
             else:

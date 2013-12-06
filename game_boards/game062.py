@@ -34,13 +34,13 @@ class Board(gd.BoardGame):
         self.font_color = self.color2
         
 
-        choice = [x for x in range(0,21)]
-        self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["violet"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
+        choice = [x for x in range(0,20)]
+        self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
         #self.color_choice= ["white",    "black",      "grey",       "red",     "orange",  "yellow",   "olive",    "green",  "sea green","teal",     "blue",   "navy",   "purple",   "violet",     "magenta",  "indigo",  "pink"       "maroon",  "brown",     "aqua",      "lime" ]
-        self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[239,131,239],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
-        self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [189,81,189], [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
-        self.font_colorx  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255],[95,41,95],   [100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
-        self.init_font_color = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[239,131,239],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
+        self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
+        self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
+        self.font_colorx  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255],[100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
+        self.init_font_color = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
 
         font_size = 6
         self.disp_counter = 0
@@ -53,6 +53,8 @@ class Board(gd.BoardGame):
             data = [10,6,3,2,4]
         elif self.level.lvl == 3:
             data = [10,7,3,2,5]
+            
+        self.points = data[4] * 2
             
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
@@ -222,8 +224,11 @@ class Board(gd.BoardGame):
         else:
             if self.completed_mode:
                 self.history = [None, None]
+                self.update_score(self.points)
                 self.level.next_board()
             else:
+                if self.points > 0:
+                    self.points -= 1
                 self.history[0].perm_outline_width = 1
                 self.history[0].perm_outline_color = self.color2
                 self.history[1].perm_outline_width = 1

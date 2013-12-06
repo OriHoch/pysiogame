@@ -181,7 +181,7 @@ class Board(gd.BoardGame):
                 self.board.ships[1].value+=" "+self.d["Game Draw"]
                 self.board.ships[2].value+=" "+self.d["Game Draw"]
             else:
-                if self.scores[0] >= self.scores[1] and self.scores[0] >= self.scores[1]:
+                if self.scores[0] >= self.scores[1] and self.scores[0] >= self.scores[2]:
                     #Player1 - Winner
                     self.board.ships[0].value+=" "+self.d["Won"]
                 if self.scores[1] >= self.scores[0] and self.scores[1] >= self.scores[2]:

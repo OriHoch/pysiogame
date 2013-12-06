@@ -47,6 +47,7 @@ class Clock():
         #self.board.active_ship = self.clock_wrapper.unit_id 
         self.clock_wrapper.font = game_board.clock_fonts[0]
         self.clock_wrapper.font2 = game_board.clock_fonts[1]
+        self.clock_wrapper.font3 = game_board.clock_fonts[2]
         #self.clock_wrapper.immobilize()
         
         self.canvas = pygame.Surface([self.size, self.size-1]) 
@@ -107,13 +108,13 @@ class Clock():
                     val = "0"
                 a = self.angle_start + self.angle_step_60*(i+1)
                 if self.show_minutes:
-                    font_size = self.clock_wrapper.font2.size(val)
+                    font_size = self.clock_wrapper.font3.size(val)
                     #mins_offset = 
                     #if self.show_highlight:
                     if not self.show_highlight or (i+1 == time[1] or (time[1] == 0 and i==59)):
-                        text = self.clock_wrapper.font2.render("%s" % (val), 1, self.colors2[1])
+                        text = self.clock_wrapper.font3.render("%s" % (val), 1, self.colors2[1])
                     else:
-                        text = self.clock_wrapper.font2.render("%s" % (val), 1, self.colors[1])
+                        text = self.clock_wrapper.font3.render("%s" % (val), 1, self.colors[1])
                     offset3 = rs[1]+10 + 15*self.size/500.0+font_size[1]//2
                     x3=offset3*cos(a)+self.center[0] - int(font_size[0] / 2.0)
                     y3=offset3*sin(a)+self.center[1] - int(font_size[1] / 2.0)
@@ -333,15 +334,15 @@ class Board(gd.BoardGame):
         #self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
         #self.font_color = self.color2
         if self.level.lvl == 1:
-            data = [4,2,True,True,False,False,True,False,False,True,False,15]
+            data = [4,2,True,True,False,False,True,False,False,True,True,15]
             h_pool = range(1,13)
             m_pool = [0]
         elif self.level.lvl == 2:
-            data = [4,2,True,True,False,False,True,False,False,True,False,15]
+            data = [4,2,True,True,False,False,True,False,False,True,True,15]
             h_pool = range(1,13)
             m_pool = range(0,60,15)
         elif self.level.lvl == 3:
-            data = [4,2,True,True,False,False,False,True,False,True,False,15]
+            data = [4,2,True,True,False,False,False,True,False,True,True,15]
             h_pool = range(1,13)
             m_pool = range(0,60,5)
         elif self.level.lvl == 4:
@@ -462,6 +463,8 @@ class Board(gd.BoardGame):
             m_pool = range(0,60)
         """
         
+        self.pointsx = self.level.lvl // 4 + 4
+        
         #visual display properties
         self.show_outer_ring = data[2]
         self.show_minutes = data[3]
@@ -517,8 +520,9 @@ class Board(gd.BoardGame):
         self.size = self.board.scale
         self.clock_fonts = []
         self.points = int(round((self.board.scale * 72 /96)*1.2,0))
-        self.clock_fonts.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(42*self.size/500.0))))))  
-        self.clock_fonts.append(pygame.font.Font(os.path.join('fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
+        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(42*self.size/500.0))))))  
+        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
+        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSans.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
         #ans_offset = 10+(data[0]-15)//2
         #self.board.add_unit(10,0,data[0]-10,2,classes.board.Label,self.lang.d["Set_clock_instr"],white,"",2)
         #self.board.units[-1].font_color = gray
@@ -800,8 +804,11 @@ class Board(gd.BoardGame):
         else:
             if self.completed_mode:
                 self.history = [None, None]
+                self.update_score(self.pointsx)
                 self.level.next_board()
             else:
+                if self.pointsx > 0:
+                    self.pointsx -= 1
                 self.history[0].perm_outline_width = 1
                 self.history[0].perm_outline_color = self.colors2[1]
                 self.history[1].perm_outline_width = 1

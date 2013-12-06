@@ -30,22 +30,22 @@ class Board(gd.BoardGame):
 
         #data = [x_count, y_count, letter_count, top_limit, ordered]
         if self.level.lvl == 1:
-            data = [15,9,15,0]
+            data = [15,9,15,0,1]
         elif self.level.lvl == 2:
-            data = [15,9,15,1]
+            data = [15,9,15,1,1]
         elif self.level.lvl == 3:
-            data = [15,9,15,2]
+            data = [15,9,15,2,1]
         elif self.level.lvl == 4:
-            data = [15,9,15,3]
+            data = [15,9,15,3,1]
         elif self.level.lvl == 5:
-            data = [15,9,30,4]
+            data = [15,9,30,4,2]
         elif self.level.lvl == 6:
-            data = [15,9,30,5]
+            data = [15,9,30,5,2]
         elif self.level.lvl == 7:
-            data = [15,9,30,6]
+            data = [15,9,30,6,3]
         elif self.level.lvl == 8:
-            data = [15,9,30,7]
-            
+            data = [15,9,30,7,3]
+        self.points = data[4]
         letter_table =  []
         letter_table.extend(self.lang.alphabet_lc)
         letter_table.extend(self.lang.accents_lc)  
@@ -112,10 +112,11 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,data[1]-2,data[0],1,classes.board.Letter,self.d["Write a word:"],color0,"",1)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
+        self.board.ships[-1].speaker_val = self.dp["Write a word:"]
+        self.board.ships[-1].speaker_val_update = False
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,self.word,color0,"",0)
         self.board.ships[-1].immobilize()   
-        self.board.ships[-1].font_color = font_color     
-        self.say(self.word,2)
+        self.board.ships[-1].font_color = font_color
         self.outline_all(0,1)
 
     def handle(self,event):
@@ -134,9 +135,9 @@ class Board(gd.BoardGame):
                         result[self.board.ships[i].grid_x] = self.board.ships[i].value
                 result_s = ''.join(result).strip()
                 if self.word == result_s:
+                    self.update_score(self.points)
                     self.level.next_board()
                 else:
-                    self.say(self.d["Sorry! It is wrong."],6)
                     self.level.try_again()
                     self.changed_since_check = False
             else:

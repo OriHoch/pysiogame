@@ -6,12 +6,12 @@ import os, sys
 class Config():
     'holds some basic configuration data - screen size among others'
     def __init__(self):
-        self.version = "1.30.811"
+        self.version = "2.31.203.2-dev"
         #Screen Settings
         #set this to False if you want to manually set the screen size, but if you have manually resized the window the latest size will be used instead
         #self.screen_size_autodetect = True
         #self.screen_size_autodetect = False
-        self.size_changed = False
+        self.settings_changed = False
         #enter the size of your screen manually if not using auto-detection
         #this will be overridden if self.screen_size_autodetect is set to True and if used earlier - the saved size will be used
 
@@ -19,7 +19,7 @@ class Config():
         self.fs_height = 768
         
         #size_limits - don't let window resizing get out of hand [min_w, min_h, max_w, max_h]
-        self.size_limits = [670,480,2000,2000] #[670,480,2000,2000] #670 - minimum to fit all buttons, 2000 - with over 2000 pixels each way pygame is not redrawing very well
+        self.size_limits = [800,480,2000,2000] #[670,480,2000,2000] #800 - minimum to fit all buttons, 2000 - with over 2000 pixels each way pygame is not redrawing very well
         #self.fs_width = 1440
         #self.fs_height = 900
         
@@ -42,7 +42,7 @@ class Config():
         self.google_trans_languages = False
         
         #Window title
-        self.window_caption = "pySioGame - Educational Activity Pack for Kids"
+        self.window_caption = "pySioGame - v " + self.version
         
         """
         #file names paths to level and language files
@@ -69,6 +69,7 @@ class Config():
                 
             self.file_level = os.path.join(directory, 'level_data.txt')
             self.file_settings = os.path.join(directory, 'settings.txt')
+            self.file_db = os.path.join(directory, 'pysiogame.db')
             
         else: #if p == "darwin" or p == "win32" or p == "cygwin":
             self.file_level = os.path.abspath(os.path.expanduser("~/.config/pysiogame/level_data.txt"))
@@ -83,29 +84,66 @@ class Config():
             
         #default settings
         self.loaded_settings = False
-        #[language, talkative, untranslated languages, full screen, user_name, screen_w, screen_h]
-        self.default_settings = ["en_gb",1,0,0,"", 0, 0]
-        self.settings = []
-        self.load_settings()
-        if len(self.settings) != 7:
-            self.settings = self.default_settings
+        """
+        lang, 
+        sounds, 
+        espeak, 
+        screenw, 
+        screenh
+        """
+        #[0 language, 1 talkative, 2 untranslated languages, 3 full screen, 4 user_name, 5 screen_w, 6 screen_h]
+        
+        #self.default_settings = ["en_gb",1,0,0,"", 0, 0]
+        self.settings = dict()
+        #self.load_settings()
+        #if len(self.settings) != 7:
+        #    self.settings = self.default_settings
+        
+        #language settings
+        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Deutsch","Français", "Suomalainen", "Test Language"]
+        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","de","fr","fi","te_ST"]
+        self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT", "ru"]
             
     def reset_settings(self):
-        self.settings = self.default_settings
+        pass
+        #self.settings = self.default_settings
         
-    def load_settings(self):
+    def load_settings(self, db, userid):
         'loads saved settings from pickled file - language and screen size dimensions and mode'
+        #load user settings
+        u = db.load_user_settings(userid)
+        
+        #load admin settings
+        a = db.get_login_defs()
+        #lang, sounds, espeak, screenw, screenh
+
+        
+        self.settings["extra_langs"] = int(a[1][2])
+        self.settings["full_screen"] = int(a[1][0])
+        
+        self.settings["lang"] = u[0]
+        self.settings["sounds"] = u[1]
+        self.settings["espeak"] = u[2]
+        self.settings["screenw"] = u[3]
+        self.settings["screenh"] = u[4]
+        self.loaded_settings = True
+        """
         try:
             with open(self.file_settings,"rb") as s_file:
                 self.settings = pickle.load(s_file)
             self.loaded_settings = True
         except:
             self.settings = self.default_settings
+        """
             
-    def save_settings(self):
+            
+    def save_settings(self, db):
         'save settings to file'
+        db.save_user_settings(self.settings["lang"], self.settings["sounds"], self.settings["espeak"], self.settings["screenw"], self.settings["screenh"])
+        """
         try:
             with open(self.file_settings, "wb") as s_file:
                 pickle.dump(self.settings, s_file)
         except:
             print('Could not save settings')
+        """

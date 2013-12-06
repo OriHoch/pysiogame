@@ -56,7 +56,7 @@ class Board(gd.BoardGame):
             data = [11,6,11,20,6,5] 
         elif self.level.lvl == 15:
             data = [11,6,11,99,6,5]
-            
+        self.points = (data[4] - 1 ) * 2
         self.chapters = [1,4,7,10,13,15]
 
         self.data = data
@@ -114,6 +114,10 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,5,11,1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
+        
+        self.board.ships[-1].speaker_val = self.dp["Drag the slider"]
+        self.board.ships[-1].speaker_val_update = False
+        
         self.outline_all(0,1)
 
     def handle(self,event):
@@ -136,9 +140,11 @@ class Board(gd.BoardGame):
             eval_string = ''.join(self.expression)
             eval_string.strip()
             if eval(eval_string)==True:
+                self.update_score(self.points)
                 self.level.next_board()
             else:
-                self.say(self.d["Sorry! It is wrong."])
+                if self.points > 0:
+                    self.points -= 1
                 self.level.try_again()
                 self.changed_since_check = False
                 
