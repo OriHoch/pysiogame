@@ -4,10 +4,14 @@ Please note - this game is playable but still unfinished - or rather is being co
 
 Please let me know if you find any errors or bugs in the game or in translations, formulas or other game content.
 
-pySioGame is built with Linux users in mind - written in python and tested on Ubuntu. Sorry no Windows version as yet.
+pySioGame is built with Linux users in mind - written in python and tested on Ubuntu, however it does work on Windows just not tested as thoroughly as on Linux.
 
 The game is intended to be compatible with python 2.7.3+ including python 3.x.
 Some changes made to make it compatible with older versions of python as well - but recent versions not tested.
+
+----------------------------------------------
+
+Linux installation
 
 In order to run this game you need the python-pygame package installed.
 To check if you have it run the following lines in terminal (Ctrl+Atl+T):
@@ -28,6 +32,23 @@ python /home/user/path/to/the/game/pysiogame.py
 python3 /home/user/path/to/the/game/pysiogame.py
 
 Should start with double click if marked as executable (Right-click -> Properties -> Permissions -> Allow executing file as program) or if you like you can create a custom launcher using one of the above lines for the command line field (obviously after changing the path to the program first). The pysiogame_icon_48.png file from res/pysiogame_icon folder can be used as the icon for the launcher.
+
+----------------------------------------------
+
+Windows installation
+
+Download and install python 2.7 32bit - http://www.python.org/getit/
+Download and install espeak 32bit - http://espeak.sourceforge.net/download.html
+Download and install pygame for python 2.7 + 32bit  - http://www.pygame.org/install.html
+
+Add espeak to your path (sorry, but this requires some technical windows knowledge)
+you should have something like this in your PATH variable:
+C:\Program Files (x86)\eSpeak\command_line;(... other paths ...)
+
+Download pysiogame and extract it somewhere, for example c:\pysiogame
+
+To run pysiogame you can add a shortcut on the desktop to:
+c:\python27\python.exe c:\pysiogame\pysiogame.py
 
 ----------------------------------------------
 
