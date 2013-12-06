@@ -75,6 +75,7 @@ class Config():
             self.file_level = os.path.abspath(os.path.expanduser("~/.config/pysiogame/level_data.txt"))
             self.file_settings = os.path.abspath(os.path.expanduser("~/.config/pysiogame/settings.txt"))
             directory = os.path.dirname(self.file_level)
+            self.file_db = os.path.join(directory, 'pysiogame.db')
             
         try:
             if not os.path.exists(directory):

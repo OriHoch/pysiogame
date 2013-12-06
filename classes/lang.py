@@ -13,7 +13,13 @@ class Language():
         lib_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
         self.locale_dir = unival(os.path.join(lib_dir, 'locale/'))
         
-        locale.setlocale(locale.LC_MESSAGES, '') # use user's preferred locale
+        # use user's preferred locale
+        if 'LC_MESSAGES' in vars(locale):
+            # linux
+            locale.setlocale(locale.LC_MESSAGES, '')
+        else:
+            # windows
+            locale.setlocale(locale.LC_ALL, '')
         
         self.config = configo
         self.alphabet_26 = ["en_GB","en_US","pt_PT"]
