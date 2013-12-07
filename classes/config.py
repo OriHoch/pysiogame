@@ -101,8 +101,8 @@ class Config():
         #    self.settings = self.default_settings
         
         #language settings
-        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Deutsch","Français", "Suomalainen", "Test Language"]
-        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","de","fr","fi","te_ST"]
+        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Deutsch","Français", "Suomalainen", "עברית", "Test Language"]
+        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","de","fr","fi","he","te_ST"]
         self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT", "ru"]
             
     def reset_settings(self):

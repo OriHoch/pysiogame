@@ -4,6 +4,7 @@ import threading
 import os
 import subprocess
 import signal
+import pygame.mixer
 
 class Speaker(threading.Thread):
     def __init__(self, lang, configo):
@@ -24,22 +25,28 @@ class Speaker(threading.Thread):
         
     def start_server(self):
         if self.enabled:
-            #prior to lang
-            #voices = ["-s 190 -a 100 -p 75 -ven+m1 ", "-s 170 -a 100 -p 80 -ven+m2 ","-s 175 -a 100 -p 80 -ven+m3 ","-s 190 -a 100 -p 60 -ven+f1 ","-s 170 -a 100 -p 75 -ven+f2 ","-s 170 -a 100 -p 80 -ven+m2 "]
-            #attr = voices[4]
-            #attr = self.lang.voice
-            cmd = ['espeak']
-            cmd.extend(self.lang.voice)
-            try:
-                self.process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                self.started = True
-                #self.contactable = True
+            if self.lang.pre_recorded_voice is None:
+                #prior to lang
+                #voices = ["-s 190 -a 100 -p 75 -ven+m1 ", "-s 170 -a 100 -p 80 -ven+m2 ","-s 175 -a 100 -p 80 -ven+m3 ","-s 190 -a 100 -p 60 -ven+f1 ","-s 170 -a 100 -p 75 -ven+f2 ","-s 170 -a 100 -p 80 -ven+m2 "]
+                #attr = voices[4]
+                #attr = self.lang.voice
+                cmd = ['espeak']
+                cmd.extend(self.lang.voice)
+                try:
+                    self.process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    self.started = True
+                    #self.contactable = True
+                    self.spk = self.process
+                except:
+                    self.enabled = False
+                    self.started = False
+                    print("pySioGame: You may like to install espeak to get some extra functionality, however this is not required to successfully use the game.")
+                #stdout and stderr only used to hide the messages from terminal
+            else:
+                self.channel = pygame.mixer.Channel(5)
+                self.process = 'prerecorded'
                 self.spk = self.process
-            except:
-                self.enabled = False
-                self.started = False
-                print("pySioGame: You may like to install espeak to get some extra functionality, however this is not required to successfully use the game.")
-            #stdout and stderr only used to hide the messages from terminal
+                self.started = True
             
     def start_server_en(self):
         if self.enabled:
@@ -66,7 +73,7 @@ class Speaker(threading.Thread):
         pass
         
     def stop_server(self):
-        if self.enabled and self.started:
+        if self.enabled and self.started and self.process != 'prerecorded':
             self.process.stdin.close()
             self.process.stdout.close()
             self.process.stderr.close()
@@ -95,14 +102,31 @@ class Speaker(threading.Thread):
                 text = text.encode("utf-8")
             except:
                 pass
-                
-            try:
-                #print(text)
-                self.spk.stdin.write(text)
-                #self.process.stdin.write(text.encode())
-                self.spk.stdin.flush()
-            except:
-                pass
+            
+            if self.process == 'prerecorded':
+                i = 0
+                tokens = {}
+                for k in sorted(self.lang.pre_recorded_voice, key=len, reverse=True):
+                    if text.find(k) > -1:
+                        text = text.replace(k, '|!~~V'+str(i)+'|!')
+                        tokens[i] = self.lang.pre_recorded_voice[k]
+                        i = i + 1
+                for v in text.split('|!'):
+                    if v.startswith('~~V'):
+                        v = v.replace('~~V', '')
+                        v = int(v)
+                        k = tokens[v]
+                        if self.channel is None:
+                            self.channel = pygame.mixer.Channel(5)
+                        self.channel.queue(k)
+            else:
+                try:
+                    #print(text)
+                    self.spk.stdin.write(text)
+                    #self.process.stdin.write(text.encode())
+                    self.spk.stdin.flush()
+                except:
+                    pass
             
     def check_letter_name(self,text):
         if sys.version_info < (3, 0):

@@ -61,6 +61,8 @@ class Language():
         import i18n.custom.default
         self.oi18n = i18n.custom.default.I18n()
         
+        self.pre_recorded_voice = None
+        
         if self.lang == 'en_US':
             import i18n.custom.en_us
             import i18n.custom.word_lists.en_us_di
@@ -156,6 +158,16 @@ class Language():
             self.voice = ["-ven+m1"]
             self.di = i18n.custom.word_lists.te_st_di.di
             self.lang_file = i18n.custom.te_st
+        elif self.lang == 'he':
+            import i18n.custom.he
+            import i18n.custom.word_lists.he_di
+            import i18n.custom.voice.he
+            self.voice = ["-ven+m1"]
+            self.pre_recorded_voice = i18n.custom.voice.he.voice
+            self.di = i18n.custom.word_lists.he_di.di
+            self.lang_file = i18n.custom.he
+            #self.kbrd = i18n.custom.kbrd.he
+            #self.kbrd_course_mod = i18n.custom.kbrd.en_course
         else:# self.lang == 'en_GB':
             import i18n.custom.en_gb
             import i18n.custom.word_lists.en_gb_di
