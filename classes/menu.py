@@ -255,12 +255,15 @@ class Menu:
     """
 
     def save_levels(self):
+        pass
+        """        
         if self.mainloop.config.save_levels:
             try:
                 file_name = self.mainloop.config.file_level
                 self.commit_save(file_name)
             except:
                 print('Sorry could not save levels...')
+        """
                 
     def commit_save(self, file_name):
         pass
@@ -274,7 +277,7 @@ class Menu:
         self.games = []
         self.games_current = []
         self.bookmarks = []
-        self.scroll_btns = []
+        #self.scroll_btns = []
         
         self.saved_levels = dict()
         
@@ -285,10 +288,10 @@ class Menu:
         self.categories_list.add(self.bookmarks[0])
         self.categories_list.move_to_back(self.bookmarks[0])
         self.add_bookmark("","tab_r.png")
-        self.add_scroll_btns()
+        #self.add_scroll_btns()
         self.update_scroll_pos()
-        self.categories_list.add(self.scroll_btns[0])
-        self.categories_list.move_to_front(self.scroll_btns[0])
+        #self.categories_list.add(self.scroll_btns[0])
+        #self.categories_list.move_to_front(self.scroll_btns[0])
         #reload level
         self.load_levels()
         
@@ -332,9 +335,10 @@ class Menu:
                     else:
                         self.reset_titles()
                         
-                    if pos[1] > self.mainloop.size[1]-20:# and self.scroll_l == 0:
+                    if pos[1] > self.mainloop.size[1]-30:# and self.scroll_l == 0:
                         self.scroll_direction = 1
-                    elif self.l.misio_pos[3]-20 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_l < 0:
+                    #elif self.l.misio_pos[3]-20 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_l < 0:
+                    elif 0 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_l < 0:
                         self.scroll_direction = -1
                     else:
                         self.scroll_direction = 0
@@ -381,9 +385,9 @@ class Menu:
                             self.mainloop.redraw_needed[1] = True
                     else:
                         self.reset_titles()
-                    if pos[1] > self.mainloop.size[1]-20:# and self.scroll_r >= 0:
+                    if pos[1] > self.mainloop.size[1]-30:# and self.scroll_r >= 0:
                         self.scroll_direction = 1
-                    elif self.l.misio_pos[3]-20 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_r < 0:
+                    elif 0 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_r < 0:
                         self.scroll_direction = -1
                     else:
                         self.scroll_direction = 0
@@ -404,9 +408,12 @@ class Menu:
                         self.tab_game_id = row
                         self.game_constructor = self.games_current[row].game_constructor
                         self.game_variant = self.games_current[row].variant
-                        
+                        #self.mainloop.info.title_space = self.mainloop.info.width - 10
                         #switch active speaker and replace some strings temporarily
                         
+                        if self.mainloop.config.settings["sounds"]:
+                            s4.play()
+                            
                         if self.mainloop.lang.lang[0:2] != "en":
                             #game_boards.game049.Board
                             n = str(self.game_constructor)[16:19]
@@ -421,8 +428,6 @@ class Menu:
                                 self.lang.dp["Perfect! Level completed!"] = self.lang.lang_file.dp["Perfect! Level completed!"]
                                 self.lang.dp["Great job!"] = self.lang.lang_file.dp["Great job!"]
                         
-                        if self.mainloop.config.settings["sounds"]:
-                            s4.play()
                         self.mainloop.score = 0  
                         self.mainloop.redraw_needed = [True, True, True]
             elif event.type  == pygame.MOUSEBUTTONDOWN and event.button == 4:
@@ -480,11 +485,15 @@ class Menu:
         self.add_scroll_btn("arrow_r2.png")
             
     def update_scroll_pos(self):
+        pass
+        """
         pos = [[9+self.x_margin,self.mainloop.size[1]-13],[9+self.x_margin,self.mainloop.size[1]-13]]
+        
         i=0        
         for each_item in self.scroll_btns:
             each_item.rect.topleft = pos[i]
             i+=1
+        """
         
     def add_category(self,title,subtitle,img_src):
         new_category = MenuCategory(len(self.categories),title,subtitle,self.cat_icon_size,img_src)
@@ -495,7 +504,8 @@ class Menu:
         self.add_category(self.lang.d["Info Category"],"","ico_c_00.png")
         #self.add_category(self.lang.d["Working with large numbers"],"","ico_g_9999.png")
         self.add_category(self.lang.d["Discover Letters"],"","ico_c_01.png")
-        self.add_category(self.lang.d["Learn Words"],"","ico_c_02.png")
+        if  self.mainloop.lang.lang[0:2] != "he":
+            self.add_category(self.lang.d["Learn Words"],"","ico_c_02.png")
         if self.mainloop.lang.lang[0:2] != "en":
             self.add_category(self.lang.d["English"],"","ico_c_12.png")
         self.add_category(self.lang.d["Maths"],self.lang.d["Numbers & Basic Operations"],"ico_c_03a.png")
@@ -558,7 +568,8 @@ class Menu:
 
         self.add_game(11,c_id,game049.Board,self.lang.d["Complete the ABC"],self.lang.d["in your language"],"ico_g_0104.png")
         self.add_game(12,c_id,game047.Board,self.lang.d["Sorting Letters"],self.lang.d["Lowercase Letters"],"ico_g_0105.png")
-        self.add_game(13,c_id,game048.Board,self.lang.d["Sorting Letters"]+" ",self.lang.d["Uppercase Letters"],"ico_g_0106.png")
+        if self.lang.has_uc:
+            self.add_game(13,c_id,game048.Board,self.lang.d["Sorting Letters"]+" ",self.lang.d["Uppercase Letters"],"ico_g_0106.png")
         
         if self.mainloop.lang.lang in ["en_GB","en_US","pl","ru"] and self.mainloop.fs_size[1] > 440:
             self.add_game(14,c_id,game016.Board,self.lang.d["Keyboard Skills"],self.lang.d["Touch Typing"],"ico_g_0107.png")
@@ -570,24 +581,25 @@ class Menu:
         #self.add_game(c_id,game006.Board,self.lang.d["Sorting Letters"],self.lang.d["Lowercase Letters"],"ico_g_0000.png")
         #self.add_game(c_id,game007.Board,self.lang.d["Sorting Letters"]+" ",self.lang.d["Uppercase Letters"],"ico_g_0000.png")
         
-        c_id += 1
-        self.add_game(17,c_id,game013.Board,self.lang.d["Word Builder"],"","ico_g_0200.png")
-        self.add_game(18,c_id,game023.Board,self.lang.d["Word Maze"],self.lang.d["Collect all"],"ico_g_0201.png")
-        self.add_game(19,c_id,game025.Board,self.lang.d["Word Maze + 4"],self.lang.d["Collect all"],"ico_g_0202.png")
-        if self.mainloop.lang.lang[0:2] == "en":
-            self.add_game(107,c_id,game082.Board,self.lang.d["Word Builder - Animals"],self.lang.d["Complete the word"],"ico_g_0203.png",variant=0)
-            self.add_game(108,c_id,game082.Board,self.lang.d["Word Builder - Sports"],self.lang.d["Complete the word"],"ico_g_0204.png",variant=1)
-            self.add_game(109,c_id,game082.Board,self.lang.d["Word Builder - Body"],self.lang.d["Complete the word"],"ico_g_0205.png",variant=2)
-            self.add_game(110,c_id,game082.Board,self.lang.d["Word Builder - People"],self.lang.d["Complete the word"],"ico_g_0206.png",variant=3)
-            self.add_game(111,c_id,game082.Board,self.lang.d["Word Builder - Actions"],self.lang.d["Complete the word"],"ico_g_0209.png",variant=4)
-            self.add_game(112,c_id,game082.Board,self.lang.d["Word Builder - Constructions"],self.lang.d["Complete the word"],"ico_g_0210.png",variant=5)
-            self.add_game(113,c_id,game082.Board,self.lang.d["Word Builder - Nature"],self.lang.d["Complete the word"],"ico_g_0211.png",variant=6)
-            self.add_game(114,c_id,game082.Board,self.lang.d["Word Builder - Jobs"],self.lang.d["Complete the word"],"ico_g_0212.png",variant=7)
-            self.add_game(115,c_id,game082.Board,self.lang.d["Word Builder - Clothes and Accessories"],self.lang.d["Complete the word"],"ico_g_0208.png",variant=8)
-            self.add_game(116,c_id,game082.Board,self.lang.d["Word Builder - Fruits and Vegetables"],self.lang.d["Complete the word"],"ico_g_0213.png",variant=9)
-            self.add_game(117,c_id,game082.Board,self.lang.d["Word Builder - Transport"],self.lang.d["Complete the word"],"ico_g_0214.png",variant=10)
-            self.add_game(118,c_id,game082.Board,self.lang.d["Word Builder - Food"],self.lang.d["Complete the word"],"ico_g_0207.png",variant=11)
-            #self.add_game(106,c_id,game083.Board,"Title","sub-title","ico_g_9998.png")
+        if  self.mainloop.lang.lang[0:2] != "he":
+            c_id += 1
+            self.add_game(17,c_id,game013.Board,self.lang.d["Word Builder"],"","ico_g_0200.png")
+            self.add_game(18,c_id,game023.Board,self.lang.d["Word Maze"],self.lang.d["Collect all"],"ico_g_0201.png")
+            self.add_game(19,c_id,game025.Board,self.lang.d["Word Maze + 4"],self.lang.d["Collect all"],"ico_g_0202.png")
+            if self.mainloop.lang.lang[0:2] == "en":
+                self.add_game(107,c_id,game082.Board,self.lang.d["Word Builder - Animals"],self.lang.d["Complete the word"],"ico_g_0203.png",variant=0)
+                self.add_game(108,c_id,game082.Board,self.lang.d["Word Builder - Sports"],self.lang.d["Complete the word"],"ico_g_0204.png",variant=1)
+                self.add_game(109,c_id,game082.Board,self.lang.d["Word Builder - Body"],self.lang.d["Complete the word"],"ico_g_0205.png",variant=2)
+                self.add_game(110,c_id,game082.Board,self.lang.d["Word Builder - People"],self.lang.d["Complete the word"],"ico_g_0206.png",variant=3)
+                self.add_game(111,c_id,game082.Board,self.lang.d["Word Builder - Actions"],self.lang.d["Complete the word"],"ico_g_0209.png",variant=4)
+                self.add_game(112,c_id,game082.Board,self.lang.d["Word Builder - Constructions"],self.lang.d["Complete the word"],"ico_g_0210.png",variant=5)
+                self.add_game(113,c_id,game082.Board,self.lang.d["Word Builder - Nature"],self.lang.d["Complete the word"],"ico_g_0211.png",variant=6)
+                self.add_game(114,c_id,game082.Board,self.lang.d["Word Builder - Jobs"],self.lang.d["Complete the word"],"ico_g_0212.png",variant=7)
+                self.add_game(115,c_id,game082.Board,self.lang.d["Word Builder - Clothes and Accessories"],self.lang.d["Complete the word"],"ico_g_0208.png",variant=8)
+                self.add_game(116,c_id,game082.Board,self.lang.d["Word Builder - Fruits and Vegetables"],self.lang.d["Complete the word"],"ico_g_0213.png",variant=9)
+                self.add_game(117,c_id,game082.Board,self.lang.d["Word Builder - Transport"],self.lang.d["Complete the word"],"ico_g_0214.png",variant=10)
+                self.add_game(118,c_id,game082.Board,self.lang.d["Word Builder - Food"],self.lang.d["Complete the word"],"ico_g_0207.png",variant=11)
+                #self.add_game(106,c_id,game083.Board,"Title","sub-title","ico_g_9998.png")
             
         if self.mainloop.lang.lang[0:2] != "en":
             c_id += 1
@@ -788,8 +800,8 @@ class Menu:
         #Draw all spites
         self.categories_list.draw(menu_l)
         self.games_in_current_cat.draw(menu_r)
-        for each in self.scroll_btns:
-            each.update()
+        #for each in self.scroll_btns:
+        #    each.update()
                     
     def change_category(self, cat_id):
         if self.prev_cat != self.active_cat:
@@ -807,6 +819,6 @@ class Menu:
         self.games_in_current_cat.add(self.bookmarks[1])
         self.games_in_current_cat.move_to_back(self.bookmarks[1])
         self.prev_cat = self.active_cat
-        self.games_in_current_cat.add(self.scroll_btns[1])
-        self.games_in_current_cat.move_to_front(self.scroll_btns[1])
+        #self.games_in_current_cat.add(self.scroll_btns[1])
+        #self.games_in_current_cat.move_to_front(self.scroll_btns[1])
         self.game_h = len(self.games_current)*(self.icon_size+self.y_margin)#-self.y_margin

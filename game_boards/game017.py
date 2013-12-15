@@ -26,14 +26,17 @@ class Board(gd.BoardGame):
         font_color = ex.hsv_to_rgb(h,s,75)
         outline_color =  ex.hsv_to_rgb(h,s+50,v-50)
         frame_color = [255,255,255]
-        card_color = ex.hsv_to_rgb(h+10,s-25,v)
+        card_color = (255,255,255)#ex.hsv_to_rgb(h+10,s-25,v)
         
         if self.lang.lang == 'fr':
             lc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
             uc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         else:
-            uc = self.lang.alphabet_uc    
+            
             lc = self.lang.alphabet_lc
+            if self.lang.has_uc:
+                uc = self.lang.alphabet_uc
+            
         self.abc_len = len(lc)
         h = int(math.ceil(self.abc_len/3.0))
 
@@ -64,50 +67,91 @@ class Board(gd.BoardGame):
 
         if self.lang.lang == "el":
             self.font_size = 16
-
-        x = 0
-        x2 = 0 #(data[0] - (33 - data[0]-data[0]))//2
+        if self.lang.ltr_text:
+            x = 0
+            x2 = 0
+        else:
+            x = data[0] - 2
+            x2 = data[0] - 2
         y = 0
         
         for i in range(self.abc_len):
-            self.board.add_unit(x,y,2,1,classes.board.Letter,uc[i]+lc[i],self.letter_color,"",3)
+            if self.lang.has_uc:
+                caption = uc[i]+lc[i]
+            else:
+                caption = lc[i]
+            self.board.add_unit(x,y,2,1,classes.board.Letter,caption,self.letter_color,"",3)
             self.board.ships[i].readable = False
             self.board.ships[i].set_outline(outline_color,1)
             y += 1
             if y >= data[1]:
                 if i > 2*data[1]-2:
-                    x = 4
+                    if self.lang.ltr_text:
+                        x = 4
+                    else:
+                        x = data[0] - 6
                     y = 0 #data[1]-1
                 else:
-                    x = 2
+                    if self.lang.ltr_text:
+                        x = 2
+                    else:
+                        x = data[0] - 4
                     y = 0 #data[1]-2
-
-        x=(data[0]-4+3+3)//2
-        y=1
+        if self.lang.ltr_text:
+            x=(data[0]-4+3+3)//2
+        else:
+            x=(data[0]-10)//2
+        
+        if self.lang.has_cursive:
+            y = 1
+        else:
+            y = 2
         
         #Card
-        self.board.add_unit(x-2,y+1,2,1,classes.board.Label,uc[0],card_color,"",0)
-        self.board.add_unit(x+4,y+1,2,1,classes.board.Label,lc[0],card_color,"",0)
-        self.board.add_unit(x-2,y+2,2,2,classes.board.Label,uc[0],card_color,"",self.font_size)
-        self.board.add_unit(x+4,y+2,2,2,classes.board.Label,lc[0],card_color,"",self.font_size)
-
+        if self.lang.has_uc:
+            w = 8
+            xd = 0
+        else:
+            w = 6
+            xd = 1
+        if self.lang.has_uc:
+            img_plus = 0
+            self.board.add_unit(x,y,2,1,classes.board.Label,uc[0],card_color,"",0)
+            if self.lang.has_cursive:
+                self.board.add_unit(x-2,y+1,2,3,classes.board.Label,uc[0],card_color,"",self.font_size)
+        
+            self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
+            if self.lang.has_cursive:
+                self.board.add_unit(x+4-xd,y+1,2,3,classes.board.Label,lc[0],card_color,"",self.font_size)
+        else:
+            img_plus = 1
+            if self.lang.has_cursive:
+                self.board.add_unit(x+1-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
+                self.board.add_unit(x+3-xd,y,2,1,classes.board.Label,lc[0],card_color,"",self.font_size)
+            else:
+                self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
+                
         #frame size 288 x 216        
         #self.board.add_unit(x,y+1,4,3,classes.board.MultiImgSprite,self.word_list[0],card_color,"flashcard_images.jpg",row_data=[10,8])
         img_src = os.path.join('fc', "fc%03i.jpg" % self.frame_flow[0])
-        self.board.add_unit(x,y+1,4,3,classes.board.ImgShip,self.word_list[0],card_color,img_src)
+        self.board.add_unit(x-xd+img_plus,y+1,4,3,classes.board.ImgShip,self.word_list[0],card_color,img_src)
         self.board.ships[-1].speaker_val = self.pword_list[0]
         self.board.ships[-1].speaker_val_update = False
         
-        self.board.add_unit(x-2,y,8,1,classes.board.Letter,self.word_list[0],card_color,"",2)
+        self.board.add_unit(x-2+xd,y+4,w,1,classes.board.Letter,self.word_list[0],card_color,"",2)
         self.board.ships[-1].speaker_val = self.pword_list[0]
         self.board.ships[-1].speaker_val_update = False
-        self.board.add_unit(x-2,y+4,8,2,classes.board.Letter,self.word_list[0],card_color,"",self.font_size)
-        self.board.ships[-1].speaker_val = self.pword_list[0]
-        self.board.ships[-1].speaker_val_update = False
-        
-        self.board.add_door(x-2,y,8,6,classes.board.Door,"",card_color,"")
-        self.board.units[4].door_outline = True
-        self.board.all_sprites_list.move_to_front(self.board.units[4])
+        if self.lang.has_cursive:
+            self.board.add_unit(x-2+xd,y+5,w,2,classes.board.Letter,self.word_list[0],card_color,"",self.font_size)
+            self.board.ships[-1].speaker_val = self.pword_list[0]
+            self.board.ships[-1].speaker_val_update = False
+            h = 7
+        else:
+            h = 5
+        self.board.add_door(x-2+xd,y,w,h,classes.board.Door,"",card_color,"")
+        #self.board.units[-1].door_outline = True
+        self.board.units[-1].set_outline(color = outline_color, width = 2)
+        self.board.all_sprites_list.move_to_front(self.board.units[-1])
         self.slide = self.board.ships[self.abc_len]
 
         #self.slide.build_frame_flow(self.abc_len,self.frame_flow)
@@ -147,22 +191,33 @@ class Board(gd.BoardGame):
         else:
             self.say(val[0])
         self.board.units[0].value = val[0]
-        self.board.units[1].value = val[1]
-        
-        self.board.units[2].value = val[0]
-        self.board.units[3].value = val[1]
+        if self.lang.has_cursive:
+            self.board.units[1].value = val[0]
+        indx = [0,1]
+        if self.lang.has_uc:
+            if self.lang.has_cursive:
+                indx = [0,1,2,3]
+                self.board.units[2].value = val[1]
+                self.board.units[3].value = val[1]
+            else:
+                self.board.units[1].value = val[1]
         display_word = True
-
-        self.board.ships[self.abc_len+2].value = self.word_list[active.unit_id]
-        self.board.ships[self.abc_len+2].speaker_val = self.pword_list[active.unit_id]
-        #self.board.ships[-1].speaker_val_update = False
-
-
+        
         self.board.ships[self.abc_len].value = self.word_list[active.unit_id]
         self.board.ships[self.abc_len].speaker_val = self.pword_list[active.unit_id]
+        
         self.board.ships[self.abc_len+1].value = self.word_list[active.unit_id]
         self.board.ships[self.abc_len+1].speaker_val = self.pword_list[active.unit_id]
-        self.mainloop.redraw_needed[0] = True
+            
+        if self.lang.has_cursive:
+            indx2 = [self.abc_len, self.abc_len+1, self.abc_len+2]
+            self.board.ships[self.abc_len+2].value = self.word_list[active.unit_id]
+            self.board.ships[self.abc_len+2].speaker_val = self.pword_list[active.unit_id]
+            #self.board.ships[-1].speaker_val_update = False
+    
+        else:
+            indx2 = [self.abc_len, self.abc_len+1]
+        
         #self.slide.set_frame(active.unit_id)
         
         img_src = os.path.join('fc', "fc%03i.jpg" %  self.frame_flow[active.unit_id])
@@ -171,10 +226,11 @@ class Board(gd.BoardGame):
         self.board.active_ship = -1
         
         self.slide.update_me = True
-        for i in [0,1,2,3]:
+        for i in indx:
             self.board.units[i].update_me = True
-        for i in [self.abc_len, self.abc_len+1, self.abc_len+2]:
+        for i in indx2:
             self.board.ships[i].update_me = True
+        self.mainloop.redraw_needed[0] = True
         
     def update(self,game):
         game.fill((255,255,255))

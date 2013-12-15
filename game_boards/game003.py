@@ -60,8 +60,9 @@ class Board(gd.BoardGame):
         x = self.center - self.lang_count
         
         self.board.add_unit(0,0,data[0],2,classes.board.Label,self.d["Language"]+":",color,"",25)
-        self.board.units[-1].font_color = (136,201,255)
-        self.board.units[-1].color = (70,70,70)
+        self.board.units[-1].font_color = (255,75,0,0)
+        #self.board.units[-1].font_color = (136,201,255)
+        #self.board.units[-1].color = (70,70,70)
         
         lang = self.mainloop.config.settings["lang"]
         lng_index = 0

@@ -137,7 +137,7 @@ class ScoreBar:
         self.elements.append(PToggleBtn(self, (l,2,28,28), "score_sound_on.png", "score_sound_off.png",self.toggle_sound))
         l += 28 + 5
         #toggle espeak
-        if self.mainloop.speaker.enabled:
+        if self.mainloop.speaker.enabled:# and self.mainloop.lang.voice != None:
             self.elements.append(PToggleBtn(self, (l,2,28,28),"score_espeak_on.png", "score_espeak_off.png",self.toggle_espeak))
             l += 28 + 15
         else:
@@ -155,7 +155,9 @@ class ScoreBar:
         #self.score.bold = True
         
         #logout link
-        label = self.lang.d["(Log out)"]
+        
+        label = self.lang.d["(Log out)"][:]
+        
         if sys.version_info < (3, 0):
             try:
                 w0 = self.font.size(unicode(label, "utf-8"))[0]
@@ -165,26 +167,31 @@ class ScoreBar:
             w0 = self.font.size(label)[0]
         self.elements.append(PLinkLabel(self, (self.width - w0-5,2,w0,28), label, self.flogout))
         
+        
         #name label
         label = self.mainloop.user_name
-        w1 = self.font.size(label)[0]
-        #w1 = self.font.size(unicode(label, "utf-8"))[0]
-        
-        self.elements.append(PLabel(self, (self.width - w0-w1-20,2,w1,28), label))
-        self.elements[-1].font_color = (136,201,255)
         
         #logged in as: label
-        label = self.lang.d["Logged in as: "] #"Kamila Roszak-Imiolek"
-        #w2 = self.font.size(label)[0]
-        #w2 = self.font.size(unicode(label, "utf-8"))[0]
+        label2 = self.lang.d["Logged in as: "]
+            
+        w1 = self.font.size(label)[0]
         if sys.version_info < (3, 0):
             try:
-                w2 = self.font.size(unicode(label, "utf-8"))[0]
+                w2 = self.font.size(unicode(label2, "utf-8"))[0]
             except:
-                w2 = self.font.size(label)[0]
+                w2 = self.font.size(label2)[0]
         else:
-            w2 = self.font.size(label)[0]
-        self.elements.append(PLabel(self, (self.width - w0-w1-w2-20,2,w2,28), label))
+            w2 = self.font.size(label2)[0]
+        if self.lang.ltr_text:
+            l1 = self.width - w0-w1-20
+            l2 = self.width - w0-w1-w2-20
+        else:
+            l1 = self.width - w0-w1-w2-30
+            l2 = self.width - w0-w2-20
+        self.elements.append(PLabel(self, (l1,2,w1,28), label))
+        self.elements[-1].font_color = (136,201,255)
+        
+        self.elements.append(PLabel(self, (l2,2,w2,28), label2))
         
         for each in self.elements:
             self.widget_list.add(each)

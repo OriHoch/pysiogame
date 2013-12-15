@@ -242,15 +242,14 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            s = ""
-            for each in reversed(self.resultl):
-                s += each.value
-                
-            if s == self.sumn1n2s:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                if self.points > 0:
-                    self.points -= 1
-                self.level.try_again() 
+        s = ""
+        for each in reversed(self.resultl):
+            s += each.value
+            
+        if s == self.sumn1n2s:
+            self.update_score(self.points)
+            self.level.next_board()
+        else:
+            if self.points > 0:
+                self.points -= 1
+            self.level.try_again() 

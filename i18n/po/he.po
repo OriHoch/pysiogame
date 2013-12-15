@@ -2,17 +2,16 @@
 # Copyright (C) 2012 - 2013 Ireneusz Imiolek
 # This file is distributed under the same license as the pysiogame package.
 # Ireneusz Imiolek <imiolek.i@googlemail.com>, 2013.
-# Translated by Miriam Ruiz
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-27 05:17+0100\n"
+"PO-Revision-Date: 2013-12-11 23:22+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
-"Language-Team: Miriam Ruiz\n"
-"Language: Spanish\n"
+"Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
+"Language: English GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,140 +19,140 @@ msgstr ""
 
 msgid "green apple"
 msgid_plural "green apples"
-msgstr[0] "manzana verde"
-msgstr[1] "manzanas verdes"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "red apple"
 msgid_plural "red apples"
-msgstr[0] "manzana roja"
-msgstr[1] "manzanas rojas"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "strawberry"
 msgid_plural "strawberries"
-msgstr[0] "fresa"
-msgstr[1] "fresas"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "pear"
 msgid_plural "pears"
-msgstr[0] "pera"
-msgstr[1] "peras"
+msgstr[0] ""
+msgstr[1] ""
 
-msgid "orange [fruit]"
+msgid "orange"
 msgid_plural "oranges"
-msgstr[0] "naranja"
-msgstr[1] "naranjas"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "onion"
 msgid_plural "onions"
-msgstr[0] "cebolla"
-msgstr[1] "cebollas"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "tomato"
 msgid_plural "tomatoes"
-msgstr[0] "tomate"
-msgstr[1] "tomates"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "lemon"
 msgid_plural "lemons"
-msgstr[0] "limón"
-msgstr[1] "limones"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "cherry"
 msgid_plural "cherries"
-msgstr[0] "cereza"
-msgstr[1] "cerezas"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "pepper"
 msgid_plural "peppers"
-msgstr[0] "pimiento"
-msgstr[1] "pimientos"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "carrot"
 msgid_plural "carrots"
-msgstr[0] "zanahoria"
-msgstr[1] "zanahorias"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "banana"
 msgid_plural "bananas"
-msgstr[0] "plátano"
-msgstr[1] "plátanos"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "watermelon"
 msgid_plural "watermelons"
-msgstr[0] "sandía"
-msgstr[1] "sandías"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Equilateral Triangle"
-msgstr "Triángulo equilátero"
+msgstr ""
 
 msgid "Isosceles Triangle"
-msgstr "Triángulo isósceles"
+msgstr ""
 
 msgid "Obtuse Triangle"
-msgstr "Triángulo obtuso"
+msgstr ""
 
 msgid "Right Triangle"
-msgstr "Triángulo rectángulo"
+msgstr ""
 
 msgid "Acute Triangle"
-msgstr "Triángulo agudo"
+msgstr ""
 
 msgid "Square"
-msgstr "Cuadrado"
+msgstr ""
 
 msgid "Rectangle"
-msgstr "Rectángulo"
+msgstr ""
 
 msgid "Right Trapezium"
-msgstr "Trapecio rectángulo"
+msgstr ""
 
 msgid "Isosceles Trapezium"
-msgstr "Trapecio isósceles"
+msgstr ""
 
 msgid "Rhombus"
-msgstr "Rombo"
+msgstr ""
 
 msgid "Parallelogram"
-msgstr "Paralelogramo"
+msgstr ""
 
 msgid "Pentagon"
-msgstr "Pentágono"
+msgstr ""
 
 msgid "Hexagon"
-msgstr "Hexágono"
+msgstr ""
 
 msgid "Circle"
-msgstr "Círculo"
+msgstr ""
 
 msgid "Ellipse"
-msgstr "Elipse"
+msgstr ""
 
 msgid "Cube"
-msgstr "Cubo"
+msgstr ""
 
 msgid "Square Prism"
-msgstr "Prisma cuadrado"
+msgstr ""
 
 msgid "Triangular Prism"
-msgstr "Prisma triangular"
+msgstr ""
 
 msgid "Square Pyramid"
-msgstr "Pirámide de base cuadrada"
+msgstr ""
 
 msgid "Triangular Pyramid"
-msgstr "Pirámide de base triangular"
+msgstr ""
 
 msgid "Sphere"
-msgstr "Esfera"
+msgstr ""
 
 msgid "Cylinder"
-msgstr "Cilindro"
+msgstr ""
 
 msgid "Cone"
-msgstr "Cono"
+msgstr ""
 
 msgid "Torus"
-msgstr "Toro"
+msgstr ""
 
 msgid "Default Language:"
 msgstr ""
@@ -173,9 +172,6 @@ msgstr ""
 msgid "password:"
 msgstr ""
 
-msgid "remember me"
-msgstr ""
-
 msgid "Login"
 msgstr ""
 
@@ -186,7 +182,7 @@ msgid "confirm password:"
 msgstr ""
 
 msgid "Register new user"
-msgstr "Register"
+msgstr ""
 
 msgid "Administrator Login:"
 msgstr ""
@@ -308,780 +304,780 @@ msgid "Score: "
 msgstr ""
 
 msgid "Logged in as: "
-msgstr ""
+msgstr "מחובר כ:"
 
 msgid "(Log out)"
-msgstr ""
+msgstr "להתנתק"
 
 msgid "Addition Table"
 msgstr ""
 
 msgid "Hello"
-msgstr "Hola"
+msgstr ""
 
 msgid "Welcome back in the game."
-msgstr "Te damos nuevamente la bienvenida a pysiogame."
+msgstr ""
 
 msgid "Language"
-msgstr "Idioma"
+msgstr ""
 
 msgid "Translations"
-msgstr "Traducciones"
+msgstr ""
 
 msgid "Info & Settings"
-msgstr "Información y Ajustes"
+msgstr ""
 
 msgid "Keyboard & Mouse"
-msgstr "Teclado y Ratón"
+msgstr ""
 
 msgid "Discover Letters"
-msgstr "Descubre las letras"
+msgstr ""
 
 msgid "Learn New Words"
-msgstr "Aprende nuevas palabras"
+msgstr ""
 
 msgid "Mathematics"
-msgstr "Matemáticas"
+msgstr ""
 
 msgid "Numbers & Basic Operations"
-msgstr "Números y operaciones básicas"
+msgstr ""
 
 msgid "Basic Operations - Exercises"
-msgstr "Operaciones básicas - Ejercicios"
+msgstr ""
 
 msgid "Sorting and Comparing"
-msgstr "Ordena y Compara"
+msgstr ""
 
 msgid "Geometry and Shape Recognition"
-msgstr "Geometría y Formas"
+msgstr ""
 
 msgid "Art and Colour"
-msgstr "Arte y Color"
+msgstr ""
 
 msgid "Memory"
-msgstr "Memoria"
+msgstr ""
 
 msgid "Games & Mazes"
-msgstr "Juegos y Laberintos"
+msgstr ""
 
 msgid "Multiplayer Games"
-msgstr "Juegos multijugador"
+msgstr ""
 
 msgid "About."
-msgstr "Sobre pySioGame"
+msgstr ""
 
 msgid "Game info..."
-msgstr "Información sobre el juego"
+msgstr ""
 
 msgid "Copyright & Credits"
-msgstr "Autoría y Créditos"
+msgstr ""
 
 msgid "Hit the Mole"
-msgstr "Golpea al topo"
+msgstr ""
 
 msgid "Letters"
-msgstr "Letras"
+msgstr ""
 
 msgid "Learn Letters with Flashcards"
-msgstr "Aprende las letras con tarjetas didácticas"
+msgstr ""
 
 msgid "Learn to Write"
-msgstr "Aprende a escribir"
+msgstr ""
 
 msgid "Trace Letters and Numbers"
-msgstr "Dibuja las letras y los números"
+msgstr ""
 
 msgid "Complete the ABC"
-msgstr "Completa el abecedario"
+msgstr ""
 
 msgid "English"
-msgstr "Inglés"
+msgstr ""
 
 msgid "Your language"
-msgstr "Español"
+msgstr ""
 
 msgid "Sorting Letters"
-msgstr "Ordenar letras"
+msgstr ""
 
 msgid "Lowercase Letters"
-msgstr "Letras minúsculas"
+msgstr ""
 
 msgid "Uppercase Letters"
-msgstr "Letras mayúsculas"
+msgstr ""
 
 msgid "Word Builder"
-msgstr "Construye las palabras"
+msgstr ""
 
 msgid "Word Maze"
-msgstr "Laberinto de palabras"
+msgstr ""
 
 msgid "Collect all letters in the right order"
-msgstr "Recoge todas las letras en el orden correcto"
+msgstr ""
 
 msgid "Word Maze + 4"
-msgstr "Laberinto de palabras + 4"
+msgstr ""
 
 msgid "Numbers"
-msgstr "Números"
+msgstr ""
 
 msgid "Learn Numbers with Flashcards"
-msgstr "Aprende los números con tarjetas didácticas"
+msgstr ""
 
 msgid "Learn to Count"
-msgstr "Aprende a contar"
+msgstr ""
 
 msgid "Basic Addition"
-msgstr "Suma básica"
+msgstr ""
 
 msgid "Basic Subtraction"
-msgstr "Resta básica"
+msgstr ""
 
 msgid "Shopping List"
-msgstr "Lista de la compra"
+msgstr ""
 
 msgid "Plus or Minus"
-msgstr "Más o menos"
+msgstr ""
 
 msgid "Basic Operations"
-msgstr "Operaciones básicas"
+msgstr ""
 
 msgid "Multiplication Table"
-msgstr "Tabla de multiplicar"
+msgstr ""
 
 msgid "Find the product"
-msgstr "Encuentra el producto"
+msgstr ""
 
 msgid "Find the multiplier"
-msgstr "Encuentra el multiplicador"
+msgstr ""
 
 msgid "Division"
-msgstr "División"
+msgstr ""
 
 msgid "Sorting Numbers"
-msgstr "Ordena los números"
+msgstr ""
 
 msgid "Number Comparison"
-msgstr "Compara los números"
+msgstr ""
 
 msgid "Addition & Subtraction"
-msgstr "Suma y Resta"
+msgstr ""
 
 msgid "Comparison"
-msgstr "Comparación"
+msgstr ""
 
 msgid "Fractions"
-msgstr "Fracciones"
+msgstr ""
 
 msgid "Decimal Fractions"
-msgstr "Fracciones decimales"
+msgstr ""
 
 msgid "Even or Odd"
-msgstr "Par or Impar"
+msgstr ""
 
 msgid "Shapes"
-msgstr "Formas"
+msgstr ""
 
 msgid "Learn Shapes with Flashcards"
-msgstr "Aprende las formas con tarjetas didácticas"
+msgstr ""
 
 msgid "Solids"
-msgstr "Sólidos"
+msgstr ""
 
 msgid "Solid Geometry with Flashcards"
-msgstr "Aprende geometría de los sólidos con tarjetas didácticas"
+msgstr ""
 
 msgid "Shape Matching"
-msgstr "Empareja las formas"
+msgstr ""
 
 msgid "help me find my shadow"
-msgstr "ayúdame a encontrar mi sombra"
+msgstr ""
 
 msgid "Paint"
-msgstr "Pinta"
+msgstr ""
 
 msgid "Colour Matching"
-msgstr "Empareja los colores"
+msgstr ""
 
 msgid "label the colours"
-msgstr "Etiqueta los colores"
+msgstr ""
 
 msgid "Follow the Arrows"
-msgstr "Sigue las flechas"
+msgstr ""
 
 msgid "remember the directions"
-msgstr "recuerda las direcciones"
+msgstr ""
 
 msgid "Photographic Memory"
-msgstr "Memoria fotográfica"
+msgstr ""
 
 msgid "Training"
-msgstr "Entrenamiento"
+msgstr ""
 
 msgid "Automatic Levels"
-msgstr "Niveles automáticos"
+msgstr ""
 
 msgid "Mouse Maze"
-msgstr "Laberinto del ratón"
+msgstr ""
 
 msgid "Let's have some cheese"
-msgstr "Tomemos algo de queso"
+msgstr ""
 
 msgid "Sheep Maze"
-msgstr "Laberinto de la oveja"
+msgstr ""
 
 msgid "Find the rest of the herd"
-msgstr "Encuentra al resto del rebaño"
+msgstr ""
 
 msgid "Connect"
-msgstr "Conecta"
+msgstr ""
 
 msgid "Balloons with threads"
-msgstr "Globos con hilos"
+msgstr ""
 
 msgid "Fifteen"
-msgstr "Quince"
+msgstr ""
 
 msgid "With a Twist"
-msgstr "Con un giro"
+msgstr ""
 
 msgid "Drag the slider up or down so that the right sign is in the red square."
-msgstr "Mueve arriba o abajo y pon el símbolo adecuado en el cuadrado rojo."
+msgstr ""
 
 msgid "Take your sheep to the rest of the herd."
-msgstr "Lleva tu oveja hasta donde está el resto del rebaño."
+msgstr ""
 
 msgid "Check the shopping list and drag all needed items into the basket."
-msgstr "Comprueba la lista de la compra y arrastra dentro de la cesta todas las cosas necesarias."
+msgstr ""
 
 msgid "Drag one of the <, > or = (lesser, greater or equal) to the red square."
-msgstr "Arrastra hasta el cuadrado rojo: <, > ó = (menor, mayor, o igual que)."
+msgstr ""
 
 msgid "Drag one of the lesser, greater or equal to the red square."
-msgstr "Arrastra hasta el cuadrado rojo uno de los símbolos de menor que, mayor que, o igual."
+msgstr ""
 
 msgid "Re-arrange the above numbers so they are in the right order"
-msgstr "Reordena los números de arriba para que estén en el orden correcto"
+msgstr ""
 
 msgid "Complete the abc using the letters above."
-msgstr "Completa el abecedario utilizando las letras de arriba."
+msgstr ""
 
 msgid "Write a word:"
-msgstr "Escribe una palabra:"
+msgstr ""
 
 msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
-msgstr "Encuentra y separa los números pares de los números impares en la serie de arriba."
+msgstr ""
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
-msgstr "Reordena las letras de arriba para que estén en orden alfabético."
+msgstr ""
 
 msgid "Re-arrange the above numbers so they are in the ascending order."
-msgstr "Reordena los números de arriba para que estén en orden ascendente."
+msgstr ""
 
 msgid "Please try again."
-msgstr "Por favor, inténtalo de nuevo."
+msgstr ""
 
 msgid "Sorry! It is wrong."
-msgstr "Lo siento, está mal."
+msgstr ""
 
 msgid "Perfect! Task solved!"
-msgstr "¡Perfecto! ¡Tarea solucionada!"
+msgstr ""
 
 msgid "You need to work a little bit harder next time."
-msgstr "Tienes que esforzarte un poco más la próxima vez."
+msgstr ""
 
 msgid "Game Over!"
-msgstr "¡Fin del juego!"
+msgstr ""
 
 msgid "Congratulations! You have completed all tasks in this game."
-msgstr "¡Enhorabuena! Has terminado todas las actividades en este juego."
+msgstr ""
 
 msgid "Great job!"
-msgstr "¡Buen trabajo!"
+msgstr ""
 
 msgid "Perfect!!!"
-msgstr "¡Perfecto!"
+msgstr ""
 
 msgid "Awesome!"
-msgstr "¡Maravilloso!"
+msgstr ""
 
 msgid "Fantastic job!"
-msgstr "¡Genial!"
+msgstr ""
 
 msgid "Well done!"
-msgstr "¡Bien hecho!"
+msgstr ""
 
 msgid "Perfect! Level completed!"
-msgstr "¡Perfecto! ¡Nivel terminado!"
+msgstr ""
 
 msgid "area:"
-msgstr "área:"
+msgstr ""
 
 msgid "perimeter:"
-msgstr "perímetro:"
+msgstr ""
 
 msgid "circumference:"
-msgstr "circunferencia:"
+msgstr ""
 
 msgid "surface area:"
-msgstr "área de la superficie:"
+msgstr ""
 
 msgid "volume:"
-msgstr "volumen:"
+msgstr ""
 
 msgid "Perfect!"
-msgstr "¡Perfecto!"
+msgstr ""
 
 msgid "divided by"
-msgstr "dividido entre"
+msgstr ""
 
 msgid "times"
-msgstr "multiplicado por"
+msgstr ""
 
 msgid "equals"
-msgstr "es igual a"
+msgstr ""
 
 msgid "Even"
-msgstr "Par"
+msgstr ""
 
 msgid "Odd"
-msgstr "Impar"
+msgstr ""
 
 msgid "white"
-msgstr "blanco"
+msgstr ""
 
 msgid "black"
-msgstr "negro"
+msgstr ""
 
 msgid "grey"
-msgstr "gris"
+msgstr ""
 
 msgid "red"
-msgstr "rojo"
-
-msgid "orange [color]"
-msgstr "naranja"
+msgstr ""
 
 msgid "yellow"
-msgstr "amarillo"
+msgstr ""
 
 msgid "olive"
-msgstr "verde oliva"
+msgstr ""
 
 msgid "green"
-msgstr "verde"
+msgstr ""
 
 msgid "sea green"
-msgstr "verde mar"
+msgstr ""
 
 msgid "teal"
-msgstr "verde azulado"
+msgstr ""
 
 msgid "blue"
-msgstr "azul"
+msgstr ""
 
 msgid "navy"
-msgstr "azul marino"
+msgstr ""
 
 msgid "purple"
-msgstr "púrpura"
+msgstr ""
 
 msgid "violet"
-msgstr "violeta"
+msgstr ""
 
 msgid "magenta"
 msgstr ""
 
 msgid "indigo"
-msgstr "añil"
+msgstr ""
 
 msgid "pink"
-msgstr "rosa"
+msgstr ""
 
 msgid "maroon"
-msgstr "granate"
+msgstr ""
 
 msgid "brown"
-msgstr "marrón"
+msgstr ""
 
 msgid "aqua"
-msgstr "ciano"
+msgstr ""
 
 msgid "lime"
-msgstr "lima"
+msgstr ""
 
 msgid "Rainbow Keyboard"
-msgstr "Habilidad con el teclado"
+msgstr ""
 
 msgid "Touch Typing Tutor"
-msgstr "Mecanografía"
+msgstr ""
 
 msgid "Translators"
-msgstr "Traducción"
+msgstr ""
 
 msgid "English Alphabet"
-msgstr "Alfabeto inglés"
+msgstr ""
 
 msgid "Your Alphabet"
-msgstr "Alfabeto español"
+msgstr "אלפבית עברי"
 
 msgid "Mixing Colours for Painting"
-msgstr "Mezcla de colores para pintar"
+msgstr ""
 
 msgid "Mix red, yellow, blue, black and white paint"
-msgstr "Mezcla pintura roja, amarilla, azul, negra y blanca"
+msgstr ""
 
 msgid "Additive Colour Mixing - Light"
-msgstr "Mezcla aditiva de colores: Luz"
+msgstr ""
 
 msgid "Mix red, green and blue light to get other colours"
-msgstr "Mezcla luz roja, verde y azul para obtener otros colores"
+msgstr ""
 
 msgid "Subtractive Colour Mixing - Paints, Dyes, Inks"
-msgstr "Mezcla sustractiva de colores: Pinturas, Tintes"
+msgstr ""
 
 msgid "Mix cyan, magenta and yellow paint to get other colours"
-msgstr "Mezcla pintura ciano, magenta y amarilla para obtener otros colores"
+msgstr ""
 
 msgid "Find the colour of the circle"
-msgstr "Encuentra el color del círculo"
+msgstr ""
 
 msgid "Adjust the amount of cyan, magenta and yellow paint"
-msgstr "Ajusta la cantidad de pintura ciano, magenta y amarilla"
+msgstr ""
 
 msgid "Adjust the intensity of red, green and blue light"
-msgstr "Ajusta la intensidad de la luz roja, verde y azul"
+msgstr ""
 
 msgid "brush size"
-msgstr "tamaño de la brocha"
+msgstr ""
 
 msgid "Noughts and Crosses 2"
-msgstr "Tres en raya 2 - Consigue la mayor..."
+msgstr ""
 
 msgid "Noughts and Crosses 3"
-msgstr "Tres en raya 3 - Consigue la mayor..."
+msgstr ""
 
 msgid "Get as many lines of 3 as possible to win"
-msgstr "cantidad posible de líneas de 3 para ganar"
+msgstr ""
 
 msgid "Player"
-msgstr "Participante"
+msgstr ""
 
 msgid "Won"
-msgstr "Ha ganado"
+msgstr ""
 
 msgid "Draw"
-msgstr "Empate"
+msgstr ""
 
 msgid "User Name"
-msgstr "Tu nombre"
+msgstr ""
 
 msgid "Match Animals"
-msgstr "Empareja los animales"
+msgstr ""
 
 msgid "Match Animals - Memory Game"
-msgstr "Empareja los animales"
+msgstr ""
 
 msgid "Match Fruits - Memory Game"
-msgstr "Empareja las frutas"
+msgstr ""
 
 msgid "Match Vegetables - Memory Game"
-msgstr "Empareja los vegetales"
+msgstr ""
 
 msgid "Match Numbers - Memory Game"
-msgstr "Empareja los números"
+msgstr ""
 
 msgid "Find matching pairs of the same image"
-msgstr "Encuentra las parejas de la misma imagen"
+msgstr ""
 
 msgid "Image Slider"
-msgstr "Imágenes troceadas"
+msgstr ""
 
 msgid "Animal Slider"
-msgstr "Animales"
+msgstr ""
 
 msgid "Fruit Slider"
-msgstr "Frutas"
+msgstr ""
 
 msgid "Number Slider"
-msgstr "Números"
+msgstr ""
 
 msgid "Fraction Groups"
-msgstr "Grupos de fracciones"
+msgstr ""
 
 msgid "Percentages"
-msgstr "Porcentajes"
+msgstr ""
 
 msgid "Ratios"
-msgstr "Relaciones"
+msgstr ""
 
 msgid "Match fraction charts on the right to the ones on the left"
-msgstr "Empareja las imágenes de la derecha con las de la izquierda"
+msgstr ""
 
 msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
-msgstr "Empareja las imágenes y las fracciones de la derecha con las imágenes de la izquierda"
+msgstr ""
 
 msgid "Match fraction charts to the fractions on the left"
-msgstr "Empareja las imágenes con las fracciones de la izquierda"
+msgstr ""
 
 msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
-msgstr "Empareja las imágenes, fracciones y números decimales de la derecha con sus representaciones en forma de porcentaje"
+msgstr ""
 
 msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "Empareja las gráficas con las relaciones de la izquierda expresadas como una proporción entre partes coloreadas y partes blancas"
+msgstr ""
 
 msgid "Maths Matching Game"
-msgstr "Empareja los números"
+msgstr ""
 
 msgid "Addition"
-msgstr "Suma"
+msgstr ""
 
 msgid "Subtraction"
-msgstr "Resta"
+msgstr ""
 
 msgid "Multiplication"
-msgstr "Multiplicación"
+msgstr ""
 
 msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "Busca una versión más actualizada, reporta fallos, debate, traduce o revisa este proyecto en:"
+msgstr ""
 
 msgid "Match numbers to their spelling"
-msgstr "Relaciona los números con su forma escrita"
+msgstr ""
 
 msgid "Number Spelling"
-msgstr "Escritura de números"
+msgstr ""
 
 msgid "Find all matching animals"
-msgstr "Encuentra todos los animales que coinciden"
+msgstr ""
 
 msgid "Match animals to their shadows"
-msgstr "Empareja los animales con sus sombras"
+msgstr ""
 
 msgid "Shape Maker"
-msgstr "Creador de figuras"
+msgstr ""
 
 #, python-format
 msgid "Shape to draw: %s"
-msgstr "Figura a dibujar: %s"
+msgstr ""
 
 #, python-format
 msgid "such that lengths of its bases are equal to %d and %d and height to %d"
-msgstr "las longitudes de sus bases sean iguales a %d y a %d y que su altura sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that lengths of its sides are equal to %d"
-msgstr "la longitud de sus lados sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that lengths of its sides are equal to %d and %d"
-msgstr "las longitudes de sus lados sean iguales a %d y %d"
+msgstr ""
 
 #, python-format
 msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
-msgstr "la longitud de sus dos bases paralelas sea igual a %d y que su altura sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that length of its base is equal to %d and height to %d"
-msgstr "la longitud de su base sea igual a %d y que su altura sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that lengths of its catheti are equal to %d and %d"
-msgstr "las longitudes de sus catetos sean iguales a %d y %d"
+msgstr ""
 
 #, python-format
 msgid "such that lengths of both of its catheti are equal to %d"
-msgstr "la longitud de sus dos catetos sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that length of its hypotenuse is equal to %d"
-msgstr "la longitud de su hipotenusa sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that length of one of its sides is equal to %d and height to %d"
-msgstr "la longitud de uno de sus lados sea igual a %d y que su altura sea igual a %d"
+msgstr ""
 
 #, python-format
 msgid "such that length of its radius is equal to %d"
-msgstr "la longitud de su radio sea igual a %d"
+msgstr ""
 
 msgid "Quadrilateral"
-msgstr "Cuadrilátero"
+msgstr ""
 
 msgid "Trapezium"
-msgstr "Trapecio"
+msgstr ""
 
 msgid "Trapezium "
-msgstr "Trapecio"
+msgstr ""
 
 msgid "Triangle"
-msgstr "Triángulo"
+msgstr ""
 
 msgid "Ouch... squished quadrilateral"
-msgstr "cuadrilátero 'aplastado'"
+msgstr ""
 
 msgid "Right isosceles triangle"
-msgstr "Triángulo isósceles rectángulo"
+msgstr ""
 
 msgid "Obtuse isosceles triangle"
-msgstr "Triángulo isósceles obtuso"
+msgstr ""
 
 msgid "Acute isosceles triangle"
-msgstr "Triángulo isósceles agudo"
+msgstr ""
 
 msgid "Ouch... squished triangle"
-msgstr "Vaya... Triángulo 'aplastado'"
+msgstr ""
 
 msgid "Triangle? Well, not really..."
-msgstr "¿Triángulo? Bueno, realmente no..."
+msgstr ""
 
 msgid "Test yourself"
-msgstr "Ponte a prueba"
+msgstr ""
 
 msgid "Clock"
-msgstr "Reloj"
+msgstr ""
 
 msgid "learn to read the time"
-msgstr "Aprende a leer el reloj"
+msgstr ""
 
 msgid "learn to set the clock"
-msgstr "Aprende a ajustar el reloj"
+msgstr ""
 
 msgid "Set the clock to:"
-msgstr "Ajustar el reloj a:"
+msgstr ""
 
 msgid "Drag the clock hands to set the time"
-msgstr "Arrastra las manecillas para ajustar el reloj"
+msgstr ""
 
 msgid "What time is it?"
-msgstr "¿Qué hora es?"
+msgstr ""
 
 msgid "Click again to exit"
-msgstr "Pulsa clic de nuevo para salir"
+msgstr ""
 
 msgid "Type your answer and hit enter"
-msgstr "Escribe tu respuesta y pulsa intro"
+msgstr ""
 
 msgid "Time"
-msgstr "Tiempo"
+msgstr ""
 
 msgid "Turn the clock hands and see what happens."
-msgstr "Gira las manecillas del reloj y observa qué ocurre."
+msgstr ""
 
 msgid "Let's see what shapes you can draw"
-msgstr "Veamos qué figuras puedes dibujar"
+msgstr ""
 
 msgid "Time in text version only"
-msgstr "Tiempo solo en versión de texto"
+msgstr ""
 
 msgid "How clock works?"
-msgstr "¿Cómo funciona un reloj?"
+msgstr ""
 
 msgid "Columnar addition"
-msgstr "Suma de la columna"
+msgstr ""
 
 msgid "Columnar subtraction"
-msgstr "Resta de la columna"
+msgstr ""
 
 msgid "Long multiplication"
-msgstr "Multiplicación larga"
+msgstr ""
 
 msgid "Long division"
-msgstr "División larga"
+msgstr ""
 
 msgid "borrow 10"
-msgstr "tomo 10"
+msgstr ""
 
 msgid "carry"
-msgstr "me llevo"
+msgstr ""
 
 msgid "Start >>"
-msgstr "Comenzar >>"
+msgstr ""
 
 msgid "Next example >>"
-msgstr "Siguiente ejemplo >>"
+msgstr ""
 
 msgid "Next step >>"
-msgstr "Siguiente paso >>"
+msgstr ""
 
 msgid "write "
-msgstr "escribe "
+msgstr ""
 
 msgid "Demonstration"
-msgstr "Demostración"
+msgstr ""
 
 msgid "Do it yourself"
-msgstr "Hazlo tú"
+msgstr ""
 
 msgid "Ratio"
-msgstr "Relac."
+msgstr ""
 
 msgid "Working with large numbers"
-msgstr "Trabajando con números grandes"
+msgstr ""
 
 msgid "rewrite "
-msgstr "reescribir "
+msgstr ""
 
 msgid "remainder"
-msgstr "resto"
+msgstr ""
 
 msgid "result"
-msgstr "resultado"
+msgstr ""
 
 msgid "Time Matching"
-msgstr "Empareja los relojes"
+msgstr ""
 
 msgid "Add some red"
-msgstr "más rojo"
+msgstr ""
 
 msgid "Add some green"
-msgstr "más verde"
+msgstr ""
 
 msgid "Add some blue"
-msgstr "más azul"
+msgstr ""
 
 msgid "Add some cyan"
-msgstr "más ciano"
+msgstr ""
 
 msgid "Add some magenta"
-msgstr "más magenta"
+msgstr ""
 
 msgid "Add some yellow"
-msgstr "más amarillo"
+msgstr ""
 
 msgid "Too much red"
-msgstr "menos rojo"
+msgstr ""
 
 msgid "Too much green"
-msgstr "menos verde"
+msgstr ""
 
 msgid "Too much blue"
-msgstr "menos azul"
+msgstr ""
 
 msgid "Too much cyan"
-msgstr "menos ciano"
+msgstr ""
 
 msgid "Too much magenta"
-msgstr "menos magenta"
+msgstr ""
 
 msgid "Too much yellow"
-msgstr "menos amarillo"
+msgstr ""
 
 msgid "red is spot on"
-msgstr "el rojo está bien"
+msgstr ""
 
 msgid "green is spot on"
-msgstr "el verde está bien"
+msgstr ""
 
 msgid "blue is spot on"
-msgstr "el azul está bien"
+msgstr ""
 
 msgid "cyan is spot on"
-msgstr "el ciano está bien"
+msgstr ""
 
 msgid "magenta is spot on"
-msgstr "el magenta está bien"
+msgstr ""
 
 msgid "yellow is spot on"
-msgstr "el amarillo está bien"
+msgstr ""
+
+msgid "remember me"
+msgstr ""
 
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
@@ -1102,8 +1098,6 @@ msgstr "This program is free software: you can redistribute it and/or modify it 
 
 msgid "A little set of educational apps for kids"
 msgstr "A little set of educational apps for kids"
-
-
 
 msgid "Word Builder - Animals"
 msgstr ""
@@ -1146,3 +1140,4 @@ msgstr ""
 
 msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
 msgstr ""
+

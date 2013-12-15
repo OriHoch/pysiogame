@@ -77,7 +77,7 @@ class BoardGame(GameBase):
         self.create_game_objects()
         
         #used for a line around game area
-        self.line_color = (240, 240, 240)
+        self.line_color = self.board.board_bg.line_color #(240, 240, 240)
         self.screen_w = self.board.x_count * self.board.scale
         self.screen_h = self.board.y_count * self.board.scale
         
@@ -97,6 +97,7 @@ class BoardGame(GameBase):
         self.mainloop.redraw_needed = [True,True,True]
         self.level.completed = self.mainloop.db.query_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
         self.level.update_level_dict()
+        
         
     def board_layout_update(self):
         self.screen_w=self.layout.screen_w

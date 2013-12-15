@@ -128,23 +128,21 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            #if self.board.grid[2] == self.solution_grid:
-            for i in range(len(self.board.ships)-1):
-                #if self.board.ships[i].grid_y == 2: #if the sign is on line with expression
-                #value = self.board.ships[i].value
-                value = self.board.ships[i].value[2 - self.board.ships[i].grid_y]
-                if value == "=":
-                    value = "=="
-                self.expression[self.board.ships[i].grid_x]=value
-            eval_string = ''.join(self.expression)
-            eval_string.strip()
-            if eval(eval_string)==True:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                if self.points > 0:
-                    self.points -= 1
-                self.level.try_again()
-                self.changed_since_check = False
+        #if self.board.grid[2] == self.solution_grid:
+        for i in range(len(self.board.ships)-1):
+            #if self.board.ships[i].grid_y == 2: #if the sign is on line with expression
+            #value = self.board.ships[i].value
+            value = self.board.ships[i].value[2 - self.board.ships[i].grid_y]
+            if value == "=":
+                value = "=="
+            self.expression[self.board.ships[i].grid_x]=value
+        eval_string = ''.join(self.expression)
+        eval_string.strip()
+        if eval(eval_string)==True:
+            self.update_score(self.points)
+            self.level.next_board()
+        else:
+            if self.points > 0:
+                self.points -= 1
+            self.level.try_again()
                 

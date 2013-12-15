@@ -190,7 +190,9 @@ class Board(gd.BoardGame):
             self.say(help)
             if self.points > 0:
                 self.points -= 1
-            self.level.try_again(silent = True)
+                
+            self.level.try_again(silent = self.mainloop.speaker.talkative)
+                
         else:
             self.update_score(self.points)
             self.level.next_board()

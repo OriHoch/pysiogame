@@ -95,10 +95,18 @@ class Button(BaseButton):
         tw2 = self.font4.size(self.panel.subtitle)[0]
         #textpos1 = text.get_rect(centerx=self.image.get_width()//2)
         #textpos2 = text2.get_rect(centerx=self.image.get_width()//2)
+        if self.panel.mainloop.lang.ltr_text:
+            ttx = 0
+            stx = 0
+        else:
+            ttx = self.panel.title_space - tw1 - 10
+            stx = self.panel.title_space - tw2 - 10
+            
         if self.panel.title_space == 0 or tw1 < self.panel.title_space:
-            self.image.blit(text, (0,2))
+            self.image.blit(text, (ttx,2))
             if tw2 < self.panel.title_space:
-                self.image.blit(text2, (0,39))
+                self.image.blit(text2, (stx,39))
+            
 
     def update(self):
         self.image.fill(self.color)
@@ -263,7 +271,7 @@ class InfoBar():
             btn = self.hover(pos,layout)
             if btn != False:
                 if btn.hasimg:
-                    if not (((btn.btn_id == 1 or btn.btn_id == 7) and self.level.lvl == 1) or ((btn.btn_id == 3 or btn.btn_id == 8) and self.level.lvl == self.level.lvl_count) or (btn.btn_id == 0 and self.game_board.changed_since_check == False)):                 
+                    if not (((btn.btn_id == 1 or btn.btn_id == 7) and self.level.lvl == 1) or ((btn.btn_id == 3 or btn.btn_id == 8) and self.level.lvl == self.level.lvl_count)):# or (btn.btn_id == 0)):# and self.game_board.changed_since_check == False)):                 
                         self.resetbtns()                        
                         btn.img = btn.img_1
                         #self.mainloop.redraw_needed[1] = True   
@@ -299,6 +307,7 @@ class InfoBar():
         self.add_btn(self,222,5+self.margin_top,63,66,"imgbtn","info_refresh1.png","info_refresh2.png")
         title_width = self.width #-303 - (168+5+20)-5
         self.add_btn(self,300,5+self.margin_top,title_width,66,"titles")
+        #self.btns[-1].color = (200,200,200)
         
         self.add_btn(self,self.width-351,5+self.margin_top,33,66,"imgbtn","info_lvls1.png","info_lvls2.png")
         self.add_btn(self,self.width-113,5+self.margin_top,33,66,"imgbtn","info_lvls1.png","info_lvls2.png","",True)
@@ -326,14 +335,14 @@ class InfoBar():
         self.reset_alignment()
         self.check_btn_tops()
         
-        
     def title_only(self):
         self.hide_buttons(0,0,0,0,0,0,1,0,0)
         self.mainloop.redraw_needed[1] = True
         self.hidden = True
         #self.btn_list.move_to_back(self.btns[13]) 
-        self.btn_list.move_to_front(self.btns[6]) 
+        self.btn_list.move_to_front(self.btns[6])
         self.layout_update()
+        self.title_space = self.width - 10
         
     def sure_to_close(self):
         self.hide_buttons(0,0,0,0,1,0,1,0,0)
@@ -466,10 +475,14 @@ class InfoBar():
             self.btns[13].rect.left = self.width - 5
         #book 2
         #title space
-        self.title_space = self.btns[13].rect.left - self.btns[6].rect.left
-        #print self.title_space
+        self.rescale_title_space()
         
-        
+    def rescale_title_space(self):        
+        if self.hidden == False or self.close_dialog:
+            self.title_space = self.btns[13].rect.left - self.btns[6].rect.left
+        elif self.hidden == True and self.close_dialog == False:
+            self.title_space = self.width - 10
+            
     def draw(self,screen):
         #draw info bar
         #screen.fill((70,70,70))

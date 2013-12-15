@@ -93,13 +93,13 @@ def time2officialstr(h, m):
     elif h < 5: sf = "часа"
     else: sf = "часов"
     
-    if m == 0: return "%s %s" % (ht1[h-1], sf)
-    elif m == 1: return "%s %s одна минута" % (ht1[h-1], sf)
-    elif m in [21,31,41,51]: return "%s %s %s одна минута" % (ht1[h-1], sf, n2txt(m-1))
-    elif m == 2: return "%s %s две минуты" % (ht1[h-1], sf)
-    elif m in [22,32,42,52]: return "%s %s %s две минуты" % (ht1[h-1], sf, n2txt(m-2))
-    elif m in [3,4,23,24,33,34,43,44,53,54]: return "%s %s %s минуты" % (ht1[h-1], sf, n2txt(m))
-    else: return "%s %s %s минут" % (ht1[h-1], sf, n2txt(m))
+    if m == 0: return "%s %s" % (numbers[h-1], sf)
+    elif m == 1: return "%s %s одна минута" % (numbers[h-1], sf)
+    elif m in [21,31,41,51]: return "%s %s %s одна минута" % (numbers[h-1], sf, n2txt(m-1))
+    elif m == 2: return "%s %s две минуты" % (numbers[h-1], sf)
+    elif m in [22,32,42,52]: return "%s %s %s две минуты" % (numbers[h-1], sf, n2txt(m-2))
+    elif m in [3,4,23,24,33,34,43,44,53,54]: return "%s %s %s минуты" % (numbers[h-1], sf, n2txt(m))
+    else: return "%s %s %s минут" % (numbers[h-1], sf, n2txt(m))
     return ""
     
 #TIME FOR SPEAKER
@@ -108,6 +108,8 @@ spkmt2 = ["одной","двух","трёх","четырёх","пяти","шес
 
 spkht1 = ["час","2","3","4","5","6","7","8","9","10","11","12"]
 spkht2 = ["пер-во-во", "второго", "треть-его", "четвёртого", "пя-то-во", "шестого", "седьмого", "восьмого", "девятого", "десятого", "1-надца-того", "две-надца-того"]
+
+spknumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"]
 
 def time2spk(h, m):
     'takes 2 variables: h - hour, m - minute, returns time as a string but in exception format for espeak Russian language'
@@ -140,13 +142,13 @@ def time2officialspk(h, m):
     elif h < 5: sf = "ча-са"
     else: sf = "ча-сов"
     
-    if m == 0: return "%s %s" % (spkht1[h-1], sf)
-    elif m == 1: return "%s %s одна минута" % (spkht1[h-1], sf)
-    elif m in [21,31,41,51]: return "%s %s %d-одна минута" % (spkht1[h-1], sf, m-1)
-    elif m == 2: return "%s %s две минуты" % (spkht1[h-1], sf)
-    elif m in [22,32,42,52]: return "%s %s %d-две минуты" % (spkht1[h-1], sf, m-2)
-    elif m in [3,4,23,24,33,34,43,44,53,54]: return "%s %s %d минуты" % (spkht1[h-1], sf, m)
-    else: return "%s %s %d минут" % (spkht1[h-1], sf, m)
+    if m == 0: return "%s %s" % (spknumbers[h-1], sf)
+    elif m == 1: return "%s %s одна минута" % (spknumbers[h-1], sf)
+    elif m in [21,31,41,51]: return "%s %s %d-одна минута" % (spknumbers[h-1], sf, m-1)
+    elif m == 2: return "%s %s две минуты" % (spknumbers[h-1], sf)
+    elif m in [22,32,42,52]: return "%s %s %d-две минуты" % (spknumbers[h-1], sf, m-2)
+    elif m in [3,4,23,24,33,34,43,44,53,54]: return "%s %s %d минуты" % (spknumbers[h-1], sf, m)
+    else: return "%s %s %d минут" % (spknumbers[h-1], sf, m)
     return ""
 
 

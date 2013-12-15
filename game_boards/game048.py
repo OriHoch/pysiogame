@@ -118,28 +118,26 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            if self.board.grid[0] == self.solution_grid:
-                ships = []
+        if self.board.grid[0] == self.solution_grid:
+            ships = []
  
-                #collect value and x position on the grid from ships list
-                for i in range(self.data[2]):
-                    ships.append([self.board.ships[i].grid_x,self.board.ships[i].value])
-                ships_sorted = sorted(ships)
-                correct = True
-                for i in range(self.data[2]):
-                    if i < self.data[2]-1:
-                        if ships_sorted[i][1] != self.alphabet[self.indexes[i]]:
-                            correct = False
+            #collect value and x position on the grid from ships list
+            for i in range(self.data[2]):
+                ships.append([self.board.ships[i].grid_x,self.board.ships[i].value])
+            ships_sorted = sorted(ships)
+            correct = True
+            for i in range(self.data[2]):
+                if i < self.data[2]-1:
+                    if ships_sorted[i][1] != self.alphabet[self.indexes[i]]:
+                        correct = False
 
-                if correct == True:
-                    self.update_score(self.points)
-                    self.level.next_board()
-                else:
-                    if self.points > 0:
-                        self.points -= 1
-                    self.level.try_again()
-                    self.changed_since_check = False
+            if correct == True:
+                self.update_score(self.points)
+                self.level.next_board()
             else:
-                self.level.try_again(True)
+                if self.points > 0:
+                    self.points -= 1
+                self.level.try_again()
+        else:
+            self.level.try_again()
                     

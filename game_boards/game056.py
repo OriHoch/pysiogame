@@ -365,18 +365,16 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            correct = True
-            
-            for i in range(len(self.board.ships)-1):
-                ship = self.board.ships[i]
-                if ship.hidden_value != self.board.units[ship.grid_y].hidden_value:
-                    correct = False
-                    if self.points > 0:
-                        self.points -= 1
-                    self.level.try_again()
-                    self.changed_since_check = False
-                    break;
-            if correct:
-                self.update_score(self.points)
-                self.level.next_board()
+        correct = True
+        
+        for i in range(len(self.board.ships)-1):
+            ship = self.board.ships[i]
+            if ship.hidden_value != self.board.units[ship.grid_y].hidden_value:
+                correct = False
+                if self.points > 0:
+                    self.points -= 1
+                self.level.try_again()
+                break;
+        if correct:
+            self.update_score(self.points)
+            self.level.next_board()

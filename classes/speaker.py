@@ -23,7 +23,7 @@ class Speaker(threading.Thread):
             self.needs_encode = True
         
     def start_server(self):
-        if self.enabled:
+        if self.enabled and self.lang.voice != None:
             #prior to lang
             #voices = ["-s 190 -a 100 -p 75 -ven+m1 ", "-s 170 -a 100 -p 80 -ven+m2 ","-s 175 -a 100 -p 80 -ven+m3 ","-s 190 -a 100 -p 60 -ven+f1 ","-s 170 -a 100 -p 75 -ven+f2 ","-s 170 -a 100 -p 80 -ven+m2 "]
             #attr = voices[4]
@@ -40,6 +40,8 @@ class Speaker(threading.Thread):
                 self.started = False
                 print("pySioGame: You may like to install espeak to get some extra functionality, however this is not required to successfully use the game.")
             #stdout and stderr only used to hide the messages from terminal
+        else:
+            self.process = None
             
     def start_server_en(self):
         if self.enabled:
@@ -86,7 +88,7 @@ class Speaker(threading.Thread):
                 print("Error killing the espeak process")
                 
     def say(self,text,voice=1):
-        if self.enabled and self.talkative:
+        if self.enabled and self.talkative and (self.lang.voice != None or self.spk == self.process_en):
             if self.spk == self.process:
                 text = self.check_letter_name(text)
             text = text + "\n"

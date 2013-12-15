@@ -141,26 +141,24 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            ships = []
-            current = [x for x in range(self.data[2]+1)]#self.choice_list[:]
-            #collect value and x position on the grid from ships list
-            for i in range(len(self.board.ships)-1):
-                x = self.board.ships[i].grid_x-self.check[2]
-                y = self.board.ships[i].grid_y-self.check[0]
-                w = self.data[3]
-                h = self.data[4]
-                pos = x + (y*w)
-                current[pos]=int(self.board.ships[i].value)
-            del(current[-1])          
-            if self.choice_list == current:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                if self.points > 0 :
-                    self.points -= 1
-                self.level.try_again()
-                self.changed_since_check = False
+        ships = []
+        current = [x for x in range(self.data[2]+1)]#self.choice_list[:]
+        #collect value and x position on the grid from ships list
+        for i in range(len(self.board.ships)-1):
+            x = self.board.ships[i].grid_x-self.check[2]
+            y = self.board.ships[i].grid_y-self.check[0]
+            w = self.data[3]
+            h = self.data[4]
+            pos = x + (y*w)
+            current[pos]=int(self.board.ships[i].value)
+        del(current[-1])          
+        if self.choice_list == current:
+            self.update_score(self.points)
+            self.level.next_board()
+        else:
+            if self.points > 0 :
+                self.points -= 1
+            self.level.try_again()
 
 """
 If the grid size is odd, then the number of inversions in a solvable situation are even.

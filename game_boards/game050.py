@@ -212,23 +212,21 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            self.result = []
-            for i in range(self.data[1]):
-                self.result.append(self.board.grid[i][self.data[0]-3])
-            correct = True
-            if self.solution_positions == self.result: #self.board.grid[7]:
-                for each_item in self.board.ships:
-                    if each_item.grid_y != self.solution[each_item.unit_id]:
-                        correct = False 
-                        break
-            else:
-                correct = False
-            if correct == True:
-                self.update_score(self.points)
-                self.level.next_board() 
-            else:
-                if self.points > 0 :
-                    self.points -= 1
-                self.changed_since_check = False
-                self.level.try_again()
+        self.result = []
+        for i in range(self.data[1]):
+            self.result.append(self.board.grid[i][self.data[0]-3])
+        correct = True
+        if self.solution_positions == self.result: #self.board.grid[7]:
+            for each_item in self.board.ships:
+                if each_item.grid_y != self.solution[each_item.unit_id]:
+                    correct = False 
+                    break
+        else:
+            correct = False
+        if correct == True:
+            self.update_score(self.points)
+            self.level.next_board() 
+        else:
+            if self.points > 0 :
+                self.points -= 1
+            self.level.try_again()

@@ -22,8 +22,9 @@ class Board(gd.BoardGame):
         self.color = color
         #font_color = ex.hsv_to_rgb(227,255,50)
         #font_color = (85,0,212)
-        ver_color = (63,45,247)
+        #ver_color = (63,45,247)
         border_color = (105,12,100)
+        letter_bg = (255,230,255)
         white = (255,255,255)
         font_color = (100,12,100)
         footer_font = (100,100,100)
@@ -177,7 +178,7 @@ class Board(gd.BoardGame):
             else:
                 letter = self.word[i]
             h = 0
-            number_color = white 
+            number_color = letter_bg
             self.solution_grid[x] = 1
             #change y 
             if picked:
@@ -210,8 +211,8 @@ class Board(gd.BoardGame):
         for i in range(3, 3+n_letters):
             self.board.all_sprites_list.move_to_front(self.board.units[i])
                 
-        footer_caption = "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
-        self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Label,footer_caption,number_color,"",27)
+        footer_caption = self.lang.d["art4apps"]# = "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+        self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Label,footer_caption,white,"",27)
         self.board.units[-1].font_color = footer_font
     
     def handle(self,event):
@@ -223,23 +224,21 @@ class Board(gd.BoardGame):
 
     def check_result(self):
         result = [" " for i in range(self.data[0])]
-        if self.changed_since_check:
-            if self.board.grid[self.sol_grid_y] == self.solution_grid:
-                #print(self.board.grid[self.sol_grid_y])
-                #print(self.solution_grid)
-                for i in range(1,len(self.board.ships)):
-                    if self.board.ships[i].grid_y == self.sol_grid_y:
-                        result[self.board.ships[i].grid_x] = self.board.ships[i].value
-                re = "".join(result)
-                re = re.strip()
-                #print("%s == %s?" % (self.word, re))
-                if self.word == re:
-                    self.update_score(self.points)
-                    self.level.next_board()
-                else:
-                    if self.points > 0:
-                        self.points -= 1
-                    self.level.try_again()
-                    self.changed_since_check = False
+        if self.board.grid[self.sol_grid_y] == self.solution_grid:
+            #print(self.board.grid[self.sol_grid_y])
+            #print(self.solution_grid)
+            for i in range(1,len(self.board.ships)):
+                if self.board.ships[i].grid_y == self.sol_grid_y:
+                    result[self.board.ships[i].grid_x] = self.board.ships[i].value
+            re = "".join(result)
+            re = re.strip()
+            #print("%s == %s?" % (self.word, re))
+            if self.word == re:
+                self.update_score(self.points)
+                self.level.next_board()
             else:
-                self.level.try_again(True)
+                if self.points > 0:
+                    self.points -= 1
+                self.level.try_again()
+        else:
+            self.level.try_again()

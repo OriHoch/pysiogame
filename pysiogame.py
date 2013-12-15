@@ -33,7 +33,7 @@
 #standard lib modules
 import os, sys
 #make the window appear in the top left rather than bottom right
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
+#os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
 import pygame
 import threading
 import gc
@@ -186,6 +186,7 @@ class GamePlay(threading.Thread):
         pygame.event.set_allowed(pygame.VIDEORESIZE)
         if repost:
             pygame.event.post(pygame.event.Event(pygame.VIDEORESIZE, size=self.size[:], w=self.size[0], h=self.size[1]))
+        self.info.rescale_title_space()
 
     def set_up_user(self):
         #load and set up user settings
@@ -270,7 +271,7 @@ class GamePlay(threading.Thread):
                 self.set_up_user()
                 
                 self.done == False
-                self.force_no_resize = True
+                #self.force_no_resize = True
                 self.set_init_vals()
                 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
                 self.config.fs_width  = self.display_info.current_w
@@ -461,12 +462,13 @@ class GamePlay(threading.Thread):
                     clock.tick(30)
             
                 #close eSpeak process, quit pygame, collect garbage and exit the game.
-                self.m.save_levels()
+                #self.m.save_levels()
                 if self.config.settings_changed:
                     self.config.save_settings(self.db)
                 clock.tick(300)
         self.db.close()
-        self.speaker.stop_server()
+        if self.speaker.process != None:
+            self.speaker.stop_server()
         self.speaker.stop_server_en()
         pygame.quit()
         gc.collect()

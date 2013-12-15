@@ -17,10 +17,10 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
         
-        color1 = ex.hsv_to_rgb(225,15,235)
-        color2 = ex.hsv_to_rgb(235,15,245)
+        color1 = (220,220,220) #ex.hsv_to_rgb(225,15,235)
+        color2 = (255,255,255) #ex.hsv_to_rgb(235,15,245)
 
-        font_color = ex.hsv_to_rgb(227,255,50)
+        font_color = (40,40,40) #ex.hsv_to_rgb(227,255,50)
         data = [15,8]
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
@@ -38,7 +38,7 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,0,data[0],1,classes.board.Label,self.lang.d["Translators"],color2,"",4)
 
         self.board.add_unit(0,1,3,1,classes.board.Label,["English & Polish","English & Polski"],color1,"",6)
-        self.board.add_unit(3,1,data[0]-3,1,classes.board.Label,["Kamila Roszak-Imiolek", "Ireneusz Imiolek"],color1,"",6)
+        self.board.add_unit(3,1,data[0]-3,1,classes.board.Label,["Kamila Roszak-Imiolek, Ireneusz Imiolek"],color1,"",6)
         
         self.board.add_unit(0,2,3,1,classes.board.Label,["Catalan","Català"],color2,"",6)
         self.board.add_unit(3,2,data[0]-3,1,classes.board.Label,["Guillem Jover","http://www.hadrons.org/~guillem/"],color2,"",6)
@@ -69,7 +69,7 @@ class Board(gd.BoardGame):
         self.board.add_unit(3,9,data[0]-3,1,classes.board.Label,"Not Translated",color1,"",6)
         """
         
-        self.outline_all(1,1)
+        #self.outline_all(1,1)
         for each in self.board.units:
             each.font_color = font_color
             each.align = 1

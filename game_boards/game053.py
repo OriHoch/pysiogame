@@ -26,7 +26,7 @@ class Board(gd.BoardGame):
         self.col_k = (0,0,0)
         self.col_e = (255,255,255)
         colorkey = (2,2,2)
-        self.col_bg = self.col_k #(255,246,219)
+        self.col_bg = (255,255,255)#self.col_k #(255,246,219)
         data = [32,23]
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=True)
@@ -87,8 +87,16 @@ class Board(gd.BoardGame):
         self.board.add_door(4,data[1]-1,2,1,classes.board.Door,"",self.col_g,"",0)
         self.board.add_door(7,data[1]-1,2,1,classes.board.Door,"",self.col_b,"",0)
 
+        #black background
+        self.board.add_door(1,0,2,data[1],classes.board.Door,"",self.col_k,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(4,0,2,data[1],classes.board.Door,"",self.col_k,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(7,0,2,data[1],classes.board.Door,"",self.col_k,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        
         #self.color_info = self.board.units[-1]
-        for i in [5,6,7,8,9,10]:
+        for i in [5,6,7,8,9,10,11,12,13]:
             if i>7:
                 self.board.units[i].image.set_colorkey(colorkey)
                 self.board.all_sprites_list.move_to_back(self.board.units[i])

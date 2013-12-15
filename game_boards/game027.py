@@ -160,23 +160,21 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            #checking what sprites collide with the basket sprite
-            purchased = pygame.sprite.spritecollide(self.board.units[0], self.board.ship_list, False, collided = None)
-            result = {}
-            #count each item and check if they are the items from the shopping list
-            for i in range(len(self.items)):
-                count = 0
-                for each in purchased:
-                    if each.value == self.img_captions[i]: #self.items[i]:
-                        count += 1
-                if count > 0:
-                    result[str(i)] = count
-            if result == self.solution:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                if self.points > 0:
-                    self.points -= 1
-                self.level.try_again()
-                self.changed_since_check = False
+        #checking what sprites collide with the basket sprite
+        purchased = pygame.sprite.spritecollide(self.board.units[0], self.board.ship_list, False, collided = None)
+        result = {}
+        #count each item and check if they are the items from the shopping list
+        for i in range(len(self.items)):
+            count = 0
+            for each in purchased:
+                if each.value == self.img_captions[i]: #self.items[i]:
+                    count += 1
+            if count > 0:
+                result[str(i)] = count
+        if result == self.solution:
+            self.update_score(self.points)
+            self.level.next_board()
+        else:
+            if self.points > 0:
+                self.points -= 1
+            self.level.try_again()

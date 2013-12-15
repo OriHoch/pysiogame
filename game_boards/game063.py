@@ -434,7 +434,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check and not self.correct:
+        if not self.correct:
             correct = 0
             if len(self.ans_h.value.strip()) > 0 and self.time[0] == int(self.ans_h.value):
                 self.ans_h.set_outline((0,255,0), 5)

@@ -202,21 +202,19 @@ class Board(gd.BoardGame):
 
     def check_result(self):
         result = [" " for i in range(self.alphabet_len)]
-        if self.changed_since_check:
-            if self.board.grid[0] == self.board.grid[self.data[1]-2] == self.solution_grid:
-                for i in range(len(self.board.ships)):
-                    if self.board.ships[i].grid_y == 0:
-                        result[self.board.ships[i].grid_x] = self.board.ships[i].value
-                    elif self.board.ships[i].grid_y == self.data[1]-2:
-                        result[self.data[0] + self.board.ships[i].grid_x] = self.board.ships[i].value
-                if self.word == result:
-                    self.update_score(self.points)
-                    self.level.next_board()
-                else:
-                    if self.points > 0:
-                        self.points -= 1
-                    self.level.try_again()
-                    self.changed_since_check = False
+        if self.board.grid[0] == self.board.grid[self.data[1]-2] == self.solution_grid:
+            for i in range(len(self.board.ships)):
+                if self.board.ships[i].grid_y == 0:
+                    result[self.board.ships[i].grid_x] = self.board.ships[i].value
+                elif self.board.ships[i].grid_y == self.data[1]-2:
+                    result[self.data[0] + self.board.ships[i].grid_x] = self.board.ships[i].value
+            if self.word == result:
+                self.update_score(self.points)
+                self.level.next_board()
             else:
-                self.level.try_again(True)
+                if self.points > 0:
+                    self.points -= 1
+                self.level.try_again()
+        else:
+            self.level.try_again()
                 

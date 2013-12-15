@@ -172,35 +172,33 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            #checking copied from number sorting game and re-done
-            match_found = False
-            for j in range(3):
-                if self.board.grid[j][self.center-2:self.center+3] == [1,1,1,1,1]: #self.solution_grid:
-                    ships = []
-                    units = []
-                    #collect value and x position on the grid from ships list
-                    for i in range(5):
-                        ships.append([self.board.ships[i].grid_x, self.board.ships[i].value])
-                        units.append([self.board.units[i].grid_x, self.board.units[i].value])
-                    #ships_sorted = sorted(ships)
-                    ships.sort()
-                    units.sort()
-                    correct = True
-                    for i in range(5):
-                        if i < 4:
-                            if ships[i][1] != units[i][1]:
-                                correct = False
-                    if correct == True:
-                        match_found = True
-                        break
-                    else:
-                        if self.points > 0:
-                            self.points -= 1
-            if match_found:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                self.level.try_again(True)
-                self.level.try_again()
-                self.changed_since_check = False
+        #checking copied from number sorting game and re-done
+        match_found = False
+        for j in range(3):
+            if self.board.grid[j][self.center-2:self.center+3] == [1,1,1,1,1]: #self.solution_grid:
+                ships = []
+                units = []
+                #collect value and x position on the grid from ships list
+                for i in range(5):
+                    ships.append([self.board.ships[i].grid_x, self.board.ships[i].value])
+                    units.append([self.board.units[i].grid_x, self.board.units[i].value])
+                #ships_sorted = sorted(ships)
+                ships.sort()
+                units.sort()
+                correct = True
+                for i in range(5):
+                    if i < 4:
+                        if ships[i][1] != units[i][1]:
+                            correct = False
+                if correct == True:
+                    match_found = True
+                    break
+                else:
+                    if self.points > 0:
+                        self.points -= 1
+        if match_found:
+            self.update_score(self.points)
+            self.level.next_board()
+        else:
+            self.level.try_again(True)
+            self.level.try_again()

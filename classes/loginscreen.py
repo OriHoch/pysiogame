@@ -1154,6 +1154,7 @@ class LoginScreen:
         if self.update_me:
             self.update_me = False
             self.screen.fill((90,90,90))
+            #self.screen.fill((255,255,255))
             #lines = [[self.left+1+0,self.top+1+0],[self.left-1+800,self.top+1+0],[self.left+1+800,self.top-1+480],[self.left+1+0,self.top-1+480]]
             lines = [[self.left+0,self.top+0],[self.left+800-1,self.top+0],[self.left+800-1,self.top+480-1],[self.left+0,self.top+480-1]]
             pygame.draw.polygon(self.screen,(70,70,70), lines, 0)

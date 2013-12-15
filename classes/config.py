@@ -6,7 +6,7 @@ import os, sys
 class Config():
     'holds some basic configuration data - screen size among others'
     def __init__(self):
-        self.version = "2.31.203.2-dev"
+        self.version = "2.31.211.1-dev"
         #Screen Settings
         #set this to False if you want to manually set the screen size, but if you have manually resized the window the latest size will be used instead
         #self.screen_size_autodetect = True
@@ -67,14 +67,15 @@ class Config():
             else:
                 directory = os.path.join(xdg_data_home, 'pysiogame')
                 
-            self.file_level = os.path.join(directory, 'level_data.txt')
-            self.file_settings = os.path.join(directory, 'settings.txt')
+            #self.file_level = os.path.join(directory, 'level_data.txt')
+            #self.file_settings = os.path.join(directory, 'settings.txt')
             self.file_db = os.path.join(directory, 'pysiogame.db')
             
         else: #if p == "darwin" or p == "win32" or p == "cygwin":
-            self.file_level = os.path.abspath(os.path.expanduser("~/.config/pysiogame/level_data.txt"))
-            self.file_settings = os.path.abspath(os.path.expanduser("~/.config/pysiogame/settings.txt"))
-            directory = os.path.dirname(self.file_level)
+            #self.file_level = os.path.abspath(os.path.expanduser("~/.config/pysiogame/level_data.txt"))
+            #self.file_settings = os.path.abspath(os.path.expanduser("~/.config/pysiogame/settings.txt"))
+            directory = os.path.dirname(os.path.abspath(os.path.expanduser("~/.config/pysiogame/")))
+            self.file_db = os.path.join(directory, 'pysiogame.db')
             
         try:
             if not os.path.exists(directory):
@@ -100,8 +101,8 @@ class Config():
         #    self.settings = self.default_settings
         
         #language settings
-        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Deutsch","Français", "Suomalainen", "Test Language"]
-        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","de","fr","fi","te_ST"]
+        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Deutsch","Français", "Suomalainen", "Hebrew", "Test Language"]
+        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","de","fr","fi","he","te_ST"]
         self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT", "ru"]
             
     def reset_settings(self):

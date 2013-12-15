@@ -12,8 +12,13 @@ class Language():
     def __init__(self, configo):
         lib_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
         self.locale_dir = unival(os.path.join(lib_dir, 'locale/'))
-        
-        locale.setlocale(locale.LC_MESSAGES, '') # use user's preferred locale
+        if 'LC_MESSAGES' in vars(locale):
+            # linux
+            locale.setlocale(locale.LC_MESSAGES, '')
+        else:
+            # windows
+            locale.setlocale(locale.LC_ALL, '')
+        #locale.setlocale(locale.LC_MESSAGES, '') # use user's preferred locale
         
         self.config = configo
         self.alphabet_26 = ["en_GB","en_US","pt_PT"]
@@ -54,7 +59,11 @@ class Language():
         
         import i18n.custom.default
         self.oi18n = i18n.custom.default.I18n()
-        
+        self.ltr_text = True
+        self.ltr_numbers = True
+        self.ltr_math = True
+        self.has_uc = True
+        self.has_cursive = True
         if self.lang == 'en_US':
             import i18n.custom.en_us
             import i18n.custom.word_lists.en_us_di
@@ -134,7 +143,7 @@ class Language():
             self.voice = ["-vfi+m1"]
             self.di = i18n.custom.word_lists.fi_di.di
             self.lang_file = i18n.custom.fi
-        elif self.lang == 'el':
+        elif self.lang == 'el': #Greek
             import i18n.custom.el
             import i18n.custom.word_lists.el_di
             import i18n.custom.kbrd.el
@@ -144,6 +153,16 @@ class Language():
             self.lang_file = i18n.custom.el
             self.kbrd = i18n.custom.kbrd.el
             self.kbrd_course_mod = i18n.custom.kbrd.el_course
+        elif self.lang == 'he': #Hebrew
+            import i18n.custom.he
+            import i18n.custom.word_lists.he_di
+            self.voice = None #["-vel+m1"]
+            self.di = i18n.custom.word_lists.he_di.di
+            self.lang_file = i18n.custom.he
+            self.ltr_text = False
+            self.has_uc = False
+            self.has_cursive = False
+            
         elif self.lang == 'te_ST':
             import i18n.custom.te_st
             import i18n.custom.word_lists.te_st_di

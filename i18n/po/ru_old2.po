@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-12-11 20:29+0100\n"
+"PO-Revision-Date: 2013-11-29 10:33+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "Language: Russian\n"
@@ -1119,41 +1119,37 @@ msgid "Word Builder - Animals"
 msgstr "Словопостроитель - животные"
 
 msgid "Word Builder - Sports"
-msgstr "Словопостроитель - спорт"
+msgstr ""
 
 msgid "Word Builder - Body"
-msgstr "Словопостроитель - тело"
+msgstr ""
 
 msgid "Word Builder - People"
-msgstr "Словопостроитель - люди"
+msgstr ""
 
 msgid "Word Builder - Actions"
-msgstr "Словопостроитель - действия"
+msgstr ""
 
 msgid "Word Builder - Constructions"
-msgstr "Словопостроитель - конструкции"
+msgstr ""
 
 msgid "Word Builder - Nature"
-msgstr "Словопостроитель - природа"
+msgstr ""
 
 msgid "Word Builder - Jobs"
-msgstr "Словопостроитель - работа и занятия"
+msgstr ""
 
 msgid "Word Builder - Clothes and Accessories"
-msgstr "Словопостроитель - одежда и аксессуары"
+msgstr ""
 
 msgid "Word Builder - Fruits and Vegetables"
-msgstr "Словопостроитель - фрукты и овощи"
+msgstr ""
 
 msgid "Word Builder - Transport"
-msgstr "Словопостроитель - транспорт"
+msgstr ""
 
 msgid "Word Builder - Food"
-msgstr "Словопостроитель - пища"
+msgstr ""
 
 msgid "Complete the word"
 msgstr "Заполните слово"
-
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
-msgstr "Изображения с сайта: http://www.art4apps.org/ - Art4Apps by Smart4Kids - лицензия Creative Commons License (CC BY-SA)"
-

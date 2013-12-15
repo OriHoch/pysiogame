@@ -59,9 +59,9 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,10,data[0],1,classes.board.Label,"http://sourceforge.net/projects/pysiogame/",color,"",2)
         #x = (data[0] - 7)//2
         #self.board.add_unit(x,7,1,1,classes.board.ImgShip,"",color,"facebook_icon.png")
-        self.board.add_unit(0,7,data[0],1,classes.board.Label,["www.facebook.com/pysiogame",""],color,"",5)
+        self.board.add_unit(0,8,data[0],1,classes.board.Label,["www.facebook.com/pysiogame",""],color,"",5)
         
-        self.board.add_unit(0,6,data[0],1,classes.board.Label,"www.pysiogame.net",color,"",2)
+        self.board.add_unit(0,7,data[0],1,classes.board.Label,"www.pysiogame.net",color,"",2)
         self.board.units[-1].font_color = (63,99,182)
         
         self.board.units[0].font_color = font_color

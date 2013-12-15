@@ -130,20 +130,19 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.changed_since_check:
-            if self.board.grid[4][18]:
-                sol = self.board.ships[self.multi[str(self.solution[2])]]
-                if sol.grid_x == 18 and sol.grid_y == 4:
-                    self.update_score(self.points)
-                    self.passed()
-                else:
-                    self.failed()
+        if self.board.grid[4][18]:
+            sol = self.board.ships[self.multi[str(self.solution[2])]]
+            if sol.grid_x == 18 and sol.grid_y == 4:
+                self.update_score(self.points)
+                self.passed()
             else:
-                if self.home_square.value != "" and (int(self.home_square.value) == self.solution[2]):
-                    self.update_score(self.points)
-                    self.quick_passed()
-                else:
-                    self.failed()
+                self.failed()
+        else:
+            if self.home_square.value != "" and (int(self.home_square.value) == self.solution[2]):
+                self.update_score(self.points)
+                self.quick_passed()
+            else:
+                self.failed()
                 
     def passed(self):
         tts = self.d["Perfect!"]+" "+str(self.solution[0])+" "+self.d["multiplied by"]+" "+str(self.solution[1])+" "+self.d["equals"]+" "+str(self.solution[2])
@@ -155,4 +154,3 @@ class Board(gd.BoardGame):
         
     def failed(self):
         self.level.try_again()
-        self.changed_since_check = False

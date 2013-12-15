@@ -1165,3 +1165,6 @@ msgstr ""
 
 msgid "Word Builder - Food"
 msgstr ""
+
+msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgstr ""

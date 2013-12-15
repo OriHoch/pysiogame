@@ -1102,6 +1102,9 @@ msgstr "A little set of educational apps for kids"
 msgid "Word Builder - Animals"
 msgstr ""
 
+msgid "Complete the word"
+msgstr ""
+
 msgid "Word Builder - Sports"
 msgstr ""
 
@@ -1135,5 +1138,5 @@ msgstr ""
 msgid "Word Builder - Food"
 msgstr ""
 
-msgid "Complete the word"
+msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
 msgstr ""
