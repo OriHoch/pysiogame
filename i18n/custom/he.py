@@ -15,23 +15,23 @@ from classes.extras import reverse
 d = dict()
 
 #alphabet he
-alphabet_lc = ['א', 'ב', 'ג', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-alphabet_uc = ['א', 'ב', 'ג', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+alphabet_lc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ך', 'ל', 'מ', 'ם', 'נ', 'ן', 'ס', 'ע', 'פ', 'ף', 'צ', 'ץ', 'ק', 'ר', 'ש', 'ת']
+alphabet_uc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ך', 'ל', 'מ', 'ם', 'נ', 'ן', 'ס', 'ע', 'פ', 'ף', 'צ', 'ץ', 'ק', 'ר', 'ש', 'ת']
 #correction of eSpeak pronounciation of single letters if needed
 alpha = "אבגדהוזחטיךכלםמןנסעףפץצקרשתװױײ׳״"
 
 def r(s):
     return reverse(s,alpha)
     
-numbers = ['אחד', 'שתיים', 'שלוש', 'ארבע', 'חמש', 'שש', 'שבע', 'שמונה', 'תשע', 'עשר', 'אחד עשרה', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'twenty one', 'twenty two', 'twenty three', 'twenty four', 'twenty five', 'twenty six', 'twenty seven', 'twenty eight', 'twenty nine']
-numbers2090 = ['עשרים','שלושים','ארבעים','fifty','sixty','seventy','eighty','ninety']
+numbers = ['אחד', 'שתיים', 'שלוש', 'ארבע', 'חמש', 'שש', 'שבע', 'שמונה', 'תשע', 'עשר', 'אחד עשרה', 'שתים עשרה', 'שלוש-עשרה', 'ארבע-עשרה', 'חמש-עשרה', 'שש-עשרה', 'שבע-עשרה', 'שמונה-עשרה', 'תשע-עשרה', 'עשרים', 'עשרים ואחת', 'עשרים ושתים', 'עשרים ושלוש', 'עשרים וארבע', 'עשרים וחמש', 'עשרים ושש', 'עשרים ושבע', 'עשרים ושמונה', 'עשרים ותשע']
+numbers2090 = ['עשרים','שלושים','ארבעים','חמישים','שישים','שבעים','שמונים','תשעים']
 
 
 #The following 2 lines are not to be translated but replaced with a sequence of words starting in each of the letters of your alphabet in order, best if these words have a corresponding picture in images/flashcard_images.jpg. The second line has the number of the image that the word describes. 
 #The images are numbered from left to bottom such that the top left is numbered 0, the last image is 73, if none of the available things have names that start with any of the letters we can add new pictures.
 #d['abc_flashcards_word_sequence'] = ['אבטיח', 'בננה', 'גיטרה', 'Dolphin', 'Elephant', 'Fortepiano', 'Guitar', 'Hedgehog', 'Igloo', 'Jar', 'Koala', 'Lion', 'Monitor', 'Notebook', 'Ocean', 'Parrot', 'Queen', 'Rabbit', 'Street', 'Tomato', 'Umbrella', 'Violin', 'Watermelon', 'Xylophone', 'Yarn', 'Zebra']
-d['abc_flashcards_word_sequence'] = [r("אבטיח"), r("בננה"), r("גיטרה"), 'Dolphin', 'Elephant', 'Fortepiano', 'Guitar', 'Hedgehog', 'Igloo', 'Jar', 'Koala', 'Lion', 'Monitor', 'Notebook', 'Ocean', 'Parrot', 'Queen', 'Rabbit', 'Street', 'Tomato', 'Umbrella', 'Violin', 'Watermelon', 'Xylophone', 'Yarn', 'Zebra']
-d['abc_flashcards_frame_sequence'] = [26, 71, 28, 59, 4, 34, 28, 29, 8, 9, 72, 11, 40, 13, 52, 15, 16, 17, 53, 33, 20, 21, 26, 23, 24, 25]  
+d['abc_flashcards_word_sequence'] = [r("אבטיח"), r("בננה"), r("גיטרה"), r("דולפין"), r("היפופוטם"), r("ורד"), r("זברה"), r("חלזון"), r("טלפון"), r("ינשוף"), r("כינור"), r("מערוך"), r("לחם"), r("מסך"), r("מים"), r("נעליים"), r("שעון"), r("סירה"), r("עין"), r("פרח"), r("חוף"), r("צליל"), r("מיץ"), r("קוף"), r("רכבת"), r("שעון"), r("תפוח")]
+d['abc_flashcards_frame_sequence'] = [26, 71, 28, 59, 47, 78, 25, 61, 79, 14, 21, 80, 35, 40, 81, 60, 51, 1, 75, 69, 82, 83, 84, 37, 63, 51, 42]
 
 
 letter_names = []
@@ -56,7 +56,7 @@ def n2txt(n, twoliner = False):
                 return ones + " " + tens
     
     elif n == 0: return r("אפס")
-    elif n == 100: return r("one hundred")
+    elif n == 100: return r("מאה")
     else: return ""
 
      
@@ -69,21 +69,21 @@ def time2str(h, m):
         if m == 0: return u"%s" % n2txt(h)
         elif m == 1: return r(u" דקה אחרי") + n2txt(h)
         elif m == 15: return r(u" רבע אחרי") + n2txt(h)
-        elif m == 30: return r(u"half past ") + n2txt(h)
-        elif m == 45: return r(u"quater to ") + n2txt(h)
-        elif m == 59: return r(u"one minute to ") + n2txt(h)
-        elif m < 30: return n2txt(m) + r(u" past ") +n2txt(h)
-        elif m > 30: return n2txt(60-m) + r(u" to ") +n2txt(h)
+        elif m == 30: return r(u"חצי אחרי ") + n2txt(h)
+        elif m == 45: return r(u"רבע ל ") + n2txt(h)
+        elif m == 59: return r(u"דקה ל ") + n2txt(h)
+        elif m < 30: return n2txt(m) + r(u" אחרי ") +n2txt(h)
+        elif m > 30: return n2txt(60-m) + r(u" ל ") +n2txt(h)
         return ""
     else:
         if m == 0: return "%s" % n2txt(h)
         elif m == 1: return "דקה אחרי %s" % n2txt(h)
         elif m == 15: return "רבע אחרי %s" % n2txt(h)
-        elif m == 30: return "half past %s" % n2txt(h)
-        elif m == 45: return "quater to %s" % n2txt(h)
-        elif m == 59: return "one minute to %s" % n2txt(h)
-        elif m < 30: return "%s past %s" % (n2txt(m), n2txt(h))
-        elif m > 30: return "%s to %s" % (n2txt(60-m), n2txt(h))
+        elif m == 30: return "חצי אחרי %s" % n2txt(h)
+        elif m == 45: return "רבע ל %s" % n2txt(h)
+        elif m == 59: return "דקה ל %s" % n2txt(h)
+        elif m < 30: return "%s אחרי %s" % (n2txt(m), n2txt(h))
+        elif m > 30: return "%s ל %s" % (n2txt(60-m), n2txt(h))
         return ""
         
 """
