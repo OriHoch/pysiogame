@@ -405,7 +405,15 @@ class GamePlay(threading.Thread):
                                 info.handle(event,self.game_board.layout,self)
                         elif event.type == pygame.MOUSEBUTTONUP:
                             pos = event.pos
-                            if pos[0] > self.game_board.layout.menu_a_w and self.game_board.layout.top_margin < pos[1] < self.game_board.layout.game_h + self.game_board.layout.top_margin:
+                            if pos[0] < self.game_board.layout.menu_a_w:
+                                #clicked on menu panel
+                                if pos[0] < self.game_board.layout.menu_l_w:
+                                    #clicked on category menu
+                                    m.handle_menu_l(event)
+                                else:
+                                    #clicked on game selection menu
+                                    m.handle_menu_r(event,self.game_board.layout.menu_l_w)
+                            elif pos[0] > self.game_board.layout.menu_a_w and self.game_board.layout.top_margin < pos[1] < self.game_board.layout.game_h + self.game_board.layout.top_margin:
                                 self.game_board.handle(event)
                             elif pos[0] > self.game_board.layout.menu_a_w and pos[1] < self.game_board.layout.top_margin:
                                 self.sb.handle(event)
@@ -413,6 +421,7 @@ class GamePlay(threading.Thread):
                                 info.handle(event,self.game_board.layout,self)
                                 self.game_board.handle(event)
                             pygame.mouse.set_cursor(*pygame.cursors.arrow)
+                            m.swipe_reset()
                         else:
                             #let the game handle other events
                             self.game_board.handle(event)
@@ -469,6 +478,7 @@ class GamePlay(threading.Thread):
         self.db.close()
         if self.speaker.process != None:
             self.speaker.stop_server()
+            
         self.speaker.stop_server_en()
         pygame.quit()
         gc.collect()
@@ -476,12 +486,16 @@ class GamePlay(threading.Thread):
 
 if __name__ == "__main__":
     #create configuration object
-    configo = classes.config.Config()
-    
-    #create the language object
-    lang = classes.lang.Language(configo)
-    #create the Thread objects and start the threads
-    speaker = classes.speaker.Speaker(lang, configo)
-    app = GamePlay(speaker, lang, configo)
-    speaker.start()
-    app.start()
+    if len(sys.argv) == 1:
+        configo = classes.config.Config()
+        #create the language object
+        lang = classes.lang.Language(configo)
+        #create the Thread objects and start the threads
+        speaker = classes.speaker.Speaker(lang, configo)
+        app = GamePlay(speaker, lang, configo)
+        speaker.start()
+        app.start()
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == "v" or sys.argv[1] == "version":
+            from classes.cversion import ver
+            print("pysiogame-%s" % ver)

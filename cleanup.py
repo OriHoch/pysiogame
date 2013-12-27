@@ -7,7 +7,7 @@
 #and all __pycache__ directories including it's contents
 #It also checks for any .mo files floating in .po directory and moves them to locale dir.
 
-import os
+import os, sys
 import shutil
 
 def findNremove(path,file_patterns, dir_patterns,maxdepth=1):
@@ -66,11 +66,15 @@ def distribute_mo(hpath, path, pattern):
     print("%d %s files distributed" % (count, pattern))
     
 if __name__ == "__main__":
-    path = os.path.dirname(os.path.abspath(__file__))
+    #path = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.abspath(os.path.dirname(sys.argv[0]))
     os.chdir(path)
-    
     #determine extensions and directories to be removed
     file_patterns = [".py~", ".pyc", ".po~", ".pot~", ".txt~"]
+    if len(sys.argv) == 2:
+        if sys.argv[1] == "rmcopy":
+            file_patterns.append("copy).py")
+            
     dir_patterns =["__pycache__"]
     
     #remove all mentioned above
@@ -82,6 +86,9 @@ if __name__ == "__main__":
     #move the files to the locale directory based on its locale code
     distribute_mo(path, popath, ".mo")
     
+    with open(os.path.join(path, "classes", "cversion.py"),"w") as s_file:
+        s = path.split("/")
+        s_file.write('ver = "%s"' % s[-1][10:])
+        
     print("Done!")
     
-    print("\n!!! UPDATE VERSION NUMBER MANUALLY !!!\n")

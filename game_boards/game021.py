@@ -47,9 +47,13 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-
+        """
         self.slider_min = self.mainloop.size[0] - 8 * self.layout.scale
         self.slider_max = self.mainloop.size[0] - 2
+        """
+        
+        self.slider_min = self.mainloop.size[0] - self.layout.game_margin - 8 * self.layout.scale
+        self.slider_max = self.mainloop.size[0] - self.layout.game_margin - 2
         
         #canvas
         self.board.add_unit(0,3,data[0],data[1]-6,classes.board.Letter,"",color,"",2)
@@ -252,23 +256,25 @@ class Board(gd.BoardGame):
             self.btn_down = False
             
     def change_size(self, pos, stage):
-        if stage == 0:
-            self.sizing = True
-            self.btn_down = True
-            self.apply_size(pos)
-        elif stage == 1:
-            self.apply_size(pos)
-        elif stage == 2:
-            self.apply_size(pos)
-            self.btn_down = False
-            self.sizing = False
+        if self.slider_min < pos[0] < self.slider_max:
+            if stage == 0:
+                self.sizing = True
+                self.btn_down = True
+                self.apply_size(pos)
+            elif stage == 1:
+                self.apply_size(pos)
+            elif stage == 2:
+                self.apply_size(pos)
+                self.btn_down = False
+                self.sizing = False
             
-        self.size_slider.update_me = True
-        self.size_display.update_me = True
-        self.mainloop.redraw_needed[0] = True
+            self.size_slider.update_me = True
+            self.size_display.update_me = True
+            self.mainloop.redraw_needed[0] = True
         
     def apply_size(self, pos):
         size = int(((pos[0] - self.slider_min) * 100.0 ) / (self.slider_max - self.slider_min))
+        #size = int(((pos[0] - self.slider_min) * 100.0 ) / (self.slider_max - self.slider_min))
         self.brush_size = size
         #self.size_slider.value = str(self.brush_size)
         self.size_display.value = self.d["brush size"] + ": " + str(self.brush_size)

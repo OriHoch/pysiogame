@@ -6,6 +6,7 @@ import pickle
 import gettext
 import locale
 from classes.extras import unival
+from classes.extras import reverse
 # game003.py holds the GUI for language switching
 
 class Language():
@@ -162,7 +163,7 @@ class Language():
             self.ltr_text = False
             self.has_uc = False
             self.has_cursive = False
-            
+            alpha = i18n.custom.he.alpha
         elif self.lang == 'te_ST':
             import i18n.custom.te_st
             import i18n.custom.word_lists.te_st_di
@@ -193,10 +194,6 @@ class Language():
         self.d.update(self.oi18n.d)
         self.d.update(self.lang_file.d)
         self.b.update(self.oi18n.b)
-        self.dp.update(self.d)
-        if self.lang == 'ru':
-            self.dp.update(self.lang_file.dp)
-            #self.dp["Great job!"] = self.lang_file.dp["Great job!"][:]
         self.numbers = self.lang_file.numbers
         self.numbers2090 = self.lang_file.numbers2090
         self.n2txt = self.lang_file.n2txt
@@ -206,7 +203,36 @@ class Language():
         self.shape_names = self.oi18n.shape_names
         self.letter_names = self.lang_file.letter_names
         
+        if not self.ltr_text:
+            for each_d in [self.d, self.b]:
+                for key in each_d.keys():
+                    if isinstance(each_d[key], list):
+                        for index in range(len(each_d[key])):
+                            if sys.version_info < (3, 0):
+                                if isinstance(each_d[key][index], basestring):
+                                    each_d[key][index] = reverse(each_d[key][index], alpha)
+                            else:
+                                if isinstance(each_d[key][index], str):
+                                    each_d[key][index] = reverse(each_d[key][index], alpha)
+                        
+                    else:
+                        each_d[key] = reverse(each_d[key], alpha)
         
+            for each in [self.solid_names, self.shape_names]:
+                for index in range(len(each)):
+                    if sys.version_info < (3, 0):
+                        if isinstance(each[index], basestring):
+                            each[index] = reverse(each[index], alpha)
+                    else:
+                        if isinstance(each[index], str):
+                            each[index] = reverse(each[index], alpha)
+        
+        
+        self.dp.update(self.d)
+        if self.lang == 'ru':
+            self.dp.update(self.lang_file.dp)
+            #self.dp["Great job!"] = self.lang_file.dp["Great job!"][:]
+            
         self.alphabet_lc = self.lang_file.alphabet_lc
         self.alphabet_uc = self.lang_file.alphabet_uc
         self.accents_lc = self.lang_file.accents_lc

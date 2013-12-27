@@ -39,8 +39,12 @@ class Layout:
             self.menu_w_offset = 0#(self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w#(screen_w - menu_w) % x_count
             
             #self.game_bg_l = ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w)
+            self.game_margin = ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w) // 2
             
-            self.game_left = self.menu_w + ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w) // 2
+            self.game_left = self.menu_w + self.game_margin
+            
+            self.game_right = self.screen_w - self.game_margin
+                        
             self.menu_w_offset = ((self.screen_w - self.menu_w) - self.scale*x_count - self.grid_line_w) // 2  
             #self.menu_w += self.menu_w_offset
             self.width=self.scale #width of a single square

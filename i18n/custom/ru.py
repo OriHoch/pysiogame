@@ -253,7 +253,7 @@ dp["yellow is ok"] = "жёлтого нормально"
 dp["Fract instr0"] = "Устано-вите соответствие дро-бей справа и дро-бей слева" #Match fraction charts on the right to the ones on the left
 dp["Fract instr1"] = "Устано-вите соответствие дро-бей справа дро-бям слева" #[Match fraction charts and fractions on the right","to the fraction charts on the left"]
 dp["Fract instr2"] = "Устано-вите соответствие дро-бей справа дро-бям слева" #Match fraction charts to the fractions on the left
-dp["Fract instr3"] = "Устано-вите соответствие дро-бей и десятичных дро-бей слева их процентному представлению справа" #["Match fraction charts, fractions and decimal fractions on the right","to their percentage representations"]
+dp["Fract instr3"] = "Устано-вите соответствие дро-бей и десятичных дро-бей справа их процентному представлению слева" #["Match fraction charts, fractions and decimal fractions on the right","to their percentage representations"]
 dp["Fract instr4"] = "Устано-вите соответствие отношений слева отношениям справа. Отношения показаны как отношения цвет-ных час-тей к белым час-тям" #["Match charts to the ratios on the left","Ratios are expressed as ratio of coloured pieces to white pieces"]
 
 #dp["Check for newer version..."] = "Проверьте новую версию, сообщите о переводах, ошибках, идеях на сайте проэкта:" #["","Check for newer version, report bugs, discuss, translate or review this project at:"]

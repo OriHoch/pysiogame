@@ -12,22 +12,24 @@
 d = dict()
 #word lists
 
-numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'twenty one', 'twenty two', 'twenty three', 'twenty four', 'twenty five', 'twenty six', 'twenty seven', 'twenty eight', 'twenty nine']
-numbers2090 = ['twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety']
+numbers = ['yksi', 'kaksi', 'kolme', 'neljä', 'viisi', 'kuusi', 'seitsemän', 'kahdeksan', 'yhdeksän', 'kymmenen', 'yksitoista', 'kaksitoista', 'kolmetoista', 'neljätoista', 'viisitoista', 'kuusitoista', 'seitsemäntoista', 'kahdeksantoista', 'yhdeksäntoista', 'kaksikymmentä', 'kaksikymmentäyksi', 'kaksikymmentäkaksi', 'kaksikymmentäkolme', 'kaksikymmentäneljä', 'kaksikymmentäviisi', 'kaksikymmentäkuusi', 'kaksikymmentäseitsemän', 'kaksikymmentäkahdeksan', 'kaksikymmentäyhdeksän']
+numbers2090 = ['kaksikymmentä','kolmekymmentä','neljäkymmentä','viiskymmentä','kuusikymmentä','seitsemänkymmentä','kahdeksankymmentä','yhdeksänkymmentä']
 
-          
-d['abc_flashcards_word_sequence'] = [ 'Aurinko','Banaani', 'C', 'Delfiini', 'Elefantti', 'Fortepiano', 'Gnuu','Hiiri', 'Ikkuna', 'Jooga', 'Kirahvi','Leipä', 'Muurahainen', 'Näppäin', 'Omena', 'Papukaija', 'Q', 'Riippumatto', 'Seepra', 'Talo', 'Uuni', 'Vene','Xylofoni', 'Yö', 'Z', 'Å', 'Näyttö', 'Pöllö']
-d['abc_flashcards_frame_sequence'] = [18, 71,43, 59,4,34, 70,12,22,32,30,35,0,10,42,15, 43,56,25,7, 67,1, 23,54, 43,43,40,14]
+
+#The following 2 lines are not to be translated but replaced with a sequence of words starting in each of the letters of your alphabet in order, best if these words have a corresponding picture in images/flashcard_images.jpg. The second line has the number of the image that the word describes.          
+#The images are numbered from left to bottom such that the top left is numbered 0, the last image is 73, if none of the available things have names that start with any of the letters we can add new pictures.
+d['abc_flashcards_word_sequence'] = [ 'Avain','Banaani', 'Cheddar', 'Delfiini', 'Elefantti', 'Flyygeli', 'Gnuu','Hiiri', 'Ikkuna', 'Jooga', 'Kirahvi','Leipä', 'Muurahainen', 'Näyttö', 'Omena', 'Papukaija', 'Q', 'Riippumatto', 'Seepra', 'Talo', 'Uuni', 'Vene', 'Watti', 'Xylofoni', 'Yö', 'Z', 'Å', 'Ämpäri', 'Öinen']
+d['abc_flashcards_frame_sequence'] = [10, 71,57, 59,4,34, 70,12,22,32,30,35,0,40,42,15, 43,56,25,7, 67,1, 18, 23,54, 43,43,73,54]
 
 #alphabet en
-alphabet_lc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z', 'å', 'ä', 'ö']
-alphabet_uc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö']
+alphabet_lc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'å', 'ä', 'ö']
+alphabet_uc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö']
 #correction of eSpeak pronounciation of single letters if needed
 letter_names = []
 
 #letters that may exist in words but are not part of the officail alphabet
-accents_lc = ['w','š','ž','-']
-accents_uc = ['W','Š','Ž']
+accents_lc = ['š','ž','-']
+accents_uc = ['Š','Ž']
 
 def n2txt(n, twoliner = False):
     "takes a number from 1 - 99 and returns it back in a word form, ie: 63 returns 'sixty three'."
@@ -41,12 +43,12 @@ def n2txt(n, twoliner = False):
         elif m > 0:
             ones = numbers[m-1]
             if twoliner:
-                return [tens, ones]
+                return [tens+"-", ones]
             else:
-                return tens + " " + ones
+                return tens + ones
     
-    elif n == 0: return "zero"
-    elif n == 100: return "one hundred"
+    elif n == 0: return "nolla"
+    elif n == 100: return "sata"
     return ""
     
 def time2str(h, m):
@@ -54,13 +56,13 @@ def time2str(h, m):
     if m > 30:
         if h == 12: h = 1
         else: h += 1
-    if m == 0: return "%s o'clock" % n2txt(h)
-    elif m == 1: return "one minute past %s" % n2txt(h)
-    elif m == 15: return "quater past %s" % n2txt(h)
-    elif m == 30: return "half past %s" % n2txt(h)
-    elif m == 45: return "quater to %s" % n2txt(h)
-    elif m == 59: return "one minute to %s" % n2txt(h)
-    elif m < 30: return "%s past %s" % (n2txt(m), n2txt(h))
-    elif m > 30: return "%s to %s" % (n2txt(60-m), n2txt(h))
+    if m == 0: return "tasan %s" % n2txt(h)
+    elif m == 1: return "minuutin yli %s" % n2txt(h)
+    elif m == 15: return "vartin yli %s" % n2txt(h)
+    elif m == 30: return "puoli %s" % n2txt(h+1)
+    elif m == 45: return "varttia vaille %s" % n2txt(h)
+    elif m == 59: return "minuutin vaille %s" % n2txt(h)
+    elif m < 30: return "%s yli %s" % (n2txt(m), n2txt(h))
+    elif m > 30: return "%s vaille %s" % (n2txt(60-m), n2txt(h))
     return ""
      

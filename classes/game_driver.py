@@ -78,8 +78,8 @@ class BoardGame(GameBase):
         
         #used for a line around game area
         self.line_color = self.board.board_bg.line_color #(240, 240, 240)
-        self.screen_w = self.board.x_count * self.board.scale
-        self.screen_h = self.board.y_count * self.board.scale
+        self.screen_wx = self.board.x_count * self.board.scale
+        self.screen_hx = self.board.y_count * self.board.scale
         
         self.len_ships = len(self.board.ships)
         self.board.all_sprites_list.move_to_back(self.board.board_bg)
@@ -253,7 +253,6 @@ class BoardGame(GameBase):
             
             self.check_direction_kdown()
             
-                
         elif event.type == pygame.KEYUP:
             if   event.key == pygame.K_LEFT:  self.direction[0] = 0
             elif event.key == pygame.K_RIGHT: self.direction[0] = 0
@@ -262,7 +261,6 @@ class BoardGame(GameBase):
 
             self.check_direction_kup()
             
-                
         if event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER):
             if self.changed_since_check or self.show_msg == True:
                 self.mainloop.redraw_needed[0] = True
@@ -332,10 +330,11 @@ class BoardGame(GameBase):
             self.dialog.update(game)
             
         if self.board.draw_grid:
-            pygame.draw.line(self.mainloop.game_bg,self.line_color,[self.screen_w+self.layout.game_left-self.layout.menu_w-0,0],[self.screen_w+self.layout.game_left-self.layout.menu_w-0,self.screen_h],1)
-            pygame.draw.line(self.mainloop.game_bg,self.line_color,[self.layout.game_left-self.layout.menu_w,self.screen_h],[self.screen_w+self.layout.game_left-self.layout.menu_w-1,self.screen_h],1)
+            self.screen_wx = self.board.x_count * self.board.scale
+            self.screen_hx = self.board.y_count * self.board.scale
+            pygame.draw.line(self.mainloop.game_bg,self.line_color,[self.screen_wx+self.layout.game_left-self.layout.menu_w-0,0],[self.screen_wx+self.layout.game_left-self.layout.menu_w-0,self.screen_hx],1)
+            pygame.draw.line(self.mainloop.game_bg,self.line_color,[self.layout.game_left-self.layout.menu_w,self.screen_hx],[self.screen_wx+self.layout.game_left-self.layout.menu_w-1,self.screen_hx],1)
         
-
     def update_score(self, points):
         userid = self.mainloop.userid
         new_score = self.mainloop.db.increase_score(userid, points)
@@ -343,6 +342,5 @@ class BoardGame(GameBase):
             self.mainloop.sb.set_score(new_score)
             self.mainloop.sb.update_me = True
             
-        
     def check_result(self):
         pass

@@ -39,27 +39,32 @@ class Board(gd.BoardGame):
         
         white = ((255,255,255))
 
-                
+        if self.lang.lang == "fi":
+            w = 14
+            bw = 12
+        else:
+            w = 10
+            bw = 8
         if self.level.lvl == 1:
-            data = [12,14,0,10]
+            data = [w,14,0,10]
         elif self.level.lvl == 2:
-            data = [12,14,10,20]
+            data = [w,14,10,20]
         elif self.level.lvl == 3:
-            data = [12,14,20,30]
+            data = [w,14,20,30]
         elif self.level.lvl == 4:
-            data = [12,14,30,40]
+            data = [w,14,30,40]
         elif self.level.lvl == 5:
-            data = [12,14,40,50]
+            data = [w,14,40,50]
         elif self.level.lvl == 6:
-            data = [12,14,50,60]
+            data = [w,14,50,60]
         elif self.level.lvl == 7:
-            data = [12,14,60,70]
+            data = [w,14,60,70]
         elif self.level.lvl == 8:
-            data = [12,14,70,80]
+            data = [w,14,70,80]
         elif self.level.lvl == 9:
-            data = [12,14,80,90]
+            data = [w,14,80,90]
         elif self.level.lvl == 10:
-            data = [12,14,90,100]
+            data = [w,14,90,100]
             
         #rescale the number of squares horizontally to better match the screen width
         x = self.get_x_count(data[1],even=True)
@@ -74,10 +79,10 @@ class Board(gd.BoardGame):
         self.in_focus = None
         self.center = self.data[0] // 2
         
-        x1 = self.center - 5
-        x2 = self.center - 3
+        x1 = self.center - w // 2
+        x2 = self.center - (w // 2 - 2)
         
-        self.board.add_unit(x1,0,10,1,classes.board.Label,"%d - %d" % (data[2], data[3]),color1,"",0)
+        self.board.add_unit(x1,0,w,1,classes.board.Label,"%d - %d" % (data[2], data[3]),color1,"",0)
         self.board.units[-1].font_color = self.font_color
         
         y = 2
@@ -85,7 +90,7 @@ class Board(gd.BoardGame):
             self.board.add_unit(x1,y,2,1,classes.board.Letter,str(i),color1,"",2)
             self.board.ships[-1].normal_cl = color1
             self.board.ships[-1].highlight_cl = color1a
-            self.board.add_unit(x2,y,8,1,classes.board.Letter,self.lang.n2txt(i),color0,"",2)
+            self.board.add_unit(x2,y,bw,1,classes.board.Letter,self.lang.n2txt(i),color0,"",2)
             self.board.ships[-1].speaker_val = str(i)
             self.board.ships[-1].speaker_val_update = False
             self.board.ships[-1].normal_cl = color0

@@ -46,19 +46,19 @@ class Board(gd.BoardGame):
             self.level.lvl = self.level.lvl_count
         self.points = 4   
         if self.level.lvl == 1:
-            data = [10,5,3,2,3]
+            data = [12,5,3,2,3]
             self.points = 2
         elif self.level.lvl == 2:
-            data = [10,6,3,2,4]
+            data = [12,6,3,2,4]
             self.points = 3
         elif self.level.lvl == 3:
-            data = [10,7,3,2,5]
+            data = [12,7,3,2,5]
         elif self.level.lvl == 4:
-            data = [10,7,3,2,5]
+            data = [12,7,3,2,5]
         elif self.level.lvl == 5:
-            data = [10,7,3,2,5]
+            data = [12,7,3,2,5]
         elif self.level.lvl == 6:
-            data = [10,7,3,2,5]
+            data = [12,7,3,2,5]
             
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
@@ -161,7 +161,7 @@ class Board(gd.BoardGame):
         
         h1=(data[1]-data[4])//2 #height of the top margin
         h2=data[1]-h1-data[4]#-1 #height of the bottom margin minus 1 (game label)
-        w2=(data[0]-data[3]*4)//2 #side margin width
+        w2=(data[0]-data[3]*4)//2 - 1 #side margin width
 
         x = w2
         y = h1
@@ -173,7 +173,7 @@ class Board(gd.BoardGame):
         
         wide_slots = []
         for j in range(h1,data[1]-h2):
-            for i in range(w2+data[3],data[0]-w2,3):
+            for i in range(w2+data[3],data[0]-w2,4):
                 wide_slots.append([i,j])
         random.shuffle(wide_slots)
         #slots = []
@@ -197,7 +197,7 @@ class Board(gd.BoardGame):
                     caption = texts2[self.chosen[i-switch]]
                     position_list = wide_slots
                     pos = i-switch
-                    xw = 3
+                    xw = 4
                 self.board.add_unit(position_list[pos][0],position_list[pos][1],xw,1,classes.board.Letter,caption,color0,"",draw_data[4])
                 self.board.ships[-1].font_color=self.font_color
             

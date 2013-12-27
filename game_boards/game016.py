@@ -381,7 +381,7 @@ class Board(gd.BoardGame):
                         elif len(self.middle.value) > 0:
                             self.left.value += char
                             self.middle.value = ""
-                            self.check_result()
+                            self.check_entry()
                         for each in [self.left, self.middle, self.right]:
                             each.update_me = True
                     else:
@@ -400,7 +400,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
         
 
-    def check_result(self):
+    def check_entry(self):
         if self.line < len(self.t_string)-1:
             self.line += 1
             if sys.version_info < (3, 0):
@@ -417,4 +417,7 @@ class Board(gd.BoardGame):
         else:
             self.update_score(self.pointsx)
             self.level.next_board()
+            
+    def check_result(self):
+        pass
         

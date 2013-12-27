@@ -2,11 +2,14 @@
 
 import pickle
 import os, sys
+from classes.cversion import ver
+
+version = ver #"2.31.216.1-dev"
 
 class Config():
     'holds some basic configuration data - screen size among others'
     def __init__(self):
-        self.version = "2.31.211.1-dev"
+        self.version = version#
         #Screen Settings
         #set this to False if you want to manually set the screen size, but if you have manually resized the window the latest size will be used instead
         #self.screen_size_autodetect = True
@@ -101,9 +104,9 @@ class Config():
         #    self.settings = self.default_settings
         
         #language settings
-        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Deutsch","Français", "Suomalainen", "Hebrew", "Test Language"]
-        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","de","fr","fi","he","te_ST"]
-        self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT", "ru"]
+        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "Italiano", "Polski", "Português", "Русский", "Suomalainen","Deutsch","Français", "Hebrew", "Test Language"]
+        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT","ru","fi","de","fr","he","te_ST"]
+        self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","it", "pl" ,"pt_PT", "ru","fi"]
             
     def reset_settings(self):
         pass

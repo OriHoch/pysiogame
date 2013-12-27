@@ -8,85 +8,86 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-12-11 23:22+0100\n"
+"PO-Revision-Date: 2013-12-16 22:54+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
-"Language: English GB\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.1\n"
 
 msgid "green apple"
 msgid_plural "green apples"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "תפוח ירוק"
+msgstr[1] "תפוחים ירוקים"
 
 msgid "red apple"
 msgid_plural "red apples"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "תפוח אדום"
+msgstr[1] "תפוחים אדומים"
 
 msgid "strawberry"
 msgid_plural "strawberries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "תות"
+msgstr[1] "תותים"
 
 msgid "pear"
 msgid_plural "pears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "אגס"
+msgstr[1] "אגסים"
 
 msgid "orange"
 msgid_plural "oranges"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "תפוז"
+msgstr[1] "תפוזים"
 
 msgid "onion"
 msgid_plural "onions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "בצל"
+msgstr[1] "בצלים"
 
 msgid "tomato"
 msgid_plural "tomatoes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "עגבניה"
+msgstr[1] "עגבניות"
 
 msgid "lemon"
 msgid_plural "lemons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "לימון"
+msgstr[1] "לימונים"
 
 msgid "cherry"
 msgid_plural "cherries"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "דובדבן"
+msgstr[1] "דובדבנים"
 
 msgid "pepper"
 msgid_plural "peppers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "פלפל"
+msgstr[1] "פלפלים"
 
 msgid "carrot"
 msgid_plural "carrots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "גזר"
+msgstr[1] "גזרים"
 
 msgid "banana"
 msgid_plural "bananas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "בננה"
+msgstr[1] "בננות"
 
 msgid "watermelon"
 msgid_plural "watermelons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "מלון"
+msgstr[1] "מלונים"
 
 msgid "Equilateral Triangle"
-msgstr ""
+msgstr "משולש שווה צלעות"
 
 msgid "Isosceles Triangle"
-msgstr ""
+msgstr "משולש שווה שוקיים"
 
 msgid "Obtuse Triangle"
 msgstr ""
@@ -98,10 +99,10 @@ msgid "Acute Triangle"
 msgstr ""
 
 msgid "Square"
-msgstr ""
+msgstr "ריבוע"
 
 msgid "Rectangle"
-msgstr ""
+msgstr "מלבן"
 
 msgid "Right Trapezium"
 msgstr ""
@@ -110,25 +111,25 @@ msgid "Isosceles Trapezium"
 msgstr ""
 
 msgid "Rhombus"
-msgstr ""
+msgstr "מעוין"
 
 msgid "Parallelogram"
 msgstr ""
 
 msgid "Pentagon"
-msgstr ""
+msgstr "פנטגון"
 
 msgid "Hexagon"
-msgstr ""
+msgstr "משושה"
 
 msgid "Circle"
-msgstr ""
+msgstr "עיגול"
 
 msgid "Ellipse"
-msgstr ""
+msgstr "אליפסה"
 
 msgid "Cube"
-msgstr ""
+msgstr "קוביה"
 
 msgid "Square Prism"
 msgstr ""
@@ -143,288 +144,288 @@ msgid "Triangular Pyramid"
 msgstr ""
 
 msgid "Sphere"
-msgstr ""
+msgstr "ספירה"
 
 msgid "Cylinder"
-msgstr ""
+msgstr "צילינדר"
 
 msgid "Cone"
-msgstr ""
+msgstr "קונוס"
 
 msgid "Torus"
 msgstr ""
 
 msgid "Default Language:"
-msgstr ""
+msgstr "שפה ברירת מחדל"
 
 msgid "Guest"
-msgstr ""
+msgstr "אורח"
 
 msgid "Hi Stranger :) Would you like to log in so we know who you are?"
-msgstr ""
+msgstr "שלום, תוכלו להיכנס בשביל שנדע מי אתם"
 
 msgid "Log in:"
-msgstr ""
+msgstr "כניסה"
 
 msgid "user name:"
-msgstr ""
+msgstr "שם משתמש"
 
 msgid "password:"
-msgstr ""
+msgstr "סיסמה"
 
 msgid "Login"
-msgstr ""
+msgstr "כנסה"
 
 msgid "Add new user:"
-msgstr ""
+msgstr "הוספת משתמש חדש"
 
 msgid "confirm password:"
-msgstr ""
+msgstr "אישור סיסמה"
 
 msgid "Register new user"
-msgstr ""
+msgstr "רישום משתמש חדש"
 
 msgid "Administrator Login:"
-msgstr ""
+msgstr "כניסת מנהלים"
 
 msgid "User Management"
-msgstr ""
+msgstr "ניהול משתמשים"
 
 msgid "Please select a user from the list."
-msgstr ""
+msgstr "בחרו משתמש מהרשימה"
 
 msgid "Delete user"
-msgstr ""
+msgstr "מחיקת משתמש"
 
 msgid "Delete"
-msgstr ""
+msgstr "מחיקה"
 
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #, python-format
 msgid "%s deleted from database."
-msgstr ""
+msgstr "%s נמחקו ממסד הנתונים"
 
 msgid "Failed to delete the user."
-msgstr ""
+msgstr "מחיקת משתמשים נכשלה"
 
 msgid "Preferences"
-msgstr ""
+msgstr "הגדרות"
 
 msgid "switch to full screen after login"
-msgstr ""
+msgstr "מעבר למסך מלא לאחר כניסה"
 
 msgid "allow adding new users on login screen"
-msgstr ""
+msgstr "איפשור הוספת משתמשים חדש במסך הכניסה"
 
 msgid "display languages with uncompleted translations"
-msgstr ""
+msgstr "הצגת שפות עם תרגום לא מושלם"
 
 msgid "require password to log in"
-msgstr ""
+msgstr "דרישת סיסמה בכניסה"
 
 msgid "require password to access admin area"
-msgstr ""
+msgstr "דרישת סיסמה לאיזור המנהלים"
 
 msgid "Update admin's password:"
-msgstr ""
+msgstr "עדכון סיסמת מנהל"
 
 msgid "previous password:"
-msgstr ""
+msgstr "סיסמה קודמת"
 
 msgid "new password:"
-msgstr ""
+msgstr "סיסמה חדשה"
 
 msgid "confirm new password:"
-msgstr ""
+msgstr "אישור סיסמה חדשה"
 
 msgid "Create admin's account:"
-msgstr ""
+msgstr "הוספת חשבון מנהלים"
 
 msgid "admin's user name:"
-msgstr ""
+msgstr "שם משתמש מנהל"
 
 msgid "admin's password:"
-msgstr ""
+msgstr "סיסמת מנהל"
 
 msgid "confirm admin's password:"
-msgstr ""
+msgstr "אישור סיסמת מנהל"
 
 msgid "Save"
-msgstr ""
+msgstr "שמירה"
 
 msgid "Please enter user name (at least 3 characters long)"
-msgstr ""
+msgstr "הזינו שם משתמש באורך של לפחות 3 תוים"
 
 msgid "Please enter password (at least 4 characters long)"
-msgstr ""
+msgstr "הזינו סיסמה באורך של לפחות 4 תוים"
 
 msgid "This username and password combination doesn't exist."
-msgstr ""
+msgstr "השילוב של שם המשתמש והסיסמה לא קיים"
 
 msgid "This username doesn't exist."
-msgstr ""
+msgstr "שם המשתמש לא קיים"
 
 msgid "Passwords don't match"
-msgstr ""
+msgstr "הסיסמאות לא תואמות"
 
 #, python-format
 msgid "%s added"
-msgstr ""
+msgstr "התווספו %s"
 
 msgid "This user name already exists, please choose a different one"
-msgstr ""
+msgstr "שם המשתמש הזה קיים, בחרו שם משתמש אחר"
 
 msgid "Admin's password has been updated"
-msgstr ""
+msgstr "סיסמת מנהל עודכנה"
 
 msgid "ERROR: This operation is not allowed at this point"
-msgstr ""
+msgstr "שגיאה: פעולה זו בלתי אפשרית"
 
 msgid "Please enter previous password (at least 4 characters long)"
-msgstr ""
+msgstr "הזינו סיסמה קודמת באורך של לפחות 4 תוים"
 
 msgid "Please enter new password (at least 4 characters long)"
-msgstr ""
+msgstr "הזינו סיסמה חדשה באורך של לפחות 4 תוים"
 
 msgid "Previous password doesn't seem to be in the database"
-msgstr ""
+msgstr "סיסמה קודמת לא נמצאה במסד הנתונים"
 
 msgid "Registered:"
-msgstr ""
+msgstr "רשומים"
 
 msgid "Last login:"
-msgstr ""
+msgstr "כניסה אחרונה"
 
 msgid "Preferences saved..."
-msgstr ""
+msgstr "ההגדרות נשמרו"
 
 msgid "Score: "
-msgstr ""
+msgstr "ניקוד "
 
 msgid "Logged in as: "
 msgstr "מחובר כ:"
 
 msgid "(Log out)"
-msgstr "להתנתק"
+msgstr ")להתנתק("
 
 msgid "Addition Table"
-msgstr ""
+msgstr "טבלת חיבור"
 
 msgid "Hello"
-msgstr ""
+msgstr "שלום"
 
 msgid "Welcome back in the game."
-msgstr ""
+msgstr "ברוכים השבים למשחק"
 
 msgid "Language"
-msgstr ""
+msgstr "שפה"
 
 msgid "Translations"
-msgstr ""
+msgstr "תרגומים"
 
 msgid "Info & Settings"
-msgstr ""
+msgstr "מידע והגדרות"
 
 msgid "Keyboard & Mouse"
-msgstr ""
+msgstr "מקלדת ועכבר"
 
 msgid "Discover Letters"
-msgstr ""
+msgstr "גלו אותיות"
 
 msgid "Learn New Words"
-msgstr ""
+msgstr "לימדו מילים חדשות"
 
 msgid "Mathematics"
-msgstr ""
+msgstr "מתימטיקה"
 
 msgid "Numbers & Basic Operations"
-msgstr ""
+msgstr "מספרים ופעולות בסיסיות"
 
 msgid "Basic Operations - Exercises"
-msgstr ""
+msgstr "פעולות בסיסיות - תרגילים"
 
 msgid "Sorting and Comparing"
-msgstr ""
+msgstr "מיון והשוואה"
 
 msgid "Geometry and Shape Recognition"
-msgstr ""
+msgstr "גאומטריה וזיהוי צורות"
 
 msgid "Art and Colour"
-msgstr ""
+msgstr "אמנות וצבע"
 
 msgid "Memory"
-msgstr ""
+msgstr "זכרון"
 
 msgid "Games & Mazes"
-msgstr ""
+msgstr "משחקים ומבוכים"
 
 msgid "Multiplayer Games"
-msgstr ""
+msgstr "משחקים מרובי משתתפים"
 
 msgid "About."
-msgstr ""
+msgstr "אודות"
 
 msgid "Game info..."
-msgstr ""
+msgstr "מידע על המשחק"
 
 msgid "Copyright & Credits"
-msgstr ""
+msgstr "זכויות יוצרים וקרדיטים"
 
 msgid "Hit the Mole"
-msgstr ""
+msgstr "הכו בחפרפרת"
 
 msgid "Letters"
-msgstr ""
+msgstr "אותיות"
 
 msgid "Learn Letters with Flashcards"
-msgstr ""
+msgstr "לימדו אותיות עם כרטיסיות"
 
 msgid "Learn to Write"
-msgstr ""
+msgstr "לימדו לכתוב"
 
 msgid "Trace Letters and Numbers"
-msgstr ""
+msgstr "כתיבת אותיות ומספרים"
 
 msgid "Complete the ABC"
-msgstr ""
+msgstr "השלימו את הא-ב"
 
 msgid "English"
-msgstr ""
+msgstr "אנגלית"
 
 msgid "Your language"
-msgstr ""
+msgstr "השפה שלכם"
 
 msgid "Sorting Letters"
-msgstr ""
+msgstr "מיון אותיות"
 
 msgid "Lowercase Letters"
-msgstr ""
+msgstr "אותיות קטנות"
 
 msgid "Uppercase Letters"
-msgstr ""
+msgstr "אותיות רישיות"
 
 msgid "Word Builder"
-msgstr ""
+msgstr "בניית מילים"
 
 msgid "Word Maze"
-msgstr ""
+msgstr "מבוך מילים"
 
 msgid "Collect all letters in the right order"
-msgstr ""
+msgstr "איספו את כל האותיות בסדר הנכון"
 
 msgid "Word Maze + 4"
-msgstr ""
+msgstr "מבוך אותיות פלוס ארבע"
 
 msgid "Numbers"
-msgstr ""
+msgstr "מספרים"
 
 msgid "Learn Numbers with Flashcards"
-msgstr ""
+msgstr "לימדו מספרים עם כרטיסיות"
 
 msgid "Learn to Count"
-msgstr ""
+msgstr "לימדו לספור"
 
 msgid "Basic Addition"
 msgstr ""
@@ -646,37 +647,37 @@ msgid "white"
 msgstr ""
 
 msgid "black"
-msgstr ""
+msgstr "שחור"
 
 msgid "grey"
-msgstr ""
+msgstr "אפור"
 
 msgid "red"
-msgstr ""
+msgstr "אדום"
 
 msgid "yellow"
-msgstr ""
+msgstr "צהוב"
 
 msgid "olive"
-msgstr ""
+msgstr "זית"
 
 msgid "green"
-msgstr ""
+msgstr "ירוק"
 
 msgid "sea green"
-msgstr ""
+msgstr "ירוק ים"
 
 msgid "teal"
 msgstr ""
 
 msgid "blue"
-msgstr ""
+msgstr "כחול"
 
 msgid "navy"
 msgstr ""
 
 msgid "purple"
-msgstr ""
+msgstr "סגול"
 
 msgid "violet"
 msgstr ""
@@ -688,13 +689,13 @@ msgid "indigo"
 msgstr ""
 
 msgid "pink"
-msgstr ""
+msgstr "ורוד"
 
 msgid "maroon"
 msgstr ""
 
 msgid "brown"
-msgstr ""
+msgstr "חום"
 
 msgid "aqua"
 msgstr ""
@@ -709,7 +710,7 @@ msgid "Touch Typing Tutor"
 msgstr ""
 
 msgid "Translators"
-msgstr ""
+msgstr "מתרגמים"
 
 msgid "English Alphabet"
 msgstr ""

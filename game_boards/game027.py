@@ -108,6 +108,10 @@ class Board(gd.BoardGame):
             self.solution[str(item_indexes[index])] = quantity
             del(item_indexes[index])
             
+        if self.lang.ltr_text:
+            l = [data[0]-7,data[0]-6,data[0]-5]
+        else:
+            l = [data[0]-1,data[0]-2,data[0]-7]
         #create shopping list
         for i in range(data[2]):
             ind = self.chosen_items[0][i]
@@ -123,12 +127,15 @@ class Board(gd.BoardGame):
             else:
                 caption = singular_items[ind]
             """
-            self.board.add_unit(data[0]-7,i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])
-            self.board.add_unit(data[0]-6,i+1,1,1,classes.board.ImgShip,"",white,items[ind]+f_end,data[4])
-            self.board.add_unit(data[0]-5,i+1,5,1,classes.board.Label,caption,white,"",data[4])
+            self.board.add_unit(l[0],i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])
+            self.board.add_unit(l[1],i+1,1,1,classes.board.ImgShip,"",white,items[ind]+f_end,data[4])
+            self.board.add_unit(l[2],i+1,5,1,classes.board.Label,caption,white,"",data[4])
             self.board.ships[i].immobilize()
             self.board.ships[i].outline = False
-            self.board.units[-1].align = 1
+            if self.lang.ltr_text:
+                self.board.units[-1].align = 1
+            else:
+                self.board.units[-1].align = 2
         #rearange z-order of red outlines (shopping list and basket)
         for i in range(2):
             self.board.all_sprites_list.move_to_front(self.board.units[i])

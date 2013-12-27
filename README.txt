@@ -4,10 +4,13 @@ Please note - this game is playable but still unfinished - or rather is being co
 
 Please let me know if you find any errors or bugs in the game or in translations, formulas or other game content.
 
-pySioGame is built with Linux users in mind - written in python and tested on Ubuntu. Sorry no Windows version as yet.
+pySioGame is built with Linux users in mind - written in python and tested on Ubuntu, however it does work on Windows just not tested as thoroughly as on Linux.
 
 The game is intended to be compatible with python 2.7.3+ including python 3.x.
-Some changes made to make it compatible with older versions of python as well - but recent versions not tested.
+
+----------------------------------------------
+
+Linux installation:
 
 In order to run this game you need the python-pygame package installed.
 To check if you have it run the following lines in terminal (Ctrl+Atl+T):
@@ -31,17 +34,35 @@ Should start with double click if marked as executable (Right-click -> Propertie
 
 ----------------------------------------------
 
+Windows installation (instructions by OriHoch):
+
+Download and install python 2.7 32bit - http://www.python.org/getit/
+Download and install espeak 32bit - http://espeak.sourceforge.net/download.html
+Download and install pygame for python 2.7 + 32bit  - http://www.pygame.org/install.html
+
+Add espeak to your path (sorry, but this requires some technical windows knowledge)
+you should have something like this in your PATH variable:
+C:\Program Files (x86)\eSpeak\command_line;(... other paths ...)
+
+Download pysiogame and extract it somewhere, for example c:\pysiogame
+
+To run pysiogame you can add a shortcut on the desktop to:
+c:\python27\python.exe c:\pysiogame\pysiogame.py
+
+----------------------------------------------
+
 The first time the game is run will be in normal windowed mode (not in fullscreen).
 To display it in fullscreen press Ctrl+F at the start of the game 
 or go to Preferences and enable full screen - this will be saved and game will start full screen next time.
 
 ----------------------------------------------
 Translating:
-If you would like to help translating this game please use one of the included files within the i18n/po directory. 
+If you would like to help translating this game please use one of the included files within the i18n/po directory.
 If your langauage is not there yet copy the default.pot file rename it temporarily to te_ST.po and start working with the new file using ie. the Poedit.
 To test your translation save the file - Poedit will create the .mo file for you - move the .mo file to the locale/te_ST/ directory and rename the file to pysiogame.mo and start the game select the Test Language.
+Alternatively you can run the cleanup.py program to get the file renamed and moved where it should be (this program will also remove .pyc and some other temp files under pysiogame - this is used to automate the process of stripping pysiogame before compressing/packaging).
 
-There are few things translated using custom translation files in custom directory - these are usually done by me - but I might need some help to do them - I will get in touch with you if I'll be struggling.
+There are some things translated using custom translation files in custom directory - these are usually done by me - but I might need some help to do them - I will get in touch with you if I'll be struggling.
 
 When everything is working ok please email me your .po file.
 

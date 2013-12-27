@@ -48,7 +48,8 @@ class DBConnection():
                 guest_name = self.lang.b["Guest"]
                 if sys.version_info < (3, 0):
                     try:
-                        guest_name = unicode(guest_name, "utf-8")
+                        if not isinstance(guest_name, unicode):
+                            guest_name = unicode(guest_name, "utf-8")
                     except:
                         pass
                 
@@ -57,6 +58,7 @@ class DBConnection():
             else:
                 #check the db_version for future updates if database needs to be changed this will be used 
                 #to upgrade the db instead of recreating the db from scratch
+                
                 self.c.execute("SELECT db_version FROM admin WHERE (admin_id = 0)")
                 self.conn.commit()
                 row = self.c.fetchone()
@@ -69,6 +71,16 @@ class DBConnection():
                     self.conn.commit()
                     print("Database version updated from %d to %d." % (current_db_ver, db_version))
                     #update db_version
+                else:
+                    pass
+                    """
+                    self.c.execute("UPDATE users SET username = ? WHERE (ROWID=?)", ("Guest", 1))
+                    self.c.execute("SELECT username FROM users WHERE (ROWID=?)", (1,))
+                    self.conn.commit()
+                    row = self.c.fetchone()
+                    name = row[0]
+                    print("Guest username set to: %s" % name)
+                    """
                 
     def unset_autologin(self):
         if self.db_connected:

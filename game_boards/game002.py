@@ -15,13 +15,13 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):        
-        self.board.draw_grid = False
+        self.board.draw_grid = True
         
         color1 = (220,220,220) #ex.hsv_to_rgb(225,15,235)
         color2 = (255,255,255) #ex.hsv_to_rgb(235,15,245)
 
         font_color = (40,40,40) #ex.hsv_to_rgb(227,255,50)
-        data = [15,8]
+        data = [15,9]
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 15:
@@ -35,6 +35,10 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
+        
+        self.board.board_bg.line_color = (200, 200, 200)
+        self.board.board_bg.update_me = True
+        
         self.board.add_unit(0,0,data[0],1,classes.board.Label,self.lang.d["Translators"],color2,"",4)
 
         self.board.add_unit(0,1,3,1,classes.board.Label,["English & Polish","English & Polski"],color1,"",6)
@@ -43,20 +47,23 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,2,3,1,classes.board.Label,["Catalan","Català"],color2,"",6)
         self.board.add_unit(3,2,data[0]-3,1,classes.board.Label,["Guillem Jover","http://www.hadrons.org/~guillem/"],color2,"",6)
         
-        self.board.add_unit(0,3,3,1,classes.board.Label,["Greek","Ελληνικά"],color1,"",6)
-        self.board.add_unit(3,3,data[0]-3,1,classes.board.Label,["Στέλιος, versys650gr, sdim, lucinos and other members of","The Official Greek Community of Linux Mint  -  http://linuxmint.gr"],color1,"",6)
+        self.board.add_unit(0,3,3,1,classes.board.Label,["Finnish","Suomalainen"],color1,"",6)
+        self.board.add_unit(3,3,data[0]-3,1,classes.board.Label,["Aapo Rantalainen"],color1,"",6)
         
-        self.board.add_unit(0,4,3,1,classes.board.Label,["Italian","Italiano"],color2,"",6)
-        self.board.add_unit(3,4,data[0]-3,1,classes.board.Label,"Giuliano",color2,"",6)
+        self.board.add_unit(0,4,3,1,classes.board.Label,["Greek","Ελληνικά"],color2,"",6)
+        self.board.add_unit(3,4,data[0]-3,1,classes.board.Label,["Στέλιος, versys650gr, sdim, lucinos and other members of","The Official Greek Community of Linux Mint  -  http://linuxmint.gr"],color2,"",6)
         
-        self.board.add_unit(0,5,3,1,classes.board.Label,["Portuguese","Português"],color1,"",6)
-        self.board.add_unit(3,5,data[0]-3,1,classes.board.Label,"Américo Monteiro",color1,"",6)
+        self.board.add_unit(0,5,3,1,classes.board.Label,["Italian","Italiano"],color1,"",6)
+        self.board.add_unit(3,5,data[0]-3,1,classes.board.Label,"Giuliano",color1,"",6)
         
-        self.board.add_unit(0,6,3,1,classes.board.Label,["Russian","Русский"],color2,"",6)
-        self.board.add_unit(3,6,data[0]-3,1,classes.board.Label,["Anton Kayukov (Антон Каюков)", "Alexey Loginov (Алексей Логинов)"],color2,"",6)
+        self.board.add_unit(0,6,3,1,classes.board.Label,["Portuguese","Português"],color2,"",6)
+        self.board.add_unit(3,6,data[0]-3,1,classes.board.Label,"Américo Monteiro",color2,"",6)
         
-        self.board.add_unit(0,7,3,1,classes.board.Label,["Spanish","Español"],color1,"",6)
-        self.board.add_unit(3,7,data[0]-3,1,classes.board.Label,["Miriam Ruiz","http://www.miriamruiz.es"],color1,"",6)
+        self.board.add_unit(0,7,3,1,classes.board.Label,["Russian","Русский"],color1,"",6)
+        self.board.add_unit(3,7,data[0]-3,1,classes.board.Label,["Anton Kayukov (Антон Каюков)", "Alexey Loginov (Алексей Логинов)"],color1,"",6)
+        
+        self.board.add_unit(0,8,3,1,classes.board.Label,["Spanish","Español"],color2,"",6)
+        self.board.add_unit(3,8,data[0]-3,1,classes.board.Label,["Miriam Ruiz","http://www.miriamruiz.es"],color2,"",6)
         
         """
         self.board.add_unit(0,5,3,1,classes.board.Label,"French",color1,"",6)

@@ -42,7 +42,7 @@ class Board(gd.BoardGame):
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
         image_src = [os.path.join('memory', "n_img%da.png" % (i)) for i in range(1,22)]
-        self.word_list = self.lang.numbers # ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
+        self.word_list = [self.lang.n2txt(i) for i in range(1,21)]#self.lang.numbers # ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
         self.card_fronts = []
         if data[0] > 20:
             x = (data[0] - 20)//2
@@ -78,6 +78,8 @@ class Board(gd.BoardGame):
         elif self.lang.lang == "ru":
             font_size = 15
         self.board.add_unit(x,y+6,6,1,classes.board.Letter,handwritten,frame_color,"",font_size)
+        if not self.lang.has_cursive:
+            self.board.ships[-1].font_color = frame_color
         self.board.ships[-1].speaker_val = "1"
         self.board.ships[-1].speaker_val_update = False
         

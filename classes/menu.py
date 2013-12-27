@@ -29,8 +29,14 @@ class MenuCategory(pygame.sprite.Sprite):
         self.cat_id = cat_id
         if sys.version_info < (3, 0):
             try:
-                self.title = unicode(title, "utf-8")
-                self.subtitle = unicode(subtitle, "utf-8")
+                if not isinstance(title, unicode):
+                    self.title = unicode(title, "utf-8")
+                else:
+                    self.title = title
+                if not isinstance(subtitle, unicode):
+                    self.subtitle = unicode(subtitle, "utf-8")
+                else:
+                    self.subtitle = subtitle
             except UnicodeDecodeError:
                 self.title = title
                 self.subtitle = subtitle
@@ -74,8 +80,14 @@ class MenuItem(pygame.sprite.Sprite):
         self.dbgameid = dbgameid
         if sys.version_info < (3, 0):
             try:
-                self.title = unicode(title, "utf-8")
-                self.subtitle = unicode(subtitle, "utf-8")
+                if not isinstance(title, unicode):
+                    self.title = unicode(title, "utf-8")
+                else:
+                    self.title = title
+                if not isinstance(subtitle, unicode):
+                    self.subtitle = unicode(subtitle, "utf-8")
+                else:
+                    self.subtitle = subtitle
             except UnicodeDecodeError:
                 self.title = title
                 self.subtitle = subtitle
@@ -205,7 +217,16 @@ class Menu:
         self.categories_list = pygame.sprite.LayeredUpdates()
         self.games_in_current_cat = pygame.sprite.LayeredUpdates()
         self.bookmarks_list = pygame.sprite.LayeredUpdates()
+        self.swipe_reset()
         self.create_menu()
+        
+    def swipe_reset(self):
+        self.lswipe_mouse_dn = None
+        self.lswipe_mouse_up = None
+        self.lswiped = False
+        self.rswipe_mouse_dn = None
+        self.rswipe_mouse_up = None
+        self.rswiped = False
         
     def load_levels(self):
         if self.mainloop.config.save_levels:
@@ -317,7 +338,7 @@ class Menu:
             if event.type == pygame.MOUSEMOTION:
                 self.mainloop.sb.update_me = True
                 pos = event.pos
-                if self.mainloop.info.hidden == False and pos[0] < 124:
+                if self.mainloop.info.hidden == False and pos[0] < 140:
                     self.mainloop.info.title_only()
                 if self.x_margin < pos[0] < self.cat_icon_size + self.x_margin:
                     
@@ -335,6 +356,7 @@ class Menu:
                     else:
                         self.reset_titles()
                         
+                    
                     if pos[1] > self.mainloop.size[1]-30:# and self.scroll_l == 0:
                         self.scroll_direction = 1
                     #elif self.l.misio_pos[3]-20 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_l < 0:
@@ -342,21 +364,46 @@ class Menu:
                         self.scroll_direction = -1
                     else:
                         self.scroll_direction = 0
+                    
                 else:
                     self.reset_titles()
+                    
+                if self.lswipe_mouse_dn != None:
+                    pos = event.pos
+                    #if y is within category size
+                    if self.x_margin < pos[0] < self.cat_icon_size + self.x_margin:
+                        if self.y_margin+self.l.misio_pos[3] < pos[1] < self.cat_h+self.l.misio_pos[3]+self.scroll_l:
+                            row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_l) // (self.cat_icon_size + self.y_margin)
+                            if self.lswipe_mouse_dn != row:
+                                self.scroll_menu(direction = self.lswipe_mouse_dn-row, pane = 0)
+                                self.lswiped = True
+                                
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                #get position
                 self.mainloop.sb.update_me = True
                 pos = event.pos
                 #if y is within category size
                 if self.x_margin < pos[0] < self.cat_icon_size + self.x_margin:
                     if self.y_margin+self.l.misio_pos[3] < pos[1] < self.cat_h+self.l.misio_pos[3]+self.scroll_l:
                         row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_l) // (self.cat_icon_size + self.y_margin)
-                        self.active_cat = row
-                        self.tab_l_scroll = (self.scroll_l // self.scroll_step)
-                        if self.mainloop.config.settings["sounds"]:
-                            s3.play()
-                        self.mainloop.redraw_needed[1] = True
-                        self.mainloop.redraw_needed[2] = True
+                        self.lswipe_mouse_dn = row
+                        
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                self.mainloop.sb.update_me = True
+                pos = event.pos
+                #if y is within category size
+                if self.x_margin < pos[0] < self.cat_icon_size + self.x_margin:
+                    if self.y_margin+self.l.misio_pos[3] < pos[1] < self.cat_h+self.l.misio_pos[3]+self.scroll_l:
+                        row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_l) // (self.cat_icon_size + self.y_margin)
+                        self.lswipe_mouse_up = row
+                        if self.lswipe_mouse_dn == self.lswipe_mouse_up and not self.lswiped:
+                            self.active_cat = row
+                            self.tab_l_scroll = (self.scroll_l // self.scroll_step)
+                            if self.mainloop.config.settings["sounds"]:
+                                s3.play()
+                            self.mainloop.redraw_needed[1] = True
+                            self.mainloop.redraw_needed[2] = True
+                self.swipe_reset()
             elif event.type  == pygame.MOUSEBUTTONDOWN and event.button == 4:
                 self.scroll_menu(direction = -1, pane = 0)
             elif event.type  == pygame.MOUSEBUTTONDOWN and event.button == 5:
@@ -370,10 +417,10 @@ class Menu:
                 self.mainloop.sb.update_me = True
                 pos = event.pos
                 #self.mainloop.info_bar.hide_buttons(a,b,c,d,e,f,g,h,i)
-                if self.mainloop.info.hidden == False and pos[0] < 124:
+                if self.mainloop.info.hidden == False and pos[0] < 140:
                     self.mainloop.info.title_only()
                     
-                if (mlw + self.x_margin) < pos[0] < (mlw + self.icon_size + self.x_margin):
+                if (mlw + self.x_margin) < pos[0] < (mlw + self.icon_size + self.x_margin*2):
                     if self.y_margin+self.l.misio_pos[3] < pos[1] < self.game_h+self.l.misio_pos[3]:
                         self.active_pane = 1
                         row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_r) // (self.icon_size + self.y_margin)
@@ -385,17 +432,39 @@ class Menu:
                             self.mainloop.redraw_needed[1] = True
                     else:
                         self.reset_titles()
+                        
+                    
                     if pos[1] > self.mainloop.size[1]-30:# and self.scroll_r >= 0:
                         self.scroll_direction = 1
                     elif 0 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_r < 0:
                         self.scroll_direction = -1
                     else:
                         self.scroll_direction = 0
+                    
                         
                 else:
                     self.reset_titles()
-
+                    
+                if self.rswipe_mouse_dn != None:
+                    pos = event.pos
+                    #if y is within category size
+                    if (mlw + self.x_margin) < pos[0] < (mlw + self.icon_size + self.x_margin):
+                        if self.y_margin+self.l.misio_pos[3] < pos[1] < self.game_h+self.l.misio_pos[3]:
+                            row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_r) // (self.icon_size + self.y_margin)
+                            if self.rswipe_mouse_dn != row:
+                                self.scroll_menu(direction = self.rswipe_mouse_dn-row, pane = 1)
+                                self.rswiped = True
+                                
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.mainloop.sb.update_me = True
+                pos = event.pos
+                
+                if (mlw + self.x_margin) < pos[0] < (mlw + self.icon_size + self.x_margin):
+                    if self.y_margin+self.l.misio_pos[3] < pos[1] < self.game_h+self.l.misio_pos[3]:
+                        row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_r) // (self.icon_size + self.y_margin)
+                        self.rswipe_mouse_dn = row
+                        
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.mainloop.sb.update_me = True
                 pos = event.pos
                 
@@ -403,33 +472,36 @@ class Menu:
                     if self.y_margin+self.l.misio_pos[3] < pos[1] < self.game_h+self.l.misio_pos[3]:
                         
                         row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_r) // (self.icon_size + self.y_margin)
-                        self.active_game_id = self.games_current[row].item_id
-                        self.tab_r_scroll = (self.scroll_r // self.scroll_step)
-                        self.tab_game_id = row
-                        self.game_constructor = self.games_current[row].game_constructor
-                        self.game_variant = self.games_current[row].variant
-                        #self.mainloop.info.title_space = self.mainloop.info.width - 10
-                        #switch active speaker and replace some strings temporarily
-                        
-                        if self.mainloop.config.settings["sounds"]:
-                            s4.play()
+                        self.rswipe_mouse_up = row
+                        if self.rswipe_mouse_dn == self.rswipe_mouse_up and not self.rswiped:
+                            self.active_game_id = self.games_current[row].item_id
+                            self.tab_r_scroll = (self.scroll_r // self.scroll_step)
+                            self.tab_game_id = row
+                            self.game_constructor = self.games_current[row].game_constructor
+                            self.game_variant = self.games_current[row].variant
+                            #self.mainloop.info.title_space = self.mainloop.info.width - 10
+                            #switch active speaker and replace some strings temporarily
                             
-                        if self.mainloop.lang.lang[0:2] != "en":
-                            #game_boards.game049.Board
-                            n = str(self.game_constructor)[16:19]
-                            if n in self.en_list:
-                                self.mainloop.speaker.switch_spk(2)
-                                self.lang.dp["Congratulations! Game Completed."] = "Congratulations! You have completed all tasks in this game."
-                                self.lang.dp["Perfect! Level completed!"] = "Perfect! Level completed!"
-                                self.lang.dp["Great job!"] = ["Great job!","Perfect!","Awesome!","Fantastic job!","Well done!"]
-                            else:
-                                self.mainloop.speaker.switch_spk(1)
-                                self.lang.dp["Congratulations! Game Completed."] = self.lang.lang_file.dp["Congratulations! Game Completed."]
-                                self.lang.dp["Perfect! Level completed!"] = self.lang.lang_file.dp["Perfect! Level completed!"]
-                                self.lang.dp["Great job!"] = self.lang.lang_file.dp["Great job!"]
-                        
-                        self.mainloop.score = 0  
-                        self.mainloop.redraw_needed = [True, True, True]
+                            if self.mainloop.config.settings["sounds"]:
+                                s4.play()
+                                
+                            if self.mainloop.lang.lang[0:2] != "en":
+                                #game_boards.game049.Board
+                                n = str(self.game_constructor)[16:19]
+                                if n in self.en_list:
+                                    self.mainloop.speaker.switch_spk(2)
+                                    self.lang.dp["Congratulations! Game Completed."] = "Congratulations! You have completed all tasks in this game."
+                                    self.lang.dp["Perfect! Level completed!"] = "Perfect! Level completed!"
+                                    self.lang.dp["Great job!"] = ["Great job!","Perfect!","Awesome!","Fantastic job!","Well done!"]
+                                else:
+                                    self.mainloop.speaker.switch_spk(1)
+                                    self.lang.dp["Congratulations! Game Completed."] = self.lang.lang_file.dp["Congratulations! Game Completed."]
+                                    self.lang.dp["Perfect! Level completed!"] = self.lang.lang_file.dp["Perfect! Level completed!"]
+                                    self.lang.dp["Great job!"] = self.lang.lang_file.dp["Great job!"]
+                            
+                            self.mainloop.score = 0  
+                            self.mainloop.redraw_needed = [True, True, True]
+                self.swipe_reset()
             elif event.type  == pygame.MOUSEBUTTONDOWN and event.button == 4:
                 self.scroll_menu(direction = -1, pane = 1)
             elif event.type  == pygame.MOUSEBUTTONDOWN and event.button == 5:
@@ -509,8 +581,8 @@ class Menu:
         if self.mainloop.lang.lang[0:2] != "en":
             self.add_category(self.lang.d["English"],"","ico_c_12.png")
         self.add_category(self.lang.d["Maths"],self.lang.d["Numbers & Basic Operations"],"ico_c_03a.png")
-        self.add_category(self.lang.d["Maths"]+" 2",self.lang.d["Basic Operations - exercises"],"ico_c_03.png")
-        self.add_category(self.lang.d["Maths"]+" 3",self.lang.d["Sorting and Comparing"],"ico_c_04.png")
+        self.add_category(self.lang.d["Maths"],self.lang.d["Basic Operations - exercises"],"ico_c_03.png")
+        self.add_category(self.lang.d["Maths"],self.lang.d["Sorting and Comparing"],"ico_c_04.png")
         self.add_category(self.lang.d["Working with large numbers"],"","ico_c_11.png")
         self.add_category(self.lang.d["Geometry"],"","ico_c_05.png")
         self.add_category(self.lang.d["Time"],"","ico_c_10.png")

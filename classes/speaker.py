@@ -13,7 +13,8 @@ class Speaker(threading.Thread):
         self.started = False
         
         self.started_en = False
-        
+        self.process = None
+        self.process_en = None
         self.spk = None
         self.talkative = False
         #self.start_server()
@@ -68,7 +69,7 @@ class Speaker(threading.Thread):
         pass
         
     def stop_server(self):
-        if self.enabled and self.started:
+        if self.enabled and self.started and self.process != None:
             self.process.stdin.close()
             self.process.stdout.close()
             self.process.stderr.close()
@@ -78,7 +79,7 @@ class Speaker(threading.Thread):
                 print("Error killing the espeak process")
                 
     def stop_server_en(self):
-        if self.enabled and self.started_en:
+        if self.enabled and self.started_en and self.process_en != None:
             self.process_en.stdin.close()
             self.process_en.stdout.close()
             self.process_en.stderr.close()

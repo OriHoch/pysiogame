@@ -15,6 +15,8 @@ class PEdit(pygame.sprite.Sprite):
         self.focus_order = focus_order
         self.hide = hide
         self.right_align = right_align
+        if not self.loginscreen.lang.ltr_text and not isinstance(self, PButton):
+            self.right_align = True
         self.transparent = transparent
         #self.value = "Tejsζę"
         self.value = ""
@@ -106,11 +108,17 @@ class PEdit(pygame.sprite.Sprite):
                 lhv = len(self.value)  
                 if event.key == pygame.K_BACKSPACE:
                     if  lhv > 0:
-                        self.value = self.value[0:lhv-1]
+                        if self.loginscreen.lang.ltr_text:
+                            self.value = self.value[0:lhv-1]
+                        else:
+                            self.value = self.value[1:lhv]
                 else:
                     char = event.unicode
                     if len(char)>0 and lhv < 14:
-                        self.value += char
+                        if self.loginscreen.lang.ltr_text:
+                            self.value = self.value + char
+                        else:
+                            self.value = char + self.value
                 self.loginscreen.reload_selects()
                 self.loginscreen.set_scrollbar_top(self.loginscreen.scroll_min_top)
             elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER or event.key == pygame.K_TAB:
@@ -184,11 +192,19 @@ class PCheckbox(pygame.sprite.Sprite):
         self.cb_color = (255,255,255)
         self.cb_focus = (255,250,200)
         
+        if self.loginscreen.lang.ltr_text:
+            self.right_align = False
+            self.lines = [[0,5],[20, 5],[20, 25],[0, 25]]
+            self.cbtick = [[3,15],[8, 20],[17, 10]]
+        else:
+            self.right_align = True
+            self.lines = [[w - 0-3, h - 5],[w - 20-3, h - 5],[w - 20-3, h - 25],[w - 0-3, h - 25]]
+            self.cbtick = [[w -20+ 3-3, 15],[w -20+ 8-3, 20],[w -20+ 17-3, 10]]
+            
         self.border_color = (0, 0, 0)
         self.border_focused = (255, 0, 0)
         
-        self.lines = [[0,5],[20, 5],[20, 25],[0, 25]]
-        self.cbtick = [[3,15],[8, 20],[17, 10]]
+        
         self.font_color = (255,255,255)
         self.image = pygame.Surface([w, h])
         self.rect = self.image.get_rect()
@@ -222,8 +238,22 @@ class PCheckbox(pygame.sprite.Sprite):
             else:
                 val = self.value
             text = self.loginscreen.font_2.render("%s" % (val), 1, self.font_color)
+            if self.right_align:
+                font_x = (self.w - self.loginscreen.font_2.size(val)[0]) - 35
+            else:
+                font_x = 30
+            """
+            text = self.font_v.render("%s" % (val), 1, self.font_color)
             
-            font_x = 30
+            if self.right_align:
+                self.font_x = (self.w - self.loginscreen.font_2.size(val)[0]) - 5
+            else:
+                self.font_x = 0
+            self.font_y = (self.h - self.loginscreen.font_2.size(val)[1])//2            
+            
+            self.image.blit(text, (self.font_x,self.font_y))
+            """
+            #font_x = 30
             font_y = (self.h - self.loginscreen.font_2.size(val)[1])//2
             self.image.blit(text, (font_x,font_y))
         
@@ -274,7 +304,10 @@ class PLabel(pygame.sprite.Sprite):
         self.left = l
         self.top = t
         self.focus_order = -1
-        self.right_align = False
+        if self.loginscreen.lang.ltr_text:
+            self.right_align = False
+        else:
+            self.right_align = True
         self.value = value
         self.select_item = False
         self.update_me = True
@@ -661,16 +694,17 @@ class LoginScreen:
         self.db_status = self.login_welcome_msg
         if self.register_enabled:
             self.halfw = self.w // 2 -50
+            label_w = 310
         else:
             self.halfw = self.w -100
-            
+            label_w = 660
         #header
-        self.hlb1 = PLabel(self, 300,30,self.left+20,self.top+15,self.lang.b["Log in:"])
+        self.hlb1 = PLabel(self, label_w,30,self.left+20,self.top+15,self.lang.b["Log in:"])
         self.hlb1.font_color = self.header_font_color
         self.hlb1.font_v = self.font_1
         self.edit_list.add(self.hlb1)
         
-        self.lb4 = PLabel(self, 300,30, self.left+20,self.top+55,self.lang.b["user name:"])
+        self.lb4 = PLabel(self, label_w,30, self.left+20,self.top+55,self.lang.b["user name:"])
         self.edit_list.add(self.lb4)
         
             
@@ -680,7 +714,7 @@ class LoginScreen:
         if self.require_pass:
             btn_top = 345 #350
             
-            self.lb5 = PLabel(self, 300,30 , self.left+20,self.top+285-5,self.lang.b["password:"])
+            self.lb5 = PLabel(self, label_w,30 , self.left+20,self.top+285-5,self.lang.b["password:"])
             self.edit_list.add(self.lb5)
             
             self.password = PEdit(self, self.halfw - 40,30,self.left+20,self.top+310,2,True)
@@ -688,7 +722,7 @@ class LoginScreen:
         else:
             btn_top = 273 #278
             
-        self.cb_remember = PCheckbox(self,300,30,self.left+20,self.top+btn_top,False, self.lang.b["remember me"])
+        self.cb_remember = PCheckbox(self,label_w,30,self.left+20,self.top+btn_top,False, self.lang.b["remember me"])
         self.edit_list.add(self.cb_remember)
         
         self.loginbtn = PButton(self, self.halfw//2 - 40,30,self.left+20+self.halfw//2,self.top+btn_top+30,3,self.lang.b["Login"],self.flogin)
@@ -721,18 +755,18 @@ class LoginScreen:
         #self.reload_scroll_bar()
         
         if self.register_enabled:
-            self.hlb2 = PLabel(self, 300,30,self.left+self.halfw + 20,self.top+15,self.lang.b["Add new user:"])
+            self.hlb2 = PLabel(self, 310,30,self.left+self.halfw + 20,self.top+15,self.lang.b["Add new user:"])
             self.hlb2.font_color = self.header_font_color
             self.hlb2.font_v = self.font_1
             self.edit_list.add(self.hlb2)
             
-            self.lb1 = PLabel(self, 300,30,self.left+self.halfw + 20,self.top+55,self.lang.b["user name:"])
+            self.lb1 = PLabel(self, 310,30,self.left+self.halfw + 20,self.top+55,self.lang.b["user name:"])
             self.edit_list.add(self.lb1)
             
-            self.lb2 = PLabel(self, 300,30,self.left+self.halfw + 20,self.top+122-5,self.lang.b["password:"])
+            self.lb2 = PLabel(self, 310,30,self.left+self.halfw + 20,self.top+122-5,self.lang.b["password:"])
             self.edit_list.add(self.lb2)
             
-            self.lb3 = PLabel(self, 300,30,self.left+self.halfw + 20,self.top+184-5,self.lang.b["confirm password:"])
+            self.lb3 = PLabel(self, 310,30,self.left+self.halfw + 20,self.top+184-5,self.lang.b["confirm password:"])
             self.edit_list.add(self.lb3)
             
             self.rusername = PEdit(self, self.halfw - 40,30,self.left+self.halfw + 20,self.top+82,4)
@@ -749,15 +783,15 @@ class LoginScreen:
             self.edit_list.add(self.rregisterbtn)
             
     def add_admin_login_elements(self):
-        self.hlb1 = PLabel(self, 300,30,self.left+20,self.top+15,self.lang.b["Administrator Login:"])
+        self.hlb1 = PLabel(self, 665,30,self.left+20,self.top+15,self.lang.b["Administrator Login:"])
         self.hlb1.font_color = self.header_font_color
         self.hlb1.font_v = self.font_1
         self.edit_list.add(self.hlb1)
         
-        self.lb1 = PLabel(self, 300,30 , self.left+150,self.top+55,self.lang.b["user name:"])
+        self.lb1 = PLabel(self, 400,30 , self.left+150,self.top+55,self.lang.b["user name:"])
         self.edit_list.add(self.lb1)
         
-        self.lb2 = PLabel(self, 300,30 , self.left+150,self.top+122-5,self.lang.b["password:"])
+        self.lb2 = PLabel(self, 400,30 , self.left+150,self.top+122-5,self.lang.b["password:"])
         self.edit_list.add(self.lb2)
         
         self.db_status = ""
@@ -776,7 +810,7 @@ class LoginScreen:
         self.scroll_item_count = len(self.config.all_lng)
         self.halfw = self.w // 2 -50
         
-        self.hlb1 = PLabel(self, 500,30,self.left+20,self.top+15,self.lang.b["Default Language:"])
+        self.hlb1 = PLabel(self, 665,30,self.left+20,self.top+15,self.lang.b["Default Language:"])
         self.hlb1.font_color = self.header_font_color
         self.hlb1.font_v = self.font_1
         self.edit_list.add(self.hlb1)
@@ -787,11 +821,11 @@ class LoginScreen:
         #hs = [60,90,120,150,180,210,240,270,300,330,360,390]
         ws = [20,240]
         #hs = [60,90,120,150,180,210,240,280,320,350,380,410,430,450]
-        hs = [60,90,120,150,180,210,240,270,300,60,90,120,150,180]
+        hs = [60,90,120,150,180,210,240,270,300,330,60,90,120,150]#,180]
         
         j = 0
         for i in range(self.scroll_item_count):
-            if i > 8:
+            if i > 9:
                 j = 1
             self.select.append(PButton(self, 200,30,self.left+ws[j],self.top+hs[i],0,self.config.lang_titles[i],self.fset_lang))
             #self.select[i].select_item = True
@@ -804,6 +838,7 @@ class LoginScreen:
             self.select[i].border_focused = (150, 0, 0)
             self.select[i].font_color = (255, 255, 255)
             self.select[i].iso_code = self.config.all_lng[i]
+            self.select[i].right_align = False
         
         self.fselect_lang()
         
@@ -813,7 +848,7 @@ class LoginScreen:
         self.scroll_item_count = 7
         self.halfw = self.w // 2 -50
         
-        self.hlb1 = PLabel(self, 300,30,self.left+20,self.top+15,self.lang.b["User Management"])
+        self.hlb1 = PLabel(self, 665,30,self.left+20,self.top+15,self.lang.b["User Management"])
         self.hlb1.font_color = self.header_font_color
         self.hlb1.font_v = self.font_1
         self.edit_list.add(self.hlb1)
@@ -848,57 +883,66 @@ class LoginScreen:
         self.reload_selects()
         
         #add new user
-        self.lb1 = PLabel(self, 660,30,self.left+20,self.top+285,self.lang.b["Add new user:"])
+        if self.lang.ltr_text:
+            w = [240,220,220]
+        else:
+            w = [220,210,210]
+        self.lb1 = PLabel(self, 665,30,self.left+20,self.top+285,self.lang.b["Add new user:"])
         self.lb1.font_color = (205,255,155)
-        self.lb2 = PLabel(self, 240,30,self.left+20,self.top+315,self.lang.b["user name:"])
+        self.lb2 = PLabel(self, w[0],30,self.left+20,self.top+315,self.lang.b["user name:"])
         self.rusername = PEdit(self,220,30,self.left+20,self.top+340,1)
         
-        self.lb3 = PLabel(self, 220,30,self.left+20+220+10,self.top+315,self.lang.b["password:"])
+        self.lb3 = PLabel(self, w[1],30,self.left+20+220+10,self.top+315,self.lang.b["password:"])
         self.rpassword = PEdit(self, 210,30,self.left+20+220+10,self.top+340,2,True)
         
-        self.lb4 = PLabel(self, 220,30,self.left+20+220+10+210+10,self.top+315,self.lang.b["confirm password:"])
+        self.lb4 = PLabel(self, w[2],30,self.left+20+220+10+210+10,self.top+315,self.lang.b["confirm password:"])
         self.rconfirmpassword  = PEdit(self, 210,30,self.left+20+220+10+210+10,self.top+340,3,True)
             
         #self.rregisterbtn = PButton(self, 210,30,20+220+10+210+10,380,4,self.lang.b["Register"],self.fregister)
         self.rregisterbtn = PButton(self, 420+10,30,self.left+20+220+10,self.top+380,4,self.lang.b["Register"],self.fregister)
         
         #user info elements w h l t
-        self.dlb1 = PLabel(self, 400,30,self.left+270,self.top+60,self.lang.b["Please select"]) #name field
+        self.dlb1 = PLabel(self, 410,30,self.left+270,self.top+60,self.lang.b["Please select"]) #name field
         self.dlb1.font_color = (100,200,255)
-        self.ilb1 = PLabel(self, 360,30,self.left+290,self.top+90,"") #registered label
-        self.ilb2 = PLabel(self, 360,30,self.left+290,self.top+120,"") #last login label
-        self.ilb3 = PLabel(self, 360,30,self.left+290,self.top+150,"") #score
-        self.dlb2 = PLabel(self, 200,30,self.left+480,self.top+90,"") #registered field
-        self.dlb3 = PLabel(self, 200,30,self.left+480,self.top+120,"") #last login field
-        self.dlb4 = PLabel(self, 200,30,self.left+480,self.top+150,"") #score field
-        self.dlb2.right_align = True
-        self.dlb3.right_align = True
-        self.dlb4.right_align = True
+        if self.lang.ltr_text:
+            l = [self.left+290,self.left+480]
+        else:
+            l = [self.left+460,self.left+270]
+        self.ilb1 = PLabel(self, 200,30,l[0],self.top+90,"") #registered label
+        self.ilb2 = PLabel(self, 200,30,l[0],self.top+120,"") #last login label
+        self.ilb3 = PLabel(self, 200,30,l[0],self.top+150,"") #score
+        self.dlb2 = PLabel(self, 200,30,l[1],self.top+90,"") #registered field
+        self.dlb3 = PLabel(self, 200,30,l[1],self.top+120,"") #last login field
+        self.dlb4 = PLabel(self, 200,30,l[1],self.top+150,"") #score field
+        if self.lang.ltr_text:
+            self.dlb2.right_align = True
+            self.dlb3.right_align = True
+            self.dlb4.right_align = True
         #delete user buttons
         #calculate distance from right
         text = self.lang.b["delete user"]
         w = self.get_text_w(text) + 6
         
         #add text button
-        self.delete_btn = PButton(self, w,30,self.left+650 - w,self.top+240,0,text,self.showfdeluser, right_align = True, transparent = True)
+        self.delete_btn = PButton(self, w,30,self.left+650 - w,self.top+220,0,text,self.showfdeluser, right_align = True, transparent = True)
         self.delete_btn.visible = False
         self.delete_btn.update()
         #add img button
         #img_btn_left = self.delete_btn.left + self.delete_btn.font_x-40
         #img_btn_left = 650 - 245 - 10
-        self.delete_imgbtn = PIMGButton(self, 30, 30, self.left+650,self.top+240,0,"login_delete_usr.png","login_delete_usr.png",self.showfdeluser)
+        self.delete_imgbtn = PIMGButton(self, 30, 30, self.left+650,self.top+220,0,"login_delete_usr.png","login_delete_usr.png",self.showfdeluser)
 
         self.delete_imgbtn.visible = False
         
         # confirm delete
         text = self.lang.b["Cancel"]
         w1 = self.get_text_w(text) + 6
-        self.delete_no = PButton(self, w1,30,self.left+680 - w1,self.top+270,0,text,self.hidefdeluser, right_align = True, transparent = True)
+        self.delete_no = PButton(self, w1,30,self.left+680 - w1,self.top+250,0,text,self.hidefdeluser, right_align = True, transparent = True)
         self.delete_no.visible = False
         self.delete_no.font_color = (40, 255, 40)
         text = self.lang.b["Delete"]
         w2 = self.get_text_w(text) + 6
-        self.delete_yes = PButton(self, w2,30,self.left+680 - w1-w2-15,self.top+270,0,text,self.fdeluser, right_align = True, transparent = True)
+        self.delete_yes = PButton(self, w2,30,self.left+680 - w1-w2-15,self.top+250,0,text,self.fdeluser, right_align = True, transparent = True)
         self.delete_yes.visible = False
         self.delete_yes.font_color = (255, 40, 40)
         #add all form elements to a sprites group
@@ -976,7 +1020,7 @@ class LoginScreen:
         self.cb4.checked = self.require_adminpass
         
     def add_prefs_elements(self):
-        self.hlb1 = PLabel(self, 300,30,self.left+20,self.top+15,self.lang.b["Preferences"])
+        self.hlb1 = PLabel(self, 665,30,self.left+20,self.top+15,self.lang.b["Preferences"])
         self.hlb1.font_color = self.header_font_color
         self.hlb1.font_v = self.font_1
         self.edit_list.add(self.hlb1)

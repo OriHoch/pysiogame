@@ -5,11 +5,10 @@ import colorsys
 from classes.simple_vector import Vector2
 import random
 
-#those color functions take 3 values in range 0 - 255
-
+#the following four color functions take 3 values in range 0 - 255
 #h - hue
-#s - light s=0 white, s=255 full color
-#v - dark v=0 dark, v=255 full color
+#s - saturation - s=0 white, s=255 full color
+#v - vibrance - v=0 black, v=255 full color
 def hsv_to_rgb(h,s,v):
     hsv = [h,s,v]
     hsv_clean = hsv
@@ -52,10 +51,11 @@ def rgb_to_hsl(r,g,b):
     return hsl255
     
 def unival(value):
-    val = ""
+    val = value
     if sys.version_info < (3, 0):
         try:
-            val = unicode(value, "utf-8")
+            if not isinstance(value, unicode):
+                val = unicode(value, "utf-8")
         except UnicodeDecodeError:
             val = value
         except TypeError:
@@ -63,6 +63,56 @@ def unival(value):
     else:
         val = value
     return val
+    
+def reverse_x(s, alpha):
+    return s
+    
+def reverse(s, alpha):
+    "used with right-to-left languages to reverse text. Takes the string to reverse and a string containing all letters of the rtl alphabet" 
+    l = []
+    p =" :',.?-"
+    s2 = s[:]
+    if sys.version_info < (3, 0):
+        if not isinstance(s, unicode):
+            s = s.decode('utf-8')
+        p = p.decode("utf-8")
+        alpha = alpha.decode("utf-8")
+        
+    for each in s:
+        l.append(each)
+    
+    ln = len(l)
+    l2 = [' '] * ln
+    tmp = ""
+    mode = None
+    i = ln-1
+    j = 0
+    ej = None
+    while i > -1:
+        if l[i] in alpha or (mode == "rtl" and l[i] in p):
+            ltmp = len(tmp)
+            if ltmp > 0:
+                if ltmp == 1:
+                    l2[ej] = tmp
+                else:
+                    l2[ej-1:j-1] = tmp
+                tmp = ""
+                ej = None
+            #try:
+            l2[j] = l[i]
+            #except:
+            mode = "rtl"
+        else:
+            if ej == None:
+                ej = j
+            tmp = l[i] + tmp
+            mode = "ltr"
+        j = j+1
+        i = i-1
+    if tmp != "":
+        l2[ej: j+1] = tmp
+        
+    return "".join(l2)
     
 def rr2(from1,to1,from2,to2,step=1):
     x = random.choice([-1,1])
