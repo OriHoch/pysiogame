@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -86,7 +87,6 @@ class Board(gd.BoardGame):
             self.board.ships[-1].outline_highlight = True
             
             j += 1
-            #self.top_colors.append(color)
         self.colors_completed = self.colors[:]
         self.outline_all(0,1)
         
@@ -324,7 +324,6 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        #self.result = []
         correct = True
         if self.solution_positions == self.board.grid[7]:
             for each_item in self.board.ships:

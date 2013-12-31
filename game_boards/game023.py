@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import game_boards.game023_lvls as gl
@@ -71,12 +72,11 @@ class Board(gd.BoardGame):
             
         self.word_len = word_len
             
-            
         self.remaining = self.word_len+0
         shuffled = self.word[:]
         self.searched_letter = self.word[0]
 
-        board_number = random.randrange(1, data[5][0][0]+1) #self.level.game_step
+        board_number = random.randrange(1, data[5][0][0]+1)
 
         w = self.word_len
         x = (data[0]-w)//2
@@ -139,12 +139,9 @@ class Board(gd.BoardGame):
         self.ship_id = 0
         self.units_len = len(self.board.units)
         
-        #self.say(self.s_word,2)
-        
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 
-            
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent

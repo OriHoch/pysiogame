@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+
 import pygame
 import os, sys
 import classes.extras
 import pygame.mixer
+
 sounds = pygame.mixer
 sounds.init()
 
@@ -84,8 +86,6 @@ class Button(BaseButton):
             textpos1 = text.get_rect(centerx=self.image.get_width()//2)
             self.image.blit(text, (textpos1[0],lvl_lift))
             
-        
-
     def update_title(self):
         #book 3
         text = self.font3.render("%s" % (self.panel.title), 1, self.panel.font_color)
@@ -93,8 +93,6 @@ class Button(BaseButton):
         #print text.rect.w
         tw1 = self.font3.size(self.panel.title)[0]
         tw2 = self.font4.size(self.panel.subtitle)[0]
-        #textpos1 = text.get_rect(centerx=self.image.get_width()//2)
-        #textpos2 = text2.get_rect(centerx=self.image.get_width()//2)
         if self.panel.mainloop.lang.ltr_text:
             ttx = 0
             stx = 0
@@ -107,7 +105,6 @@ class Button(BaseButton):
             if tw2 < self.panel.title_space:
                 self.image.blit(text2, (stx,39))
             
-
     def update(self):
         self.image.fill(self.color)
         if self.btntype == "imgbtn":
@@ -120,12 +117,6 @@ class Button(BaseButton):
 class InfoBar():
     def __init__(self,mainloop):
         self.btns = []
-        #self.font_color = (155,0,135) #0,0,0,0)
-        #self.font_color1 = (0,125,90,0)
-        
-        #see + purple        
-        #self.font_color = (130,0,115,0) #0,0,0,0)
-        #self.font_color1 = (0,90,60,0)
         
         #orange
         self.font_color = (255,75,0,0) #0,0,0,0)
@@ -147,19 +138,13 @@ class InfoBar():
         self.title_space = 0
         self.title = ""
         self.subtitle = ""
-        self.btn_list = pygame.sprite.LayeredUpdates()        
-        #self.visible_btns = [ok,left_arrow,levels,right_arrow,close,refresh,titles,fast-forward,keyboard]
-        #self.visible_btns = [1,1,1,1,1,1,1,0,0]
-        #self.stars = pygame.image.load(os.path.join('images', 'stars_bg.png')).convert()
+        self.btn_list = pygame.sprite.LayeredUpdates()
         self.reset_buttons()
         self.update_fonts()
         
     def update_fonts(self):
         self.fonts = []
         points = int(round((60 * 72 /96),0))
-        #if self.mainloop.lang.lang not in ["el","ru","pl"]:
-        #sizes = [points, points//2, int(points/1.5), points//2]
-        #else:
         sizes = [points, points//2, int(points/1.9), int(points/2.6)]    
             
         for i in range(4):
@@ -169,7 +154,6 @@ class InfoBar():
             each.update_fonts()
         self.reset_titles()
 
-
     def new_game(self,game_board,screen):
         self.game_board = game_board
         self.level = self.game_board.level
@@ -177,7 +161,6 @@ class InfoBar():
         self.l = self.game_board.layout
         self.height = self.l.info_bar_h
         self.height_o = self.l.info_bar_offset_h
-        #self.m_offset = self.game_board.layout.info_bar_pos[0] #self.game_board.layout.menu_w_offset
         self.width = self.l.info_bar_pos[2]#self.game_board.layout.screen_w - self.m_offset
         if len(self.btns) == 0:
             self.add_btns()
@@ -218,10 +201,6 @@ class InfoBar():
                         if self.close_dialog == True:
                             mainloop.done = True
                             mainloop.done4good = True
-                            
-                            #log out only
-                            #mainloop.window_state = "LOG IN"
-                            #mainloop.userid = -1
                         else:
                             self.sure_to_close()
     
@@ -274,7 +253,6 @@ class InfoBar():
                     if not (((btn.btn_id == 1 or btn.btn_id == 7) and self.level.lvl == 1) or ((btn.btn_id == 3 or btn.btn_id == 8) and self.level.lvl == self.level.lvl_count)):# or (btn.btn_id == 0)):# and self.game_board.changed_since_check == False)):                 
                         self.resetbtns()                        
                         btn.img = btn.img_1
-                        #self.mainloop.redraw_needed[1] = True   
             else:
                 self.resetbtns()
                 self.close_dialog = False
@@ -307,7 +285,6 @@ class InfoBar():
         self.add_btn(self,222,5+self.margin_top,63,66,"imgbtn","info_refresh1.png","info_refresh2.png")
         title_width = self.width #-303 - (168+5+20)-5
         self.add_btn(self,300,5+self.margin_top,title_width,66,"titles")
-        #self.btns[-1].color = (200,200,200)
         
         self.add_btn(self,self.width-351,5+self.margin_top,33,66,"imgbtn","info_lvls1.png","info_lvls2.png")
         self.add_btn(self,self.width-113,5+self.margin_top,33,66,"imgbtn","info_lvls1.png","info_lvls2.png","",True)
@@ -339,7 +316,6 @@ class InfoBar():
         self.hide_buttons(0,0,0,0,0,0,1,0,0)
         self.mainloop.redraw_needed[1] = True
         self.hidden = True
-        #self.btn_list.move_to_back(self.btns[13]) 
         self.btn_list.move_to_front(self.btns[6])
         self.layout_update()
         self.title_space = self.width - 10
@@ -349,33 +325,23 @@ class InfoBar():
         self.mainloop.redraw_needed[1] = True
         self.hidden = True
         self.close_dialog = True
-        #self.close_dialog = False
         self.title = classes.extras.unival(self.lang.d["close_confirm"])
         self.subtitle = ""
         if self.mainloop.config.settings["sounds"]:
             s5.play()
         self.layout_update()
         
-        
     def buttons_restore(self):
         a = self.mainloop.game_board.vis_buttons
-        #book 4
-        """
-        if self.mainloop.size[0] < 1000 and sum(a) > 3:
-            self.hide_buttons(a[0],a[1],a[2],a[3],a[4],a[5],0,a[7],a[8])
-        else:
-        """
         self.hide_buttonsa(a)
         self.mainloop.redraw_needed[1] = True
         self.hidden = False
-        #self.btn_list.move_to_back(self.btns[13]) 
         self.btn_list.move_to_back(self.btns[6]) 
         self.layout_update()
         
     def align_to_left(self):
         if self.visible_btns[8] == 0:
             if self.visible_btns[0] == 0 and self.visible_btns[5] == 1:
-                #self.btns[0].rect.left = 5
                 self.btns[5].rect.left = 5
                 self.btns[6].rect.left = 78
             elif self.visible_btns[0] == 0 and self.visible_btns[5] == 0:
@@ -473,7 +439,6 @@ class InfoBar():
             self.btns[13].rect.left = self.width-223-5
         else:
             self.btns[13].rect.left = self.width - 5
-        #book 2
         #title space
         self.rescale_title_space()
         
@@ -485,7 +450,6 @@ class InfoBar():
             
     def draw(self,screen):
         #draw info bar
-        #screen.fill((70,70,70))
         screen.fill((255,255,255))
         #colors = ((250,250,250),(233,233,233),(192,192,192),(141,141,141),(137,137,137))#,(255,255,255),(240,223,238),(133,0,116),(148,31,133))
         #colors = ((250,250,250),(233,233,233),(233,233,233),(192,192,192),(192,192,192),(141,141,141),(141,141,141),(137,137,137),(137,137,137))#,(255,255,255),(240,223,238),(133,0,116),(148,31,133))
@@ -494,24 +458,6 @@ class InfoBar():
         for each in colors:
             pygame.draw.line(screen,each,[0,hs],[self.game_board.layout.screen_w - self.game_board.layout.menu_w,hs],1)
             hs += 1
-        
-        #screen2.fill((70,70,70))
-        #pygame.draw.line(screen2,((255,255,255)),[0,0],[0,self.height_o],1)
-        #pygame.draw.line(screen2,((255,170,0)),[0,0],[self.game_board.layout.game_w,0],1)
-        #pygame.draw.line(screen,((255,170,0)),[0,0],[self.game_board.layout.game_w-1+self.game_board.layout.menu_w_offset-5,0],1)
-        #pygame.draw.line(screen2,((255,170,0)),[10,10],[self.game_board.layout.game_w-1+self.game_board.layout.menu_w_offset,10],1)
-        
-        #pygame.draw.line(screen,((255,170,0)),[self.game_board.layout.menu_w_offset-1,0],[self.game_board.layout.game_w+self.game_board.layout.menu_w_offset,0],1)
-        """
-        y = self.game_board.layout.score_bar_top # self.game_board.layout.info_bar_offset_h - self.game_board.layout.info_bar_h - self.game_board.layout.score_bar_h
-        #pygame.draw.line(screen2,((255,70,70)),[2,y+self.game_board.layout.score_bar_h//2],[self.game_board.layout.game_w+self.game_board.layout.menu_w_offset,y+self.game_board.layout.score_bar_h//2],self.game_board.layout.score_bar_h)
-        
-        pygame.draw.line(screen2,((45,45,45)),[2,y+self.game_board.layout.score_bar_h//2],[self.game_board.layout.game_w+self.game_board.layout.menu_w_offset,y+self.game_board.layout.score_bar_h//2],self.game_board.layout.score_bar_h)
-        #screen2.blit(self.stars, [0,y])
-        pygame.draw.line(screen2,((255,255,255)),[2,y],[self.game_board.layout.game_w+self.game_board.layout.menu_w_offset,y],1)
-        pygame.draw.line(screen2,((255,255,255)),[2,y+self.game_board.layout.score_bar_h],[self.game_board.layout.game_w+self.game_board.layout.menu_w_offset,y+self.game_board.layout.score_bar_h],1)
-        """
-        
         for each_item in self.btns:
             each_item.update()
 

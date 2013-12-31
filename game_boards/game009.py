@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -12,7 +13,6 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
         
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
@@ -60,9 +60,6 @@ class Board(gd.BoardGame):
             self.board.add_unit(x,y,1,1,classes.board.Letter,self.shape_names[i],white,"",2)
             self.board.ships[-1].speaker_val = self.shape_namesp[i]
             self.board.ships[-1].speaker_val_update = False
-            
-            #self.board.ships[i].perm_outline = True
-            #self.board.ships[i].set_outline(outline_color,1)
             self.board.ships[-1].font_color=(255,255,255,0)
             x += 1
 
@@ -94,8 +91,6 @@ class Board(gd.BoardGame):
         self.board.add_door(x-2,y+1,9,6,classes.board.Door,"",card_color,"")
         
         self.board.add_door(x-5,0,15,1,classes.board.Door,"",card_color,"flashcard_shapes_72.jpg")
-        #self.board.add_door(x,y+2,4,3,classes.board.Door,"",card_color,"")
-        
         
         self.board.units[2].door_outline = True
         self.board.units[2].perm_outline_color = font_color
@@ -105,7 +100,6 @@ class Board(gd.BoardGame):
         self.slide = self.board.ships[self.shape_count+3]
         self.slide.build_frame_flow(self.shape_count+3) 
         self.slide.correction = True
-        #self.slide.set_outline(outline_color,1)
         self.slide.perm_outline = True
         self.slide.perm_outline_color = font_color
         
@@ -116,8 +110,6 @@ class Board(gd.BoardGame):
         for each in self.board.units:
             each.font_color = font_color
        
-        #self.outline_all(1,1)
-        
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONUP:

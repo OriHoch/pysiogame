@@ -15,7 +15,6 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,3,7)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,7)
         
-        
     def create_game_objects(self, level = 1):
         s = random.randrange(150, 205, 5)
         v = random.randrange(150, 205, 5)

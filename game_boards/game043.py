@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -14,9 +15,7 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.board.draw_grid = False
         s = random.randrange(30, 50)
         v = random.randrange(230, 255)
@@ -85,11 +84,6 @@ class Board(gd.BoardGame):
         self.board.add_unit(x-2,y+3,4,4,classes.board.MultiImgSprite,self.shape_names[0],card_color,"flashcard_solids.jpg",row_data=[9,1])
         self.board.ships[-1].speaker_val = self.shape_namesp[0]
         self.board.ships[-1].speaker_val_update = False
-        #Frame
-        #self.board.add_unit(0,y,x-2,data[1]-2,classes.board.Obstacle,"",frame_color)
-        #self.board.add_unit(x+7,y,x-2,data[1]-2,classes.board.Obstacle,"",frame_color)
-        #self.board.add_unit(x-2,y,9,1,classes.board.Obstacle,"",frame_color)
-        #self.board.add_unit(x-2,y+7,9,1,classes.board.Obstacle,"",frame_color)
         
         self.board.add_door(x-2,y+1,9,6,classes.board.Door,"",card_color,"")
         

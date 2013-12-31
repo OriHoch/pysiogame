@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.board
@@ -8,15 +9,12 @@ import classes.extras as ex
 import pygame
 import random
 
-
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,18)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,5,4)
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.board.check_laby = True
         s = random.randrange(150, 190, 5)
         v = random.randrange(230, 255, 5)
@@ -73,10 +71,8 @@ class Board(gd.BoardGame):
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent
-        if self.show_msg == False:    
-            #self.person.poll()
-            self.mylaby.show(game)  
-            #self.person.show()   
+        if self.show_msg == False:
+            self.mylaby.show(game)
                
     def after_keydown_move(self):
         self.changed_since_check = True

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -11,9 +12,7 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,99,9)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,14,5)
         
-        
     def create_game_objects(self, level = 1):
-        
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         s = random.randrange(150, 190, 5)
@@ -105,7 +104,6 @@ class Board(gd.BoardGame):
         correct = True
         for i in range(len(self.board.ships)-3):
             each = self.board.ships[i]
-            #for each in self.board.ships:
             if each.grid_y < 2 and self.num_list[each.unit_id]%2 != 0 \
             or each.grid_y > 1 and self.num_list[each.unit_id]%2 == 0:
                 correct = False

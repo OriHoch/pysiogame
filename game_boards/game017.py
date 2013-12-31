@@ -132,7 +132,6 @@ class Board(gd.BoardGame):
                 self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
                 
         #frame size 288 x 216        
-        #self.board.add_unit(x,y+1,4,3,classes.board.MultiImgSprite,self.word_list[0],card_color,"flashcard_images.jpg",row_data=[10,8])
         img_src = os.path.join('fc', "fc%03i.jpg" % self.frame_flow[0])
         self.board.add_unit(x-xd+img_plus,y+1,4,3,classes.board.ImgShip,self.word_list[0],card_color,img_src)
         self.board.ships[-1].speaker_val = self.pword_list[0]
@@ -149,16 +148,10 @@ class Board(gd.BoardGame):
         else:
             h = 5
         self.board.add_door(x-2+xd,y,w,h,classes.board.Door,"",card_color,"")
-        #self.board.units[-1].door_outline = True
         self.board.units[-1].set_outline(color = outline_color, width = 2)
         self.board.all_sprites_list.move_to_front(self.board.units[-1])
         self.slide = self.board.ships[self.abc_len]
-
-        #self.slide.build_frame_flow(self.abc_len,self.frame_flow)
-        #self.slide.correction = True
-        #self.slide.correction_factor = 2.5
         self.slide.perm_outline = True
-        #self.slide.set_frame(0)
         for each in self.board.ships:
             each.immobilize()
             each.font_color = font_color
@@ -217,9 +210,6 @@ class Board(gd.BoardGame):
     
         else:
             indx2 = [self.abc_len, self.abc_len+1]
-        
-        #self.slide.set_frame(active.unit_id)
-        
         img_src = os.path.join('fc', "fc%03i.jpg" %  self.frame_flow[active.unit_id])
         self.slide.change_image(img_src)
         

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -12,12 +13,9 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,99,5)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,23,9)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
-        self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
-        
+        self.mainloop.info.hide_buttonsa(self.vis_buttons)        
         s = random.randrange(150, 225, 5)
         v = random.randrange(190, 225, 5)
         h = random.randrange(0, 255, 5)
@@ -40,9 +38,6 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 4:
             data = [23,9]
             color1 = color2 = color0
-        #elif self.level.lvl == 5:
-        #    data = [23,9]
-        #    color0 = (0,0,0)
         elif self.level.lvl == 5:
             data = [23,9]
             color2 = color1 = color0 = (0,0,0)
@@ -92,7 +87,7 @@ class Board(gd.BoardGame):
         if self.level.lvl < 4:
             color = self.board.ships[self.solution[1]-1].initcolor
         else:
-            color = (255,255,255)#color4
+            color = (255,255,255)
         for i in range(4):
             if i == 2:
                 x += 1

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -11,11 +12,9 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,99,15)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,6)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
         s = random.randrange(100, 150, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
@@ -109,7 +108,6 @@ class Board(gd.BoardGame):
             self.board.ships[inds + i].readable = False
             self.board.all_sprites_list.move_to_front(self.board.units[indu + i])      
         
-        
         instruction = self.d["Drag the slider"]
         self.board.add_unit(0,5,11,1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize()
@@ -128,10 +126,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        #if self.board.grid[2] == self.solution_grid:
         for i in range(len(self.board.ships)-1):
-            #if self.board.ships[i].grid_y == 2: #if the sign is on line with expression
-            #value = self.board.ships[i].value
             value = self.board.ships[i].value[2 - self.board.ships[i].grid_y]
             if value == "=":
                 value = "=="

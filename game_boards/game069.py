@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -6,28 +7,21 @@ import classes.extras as ex
 import classes.board
 import random
 import pygame
-#import colorsys
-
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
         
-        
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
-
-        color = (234,218,225) #ex.hsv_to_rgb(225,15,235)
+        color = (234,218,225)
         self.color = color
-        #font_color = ex.hsv_to_rgb(227,255,50)
-        #font_color = (85,0,212)
         font_color = (50,0,150)
         self.grey = (200,200,200)
         self.font_hl = (100,0,250)
         
         self.task_str_color = ex.hsv_to_rgb(200,200,230)
-        #font_result = ex.hsv_to_rgb(225,70,230)
         self.activated_col = self.font_hl
         ver_color = (63,45,247)
         white = (255,255,255)
@@ -94,7 +88,6 @@ class Board(gd.BoardGame):
             qm = "?"
 
         question = self.n1s + " + " + self.n2s + " = " + qm
-        #question
         self.board.add_unit(1,0,data[0]-1-self.sumn1n2sl*3 ,3,classes.board.Label,question,white,"",21)
         self.board.units[-1].align = 1
         
@@ -104,9 +97,6 @@ class Board(gd.BoardGame):
             self.carryl.append(self.board.ships[-1])
             self.carryl[-1].set_outline(self.grey, 2)
             self.carryl[-1].pos_id = i
-
-        #self.carryl[0].set_outline(font_result, 2)
-        
         #first number
         for i in range(self.n1sl):
             self.board.add_unit(data[0]-3-i*3,2,3,3,classes.board.Label,self.n1s[-(i+1)],white,"",21)
@@ -137,9 +127,6 @@ class Board(gd.BoardGame):
         self.resultl[0].set_outline(self.activated_col, 3)
         self.home_square = self.resultl[0]
         self.board.active_ship = self.home_square.unit_id
-        #self.board.units[0].font_color = font_color
-        #self.board.units[1].font_color = (0,0,255)
-        #self.outline_all(1,1)
         for each in self.board.ships:
             each.immobilize()
         self.deactivate_colors()
@@ -183,7 +170,6 @@ class Board(gd.BoardGame):
                                         
                                     else:
                                         self.home_square.value = char
-                                    #
                             else:
                                 self.home_square.value = char
                         elif self.home_square in self.carryl:
@@ -209,11 +195,8 @@ class Board(gd.BoardGame):
                 self.deactivate_colors()
                 self.home_square = self.board.ships[self.board.active_ship]
                 self.home_square.set_outline(self.activated_col, 3)
-                #if self.home_square in self.resultl:
                 self.reactivate_colors()
                 self.home_square.font_color = self.font_hl
-                #self.home_square = self.ans_h
-                #self.board.active_ship == self.ans_h.unit_id
             self.home_square.update_me = True
             self.mainloop.redraw_needed[0] = True
         
@@ -252,4 +235,4 @@ class Board(gd.BoardGame):
         else:
             if self.points > 0:
                 self.points -= 1
-            self.level.try_again() 
+            self.level.try_again()

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -14,7 +15,6 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,2)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,19,10)
-        
         
     def create_game_objects(self, level = 1):
         self.vis_buttons = [0,1,1,1,1,0,1,0,0]
@@ -161,7 +161,6 @@ class Board(gd.BoardGame):
         angle_arc_start = -pi/2
         self.r = self.size//3+self.size//10
         
-        #rs = [r*0.6, r*0.85,r*0.5]
         self.rs = [self.r*0.6, self.r*0.85,self.r*0.6]
         angle = self.angle_start
         angle_s = angle_arc_start
@@ -237,15 +236,12 @@ class Board(gd.BoardGame):
                     
                     pygame.draw.aaline(self.canvas, self.colors2[1], [x1,y1],[x2,y2])
             
-            
-        
         for i in range(12):
             val = str(i+1)
             if self.show_only_quarters_h:
                 if (i+1)%3 != 0:
                     val = ""
                     
-            #a = angle_start + angle_step_12*(i+1)
             a = self.angle_start + self.angle_step_12*(i+1)
             x1=(rs[2]+10)*cos(a)+self.center[0]
             y1=(rs[2]+10)*sin(a)+self.center[1]
@@ -304,11 +300,6 @@ class Board(gd.BoardGame):
             x1=rs[i]*cos(angle)+self.center[0]
             y1=rs[i]*sin(angle)+self.center[1]
             
-            #x2=h_size[i]*cos(angle-pi/2)+center[0]
-            #y2=h_size[i]*sin(angle-pi/2)+center[1]
-            #x3=h_size[i]*cos(angle+pi/2)+center[0]
-            #y3=h_size[i]*sin(angle+pi/2)+center[1]
-            
             x2=hand_width[i]*cos(angle-pi/2)+self.center[0]
             y2=hand_width[i]*sin(angle-pi/2)+self.center[1]
             
@@ -318,7 +309,6 @@ class Board(gd.BoardGame):
             points = [[x0,y0],[x2,y2],[x1,y1],[x3,y3]]
             shadow = [[x0,y0],[x2,y2],[x1,y1]]
             self.hand_coords[i] = points
-            #if i < numbers[0]:
             pygame.draw.polygon(self.canvas, self.colors[i], points, 0)
             pygame.draw.polygon(self.canvas, self.colors3[i], shadow, 0)
             # Draw the line from the center to the calculated end point
@@ -372,8 +362,6 @@ class Board(gd.BoardGame):
         
     def current_angle(self, pos,r):
         
-        #print(r),
-        #print(self.rs[0]),
         cosa = (pos[0] - self.center[0]) / r
         sina = (pos[1] - self.center[1]) / r
         
@@ -428,10 +416,8 @@ class Board(gd.BoardGame):
                 self.hand_id = 0
                 if self.is_contained(pos, coords_id = 0):
                     self.hand_id = 1
-                    #print("activated: %d" % self.hand_id)
                 elif self.is_contained(pos, coords_id = 1):
                     self.hand_id = 2
-                    #print("activated: %d" % self.hand_id)
                 elif self.rs[0]*1.1 > r:
                     h = (self.current_angle(pos, r)) / self.angle_step_12
                     if int(h) == 0:
@@ -443,8 +429,6 @@ class Board(gd.BoardGame):
         
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.hand_id = 0
-            
-                #self.is_contained(pos, 1)
         if self.tm != self.time:
             self.time = self.tm[:]
             self.draw_hands()

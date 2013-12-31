@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -81,8 +82,6 @@ class Board(gd.BoardGame):
             v = random.randrange(180, 250, 5)
             color = ex.hsv_to_rgb(h+(i-start_from)*data[5],s,v)
             self.colors.append(self.all_colors[j-1])
-            #self.board.add_unit(i,0,1,1,classes.board.Label,str(j),color,"",3)
-            #self.board.add_unit(x,y,1,1,classes.board.ImgShip,"",apple_bg,data[6])
             self.board.add_door(i,0,1,1,classes.board.Door,"",color,"b"+str(j)+".png")
             self.board.add_unit(i,data[1]-1,1,1,classes.board.ImgShip,"",color,"t"+str(j)+".png")
             self.board.ships[-1].outline=False
@@ -270,9 +269,6 @@ class Board(gd.BoardGame):
         bezier[0][2] = Vector2(random.randrange(*x_range),random.randrange(*y_range))#Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step,canvas_h-self._step)) #first line end
         bezier[0][3] = Vector2(bezier[0][2][0],bezier[0][2][1]-self._step)
         
-        #modifier2 = (x, y-step)
-        #modifier3 = (x, y+step)
-        
         #line 2 start
         bezier[1][0] = bezier[0][2]
         bezier[1][1] = Vector2(bezier[0][2][0],bezier[0][2][1]+self._step)#bezier[0][2] + Vector2(-(Vector2.from_points(bezier[0][2], bezier[0][3]))) #3rd point modifier
@@ -287,8 +283,6 @@ class Board(gd.BoardGame):
         
         y_range = (canvas_h-y_center,round(canvas_h-self._step*0.5))
 
-        #modifier2 = (x+step,y-step)
-        #modifier3 = (x-step,y+step)
         bezier[1][2] = Vector2(random.randrange(*x_range),random.randrange(*y_range)) #second line end
         bezier[1][3] = Vector2(bezier[1][2][0]+self._step,bezier[1][2][1]-self._step)
         #line 3 start
@@ -299,7 +293,7 @@ class Board(gd.BoardGame):
         bezier[2][2] = Vector2(self.end_positions[i]) #last point
         bezier[2][3] = Vector2(p4_x_mod,random.randrange(2 * self._step,canvas_h - self._step)) #Vector2(random.randrange(self.end_positions[i][0]-self._step//2,self.end_positions[i][0]+self._step//2),random.randrange(self._step*(data[3]-3),self._step*(data[3]-1))) #6th point modifier
         bezier_points = []
-        #print(bezier)
+        
         #labels = ["p1s","mod","p1e","mod","p2s","mod","p2e","mod","p3s","mod","p3e","mod"]
 
         for j in range(3):            

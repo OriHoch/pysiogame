@@ -92,7 +92,6 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 27:
             data = [13,9,0,7,7,27]
             
-        #self.chapters = [1,3,5,7,9,11,13,15,17]
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
         if m == 0:

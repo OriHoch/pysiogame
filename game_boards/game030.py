@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import pygame
@@ -21,7 +22,6 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.change_count = 0
         self.ai_enabled = True
         self.ai_speed = 3
@@ -145,17 +145,16 @@ class Board(gd.BoardGame):
             
     def game_over(self):
         tts = self.dp["work harder"]          
-        self.level.game_step = self.total_ # - 2
+        self.level.game_step = self.total_
         self.level.game_over(tts)
         
     def check_result(self):
-        #print("Game completed")
         if self.total_ < self.data[2]:
             if self.total_ - self.hit_ > self.max_escape:
                 self.game_over()
         elif self.total_ >= self.data[2]+1:
             tts = ""
-            if self.hit_ < self.data[4]: #self.data[2]//self.data[4]:
+            if self.hit_ < self.data[4]:
                 self.game_over()
             else:
                 self.mainloop.score += self.points

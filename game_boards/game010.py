@@ -20,7 +20,6 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.active_tool = 0
         self.active_letter = "A"
         self.active_word = "Apple"
@@ -57,7 +56,6 @@ class Board(gd.BoardGame):
         self.canvas_block = self.board.ships[0]
         self.canvas_block.set_outline([0,54,229],1)
         
-        #self.canvas_block.font2 = self.board.font_sizes[font_size+4]
         self.canvas_block.font3 = self.board.font_sizes[font_size2]
         images = ["paint_pencil.png","paint_brush.png","paint_wide_brush.png","paint_rect.png","paint_circle.png","paint_eraser.png","paint_bucket.png"]
         x=0
@@ -147,9 +145,8 @@ class Board(gd.BoardGame):
         self.canvas = pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
         self.canvas.fill(self.canvas_block.initcolor)
         self.paint_bg_letter()
-        self.canvas_org = self.canvas.copy() #pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
+        self.canvas_org = self.canvas.copy() 
         
-
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -180,7 +177,6 @@ class Board(gd.BoardGame):
                     self.active_color = self.board.ships[active].initcolor
                     self.color_door.set_pos(self.board.active_ship_pos)
 
-                         
         elif event.type == pygame.MOUSEMOTION and self.btn_down == True:
             active = self.board.active_ship
             pos = event.pos
@@ -193,7 +189,6 @@ class Board(gd.BoardGame):
                 self.paint_pencil(1)
             
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            
             active = self.board.active_ship
             pos = event.pos
             column=(pos[0]-self.layout.game_left) // (self.layout.width)
@@ -212,7 +207,6 @@ class Board(gd.BoardGame):
     def paint_bg_letter(self):
         txt = self.active_letter
         text = self.canvas_block.font.render("%s" % (txt), 1, (220, 220, 220, 0))
-        #text_arrows = self.canvas_block.font2.render("%s" % (txt), 1, (220, 0, 0, 0))
 
         font_x = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font.size(txt)[0])//2)
         font_y = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font.size(txt)[1])//2) - 5*self.board.scale
@@ -226,9 +220,7 @@ class Board(gd.BoardGame):
         self.canvas.fill([255,255,255])       
 
         self.canvas.blit(text, (font_x,font_y))
-        #self.canvas.blit(text_arrows, (font_x,font_y))
         self.canvas.blit(text2, (font_x2,font_y2))
-
         self.copy_to_screen()
                     
     #states => mouse states => 0 - mouse_btn_down, 1 - mouse_move, 2 - mouse_btn_up
@@ -246,9 +238,8 @@ class Board(gd.BoardGame):
                         r = self.brush_size // 2
                         width = self.brush_size +3
                     else:
-                        r = self.brush_size // 2# - 1
+                        r = self.brush_size // 2
                         width = self.brush_size+2
-                        
                     pygame.draw.circle(self.canvas, self.active_color, self.p_current, r,0)
                 if self.brush_size > 3:                
                     self.draw_line(self.p_prev,self.p_current,self.brush_size,self.brush_size)

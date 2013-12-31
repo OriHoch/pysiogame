@@ -199,13 +199,18 @@ class GamePlay(threading.Thread):
             self.config.fullscreen = self.config.settings["full_screen"]
         #message said at the start of the game
         
+        if self.lang.lang != 'he':
+            uname = self.user_name
+        else:
+            uname = ""
+        
         if sys.version_info < (3, 0):
             try:
-                self.welcome_msg = lang.d["Hello"] + " " + self.user_name.encode("utf-8") + "! " + lang.dp["Welcome back."]
+                self.welcome_msg = lang.dp["Hello"] + " " + uname.encode("utf-8") + "! " + lang.dp["Welcome back."]
             except:
-                self.welcome_msg = lang.d["Hello"]
+                self.welcome_msg = lang.dp["Hello"]
         else:
-            self.welcome_msg = lang.d["Hello"] + " " + self.user_name + "! " + lang.dp["Welcome back."]
+            self.welcome_msg = lang.dp["Hello"] + " " + uname + "! " + lang.dp["Welcome back."]
         self.speaker.say(self.welcome_msg) #say welcome message
     
     def set_icon(self,icon_src):

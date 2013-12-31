@@ -19,9 +19,7 @@ class Board(gd.BoardGame):
         self.max_size = 99
         self.board.draw_grid = False
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.active_tool = 0
         self.active_letter = "Α"
         self.active_word = "Άλογο"   
@@ -182,7 +180,6 @@ class Board(gd.BoardGame):
                 self.paint_pencil(1)
             
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            
             active = self.board.active_ship
             pos = event.pos
             column=(pos[0]-self.layout.game_left) // (self.layout.width)
@@ -206,11 +203,8 @@ class Board(gd.BoardGame):
         font_x = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font.size(val)[0])//2)
         font_y = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font.size(val)[1])//2) #- 3*self.board.scale
 
-        self.canvas.fill([255,255,255])       
-
+        self.canvas.fill([255,255,255])
         self.canvas.blit(text, (font_x,font_y))
-        #self.canvas.blit(text2, (font_x2,font_y2))
-
         self.copy_to_screen()
                     
     #states => mouse states => 0 - mouse_btn_down, 1 - mouse_move, 2 - mouse_btn_up

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
-#This is a helper program used to automatise some tasks related with distribution of this package.
+#This is a helper program used to automatise some tasks related to distribution of this package.
 #Removes all files with certain extensions in this directory and all subdirectories (5 levels deep)
-#this is used to clear all temporary files and compiled code before packaging for distribution
+#this is used to clear all temporary files and compiled code before packaging for distribution.
 #The following extensions are being affected: ".py~", ".pyc", ".po~", ".pot~", ".txt~"
-#and all __pycache__ directories including it's contents
-#It also checks for any .mo files floating in .po directory and moves them to locale dir.
+#and all __pycache__ directories including it's contents.
+#rmcopy argument passed (ie. cleanup.py rmcopy) will also remove all copies of files (made on English locales) 
+#- removes all *copy).py files on top of earlier mentioned extensions.
+#It also checks for any .mo files floating in .po directory and moves them to appropriate location in locale dir.
 
 import os, sys
 import shutil
@@ -27,7 +29,7 @@ def findNremove(path,file_patterns, dir_patterns,maxdepth=1):
                                 os.remove(os.path.join(r,files))
                             except Exception,e:
                                 print e
-    print("%d files removed" % count)
+    print("%d file(s) removed." % count)
     
     #removing all matching directories
     count = 0
@@ -43,7 +45,7 @@ def findNremove(path,file_patterns, dir_patterns,maxdepth=1):
                                 shutil.rmtree(os.path.join(r,dirs))
                             except Exception,e:
                                 print e
-    print("%d directories removed" % count)
+    print("%d directories removed." % count)
     
 def distribute_mo(hpath, path, pattern):
     cpath=path.count(os.sep)
@@ -63,7 +65,7 @@ def distribute_mo(hpath, path, pattern):
                         print e
                     else:
                         count += 1
-    print("%d %s files distributed" % (count, pattern))
+    print("%d %s file(s) distributed." % (count, pattern))
     
 if __name__ == "__main__":
     #path = os.path.dirname(os.path.abspath(__file__))
@@ -85,10 +87,11 @@ if __name__ == "__main__":
     
     #move the files to the locale directory based on its locale code
     distribute_mo(path, popath, ".mo")
-    
-    with open(os.path.join(path, "classes", "cversion.py"),"w") as s_file:
-        s = path.split("/")
-        s_file.write('ver = "%s"' % s[-1][10:])
-        
-    print("Done!")
+    s = path.split("/")
+    v = s[-1][10:]
+    if v[0] == "2":
+        with open(os.path.join(path, "classes", "cversion.py"),"w") as s_file:
+            s_file.write('ver = "%s"' % v)
+    print("\nVersion number updated.\n")
+    print("Done!\n")
     

@@ -821,11 +821,11 @@ class LoginScreen:
         #hs = [60,90,120,150,180,210,240,270,300,330,360,390]
         ws = [20,240]
         #hs = [60,90,120,150,180,210,240,280,320,350,380,410,430,450]
-        hs = [60,90,120,150,180,210,240,270,300,330,60,90,120,150]#,180]
+        hs = [60,90,120,150,180,210,240,270,300,330,360,60,90,120]#,150]#,180]
         
         j = 0
         for i in range(self.scroll_item_count):
-            if i > 9:
+            if i > 10:
                 j = 1
             self.select.append(PButton(self, 200,30,self.left+ws[j],self.top+hs[i],0,self.config.lang_titles[i],self.fset_lang))
             #self.select[i].select_item = True

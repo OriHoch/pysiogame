@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -78,7 +79,6 @@ class Board(gd.BoardGame):
             self.board.ships[-1].outline_highlight = True
             
             j += 1
-            #self.top_colors.append(color)
         self.colors_completed = self.colors[:]
         self.outline_all(0,1)
         
@@ -105,14 +105,12 @@ class Board(gd.BoardGame):
         self.solution_colors = []
         self.solution_positions = []
         for i in range(data[1]):
-            #next_step = [i*step+half_st,step*data[3]-1]
             next_step = [step*data[3]-1,i*step+half_st]
             self.possible_positions.append(next_step)
             indexes.append(i)
             self.solution_positions.append(0)
         
         for i in range(start_from, end_at):
-            #next_step = [i*step+half_st,0]
             next_step = [0,i*step+half_st]
             self.start_positions.append(next_step)
             #repeat until the difference is larger than 2 steps
@@ -125,8 +123,6 @@ class Board(gd.BoardGame):
             self.solution.append(indexes[index])
             del(indexes[index])
         
-        #print(self.start_positions)
-        #print(self.end_positions)
         #get a list of positions where the squares should be dragged to
         for i in range(0,len(self.solution)):
             self.solution_positions[self.solution[i]]=1

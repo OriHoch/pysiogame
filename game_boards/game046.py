@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,8 +16,6 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
-        
         s = random.randrange(100, 121, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)

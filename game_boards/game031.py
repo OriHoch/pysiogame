@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -19,7 +20,6 @@ class Board(gd.BoardGame):
 
         white = (255,255,255)
 
-        #data = [18,9]
         numbero = 5
         if self.level.lvl == 1:
             numbero = 6
@@ -90,7 +90,6 @@ class Board(gd.BoardGame):
             num1 = int(choice[0:2])
             num2 = int(choice[2:])
             self.solution = [num1,num2,num1 * num2]
-            #unique = set()
             for i in range(1,self.data[0]+1,2):
                 for j in range(1,self.data[1]+1):
                     unit_id = self.board.get_unit_id(i-1,j-1)
@@ -107,7 +106,6 @@ class Board(gd.BoardGame):
                         color = color2#!
                         self.board.units[unit_id].font_color = color1
                     mul = ((i+1)//2)*j
-                    #unique.add(mul)
                     if i == 1 or j == 1:
                         caption = str(mul)
                         if (i+1)//2 == num1 or j == num2:
@@ -116,7 +114,6 @@ class Board(gd.BoardGame):
                             self.board.units[unit_id].font_color = color1
                     else:
                         caption = ""
-                        #self.board.units[unit_id].font_color = color3
                     
                     self.board.units[unit_id].color = color
                     self.board.units[unit_id].update_me = True
@@ -139,7 +136,7 @@ class Board(gd.BoardGame):
                 if event.key == pygame.K_BACKSPACE:
                     if  lhv > 0:
                         self.home_square.value = self.home_square.value[0:lhv-1]
-                else:#if not self.board.grid[4][18]:
+                else:
                     char = event.unicode
                     if char in self.digits:
                         if len(char)>0 and lhv < 3:
@@ -167,15 +164,11 @@ class Board(gd.BoardGame):
                 self.failed()
                 
     def passed(self):
-        #tts = self.d["Perfect!"]+" "+str(self.solution[0])+" "+self.d["multiplied by"]+" "+str(self.solution[1])+" "+self.d["equals"]+" "+str(self.solution[2])
         self.level.next_board(tts)
-        
     
     def quick_passed(self):
-        #tts = self.d["Perfect!"]
         self.level.game_step += 1
         self.next_number()
-        #self.level.next_board(tts)
         
     def failed(self):
         self.level.try_again()

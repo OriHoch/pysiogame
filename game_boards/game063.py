@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -14,7 +15,6 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,12,13)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,19,10)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
@@ -27,23 +27,6 @@ class Board(gd.BoardGame):
         color = ((255,255,255))
         white = ((255,255,255))
         gray = (100,100,100)
-        """
-        s = random.randrange(100, 150, 5)
-        v = random.randrange(230, 255, 5)
-        h = random.randrange(0, 255, 5)
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
-        color2 = ex.hsv_to_rgb(120,s,v) #highlight 2
-        """
-        """
-        color1 = ex.hsv_to_rgb(0,70,230)
-        color3 = ex.hsv_to_rgb(0,255,255)
-        color5 = ex.hsv_to_rgb(0,180,240)
-        
-        color2 = ex.hsv_to_rgb(160,70,230)
-        color4 = ex.hsv_to_rgb(160,255,255)
-        color6 = ex.hsv_to_rgb(160,180,240)
-        """
         color1 = ex.hsv_to_rgb(225,70,230)
         color3 = ex.hsv_to_rgb(225,255,255)
         color5 = ex.hsv_to_rgb(225,180,240)
@@ -54,16 +37,6 @@ class Board(gd.BoardGame):
         color6 = ex.hsv_to_rgb(170,180,240)
         color8 = ex.hsv_to_rgb(170,10,255)
         
-        """
-        color1 = pygame.Color(218,122,122,150) #ex.hsv_to_rgb(0,70,230)
-        color3 = pygame.Color(200,0,0,200) #ex.hsv_to_rgb(0,255,200)
-        
-        color2 = pygame.Color(122,145,218,150)#ex.hsv_to_rgb(160,70,230)
-        color4 = pygame.Color(0,47,200,200)#ex.hsv_to_rgb(160,255,200)
-        """
-        #self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
-
-        #data = [10,10]
         if self.level.lvl == 1:
             data = [19,10,True,True,False,False,True,False,False,True,False,15]
             h_pool = range(1,13)
@@ -157,12 +130,6 @@ class Board(gd.BoardGame):
         self.board.add_unit(ans_offset+2,2,1,2,classes.board.Label,":",white,"",0)
         self.board.add_unit(ans_offset+3,2,2,2,classes.board.Letter,"00",white,"",0)
         self.ans_m = self.board.ships[-1]
-        """
-        self.board.add_unit(0,10,data[0],1,classes.board.Label,"Quarter past twelve",white,"",2)
-        self.time_text = self.board.units[-1]
-        self.time_text.align = 1
-        self.time_text.font_color = color4
-        """
         self.ans_h.set_outline(color3, 5)
         self.ans_m.set_outline(color4, 5)
         
@@ -181,12 +148,8 @@ class Board(gd.BoardGame):
         self.clock_canvas.immobilize()
         canvas = pygame.Surface([size, size-1]) 
         canvas.fill((255,255,255))
-        #time = [2,0]
-        #if self.show_24h:
         self.time = [random.choice(h_pool), random.choice(m_pool)]#[random.randrange(0,23),random.randrange(0,60)]
-        #else:
-        #    time = [random.randrange(1,13),random.randrange(0,60)]
-        #print(time)
+
         self.draw_hands(self.time,canvas,size,center,[color1,color2],[color3,color4],[color5,color6],[color7,color8])#data[7](data, canvas, i)
                              
         self.clock_canvas.hidden_value = [2,3]#numbers[i]
@@ -208,7 +171,6 @@ class Board(gd.BoardGame):
         angle = angle_start
         angle_s = angle_arc_start
         angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
-        #a1 = angle_start + (2*pi/12)*time[0]
         if self.show_hour_offset:
             a1 = angle_start + (2*pi/12)*time[0] + (angle_step_12*(2*pi/60)*time[1])/(2*pi)
         else:
@@ -237,15 +199,12 @@ class Board(gd.BoardGame):
                 a = angle_start + angle_step_60*(i+1)
                 if self.show_minutes:
                     font_size = self.clock_canvas.font3.size(val)
-                    #if self.show_highlight:
                     if not self.show_highlight or (i+1 == time[1] or (time[1] == 0 and i==59)):
                         text = self.clock_canvas.font3.render("%s" % (val), 1, colors2[1])
                     else:
                         text = self.clock_canvas.font3.render("%s" % (val), 1, colors[1])
                     x3=(rs[1]+30+font_size[1]//2)*cos(a)+center[0] - font_size[0] / 2
                     y3=(rs[1]+30+font_size[1]//2)*sin(a)+center[1] - font_size[1] / 2
-                    #x3=(rs[0]+20 + self.clock_canvas.font.size(val)[0]//2)*cos(a)+center[0]
-                    #y3=(rs[0]+20 + self.clock_canvas.font.size(val)[1]//2)*sin(a)+center[1] 
                     canvas.blit(text, (x3,y3)) 
                     if self.show_only_quarters_m or self.show_only_fives_m:
                         if (i+1)%15 == 0:
@@ -272,15 +231,11 @@ class Board(gd.BoardGame):
                     
                     pygame.draw.aaline(canvas, colors2[1], [x1,y1],[x2,y2])
             
-            
-        
         for i in range(12):
             val = str(i+1)
             if self.show_only_quarters_h:
                 if (i+1)%3 != 0:
                     val = ""
-                    
-            #a = angle_start + angle_step_12*(i+1)
             a = angle_start + angle_step_12*(i+1)
             x1=(rs[2]+10)*cos(a)+center[0]
             y1=(rs[2]+10)*sin(a)+center[1]
@@ -329,11 +284,6 @@ class Board(gd.BoardGame):
             x1=rs[i]*cos(angle)+center[0]
             y1=rs[i]*sin(angle)+center[1]
             
-            #x2=h_size[i]*cos(angle-pi/2)+center[0]
-            #y2=h_size[i]*sin(angle-pi/2)+center[1]
-            #x3=h_size[i]*cos(angle+pi/2)+center[0]
-            #y3=h_size[i]*sin(angle+pi/2)+center[1]
-            
             x2=hand_width[i]*cos(angle-pi/2)+center[0]
             y2=hand_width[i]*sin(angle-pi/2)+center[1]
             
@@ -343,7 +293,6 @@ class Board(gd.BoardGame):
             points = [[x0,y0],[x2,y2],[x1,y1],[x3,y3]]
             shadow = [[x0,y0],[x2,y2],[x1,y1]]
             
-            #if i < numbers[0]:
             pygame.draw.polygon(canvas, colors[i], points, 0)
             pygame.draw.polygon(canvas, colors3[i], shadow, 0)
             # Draw the line from the center to the calculated end point
@@ -447,7 +396,6 @@ class Board(gd.BoardGame):
                 correct += 1
             else:
                 self.ans_m.set_outline((255,0,0), 5)
-            
             
             self.ans_m.update_me = True
             self.ans_h.update_me = True

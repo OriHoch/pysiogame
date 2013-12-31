@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -8,16 +9,12 @@ import pygame
 import random
 import os
 
-
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,99,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-        
         self.board.draw_grid = False
         color = ((252,252,252))
         mask_color = color

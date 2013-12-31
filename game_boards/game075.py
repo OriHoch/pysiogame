@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -6,19 +7,15 @@ import classes.extras as ex
 import classes.board
 import random
 import pygame
-#import colorsys
-
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,7)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
         
-        
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
-
-        color = (234,218,225) #ex.hsv_to_rgb(225,15,235)
+        color = (234,218,225)
         self.color = color
         font_color = (50,0,150)
         self.grey = (200,200,200)
@@ -29,7 +26,6 @@ class Board(gd.BoardGame):
         self.hint1_fcol = (100,0,250)
         self.hint2_fcol = (200,0,0)
         self.hint3_fcol = (250,0,200)
-        
         
         self.task_str_color = ex.hsv_to_rgb(200,200,230)
         self.activated_col = self.font_hl
@@ -195,7 +191,6 @@ class Board(gd.BoardGame):
             each.immobilize()
         
         self.deactivate_colors()
-        #self.reactivate_colors()
         self.board.units[0].font_color = self.task_str_color
         self.next_step_btn.font_color = (0,200,0)
         self.next_step_btn.set_outline(self.white, 1)
@@ -213,10 +208,8 @@ class Board(gd.BoardGame):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:
             if event.type == pygame.KEYDOWN and (event.key == pygame.K_RIGHT or  event.key == pygame.K_LEFT):
-                #self.home_sqare_switch(self.board.active_ship+1)
                 self.next_step()
             elif event.type == pygame.MOUSEBUTTONUP:
-                #self.home_sqare_switch(self.board.active_ship)
                 if self.board.active_ship == self.next_step_btn.unit_id:
                     if self.current_pos + 1 > self.all_a_count:#if self.cursor_pos == self.sumn1n2sl+1:
                         self.level.next_board_load()
@@ -235,11 +228,8 @@ class Board(gd.BoardGame):
                 self.deactivate_colors()
                 self.home_square = self.board.ships[self.board.active_ship]
                 self.home_square.set_outline(self.activated_col, 2)
-                #if self.home_square in self.resultl:
                 self.reactivate_colors()
                 self.home_square.font_color = self.font_hl
-                #self.home_square = self.ans_h
-                #self.board.active_ship == self.ans_h.unit_id
             self.home_square.update_me = True
             self.mainloop.redraw_needed[0] = True
         
@@ -258,7 +248,6 @@ class Board(gd.BoardGame):
         self.plus_label.font_color = self.font_hl
         self.board.units[0].font_color = self.task_str_color
         if self.home_square in self.carrylall:
-            #self.home_square.font_color = self.font_hl
             self.nums1l[self.home_square.pos_id].font_color = self.font_hl
             self.nums2l[self.home_square.posy_id].font_color = self.font_hl
             self.semiresultl[self.home_square.posy_id][self.home_square.pos_id].font_color = self.font_hl

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -11,11 +12,9 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,99,14)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
         
         self.board.draw_grid = False
         
@@ -91,7 +90,6 @@ class Board(gd.BoardGame):
         self.check = [h1,h2,w2]
         
         self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",color,"")
-        #self.board.units[0].door_outline = True
         #create table to store 'binary' solution 
         #find position of first door square
         x = w2

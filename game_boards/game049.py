@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -11,8 +12,12 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,2,16)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,26,9)
         
-        
     def create_game_objects(self, level = 1):
+        if not self.lang.has_uc:
+            self.level.lvl_count = 8
+            
+        if self.level.lvl > self.level.lvl_count:
+            self.level.lvl = self.level.lvl_count
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         s = random.randrange(190, 225)
@@ -31,10 +36,11 @@ class Board(gd.BoardGame):
         
         if self.alphabet_len % 2 == 0:
             self.alphabet_width = self.alphabet_len // 2
-            last_block = False
+            self.last_block = False
         else:
             self.alphabet_width = self.alphabet_len // 2 + 1
-            last_block = True
+            self.last_block = True
+            
         
         #number of letters to find
         nlf = [0,0,0,0]
@@ -76,38 +82,45 @@ class Board(gd.BoardGame):
             data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[2]]
         elif self.level.lvl == 8:
             data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[3]]
-            
-        elif self.level.lvl == 9:
-            data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[0]]
-        elif self.level.lvl == 10:
-            data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[1]]
-        elif self.level.lvl == 11:
-            data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[2]]
-        elif self.level.lvl == 12:
-            data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[3]]
-            
-        elif self.level.lvl == 13:
-            data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[0]]
-        elif self.level.lvl == 14:
-            data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[1]]
-        elif self.level.lvl == 15:
-            data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[2]]
-        elif self.level.lvl == 16:
-            data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[3]]    
+        elif self.lang.has_uc:
+            if self.level.lvl == 9:
+                data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[0]]
+            elif self.level.lvl == 10:
+                data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[1]]
+            elif self.level.lvl == 11:
+                data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[2]]
+            elif self.level.lvl == 12:
+                data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[3]]
+                
+            elif self.level.lvl == 13:
+                data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[0]]
+            elif self.level.lvl == 14:
+                data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[1]]
+            elif self.level.lvl == 15:
+                data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[2]]
+            elif self.level.lvl == 16:
+                data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[3]]    
             
         if self.level.lvl < 9:
             self.points = data[4] // 5 + (self.level.lvl+3) // 4
         else:
             self.points = data[4] // 5 + (self.level.lvl+3) // 8
             
-        self.chapters = [1,5,9,13,16]
+        if self.lang.has_uc:
+            self.chapters = [1,5,9,13,16]
+        else:
+            self.chapters = [1,4,8]
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
         
-        self.word = self.data[2] #[chr(x) for x in range(data[2],data[3])]#self.words[random.randrange(0,len(self.words))]
+        self.word = self.data[2][:] #[chr(x) for x in range(data[2],data[3])]#self.words[random.randrange(0,len(self.words))]
         word_len = self.alphabet_len #26#len(self.word)
-        
+        if not self.lang.ltr_text:
+            s = "".join(self.word)
+            s = ex.unival(s)
+            self.word = s[data[0]-1:0:-1] + s[0]
+            self.word += s[word_len:data[0]-1:-1]
         chosen_indexes = []
         shuffled = []
         choice_list = self.word[:]
@@ -145,12 +158,21 @@ class Board(gd.BoardGame):
             if data[3] == 1: 
                 h = random.randrange(0, 255, 5)
             else:
-                if picked:
-                    letter = lowered[j]
-                    h = round(h_step*lowered[j])
+                if self.lang.ltr_text:
+                    if picked:
+                        letter = lowered[j]
+                        h = round(h_step*lowered[j])
+                    else:
+                        letter = self.word[i]
+                        h = round(h_step*index_list_org[i])
                 else:
-                    letter = self.word[i]
-                    h = round(h_step*index_list_org[i])
+                    if picked:
+                        letter = lowered[j]
+                        h = round(h_step*(self.alphabet_len - lowered[j]))
+                    else:
+                        letter = self.word[i]
+                        h = round(h_step*(self.alphabet_len - index_list_org[i]))
+                    
             number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             
             #change y 
@@ -170,20 +192,29 @@ class Board(gd.BoardGame):
             else:
                 caption = self.word[i]
                 self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",0)
-                #self.board.ships[i].draggable = False
                 self.board.ships[i].immobilize()
             x += 1
             if x >= data[0]:
-                x = 0
+                if not self.last_block:
+                    x = 0
+                else:
+                    if self.lang.ltr_text:
+                        x = 0
+                    else:
+                        x = 1
                 y = data[1]-2
                 
         for each in self.board.units:
             self.board.all_sprites_list.move_to_front(each)
-        
 
-        if last_block:
+        if self.last_block:
             #if odd number of letters - add an empty square at the end
-            self.board.add_unit(data[0]-1,data[1]-2,1,1,classes.board.Label,"",red,"",0)
+            if self.lang.ltr_text:
+                x = data[0]-1
+            else:
+                x = 0
+            #red
+            self.board.add_unit(x,data[1]-2,1,1,classes.board.Label,"",color0,"",0)
 
         instruction = self.d["Complete abc"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",5)
@@ -207,8 +238,12 @@ class Board(gd.BoardGame):
                 if self.board.ships[i].grid_y == 0:
                     result[self.board.ships[i].grid_x] = self.board.ships[i].value
                 elif self.board.ships[i].grid_y == self.data[1]-2:
-                    result[self.data[0] + self.board.ships[i].grid_x] = self.board.ships[i].value
-            if self.word == result:
+                    if self.last_block and not self.lang.ltr_text:
+                        result[self.data[0] + self.board.ships[i].grid_x-1] = self.board.ships[i].value
+                    else:
+                        result[self.data[0] + self.board.ships[i].grid_x] = self.board.ships[i].value
+
+            if ((self.lang.ltr_text and self.word == result) or (not self.lang.ltr_text and ex.unival(self.word) == ex.unival("".join(result)))):
                 self.update_score(self.points)
                 self.level.next_board()
             else:

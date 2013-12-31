@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -71,7 +72,6 @@ class Board(gd.BoardGame):
         self.col_e2 = (245,245,245)
         self.col_e3 = (235,235,235)
         colorkey = (2,2,2)
-        #self.col_bg = (255,246,219)
         self.col_bg = (255,255,255)
         data = [30,23]
         x_count = self.get_x_count(data[1],even=True)
@@ -79,7 +79,6 @@ class Board(gd.BoardGame):
             data[0] = x_count
             
         self.data = data
-        
         
         self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)

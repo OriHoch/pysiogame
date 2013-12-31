@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -6,19 +7,16 @@ import classes.extras as ex
 import classes.board
 import random
 import pygame
-#import colorsys
-
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,99,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
         
-        
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
 
-        color = (234,218,225) #ex.hsv_to_rgb(225,15,235)
+        color = (234,218,225)
         self.color = color
         font_color = (50,0,150)
         self.grey = (200,200,200)
@@ -176,7 +174,6 @@ class Board(gd.BoardGame):
         for each in self.board.ships:
             each.immobilize()
         self.deactivate_colors()
-        #self.reactivate_colors()
         self.board.units[0].font_color = self.task_str_color
         self.next_step_btn.font_color = (0,200,0)
     
@@ -184,10 +181,8 @@ class Board(gd.BoardGame):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:
             if event.type == pygame.KEYDOWN and (event.key == pygame.K_RIGHT or  event.key == pygame.K_LEFT):
-                #self.home_sqare_switch(self.board.active_ship+1)
                 self.next_step()
             elif event.type == pygame.MOUSEBUTTONUP:
-                #self.home_sqare_switch(self.board.active_ship)
                 if self.board.active_ship == self.next_step_btn.unit_id:
                     if self.cursor_pos == self.sumn1n2sl+1:
                         self.level.next_board_load()
@@ -195,7 +190,6 @@ class Board(gd.BoardGame):
                         self.next_step()
                 
     def home_sqare_switch(self, activate):
-        
         if activate < 0 or activate > self.activable_count:
             activate = self.activable_count - self.sumn1n2sl
             
@@ -240,9 +234,6 @@ class Board(gd.BoardGame):
                 self.carry10l[self.cursor_pos-1].font_color = self.hint3_fcol
             else:
                 self.hint3.value = ""
-                
-                
-            
             if self.cursor_pos == self.sumn1n2sl:
                 self.next_step_btn.value = self.lang.d["demo next eg"]
                 self.next_step_btn.update_me == True

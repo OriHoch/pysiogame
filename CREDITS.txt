@@ -2,14 +2,15 @@ Translations:
     Catalan - Guillem Jover - http://www.hadrons.org/~guillem/
     English UK - Ireneusz Imiolek (some corrections needed)
     English US - Ireneusz Imiolek (some corrections needed)
-    Greek - Στέλιος, versys650gr, sdim and other members of the Official Greek Community of Linux Mint - http://linuxmint.gr
+    Finnish - Aapo Rantalainen
+    Greek - Στέλιος, versys650gr, sdim, lucinos and other members of the Official Greek Community of Linux Mint - http://linuxmint.gr
+    Hebrew - Ori Hoch
     Italian - Giuliano
     Polish - Kamila Roszak-Imiolek, Ireneusz Imiolek
     Portugese - Américo Monteiro
-    Russian - Anton Kayukov (Антон Каюков)
+    Russian - Anton Kayukov (Антон Каюков) & Alexey Loginov (Алексей Логинов)
     Spanish - Miriam Ruiz - http://www.miriamruiz.es
     
-    Finnish - Not translated yet
     French - Not translated yet
     German - Not translated yet
 

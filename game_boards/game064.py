@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,7 +16,6 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,12,8)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,19,10)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
@@ -27,23 +27,6 @@ class Board(gd.BoardGame):
         color = (255,255,255)
         white = (255,255,255)
         gray = (100,100,100)
-        """
-        s = random.randrange(100, 150, 5)
-        v = random.randrange(230, 255, 5)
-        h = random.randrange(0, 255, 5)
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
-        color2 = ex.hsv_to_rgb(120,s,v) #highlight 2
-        """
-        """
-        color1 = ex.hsv_to_rgb(0,70,230)
-        color3 = ex.hsv_to_rgb(0,255,255)
-        color5 = ex.hsv_to_rgb(0,180,240)
-        
-        color2 = ex.hsv_to_rgb(160,70,230)
-        color4 = ex.hsv_to_rgb(160,255,255)
-        color6 = ex.hsv_to_rgb(160,180,240)
-        """
         color1 = ex.hsv_to_rgb(225,70,230)
         color3 = ex.hsv_to_rgb(225,255,255)
         color5 = ex.hsv_to_rgb(225,180,240)
@@ -58,16 +41,6 @@ class Board(gd.BoardGame):
         self.colors2 = [color3,color4]
         self.colors3 = [color5,color6]
         self.colors4 = [color7,color8]
-        """
-        color1 = pygame.Color(218,122,122,150) #ex.hsv_to_rgb(0,70,230)
-        color3 = pygame.Color(200,0,0,200) #ex.hsv_to_rgb(0,255,200)
-        
-        color2 = pygame.Color(122,145,218,150)#ex.hsv_to_rgb(160,70,230)
-        color4 = pygame.Color(0,47,200,200)#ex.hsv_to_rgb(160,255,200)
-        """
-        #self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
-
-        #data = [10,10]
         if self.level.lvl == 1:
             data = [19,10,True,True,False,False,True,False,False,True,True,15]
             h_pool = range(1,13)
@@ -123,7 +96,6 @@ class Board(gd.BoardGame):
         self.time = [6,0]
         self.tm = self.time[:]
         
-
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
             
         x_count = self.get_x_count(data[1],even=False)
@@ -150,14 +122,6 @@ class Board(gd.BoardGame):
         self.board.add_unit(ans_offset+3,2,2,1,classes.board.Label,"%02d" % self.target_time[1],white,"",0)
         self.ans_m = self.board.units[-1]
         
-        """
-        self.board.add_unit(0,10,data[0],1,classes.board.Label,"Quarter past twelve",white,"",2)
-        self.time_text = self.board.units[-1]
-        self.time_text.align = 1
-        self.time_text.font_color = color4
-        """
-        #self.ans_h.set_outline(color3, 5)
-        #self.ans_m.set_outline(color4, 5)
         self.ans_h.align = 2
         self.ans_m.align = 1
         
@@ -192,7 +156,6 @@ class Board(gd.BoardGame):
         self.clock_canvas.font_color = color2
         self.clock_canvas.painting = self.canvas.copy()
         
-        
     def hands_vars(self):
         numbers = [2,2]
         self.angle_step_12 = 2*pi/12
@@ -202,13 +165,10 @@ class Board(gd.BoardGame):
         angle_arc_start = -pi/2
         self.r = self.size//3+self.size//10
         
-        #rs = [r*0.6, r*0.85,r*0.5]
         self.rs = [self.r*0.6, self.r*0.85,self.r*0.6]
         angle = self.angle_start
         angle_s = angle_arc_start
         angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
-        #a1 = angle_start + (2*pi/12)*time[0]
-        
         
     def draw_hands(self):
         if self.show_hour_offset:
@@ -242,15 +202,12 @@ class Board(gd.BoardGame):
                 a = self.angle_start + self.angle_step_60*(i+1)
                 if self.show_minutes:
                     font_size = self.clock_canvas.font3.size(val)
-                    #if self.show_highlight:
                     if not self.show_highlight or (i+1 == time[1] or (time[1] == 0 and i==59)):
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors2[1])
                     else:
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors[1])
                     x3=(rs[1]+30+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
                     y3=(rs[1]+30+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
-                    #x3=(rs[0]+20 + self.clock_canvas.font.size(val)[0]//2)*cos(a)+center[0]
-                    #y3=(rs[0]+20 + self.clock_canvas.font.size(val)[1]//2)*sin(a)+center[1] 
                     self.canvas.blit(text, (x3,y3)) 
                     if self.show_only_quarters_m or self.show_only_fives_m:
                         if (i+1)%15 == 0:
@@ -277,15 +234,12 @@ class Board(gd.BoardGame):
                     
                     pygame.draw.aaline(self.canvas, self.colors2[1], [x1,y1],[x2,y2])
             
-            
-        
         for i in range(12):
             val = str(i+1)
             if self.show_only_quarters_h:
                 if (i+1)%3 != 0:
                     val = ""
                     
-            #a = angle_start + angle_step_12*(i+1)
             a = self.angle_start + self.angle_step_12*(i+1)
             x1=(rs[2]+10)*cos(a)+self.center[0]
             y1=(rs[2]+10)*sin(a)+self.center[1]
@@ -335,11 +289,6 @@ class Board(gd.BoardGame):
             x1=rs[i]*cos(angle)+self.center[0]
             y1=rs[i]*sin(angle)+self.center[1]
             
-            #x2=h_size[i]*cos(angle-pi/2)+center[0]
-            #y2=h_size[i]*sin(angle-pi/2)+center[1]
-            #x3=h_size[i]*cos(angle+pi/2)+center[0]
-            #y3=h_size[i]*sin(angle+pi/2)+center[1]
-            
             x2=hand_width[i]*cos(angle-pi/2)+self.center[0]
             y2=hand_width[i]*sin(angle-pi/2)+self.center[1]
             
@@ -349,7 +298,6 @@ class Board(gd.BoardGame):
             points = [[x0,y0],[x2,y2],[x1,y1],[x3,y3]]
             shadow = [[x0,y0],[x2,y2],[x1,y1]]
             self.hand_coords[i] = points
-            #if i < numbers[0]:
             pygame.draw.polygon(self.canvas, self.colors[i], points, 0)
             pygame.draw.polygon(self.canvas, self.colors3[i], shadow, 0)
             # Draw the line from the center to the calculated end point
@@ -397,9 +345,6 @@ class Board(gd.BoardGame):
         return False
         
     def current_angle(self, pos,r):
-        
-        #print(r),
-        #print(self.rs[0]),
         cosa = (pos[0] - self.center[0]) / r
         sina = (pos[1] - self.center[1]) / r
         
@@ -443,7 +388,6 @@ class Board(gd.BoardGame):
                     else:
                         self.tm[0] -= 1
                 
-            
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             active = self.board.active_ship
             pos = [event.pos[0]-self.layout.game_left,event.pos[1]-self.layout.top_margin]
@@ -469,69 +413,11 @@ class Board(gd.BoardGame):
         
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.hand_id = 0
-            
-                #self.is_contained(pos, 1)
         if self.tm != self.time:
             self.time = self.tm[:]
             self.draw_hands()
             self.clock_canvas.painting = self.canvas.copy()
-                
-                    
-        """
-        if event.type == pygame.KEYDOWN and event.key != pygame.K_RETURN and not self.correct:
-            lhv = len(self.home_square.value)      
-            self.changed_since_check = True   
-            if event.key == pygame.K_BACKSPACE:
-                if  lhv > 0:
-                    self.home_square.value = self.home_square.value[0:lhv-1]
-            else:
-                char = event.unicode
-                if (len(char)>0 and lhv < 2 and char in self.digits):
-                    if lhv == 0:
-                        self.home_square.value += char
-                    elif lhv == 1:
-                        if self.home_square == self.ans_h:
-                            if self.show_24h:
-                                n = int(self.home_square.value + char)
-                                if n > 23:
-                                    self.home_square.value = char
-                                else: 
-                                    self.home_square.value += char
-                            else:
-                                n = int(self.home_square.value + char)
-                                if n > 12:
-                                    self.home_square.value = char
-                                else: 
-                                    self.home_square.value += char
-                        if self.home_square == self.ans_m:
-                            n = int(self.home_square.value + char)
-                            if n > 59:
-                                self.home_square.value = char
-                            else: 
-                                self.home_square.value += char
-                elif lhv == 2:
-                    self.home_square.value = char
-            if self.home_square == self.ans_h and self.time[0] == int(self.ans_h.value):
-                self.next_field()
-            self.home_square.update_me = True
-            self.mainloop.redraw_needed[0] = True
-        elif event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.board.active_ship == self.ans_h.unit_id:
-            if self.time[0] == int(self.ans_h.value):
-                self.next_field()
-        elif event.type == pygame.MOUSEBUTTONUP:
-            self.home_square.update_me = True
-            if self.board.active_ship == self.ans_h.unit_id:
-                self.home_square.perm_outline_width = 5
-                self.home_square = self.ans_h
-                self.board.active_ship == self.ans_h.unit_id
-            elif self.board.active_ship == self.ans_m.unit_id:
-                self.home_square.perm_outline_width = 5
-                self.home_square = self.ans_m
-                self.board.active_ship == self.ans_m.unit_id
-            self.home_square.update_me = True
-            self.mainloop.redraw_needed[0] = True
-        """
-        
+            
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent

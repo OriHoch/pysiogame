@@ -227,8 +227,7 @@ class DBConnection():
             self.conn.commit()
             temp = dict()
             for each in self.c:
-                temp[each[1]] = each[2]#self.saved_levels[key]
-            #print(temp)
+                temp[each[1]] = each[2]
             return temp
             
     def load_usernames(self):
@@ -309,17 +308,11 @@ class DBConnection():
             self.c.execute("SELECT ROWID FROM users WHERE username=?", (username,))
             self.conn.commit()
             row = self.c.fetchone()
-            #print(row)
-            #print(username)
             if row != None:
                 userid = row[0]
-                #print(userid)
-                #self.c.execute("BEGIN TRANSACTION")
                 self.c.execute("DELETE FROM levelcursors WHERE userid = ?", (userid,))
                 self.c.execute("DELETE FROM completions WHERE userid = ?", (userid,))
                 self.c.execute("DELETE FROM users WHERE username = ?", (username,))
-                #self.c.execute("COMMIT TRANSACTION")
-                #self.c.execute("END")
                 self.conn.commit()
                 return 0 #"%s deleted from database." % username
             else:
@@ -342,21 +335,6 @@ class DBConnection():
                 return 0 #"%s, your account has been removed" % username
         return ""
         
-    """
-    def update_user_settings(lang=None, sounds=None, espeak=None, screenw=None, screenh=None):
-        if self.db_connected:
-            if lang != None:
-                self.c.execute("UPDATE users SET lang = ? WHERE (ROWID=?)", (lang, self.userid))
-            if sounds != None:
-                self.c.execute("UPDATE users SET sounds = ? WHERE (ROWID=?)", (sounds, self.userid))
-            if espeak != None:
-                self.c.execute("UPDATE users SET espeak = ? WHERE (ROWID=?)", (espeak, self.userid))
-            if screenw != None:
-                self.c.execute("UPDATE users SET screenw = ? WHERE (ROWID=?)", (screenw, self.userid))
-            if screenh != None:
-                self.c.execute("UPDATE users SET screenh = ? WHERE (ROWID=?)", (screenh, self.userid))
-            self.conn.commit()
-    """
     def save_user_settings(self, lang, sounds, espeak, screenw, screenh):
         if self.db_connected:
             self.c.execute("UPDATE users SET lang = ?, sounds = ?, espeak = ?, screenw = ?, screenh = ? WHERE (ROWID=?)", (lang, sounds, espeak, screenw, screenh, self.userid))
@@ -500,68 +478,3 @@ class DBConnection():
         if self.db_connected:
             self.conn.close()
             self.db_connected = False
-            
-    
-#at the start of the programm check if database exists and create a new one if it doesn't
-#c.execute("CREATE TABLE users (user_id integer, user_name text, user_pass text)")
-
-# check if table exists
-#"SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'table_name'"
-
-#print a["ROWID"]
-#c.execute("INSERT INTO users VALUES ()"
-#t = ('RHAT',)
-#c.execute('SELECT * FROM stocks WHERE symbol=?', t)
-#print c.fetchone()
-#rows = c.execute("SELECT user_id FROM users")
-#print rows
-#c.execute("INSERT INTO users VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
-# Save (commit) the changes
-
-
-if __name__ == "__main__":
-    db = DBConnection('pysiogame.db')
-    if db.db_connected:
-        pass
-"""
-try:
-    ...
-except sqlite3.OperationalError:
-    ...
-
-conn = sqlite3.connect('example.db')
-
-c = conn.cursor()
-# Create table
-c.execute('''CREATE TABLE stocks (date text, trans text, symbol text, qty real, price real)''')
-# Insert a row of data
-c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
-# Save (commit) the changes
-conn.commit()
-# We can also close the connection if we are done with it.
-# Just be sure any changes have been committed or they will be lost.
-
-
-# Never do this -- insecure!
-symbol = 'RHAT'
-c.execute("SELECT * FROM stocks WHERE symbol = '%s'" % symbol)
-# Do this instead
-t = ('RHAT',)
-c.execute('SELECT * FROM stocks WHERE symbol=?', t)
-print c.fetchone()
-
-# Larger example that inserts many records at a time
-purchases = [('2006-03-28', 'BUY', 'IBM', 1000, 45.00),
-('2006-04-05', 'BUY', 'MSFT', 1000, 72.00),
-('2006-04-06', 'SELL', 'IBM', 500, 53.00),
-]
-c.executemany('INSERT INTO stocks VALUES (?,?,?,?,?)', purchases)
-"""
-"""
-To retrieve data after executing a SELECT statement, you can either treat the cursor as an iterator, call the cursor's
-fetchone() method to retrieve a single matching row, or call fetchall() to get a list of the matching rows.
-This example uses the iterator form:
-for row in c.execute('SELECT * FROM stocks ORDER BY price'):
-    print row
-
-"""

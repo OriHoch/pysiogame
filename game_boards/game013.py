@@ -71,7 +71,7 @@ class Board(gd.BoardGame):
 
         self.num_list = []
 
-        choice_list = self.lang.alphabet_lc #[x for x in range(97,123)]
+        choice_list = self.lang.alphabet_lc
         for i in range(data[2]-word_len):#adding noice letters
             index = random.randrange(0,len(choice_list))
             self.num_list.append(choice_list[index])

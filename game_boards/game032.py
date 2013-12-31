@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
 
 import classes.board
 import random
-#import colorsys
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
@@ -118,9 +118,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        #if self.board.grid[2] == self.solution_grid:
         for i in range(len(self.board.ships)-1):
-            #if self.board.ships[i].grid_y == 2: #if the sign is on line with expression
             #calculate the active value based on grid_y of the slider                
             value = self.board.ships[i].value[2 - self.board.ships[i].grid_y]
             if value == "=":

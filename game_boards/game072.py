@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -6,19 +7,16 @@ import classes.extras as ex
 import classes.board
 import random
 import pygame
-#import colorsys
-
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,10,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
         
-        
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
 
-        color = (234,218,225) #ex.hsv_to_rgb(225,15,235)
+        color = (234,218,225)
         self.color = color
         font_color = (50,0,150)
         self.grey = (200,200,200)
@@ -237,7 +235,6 @@ class Board(gd.BoardGame):
                     char = event.unicode
                     if (len(char)>0 and lhv < 2 and char in self.digits):
                         self.home_square.value = char
-                        #if self.home_square in self.nbel:
                         if self.auto_select:
                             self.home_sqare_switch(self.board.active_ship+1)
                     else: 
@@ -249,10 +246,8 @@ class Board(gd.BoardGame):
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.home_sqare_switch(self.board.active_ship)
             
-
     def home_sqare_switch(self, activate):
-        
-        if activate >= 0 and activate < self.activables: #self.sumn1n2sl * 2 - 1:
+        if activate >= 0 and activate < self.activables:
             self.board.active_ship = activate
             self.home_square.update_me = True
             if self.board.active_ship >= 0:
@@ -260,11 +255,8 @@ class Board(gd.BoardGame):
                 self.deactivate_colors()
                 self.home_square = self.board.ships[self.board.active_ship]
                 self.home_square.set_outline(self.activated_col, 2)
-                #if self.home_square in self.resultl:
                 self.reactivate_colors()
                 self.home_square.font_color = self.font_hl
-                #self.home_square = self.ans_h
-                #self.board.active_ship == self.ans_h.unit_id
             self.home_square.update_me = True
             self.mainloop.redraw_needed[0] = True
         
@@ -280,7 +272,6 @@ class Board(gd.BoardGame):
             each.update_me = True
             
     def reactivate_colors(self):
-        #self.plus_label.font_color = self.font_hl
         self.board.units[0].font_color = self.task_str_color
         if self.home_square in self.resl:
             if self.home_square.pos_id == 0:
@@ -315,7 +306,6 @@ class Board(gd.BoardGame):
                 for each in self.subl:
                     for e in each:
                         if self.home_square == e:
-                            #print("in subtraction")
                             for e2 in each:
                                 e2.font_color = self.font_hl
                                 e2.set_outline(self.font_hl2, 1)

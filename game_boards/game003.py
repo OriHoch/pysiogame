@@ -16,19 +16,16 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,2,2)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         
-        
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
 
-        s = 20 #random.randrange(20, 40)
+        s = 20
         v = random.randrange(200, 255)
         h = random.randrange(0, 255)
         white = ((255,255,255))
         red = ((255,0,0))
-        color = white #ex.hsv_to_rgb(h,s,v)
-        #self.file_data = ["en_GB",1,0,0,"", 0, 0]
+        color = white
         
-        #flag_files = self.mainloop.lang.flag_files
         self.lang_titles = self.mainloop.lang.lang_titles
         self.all_lng = self.mainloop.lang.all_lng
         self.ok_lng = self.mainloop.lang.ok_lng
@@ -61,21 +58,20 @@ class Board(gd.BoardGame):
         
         self.board.add_unit(0,0,data[0],2,classes.board.Label,self.d["Language"]+":",color,"",25)
         self.board.units[-1].font_color = (255,75,0,0)
-        #self.board.units[-1].font_color = (136,201,255)
-        #self.board.units[-1].color = (70,70,70)
         
         lang = self.mainloop.config.settings["lang"]
         lng_index = 0
 
         for i in range(self.lang_count):
-            #self.board.add_unit(x+i*2,3,2,2,classes.board.ImgShip,"",white,flag_files[i])
-            #self.board.add_unit(self.center-5,3+i,10,1,classes.board.Letter,self.lang_titles[i],red,"",2)
             self.board.add_unit(self.center-5,i+2,10,1,classes.board.Letter,self.lang_titles[i],white,"",2)
+            """
+            if self.all_lng[i] == "he" and self.lang.lang == "he":
+                self.board.ships[-1].speaker_val = self.lang.dp["Hebrew"]
+                self.board.ships[-1].speaker_val_update = False
+            """
             if self.all_lng[i] == lang:
                 lng_index = i
                 
-
-
         for each in self.board.ships:
             each.immobilize()
             each.readable = False
@@ -94,7 +90,6 @@ class Board(gd.BoardGame):
                     #change language
                     if self.lang.lang != self.languages[active]:
                         self.change_language(self.languages[active],self.lang_titles[active],active)
-                
                     if toggle:                    
                         self.mainloop.fullscreen_toggle(self.mainloop.info)
                     else:
@@ -108,9 +103,13 @@ class Board(gd.BoardGame):
         self.d = self.lang.d
         self.mainloop.speaker.restart_server()
         self.mainloop.m.lang_change()
-        #self.board.units[0].set_pos(self.board.active_ship_pos)
         self.mainloop.redraw_needed = [True,True,True]
-        self.say(lng_title)
+        
+        if lng == "he":
+            sv = self.lang.dp["Hebrew"]
+        else:
+            sv = lng_title
+        self.say(sv)
         self.mainloop.info.update_fonts()
         self.reselect(lang_id)
         self.mainloop.sb.resize()
@@ -121,11 +120,7 @@ class Board(gd.BoardGame):
             if each.unit_id != selectid:
                 each.font_color = (40,40,40)
                 each.font = self.board.font_sizes[2]
-                #each.color = (255,255,255)
-                #each.initcolor = (255,255,255)
             else:
-                #each.color = (255,200,255)
-                #each.initcolor = (255,0,0)
                 each.font_color = (130,0,180)
                 each.font = self.board.font_sizes[0]
             each.update_me = True

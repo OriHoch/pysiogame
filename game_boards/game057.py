@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -12,7 +13,6 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,5)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
         
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = True
@@ -65,7 +65,6 @@ class Board(gd.BoardGame):
         self.board.add_unit(1,0,data[0]-6,1,classes.board.Letter,self.d["Player"] +" 1",self.red_color2,"",self.data[2])
         self.board.add_unit(1,1,data[0]-6,1,classes.board.Letter,self.d["Player"] +" 2",self.green_color,"",self.data[2])
 
-        
         #player colour label
         self.board.add_unit(data[0]-5,0,1,1,classes.board.ImgShip,"x",self.red_color,"tictactoe_x.png",0)
         self.imgs.append(self.board.ships[-1].img.copy())
@@ -89,7 +88,6 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,0,1,1,classes.board.ImgShip,"",self.red_color,"tictactoe_v.png",0)
         self.ind = self.board.ships[-1]
 
-        
         self.legend_count = len(self.board.ships)    
         for k in range(self.legend_count):
             self.board.ships[k].immobilize()

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -16,7 +17,6 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):
         self.vis_buttons = [4,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
         
         self.board.draw_grid = False
         
@@ -99,7 +99,6 @@ class Board(gd.BoardGame):
             h = (h_start + (self.shuffled[i]-1)*h_step)
             number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             caption = str(self.shuffled[i])
-            #self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",2)
             self.board.add_unit(x,y,1,1,classes.board.ImgShip,caption,white,image_src[self.shuffled[i]])
             self.board.ships[-1].readable = False
             line.append(i)

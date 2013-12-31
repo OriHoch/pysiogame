@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -37,7 +38,6 @@ class Key(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x,self.y]
         
-        #self.image.fill(self.color)
         self.draw_key()
         
     def draw_key(self):
@@ -47,13 +47,11 @@ class Key(pygame.sprite.Sprite):
         else:
             self.image.fill((255,255,255))
             rect = [1,1,self.w-2, self.h-2]
-            #rect2 = [0,0,self.w, self.h]
             pygame.draw.ellipse(self.image, self.color, rect, 0)
             pygame.draw.ellipse(self.image, self.outline_color, rect, 1)
             self.image.set_colorkey((255,255,255))
         
     def update(self):
-        #self.image.fill(self.color)
         self.draw_key()
         if sys.version_info < (3, 0):
             val = []
@@ -72,9 +70,8 @@ class Key(pygame.sprite.Sprite):
                 if self.id < 64:
                     if i == 3:
                         text = self.font_1.render("%s" % (val[i]), 1, ((0,0,0)))
-                        font_x = 4 #((self.w - self.font_1.size(val[i])[0])//2)
-                        font_y = 0 #((self.h - self.font_1.size(val[i])[1])//2)
-                        #self.image.blit(text, (font_x,font_y))
+                        font_x = 4
+                        font_y = 0
                     elif i < 3:
                         text = self.font_2.render("%s" % (val[i]), 1, ((0,0,0)))
                         if i == 0:
@@ -132,7 +129,6 @@ class KeyBoard:
         self.kbrd_w = kbrd_w
         self.kbrd_h = kbrd_h
         self.points = self.game_board.board.points
-        #self.highlighted = [button,shift,button_on_hand,shift_on_hand,AltGr,AltGr_on_hand]
         self.a_map = game_board.lang.kbrd.accent_map
         self.a_map2 = game_board.lang.kbrd.accent_map2
         self.highlighted = [-1,-1,-1,-1,-1,-1]
@@ -162,11 +158,9 @@ class KeyBoard:
                     if text in self.a_map2:
                         hl[1] = 55
                         hl[3] = 71
-                        #hl[5] = 65
                     text = unicode(self.a_map[text],"utf-8")
                     text = text[1]
                     uc = text
-                    #print(text)
             else:
                 if text in self.a_map:
                     hl[4] = 39
@@ -177,10 +171,6 @@ class KeyBoard:
                     text = self.a_map[text][1]
                     uc = text
             
-            #if (uc == text and uc not in [",",".","?","!"]):
-            #    shift = True
-            #else:
-            #    shift = False
             shift = False
             for i in range(0,55):
                 if sys.version_info < (3, 0):
@@ -193,14 +183,10 @@ class KeyBoard:
                                 uni = each
                         else:
                             uni = ""
-                        #labels.append(uni.upper())
                         labels.append(uni)
                 else:
-                    #labels = [each.upper() for each in self.keys[i].labels]
                     labels = [each for each in self.keys[i].labels]
                     
-                #uc = uc.upper()
-
                 if uc in labels:
                     hl[0] = i
                     if uc == labels[0]:
@@ -270,7 +256,6 @@ class KeyBoard:
         colors = [[255,150,150],[255,229,150],[202,255,150],[150,255,185],[150,255,255], [150,165,255],[214,150,255],[255,150,187],[249,219,180],[186,186,186]]
         highlight_colors = [[255,0,0], [255,192,0], [127,255,0], [0,255,67], [0,255,255], [0,37,255], [156,0,255], [255,0,85], [255,157,29],[206,206,206]]
         keys = self.game_board.lang.kbrd.kbrd_keys
-        #print(len(keys))
         for each in keys:
             #self.add_key(x, y, w, h, top_left, bottom_left, middle, letter, init_color, highlight_color)
             self.add_key(each, colors[each[10]], highlight_colors[each[10]])

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -18,7 +19,7 @@ class Board(gd.BoardGame):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         self.board.draw_grid = True
-        #create non-movable objects
+        
         s = random.randrange(100, 150, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
@@ -46,7 +47,6 @@ class Board(gd.BoardGame):
         
         self.font_size = 7
         extra_w = 0
-        #obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Letter]
         if self.mainloop.m.game_variant == 0:
             drawing_f = [self.draw_circles,self.draw_rectangles,self.draw_minicircles,self.draw_polygons,self.draw_petals]
             obj_classes = [classes.board.Label,classes.board.Ship,classes.board.Ship,classes.board.Ship,classes.board.Ship]

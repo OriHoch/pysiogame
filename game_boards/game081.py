@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,9 +16,7 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,19,10)
         
-        
     def create_game_objects(self, level = 1):
-        #self.vis_buttons = [0,1,1,1,1,0,1,0,0]
         self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -48,7 +47,6 @@ class Board(gd.BoardGame):
         h_pool = range(1,13)
         m_pool = range(0,60)
         
-        
         #visual display properties
         self.show_outer_ring = data[2]
         self.show_minutes = data[3]
@@ -61,13 +59,9 @@ class Board(gd.BoardGame):
         self.show_hour_offset = data[10]
         self.show_catalan = True
         
-        #self.level.games_per_lvl = data[11]
-        
         tt = [random.choice(h_pool), random.choice(m_pool)]
         self.time = tt
-        #self.time = [6,0]
         self.tm = self.time[:]
-        
         
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
         self.roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
@@ -88,8 +82,6 @@ class Board(gd.BoardGame):
         ans_offset = 10+(data[0]-15)//2
         self.board.add_unit(10,0,data[0]-10,2,classes.board.Label,self.lang.d["Set_clock_instr"],white,"",2)
         self.board.units[-1].font_color = gray
-        #self.board.add_unit(10,4,data[0]-10,2,classes.board.Label,self.lang.d["Set_clock_instr"],white,"",2)
-        #self.board.units[-1].font_color = gray
         self.board.add_unit(ans_offset,3,2,1,classes.board.Label,"%02d" % self.time[0],white,"",0)
         self.ans_h = self.board.units[-1]
         
@@ -155,18 +147,9 @@ class Board(gd.BoardGame):
         angle_arc_start = -pi/2
         self.r = self.size//3+self.size//10
         
-        #rs = [r*0.6, r*0.85,r*0.5]
         self.rs = [self.r*0.6, self.r*0.85,self.r*0.6] #rings
         self.rs2 = [self.r*0.85, self.r*0.6,self.r*0.34] #numbers
         self.rs3 = [self.r*0.45, self.r*0.7,self.r*0.6] #hands
-        
-        #self.rs = [self.r*0.85,self.r*0.6, self.r*0.6]
-        """
-        angle = self.angle_start
-        angle_s = angle_arc_start
-        angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
-        #a1 = angle_start + (2*pi/12)*time[0]
-        """
         
         
     def draw_hands(self):
@@ -203,15 +186,12 @@ class Board(gd.BoardGame):
                 a = self.angle_start + self.angle_step_60*(i+1)
                 if self.show_minutes:
                     font_size = self.clock_canvas.font3.size(val)
-                    #if self.show_highlight:
                     if not self.show_highlight or (i+1 == time[1] or (time[1] == 0 and i==59)):
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors2[1])
                     else:
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors[1])
                     x3=(rs[1]+30+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
                     y3=(rs[1]+30+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
-                    #x3=(rs[0]+20 + self.clock_canvas.font.size(val)[0]//2)*cos(a)+center[0]
-                    #y3=(rs[0]+20 + self.clock_canvas.font.size(val)[1]//2)*sin(a)+center[1] 
                     
                     self.canvas.blit(text, (x3,y3)) 
                     if self.show_only_quarters_m or self.show_only_fives_m:
@@ -239,15 +219,12 @@ class Board(gd.BoardGame):
                     
                     pygame.draw.aaline(self.canvas, self.colors2[1], [x1,y1],[x2,y2])
             
-            
-        
         for i in range(12):
             val = str(i+1)
             if self.show_only_quarters_h:
                 if (i+1)%3 != 0:
                     val = ""
                     
-            #a = angle_start + angle_step_12*(i+1)
             a = self.angle_start + self.angle_step_12*(i+1)
             x1=(rs[2]-5)*cos(a)+self.center[0]
             y1=(rs[2]-5)*sin(a)+self.center[1]
@@ -256,7 +233,6 @@ class Board(gd.BoardGame):
             y2=(rs[2]+15)*sin(a)+self.center[1]
             
             pygame.draw.aaline(self.canvas, self.colors2[0], [x1,y1],[x2,y2])
-            
             
             if self.show_roman:
                 val = self.hour_to_roman(val)
@@ -275,7 +251,6 @@ class Board(gd.BoardGame):
                     text2 = self.clock_canvas.font.render("%s" % (val2), 1, self.colors[1])
                 font_size2 = self.clock_canvas.font.size(val2)
             
-            
             if self.show_roman:
                 text_angle = -(360/12.0) * (i+1)
                 text = pygame.transform.rotate(text, text_angle)
@@ -286,8 +261,6 @@ class Board(gd.BoardGame):
             else:
                 x3=(rs2[2]+20+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
                 y3=(rs2[2]+20+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
-                
-                
                 xc=(rs[2]+20+font_size[1]//2)*cos(a)+self.center[0] - font_size2[0] / 2
                 yc=(rs[2]+20+font_size[1]//2)*sin(a)+self.center[1] - font_size2[1] / 2
             self.canvas.blit(text, (x3,y3))
@@ -309,11 +282,7 @@ class Board(gd.BoardGame):
                 y3=(rs2[0]+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
                 self.canvas.blit(text, (x3,y3))
                 
-            
-               
-                
         hand_width = [self.r//14,self.r//18]
-        #start_offset = [self.size//10,self.size//12] 
         start_offset = [self.size//18,self.size//22] 
         
         for i in range(2):
@@ -327,11 +296,6 @@ class Board(gd.BoardGame):
             x1=rs3[i]*cos(angle)+self.center[0]
             y1=rs3[i]*sin(angle)+self.center[1]
             
-            #x2=h_size[i]*cos(angle-pi/2)+center[0]
-            #y2=h_size[i]*sin(angle-pi/2)+center[1]
-            #x3=h_size[i]*cos(angle+pi/2)+center[0]
-            #y3=h_size[i]*sin(angle+pi/2)+center[1]
-            
             x2=hand_width[i]*cos(angle-pi/2)+self.center[0]
             y2=hand_width[i]*sin(angle-pi/2)+self.center[1]
             
@@ -341,7 +305,6 @@ class Board(gd.BoardGame):
             points = [[x0,y0],[x2,y2],[x1,y1],[x3,y3]]
             shadow = [[x0,y0],[x2,y2],[x1,y1]]
             self.hand_coords[i] = points
-            #if i < numbers[0]:
             pygame.draw.polygon(self.canvas, self.colors[i], points, 0)
             pygame.draw.polygon(self.canvas, self.colors3[i], shadow, 0)
             # Draw the line from the center to the calculated end point
@@ -393,9 +356,6 @@ class Board(gd.BoardGame):
         return False
         
     def current_angle(self, pos,r):
-        
-        #print(r),
-        #print(self.rs[0]),
         cosa = (pos[0] - self.center[0]) / r
         sina = (pos[1] - self.center[1]) / r
         
@@ -413,12 +373,10 @@ class Board(gd.BoardGame):
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         self.tm = self.time[:]
-        
         if event.type == pygame.MOUSEMOTION and self.hand_id > 0:
             pos = [event.pos[0]-self.layout.game_left,event.pos[1]-self.layout.top_margin]
             r = self.vector_len([pos[0]-self.center[0], pos[1] - self.center[1]])
             if r == 0: r = 0.1
-            
             if self.hand_id == 1:
                 h = (self.current_angle(pos, r)) / self.angle_step_12
                 if int(h) == 0:
@@ -438,22 +396,17 @@ class Board(gd.BoardGame):
                         self.tm[0] = 12
                     else:
                         self.tm[0] -= 1
-                
-            
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             active = self.board.active_ship
             pos = [event.pos[0]-self.layout.game_left,event.pos[1]-self.layout.top_margin]
             if active == 0:
                 r = self.vector_len([pos[0]-self.center[0], pos[1] - self.center[1]])
                 if r == 0: r = 0.1
-                
                 self.hand_id = 0
                 if self.is_contained(pos, coords_id = 0):
                     self.hand_id = 1
-                    #print("activated: %d" % self.hand_id)
                 elif self.is_contained(pos, coords_id = 1):
                     self.hand_id = 2
-                    #print("activated: %d" % self.hand_id)
                 elif self.rs[0]*1.1 > r:
                     h = (self.current_angle(pos, r)) / self.angle_step_12
                     if int(h) == 0:
@@ -462,20 +415,16 @@ class Board(gd.BoardGame):
                 else:
                     m = (self.current_angle(pos, r)) / self.angle_step_60
                     self.tm[1] = int(m)
-        
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.hand_id = 0
-            
-                #self.is_contained(pos, 1)
         if self.tm != self.time:
             self.time = self.tm[:]
             self.draw_hands()
             self.clock_canvas.painting = self.canvas.copy()
                 
-                
     def update(self,game):
         game.fill((255,255,255))
-        gd.BoardGame.update(self, game) #rest of painting done by parent
+        gd.BoardGame.update(self, game)
 
     def check_result(self):
         pass

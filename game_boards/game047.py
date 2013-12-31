@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,8 +16,10 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        s = random.randrange(150, 190, 5)
-        v = random.randrange(230, 255, 5)
+        #s = random.randrange(150, 190, 5)
+        #v = random.randrange(230, 255, 5)
+        s = 70#random.randrange(50, 100, 5)
+        v = 230#random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
         color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
@@ -53,7 +56,12 @@ class Board(gd.BoardGame):
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        self.alphabet = self.lang.alphabet_lc
+        if self.lang.ltr_text:
+            self.alphabet = self.lang.alphabet_lc
+        else:
+            ts = "".join(self.lang.alphabet_lc)
+            ts = ex.unival(ts)
+            self.alphabet = ts[::-1]
         self.alph_len = len(self.alphabet)
         
         self.num_list = []
@@ -93,7 +101,7 @@ class Board(gd.BoardGame):
         for i in range(data[2]):
             self.board.add_door(x+i,0,1,1,classes.board.Door,"",color,"")
             self.board.units[i].door_outline = True
-            h = random.randrange(0, 255, 5)
+            #h = random.randrange(0, 255, 5)
             y = random.randrange(1,5)
             number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             caption = self.alphabet[shuffled[i]]

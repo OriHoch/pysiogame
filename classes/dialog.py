@@ -48,16 +48,6 @@ class Dialog:
             self.image.blit(text, (textpos[0],y_pos))
             y_pos += 70
 
-    """
-    def display_game_over(self):
-        y_pos = 190
-        for each in self.lines_game_over:
-            text = self.font.render("%s" % (each), 1, (255, 255, 255, 0))
-            textpos = text.get_rect(centerx=self.image.get_width()//2)
-            self.image.blit(text, (textpos[0],y_pos))
-            y_pos += 70
-    """
-
     def update(self,screen):
         self.image.fill(self.color)
         if self.level.dialog_type == 0:
@@ -68,5 +58,4 @@ class Dialog:
             
         elif  self.level.dialog_type == 2:
             pass
-            #self.display_lines(self.lines_game_over)
         screen.blit(self.image, (0,0))

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -48,7 +49,6 @@ class Board(gd.BoardGame):
             num2 = random.randrange(num1+1,data[3])
             numbers.append([num1,num2])
             expr = str(float(num1)) + sign + str(float(num2))
-            #disp = str(num1) + sign + str(num2)
             disp = ["",str(num1),str(num2),""]
             self.num_list.append(expr)
             self.num_list2.append(disp)
@@ -109,7 +109,6 @@ class Board(gd.BoardGame):
             self.board.units[ind + i].door_outline = True   
             self.board.all_sprites_list.move_to_front(self.board.units[ind + i])      
 
-        
         instruction = self.d["Drag lt"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",9)
         self.board.ships[-1].font_color = self.font_color
@@ -129,7 +128,6 @@ class Board(gd.BoardGame):
     def draw_fractions(self,canvas,size,center,color):
         lh = max(int(size * 0.05),2)
         pygame.draw.line(canvas,self.font_color,[center[0]-size//7,center[1]-lh//2],[center[0]+size//7,center[1]-lh//2],lh)
-        
         
     def draw_circles(self,numbers,canvas,size,center,color):
         angle_step = 2*pi/numbers[1]
@@ -158,7 +156,6 @@ class Board(gd.BoardGame):
             # Calculate the x,y for the end point
             x=r*cos(angle)+center[0]
             y=r*sin(angle)+center[1]
-            
             multipoints.append([x,y])
             
         #draw clipping polygon
@@ -175,7 +172,6 @@ class Board(gd.BoardGame):
         for each in multipoints:
             pygame.draw.aaline(canvas,self.color2,center,each)
         pygame.draw.circle(canvas,self.color2,center,r,2)
-        
         
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up

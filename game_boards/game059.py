@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -17,8 +18,6 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-        
         self.board.draw_grid = False
         self.brush_size = 2
         self.max_points = 4
@@ -58,20 +57,6 @@ class Board(gd.BoardGame):
         self.board.add_unit(self.left_padding,0,data[0]-self.left_padding,data[1],classes.board.Letter,"",color,"",2)
         self.canvas_block = self.board.ships[-1]
         self.canvas_block.set_outline([0,54,229],1)
-        
-        """
-        self.board.add_unit(0,0,data[0]-8,1,classes.board.Label,"Figure to draw:",color,"",2)
-        self.board.units[-1].align = 1
-        
-        self.board.add_unit(0,1,data[0]-8,1,classes.board.Label,"Trapezoid (a = 5, b = 4, h = 3)",color,"",2)
-        self.board.units[-1].align = 1
-        
-        self.board.add_unit(data[0]-8,0,5,2,classes.board.Label,"Well done!",color,"",2)
-        self.board.units[-1].align = 1
-
-        self.board.add_unit(data[0]-3,0,3,2,classes.board.Label,"Next >>",color,"",2)
-        self.board.units[-1].set_outline(self.active_color,1)
-        """
         self.board.add_unit(0,0,2,2,classes.board.ImgShip,"",white,"c_quati.png",0)
         self.poli_btn = self.board.ships[-1]
         
@@ -222,8 +207,6 @@ class Board(gd.BoardGame):
         #self.canvas_block.update_me = True
         self.mainloop.redraw_needed[0] = True
         self.tool_door.set_pos(self.board.active_ship_pos)
-        #self.tool_door.update_me = True
-        
         
     def paint_line(self,state):
         if state == 0:
@@ -236,7 +219,6 @@ class Board(gd.BoardGame):
                 
                 if self.max_points == 2:
                     v = sv.Vector2.from_points(self.points[0], self.p_current)
-                    #print(v)
                     if v[0] != 0 or v[1] != 0:
                         r = math.sqrt(v[0]*v[0] + v[1]*v[1])
                     else:
@@ -249,18 +231,14 @@ class Board(gd.BoardGame):
                     pygame.draw.aaline(self.canvas, self.active_color, self.points[0], self.p_current, 1)
             self.copy_to_screen()
         elif state == 2 and self.points_count > 0:
-            #print('state 2 brush size %d' % self.brush_size)
             self.screen_restore()
-            
-            #if self.brush_size > 3:                
+                          
             self.draw_line(self.p_current,self.points[-2],1,1)
             if self.points_count == self.max_points - 1:
                 self.draw_line(self.p_current,self.points[0],1,1)
                 pygame.draw.circle(self.canvas, self.active_color, self.points[-2], 1,0)
             self.copy_to_screen()
             self.backup_canvas()
-            
-                
 
     def draw_line(self,p1,p2,bs1,bs2):
         #find points for the corners of the polygon using Tales Theorem
@@ -327,7 +305,6 @@ class Board(gd.BoardGame):
 
     def screen_restore(self):
         self.canvas = self.canvas_org.copy()
-        #self.var_brush = 1
         
     def update(self,game):
         game.fill((255,255,255))

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import os, sys
 import subprocess
 import colorsys
@@ -44,7 +45,6 @@ def hsl_to_rgb(h,s,l):
     return [int(each*255) for each in rgb]
 
 def rgb_to_hsl(r,g,b):
-    #pass
     hsl = colorsys.rgb_to_hls(r/255.0,g/255.0,b/255.0)
     hsl255 = [int(each*255) for each in hsl]
     hsl255 = [hsl255[0],hsl255[2],hsl255[1]]
@@ -98,9 +98,7 @@ def reverse(s, alpha):
                     l2[ej-1:j-1] = tmp
                 tmp = ""
                 ej = None
-            #try:
             l2[j] = l[i]
-            #except:
             mode = "rtl"
         else:
             if ej == None:

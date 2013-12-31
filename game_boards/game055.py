@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -8,12 +9,10 @@ import random
 import math
 import pygame
 
-        
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,999,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
         
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
@@ -94,7 +93,6 @@ class Board(gd.BoardGame):
         self.board.add_door(4,data[1]-1,2,1,classes.board.Door,"",self.col_m,"",0)
         self.board.add_door(7,data[1]-1,2,1,classes.board.Door,"",self.col_y,"",0)
 
-        #self.color_info = self.board.units[-1]
         for i in [5,6,7,8,9,10]:
             if i>7:
                 self.board.units[i].image.set_colorkey(colorkey)
@@ -115,7 +113,6 @@ class Board(gd.BoardGame):
         for i in range(3):
             self.rgb_g[i] = self.board.ships[i].grid_y
         self.update_sliders()
-        #for i in range(4):
         self.canv[3].fill(self.col_e)  
         ct = self.canvas_center
         radius = 9*self.board.scale        

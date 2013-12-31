@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -17,7 +18,6 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):
         self.vis_buttons = [0,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
         
         self.board.draw_grid = False
         
@@ -81,7 +81,6 @@ class Board(gd.BoardGame):
         self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",color,self.bg_img_grey_src)
             
         self.board.units[0].image.set_colorkey((1,2,3))
-        #self.board.units[0].door_outline = True
         #create table to store 'binary' solution 
         #find position of first door square
         x = w2
@@ -96,12 +95,9 @@ class Board(gd.BoardGame):
             h = (h_start + (self.shuffled[i]-1)*h_step)
             number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             caption = str(self.shuffled[i])
-            #self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",2)
-            #self.board.add_unit(x,y,1,1,classes.board.ImgShip,caption,white,image_src[self.shuffled[i]])
             self.board.add_unit(x,y,1,1,classes.board.ImgShip,caption,white,self.bg_img_src)
             self.board.ships[-1].img = self.bg_img.img.copy()
             self.board.ships[-1].readable = False
-            #self.board.ships[-1].perm_outline_color = outline_color
             offset_x = 0
             offset_y = 0
             if self.shuffled[i] in [2,5,8]:
@@ -177,8 +173,6 @@ class Board(gd.BoardGame):
                 self.update_score(self.points)
                 self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
                 self.level.update_level_dictx()
-                #self.mainloop.info.new_game(self.mainloop.game_board,self.mainloop.info_bar)
-                #self.mainloop.redraw_needed[2] = True
                 self.mainloop.redraw_needed[1] = True
                 self.finished = True
                 self.board.units[0].img = self.bg_img.img.copy()

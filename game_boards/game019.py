@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -16,8 +17,6 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
-        
         s = random.randrange(30, 80)
         v = random.randrange(200, 255)
         h = random.randrange(0, 255)
@@ -25,7 +24,6 @@ class Board(gd.BoardGame):
         color2 = ex.hsv_to_rgb(h,150,v)
         color3 = ex.hsv_to_rgb(h,150,75)
         
-        #self.chapters = [1,12,23,30,36]
         #data = [0-x_count, 1-y_count, 2-bottom_range1, 3-top_range1, 4-bottom_range2, 5-top_range2, 6-operator, 7-font_size]
         if self.mainloop.m.game_variant == 0:
             self.points = self.level.lvl

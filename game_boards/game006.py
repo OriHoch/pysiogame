@@ -15,8 +15,6 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-        
         self.vis_buttons = [0,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -178,11 +176,9 @@ class Board(gd.BoardGame):
             self.ai_enabled = True
         else:
             self.update_score(self.level.lvl + self.max_games)
-            #self.completed = self.mainloop.db.query_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
             self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
             self.level.levelup()
         
-    
     def game_over(self):
         self.level.game_step = 0
         self.current_count = 0

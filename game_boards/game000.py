@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
 
 import classes.board
 import random
-#import colorsys
 
 
 class Board(gd.BoardGame):
@@ -19,8 +19,6 @@ class Board(gd.BoardGame):
 
         color = (255,255,255)#(234,218,225) #ex.hsv_to_rgb(225,15,235)
         self.color = color
-        #font_color = ex.hsv_to_rgb(227,255,50)
-        #font_color = (85,0,212)
         font_color = (50,0,150)
         ver_color = (63,45,247)
         data = [17,11]
@@ -48,17 +46,12 @@ class Board(gd.BoardGame):
         self.canvas.font = self.canvas.board.font_sizes[4]
         val = "v.%s" % (self.mainloop.config.version)
         text = self.canvas.font.render(val, 1, ver_color)
-        #x = int(scale*9.5)
         y = 0
         x = self.canvas.img_rect.width - self.canvas.font.size(val)[0]-5
         self.canvas.img.blit(text, (x,y))
         
-        
         self.board.add_unit(0,9,data[0],1,classes.board.Label,self.lang.d["Check for newer version..."],color,"",5)
-        
         self.board.add_unit(0,10,data[0],1,classes.board.Label,"http://sourceforge.net/projects/pysiogame/",color,"",2)
-        #x = (data[0] - 7)//2
-        #self.board.add_unit(x,7,1,1,classes.board.ImgShip,"",color,"facebook_icon.png")
         self.board.add_unit(0,8,data[0],1,classes.board.Label,["www.facebook.com/pysiogame",""],color,"",5)
         
         self.board.add_unit(0,7,data[0],1,classes.board.Label,"www.pysiogame.net",color,"",2)
@@ -67,7 +60,6 @@ class Board(gd.BoardGame):
         self.board.units[0].font_color = font_color
         self.board.units[1].font_color = (0,0,255)
         self.board.units[2].font_color = (63,99,182)
-        #self.board.units[2].align = 1
         
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up

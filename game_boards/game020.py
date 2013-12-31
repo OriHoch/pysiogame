@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -13,11 +14,9 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,99,3)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,9,5)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
         s = random.randrange(100, 150, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
@@ -59,7 +58,6 @@ class Board(gd.BoardGame):
         numbers.append([num1,num2])
         expr = str(float(num1)) + sign + str(float(num2))
         self.num_list.append(expr)
-        #self.num_list2.append(str(num1) + sign + str(num2))
         self.num_list2.append(["",str(num1),str(num2),""])
         
         #create table to store 'binary' solution 

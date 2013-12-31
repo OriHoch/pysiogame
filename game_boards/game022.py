@@ -45,10 +45,6 @@ class Board(gd.BoardGame):
             data[0] = max_x_count
         self.data = data
         
-        #*************temp*************#
-        #self.word_pos_y = self.data[0]*self.layout.scale
-        #*****************************#
-        
         self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
        
@@ -61,7 +57,6 @@ class Board(gd.BoardGame):
         self.canvas_block = self.board.ships[0]
         self.canvas_block.set_outline([0,54,229],1)
         
-        #self.canvas_block.font2 = self.board.font_sizes[font_size+4]
         self.canvas_block.font3 = self.board.font_sizes[font_size2]
         
         images = ["paint_pencil.png","paint_brush.png","paint_wide_brush.png","paint_rect.png","paint_circle.png","paint_eraser.png","paint_bucket.png"]
@@ -93,11 +88,10 @@ class Board(gd.BoardGame):
         #number of available color spaces minus 2 for black and white
         number_of_colors = data[1]*6 - 2
         number_of_hues = 20#13
-        number_of_col_per_hue = 6#number_of_colors // number_of_hues
-        #if number_of_col_per_hue > 3:
+        number_of_col_per_hue = 6
         v_num = (255-v)//(number_of_col_per_hue)
         #greyscale
-        grey_num = 6 #number_of_colors+2 - number_of_hues * number_of_col_per_hue
+        grey_num = 6
         if grey_num > 1:
             grey_v_num = (255 // (grey_num-1))
         else:
@@ -147,9 +141,8 @@ class Board(gd.BoardGame):
         self.canvas = pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
         self.canvas.fill(self.canvas_block.initcolor)
         self.paint_bg_letter()
-        self.canvas_org = self.canvas.copy() #pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
+        self.canvas_org = self.canvas.copy()
         
-
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -180,7 +173,6 @@ class Board(gd.BoardGame):
                     self.active_color = self.board.ships[active].initcolor
                     self.color_door.set_pos(self.board.active_ship_pos)
 
-                         
         elif event.type == pygame.MOUSEMOTION and self.btn_down == True:
             active = self.board.active_ship
             pos = event.pos
@@ -193,7 +185,6 @@ class Board(gd.BoardGame):
                 self.paint_pencil(1)
             
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            
             active = self.board.active_ship
             pos = event.pos
             column=(pos[0]-self.layout.game_left) // (self.layout.width)
@@ -216,7 +207,7 @@ class Board(gd.BoardGame):
 
         font_x = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font.size(val)[0])//2)
         font_y = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font.size(val)[1])//2) - 3*self.board.scale
-        txt2 = ex.unival(self.active_word) #self.active_word
+        txt2 = ex.unival(self.active_word)
         text2 = self.canvas_block.font3.render("%s" % (txt2), 1, (220, 220, 220, 0))
         font_x2 = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font3.size(txt2)[0])//2)
         font_y2 = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font3.size(txt2)[1])//2) + 7*self.board.scale

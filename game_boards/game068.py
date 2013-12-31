@@ -18,13 +18,10 @@ class Board(gd.BoardGame):
         self.max_size = 99
         self.board.draw_grid = False
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.active_tool = 0
         self.active_letter = "A"
         self.active_word = "Apple"
-        #self.word_pos_y = 0
         self.var_brush = 1
         s = random.randrange(30, 80)
         v = random.randrange(200, 255)
@@ -36,7 +33,6 @@ class Board(gd.BoardGame):
         data = [35,26,0,8]
             
         font_size = 20
-        #font_size2 = 14
         self.brush_size = data[3]
         
         #stretch width to fit the screen size
@@ -57,8 +53,6 @@ class Board(gd.BoardGame):
         self.canvas_block = self.board.ships[0]
         self.canvas_block.set_outline([0,54,229],1)
         
-        #self.canvas_block.font2 = self.board.font_sizes[font_size+4]
-        #self.canvas_block.font3 = self.board.font_sizes[font_size2]
         images = ["paint_pencil.png","paint_brush.png","paint_wide_brush.png","paint_rect.png","paint_circle.png","paint_eraser.png","paint_bucket.png"]
         x=0
         y=0
@@ -90,12 +84,11 @@ class Board(gd.BoardGame):
         v = 70
         #number of available color spaces minus 2 for black and white
         number_of_colors = data[1]*6 - 2
-        number_of_hues = 24#13
-        number_of_col_per_hue = 6#number_of_colors // number_of_hues
-        #if number_of_col_per_hue > 3:
+        number_of_hues = 24
+        number_of_col_per_hue = 6
         v_num = (255-v)//(number_of_col_per_hue)
         #greyscale
-        grey_num = 6 #number_of_colors+2 - number_of_hues * number_of_col_per_hue
+        grey_num = 6
         if grey_num > 1:
             grey_v_num = (255 // (grey_num-1))
         else:
@@ -147,8 +140,7 @@ class Board(gd.BoardGame):
         self.canvas = pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
         self.canvas.fill(self.canvas_block.initcolor)
         self.paint_bg_letter()
-        self.canvas_org = self.canvas.copy() #pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
-        
+        self.canvas_org = self.canvas.copy()
 
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
@@ -163,7 +155,6 @@ class Board(gd.BoardGame):
                     self.p_first = canvas_pos
                     self.p_prev = canvas_pos
                     self.p_current = canvas_pos
-                    
                     self.paint_pencil(0)
                     pygame.mouse.set_cursor(*pygame.cursors.broken_x)
                 elif 0 < active < 66:
@@ -175,7 +166,6 @@ class Board(gd.BoardGame):
                     self.active_color = self.board.ships[active].initcolor
                     self.color_door.set_pos(self.board.active_ship_pos)
 
-                         
         elif event.type == pygame.MOUSEMOTION and self.btn_down == True:
             active = self.board.active_ship
             pos = event.pos
@@ -188,7 +178,6 @@ class Board(gd.BoardGame):
                 self.paint_pencil(1)
             
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            
             active = self.board.active_ship
             pos = event.pos
             column = (pos[0]-self.layout.game_left) // (self.layout.width)
@@ -207,25 +196,11 @@ class Board(gd.BoardGame):
     def paint_bg_letter(self):
         txt = self.active_letter
         text = self.canvas_block.font.render("%s" % (txt), 1, (220, 220, 220, 0))
-        #text_arrows = self.canvas_block.font2.render("%s" % (txt), 1, (220, 0, 0, 0))
-
         font_x = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font.size(txt)[0])//2)
         font_y = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font.size(txt)[1])//2)
         
-        """        
-        txt2 = self.active_word
-        text2 = self.canvas_block.font3.render("%s" % (txt2), 1, (220, 220, 220, 0))
-        font_x2 = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font3.size(txt2)[0])//2)
-        font_y2 = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font3.size(txt2)[1])//2) + 8*self.board.scale
-        
-        self.word_pos_y = font_y2     
-        """   
-        self.canvas.fill([255,255,255])       
-
+        self.canvas.fill([255,255,255])
         self.canvas.blit(text, (font_x,font_y))
-        #self.canvas.blit(text_arrows, (font_x,font_y))
-        #self.canvas.blit(text2, (font_x2,font_y2))
-
         self.copy_to_screen()
                     
     #states => mouse states => 0 - mouse_btn_down, 1 - mouse_move, 2 - mouse_btn_up

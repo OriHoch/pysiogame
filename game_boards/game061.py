@@ -16,8 +16,6 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-        
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -109,23 +107,7 @@ class Board(gd.BoardGame):
                         texts2.append(ns)
                     else:
                         texts2.append(self.lang.n2txt(num, twoliner = True))
-                    """
-                    if num < 20:
-                        texts2.append(self.lang.numbers[num-1])
-                    else:
-                        s1 = self.lang.numbers2090[num//10-2]
-                        if num%10 == 0:
-                            texts2.append(s1)
-                        else:
-                            s2 = self.lang.numbers[num%10-1]
-                            if self.lang.lang in ['en_gb','en_us']:
-                                texts2.append(s1 + ' ' +s2)
-                            elif self.lang.lang == 'de':
-                                texts2.append(s2 + 'und' +s1)
-                            else:
-                                texts2.append([s1,s2])
-                    """
-                    
+                        
         if self.mainloop.m.game_variant == 1:
             if self.level.lvl == 1:#addition
                 draw_data = [1,5,1,5,6]
@@ -176,9 +158,6 @@ class Board(gd.BoardGame):
             for i in range(w2+data[3],data[0]-w2,4):
                 wide_slots.append([i,j])
         random.shuffle(wide_slots)
-        #slots = []
-        #slots.extend(small_slots)
-        #slots.extend(wide_slots)
         switch = self.square_count // 2
         for i in range(self.square_count):
             if self.mainloop.m.game_variant in [4,5]:
@@ -204,7 +183,6 @@ class Board(gd.BoardGame):
             self.board.ships[i].immobilize()
             self.board.ships[i].readable = False
             self.board.ships[i].perm_outline = True
-            #self.board.ships[i].font_color = font_color
             self.board.ships[i].uncovered = False
         self.outline_all(self.color2,1)
         
@@ -277,6 +255,5 @@ class Board(gd.BoardGame):
                 self.ai_enabled = False
                 self.disp_counter = 0
 
-        
     def check_result(self):
         pass

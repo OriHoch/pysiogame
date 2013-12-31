@@ -87,11 +87,17 @@ class Board(gd.BoardGame):
         
         y = 2
         for i in range(data[2], data[3]+1):
+            if self.lang.ltr_text:
+                sv = str(i)
+            else:
+                sv = self.lang.n2spk(i)
             self.board.add_unit(x1,y,2,1,classes.board.Letter,str(i),color1,"",2)
+            self.board.ships[-1].speaker_val = sv
+            self.board.ships[-1].speaker_val_update = False
             self.board.ships[-1].normal_cl = color1
             self.board.ships[-1].highlight_cl = color1a
             self.board.add_unit(x2,y,bw,1,classes.board.Letter,self.lang.n2txt(i),color0,"",2)
-            self.board.ships[-1].speaker_val = str(i)
+            self.board.ships[-1].speaker_val = sv
             self.board.ships[-1].speaker_val_update = False
             self.board.ships[-1].normal_cl = color0
             self.board.ships[-1].highlight_cl = color0a

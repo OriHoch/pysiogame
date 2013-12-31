@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,10 +16,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         self.max_size = 99
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-        
         self.board.draw_grid = False
         self.brush_size = 2
         self.max_points = 4
@@ -33,11 +31,7 @@ class Board(gd.BoardGame):
         white = ((255,255,255))
         self.guides_color = [200,200,200]
         
-        #self.quadi_names = [self.lang.d["quadrilateral"],self.lang.d["trapezium"],self.lang.d["parallelogram"],self.lang.d["rhombus"],self.lang.d["square"],self.lang.d["rectangle"],self.lang.d["right_trapezium"],self.lang.d["iso_trapezium"],self.lang.d["u_trapezium"]]
-        #self.tria_names = [self.lang.d["triangle"],self.lang.d["right_iso_tria"],self.lang.d["right_tria"],self.lang.d["equi_tria"],self.lang.d["acute_iso_tria"],self.lang.d["acute_tria"],self.lang.d["obtuse_iso_tria"],self.lang.d["obtuse_tria"]]
-        
         self.shape_names = [self.lang.d["quadrilateral"],self.lang.d["trapezium"],self.lang.d["parallelogram"],self.lang.d["rhombus"],self.lang.d["square"],self.lang.d["rectangle"],self.lang.d["right_trapezium"],self.lang.d["iso_trapezium"],self.lang.d["u_trapezium"],"", self.lang.d["triangle"],self.lang.d["right_iso_tria"],self.lang.d["right_tria"],self.lang.d["equi_tria"],self.lang.d["acute_iso_tria"],self.lang.d["acute_tria"],self.lang.d["obtuse_iso_tria"],self.lang.d["obtuse_tria"],self.lang.d["circle"]]
-        #self.shape_names =[0 lf.lang.d["quadrilateral"],1 lf.lang.d["trapezium"],2 lf.lang.d["parallelogram"],3 lf.lang.d["rhombus"],4 lf.lang.d["square"],5 lf.lang.d["rectangle"],6 lf.lang.d["right_trapezium"],7 lf.lang.d["iso_trapezium"],8 lf.lang.d["u_trapezium"],9,  10 f.lang.d["triangle"],11 f.lang.d["right_iso_tria"],12 f.lang.d["right_tria"],13 f.lang.d["equi_tria"],14 f.lang.d["acute_iso_tria"],15 f.lang.d["acute_tria"],16 f.lang.d["obtuse_iso_tria"],17 f.lang.d["obtuse_tria"],18 f.lang.d["circle"]]
         if self.level.lvl == 1:
             self.choice = [1,2,4,5,6,7,10,11,12,14,15,16,17,18]
             self.check_sizes = False
@@ -46,7 +40,6 @@ class Board(gd.BoardGame):
             self.choice = [1,2,4,5,6,7,10,11,12,14,15,17,18]
             self.check_sizes = True
             self.pointsx = 6
-        
         
         self.chosen_shape_name = ""
         self.chosen = 0
@@ -67,12 +60,9 @@ class Board(gd.BoardGame):
         self.mainloop.info.hide_buttons(0,1,1,1,1,1,1,0,0)
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
-        
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
         
         if self.mainloop.lang.lang == 'el':
             size_instr_font_size = 2
@@ -101,18 +91,8 @@ class Board(gd.BoardGame):
         self.size_instr.align = 1   
         self.size_instr.font_color = txt_color
         self.size_instr.readable = False
-        #Well done!
-        #self.board.add_unit(data[0]-8,0,5,1,classes.board.Letter,"",color,"",2)
-        #self.well_done = self.board.ships[-1]
-        #self.well_done.align = 1
-        #self.well_done.font_color = txt_color
-
-        
-        #self.board.add_unit(data[0]-3,0,3,2,classes.board.Label,"Next >>",color,"",2)
-        #self.board.add_unit(data[0]-3,0,3,2,classes.board.ImgShip,"next",white,"c_quati.png",0)
         self.board.add_unit(data[0]-3,0,3,2,classes.board.MultiImgSprite,"",white,"next.png",0,frame_flow = [0,1],frame_count=2,row_data=[2,1])
         self.next_btn = self.board.ships[-1]
-        #self.board.units[-1].set_outline((200,200,255),1)
         
         self.board.add_unit(0,2,2,2,classes.board.ImgShip,"",white,"c_quati.png",0)
         self.poli_btn = self.board.ships[-1]
@@ -132,12 +112,10 @@ class Board(gd.BoardGame):
         for each in self.board.ships:
             each.outline = False
             each.immobilize()
-            #each.readable = False
         
         self.canvas = pygame.Surface([self.canvas_block.grid_w*self.board.scale, self.canvas_block.grid_h*self.board.scale-1])
         self.name = None        
         self.new_screen()
-        #self.vectors = []
         
         self.board.add_door(0,2,2,2,classes.board.Door,"",color,"")
         
@@ -145,9 +123,6 @@ class Board(gd.BoardGame):
         self.tool_door.door_outline = True
         self.board.all_sprites_list.move_to_front(self.tool_door)
         
-        #self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,"Play with shapes",color,"",3)
-        #self.board.ships[1].immobilize()        
-        #self.outline_all(1,1)
         self.pick_shape()  
         self.reset()
         
@@ -157,13 +132,10 @@ class Board(gd.BoardGame):
             self.pointsx = 3
         if self.level.lvl == 2:
             self.pointsx = 6
-        #self.chosen_group = random.randrange(0, 2)
-        #self.choice = [1,2,4,5,6,7,10,11,12,14,15,17,18]
         
         prev_chosen = self.chosen
         while (self.chosen == prev_chosen):
             self.chosen = random.choice(self.choice)
-        
         
         self.chosen_shape_name = self.shape_names[self.chosen]
         if self.level.lvl == 1:
@@ -240,27 +212,15 @@ class Board(gd.BoardGame):
                     b1 = random.randrange(2,11)
                     h = random.randrange(2,11)
                 self.shape_sizes = [b1,h]
-                """
-                if self.chosen == 17:
-                    self.size_instr.value  = self.lang.d["size_instr_8"] % (self.shape_sizes[0],self.shape_sizes[1])
-                else:
-                """
                 self.size_instr.value  = self.lang.d["size_instr_4"] % (self.shape_sizes[0],self.shape_sizes[1])
-                """
-                elif self.chosen in [10,15,17]: 
-                    b1 = random.randrange(2,12)
-                    h = random.randrange(2,10)
-                    self.shape_sizes = [b1,h]
-                    self.size_instr.value  = self.lang.d["size_instr_4"] % (self.shape_sizes[0],self.shape_sizes[1])
-                """
             elif self.chosen == 18: #circle
                 r = random.randrange(2,10)
                 self.shape_sizes = [r]
                 self.size_instr.value  = self.lang.d["size_instr_9"] % (self.shape_sizes[0])
 
             else:
-                self.size_instr.value = "" #"( "+str(self.shape_sizes[0])+", "+ str(self.shape_sizes[1])+", "+ str(self.shape_sizes[2])+", "+ str(self.shape_sizes[3]) + ")"
-
+                self.size_instr.value = ""
+                
         self.name_label.update_me = True
         self.size_instr.update_me = True
         self.new_screen()
@@ -275,9 +235,6 @@ class Board(gd.BoardGame):
         return False
         
     def validate_shape(self):
-        #self.chosen_shape_name == self.name:
-        #self.shape_names = [self.lang.d["quadrilateral"],self.lang.d["trapezium"],self.lang.d["parallelogram"],self.lang.d["rhombus"],self.lang.d["square"],self.lang.d["rectangle"],self.lang.d["right_trapezium"],self.lang.d["iso_trapezium"],self.lang.d["u_trapezium"],"", self.lang.d["triangle"],self.lang.d["right_iso_tria"],self.lang.d["right_tria"],self.lang.d["equi_tria"],self.lang.d["acute_iso_tria"],self.lang.d["acute_tria"],self.lang.d["obtuse_iso_tria"],self.lang.d["obtuse_tria"],self.lang.d["circle"]]
-        #self.shape_names =[0 lf.lang.d["quadrilateral"],1 lf.lang.d["trapezium"],2 lf.lang.d["parallelogram"],3 lf.lang.d["rhombus"],4 lf.lang.d["square"],5 lf.lang.d["rectangle"],6 lf.lang.d["right_trapezium"],7 lf.lang.d["iso_trapezium"],8 lf.lang.d["u_trapezium"],9,  10 f.lang.d["triangle"],11 f.lang.d["right_iso_tria"],12 f.lang.d["right_tria"],13 f.lang.d["equi_tria"],14 f.lang.d["acute_iso_tria"],15 f.lang.d["acute_tria"],16 f.lang.d["obtuse_iso_tria"],17 f.lang.d["obtuse_tria"],18 f.lang.d["circle"]]
         ok = False
         if self.chosen == self.shape_id or self.chosen == 1 and self.shape_id in [1,6,7,8] or self.chosen == 10 and self.shape_id in [10,11,12,13,14,15,16,17] or self.chosen == 12 and self.shape_id in [11,12] or self.chosen == 15 and self.shape_id in [14,15] or self.chosen == 17 and self.shape_id in [16,17] or self.check_sizes and self.chosen == 2 and self.shape_id in [2,3]:
             if self.check_sizes:
@@ -294,7 +251,6 @@ class Board(gd.BoardGame):
                             ok = True
                     elif self.trapezium_variant == 0:
                         if ((self.is_near(self.dst[1], self.shape_sizes[0]) and self.is_near(self.dst[3],self.shape_sizes[1]) or self.is_near(self.dst[3], self.shape_sizes[0]) and self.is_near(self.dst[1], self.shape_sizes[1])) and self.is_near(self.heights[0],self.shape_sizes[2])):
-                        #if ((self.dst[1] == self.shape_sizes[0] and self.dst[3] == self.shape_sizes[1] or self.dst[3] == self.shape_sizes[0] and self.dst[1] == self.shape_sizes[1]) and self.heights[0] == self.shape_sizes[2]):
                             ok = True
                 elif self.shape_id in [2,3]:
                     if (self.is_near(self.dst[0], self.shape_sizes[0]) and self.is_near(self.heights[1], self.shape_sizes[1])) or (self.is_near(self.dst[1], self.shape_sizes[0]) and self.is_near(self.heights[0], self.shape_sizes[1])):
@@ -308,7 +264,6 @@ class Board(gd.BoardGame):
                 elif self.shape_id == 18:
                     if self.is_near(self.circle_r / float(self.guide_scale), self.shape_sizes[0]):
                         ok = True
-                    
             else:
                 ok = True
             
@@ -324,7 +279,6 @@ class Board(gd.BoardGame):
         self.next_btn.next_frame()
         self.next_btn.update_me = True
         self.mainloop.redraw_needed[1]=True
-        
         
     def hide_next(self):
         self.next_btn.reset()
@@ -429,7 +383,6 @@ class Board(gd.BoardGame):
                 elif active == self.next_btn.unit_id and self.next_btn.keyable == True:
                     self.next_shape()
                     
-                
             if event.button == 1 and column >= 0 and 2 <= row < self.data[1]:
                 if self.points_count < self.max_points:
                     canvas_pos = self.snap_to_guide([pos[0]-self.px_padding,pos[1]-self.layout.top_margin-self.board.scale*2])
@@ -444,8 +397,6 @@ class Board(gd.BoardGame):
                         if self.points_count >= self.max_points:
                             self.check_drawing()
             
-                            
-                
         elif event.type == pygame.MOUSEMOTION and 0 < self.points_count < self.max_points:
             active = self.board.active_ship
             pos = event.pos
@@ -499,10 +450,7 @@ class Board(gd.BoardGame):
                     pygame.draw.aaline(self.canvas, self.active_color, self.points[0], self.p_current, 1)
             self.copy_to_screen()
         elif state == 2 and self.points_count > 0:
-            #print('state 2 brush size %d' % self.brush_size)
-            self.screen_restore()
-            
-            #if self.brush_size > 3:                
+            self.screen_restore()          
             self.draw_line(self.p_current,self.points[-2],1,1)
             if self.points_count == self.max_points - 1:
                 self.draw_line(self.p_current,self.points[0],1,1)
@@ -510,13 +458,10 @@ class Board(gd.BoardGame):
             self.copy_to_screen()
             self.backup_canvas()
             
-                
-
     def draw_line(self,p1,p2,bs1,bs2):
         #find points for the corners of the polygon using Tales Theorem
         #and draw the polygon - rotated rectangle or trapezium and 2 circles at the ends of the 'line'
         v = sv.Vector2.from_points(p1, p2)
-        #print(v)
         if v[0] != 0 or v[1] != 0:
             bs1 = bs1//2
             bs2 = bs2//2
@@ -701,7 +646,6 @@ class Board(gd.BoardGame):
         dist = vf.get_magnitude()
         line_v = sv.Vector2.from_points(p1, p2)
         line_v.normalize()
-        #print(line_v)
         dp =  sv.Vector2.dot_prod(vf, line_v)
         d = math.sqrt(abs(dist**2 - dp**2))
         return d / float(self.guide_scale)
@@ -721,7 +665,6 @@ class Board(gd.BoardGame):
         
     def get_heights_q(self,points):
         heights = []
-        #print(points)
         heights.append(self.closest_point_dist(points[0], points[1], points[2]))
         heights.append(self.closest_point_dist(points[1], points[2], points[3]))
         heights.append(self.closest_point_dist(points[2], points[3], points[0]))
@@ -745,9 +688,6 @@ class Board(gd.BoardGame):
         self.dst = dst
         heights = self.get_heights_q(points)
         self.heights = heights
-        #print(dst)
-        #sl = self.side_len([points[0],points[2]])
-        #print(sl)
         
         if self.crossing(points[1],points[3],points[0],points[2]):
             self.name = ""
@@ -785,10 +725,8 @@ class Board(gd.BoardGame):
         #shorten and convert the distances to the guide scale
         dsts = ["%.2f" % each for each in dst]
         hs = ["%.2f" % each for each in heights]
-        #print(dsts)
         #get the lengths ready to display
         
-        #print(h)
         if self.shape_id == 0:
             l = ["a = "+dsts[0],"b = "+dsts[1],"c = "+dsts[2],"d = "+dsts[3],"","p = "+dsts[4],"q = "+dsts[5]]
         elif self.shape_id in [1,6,7,8]:
@@ -809,23 +747,18 @@ class Board(gd.BoardGame):
         
         self.update_lengths_disp(l)
             
-        
-        
-        
     def check_triangle(self,points):
         self.vectors = []
         v = self.points_to_vectors(points)
         l = []
         dst = self.get_lengths([points[1],points[2],points[0]])
         self.dst = dst
-        #dst = sorted(dst)
         heights = self.get_heights_t(points)
         self.heights = heights
         
         #shorten and convert the distances to the guide scale
         dsts = ["%.2f" % each for each in dst]
         hs = ["%.2f" % each for each in heights]
-        #print(dst)
         
         self.name = self.lang.d["triangle"]
         self.shape_id = 10
@@ -850,7 +783,7 @@ class Board(gd.BoardGame):
                 else:
                     self.name = self.lang.d["acute_tria"]
                     self.shape_id = 15
-            else: #if self.t_obtuse(v):
+            else:
                 if self.t_iso():
                     self.name = self.lang.d["obtuse_iso_tria"]
                     self.shape_id = 16
@@ -860,8 +793,6 @@ class Board(gd.BoardGame):
         l = ["a = "+dsts[0],"b = "+dsts[1],"c = "+dsts[2],"","h1 = "+hs[0],"h2 = "+hs[1],"h3 = "+hs[2]]
         self.update_lengths_disp(l)
         
-        
-            
     def t_right(self,v):
         return self.is_orthogonal(v[0],v[1]) or self.is_orthogonal(v[1],v[2]) or self.is_orthogonal(v[2],v[0])
         
@@ -883,5 +814,3 @@ class Board(gd.BoardGame):
     def check_circle(self,points):
         self.name = self.lang.d["circle"]
         self.shape_id = 18
-
-        

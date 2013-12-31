@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -75,6 +76,9 @@ class Board(gd.BoardGame):
         self.singular_items = ["green apple", "red apple", "strawberry", "pear", "orange [fruit]", "onion", "tomato", "lemon", "cherry", "pepper", "carrot", "banana", "watermelon"]    
         for each in self.singular_items:
             caption = self.lang._n(each, 1)
+            if not self.lang.ltr_text:
+                caption = ex.reverse(self.lang._n(each, 1), self.lang.alpha)
+                #caption = self.lang._n(each, 1)
             if caption == None:
                 caption = ""
             self.img_captions.append(caption)
@@ -90,13 +94,7 @@ class Board(gd.BoardGame):
         else:
             self.img_pcaptions = self.img_captions
         
-        #self.lang.fruit  #["green apple","red apple","strawberry","pear","orange","onion","tomato","lemon","cherry","pepper","carrot","banana","watermelon"]    
-        #multiple_items_1 = self.lang.fruits_1 #["green apples","red apples","strawberries","pears","oranges","onions","tomatoes","lemons","cherries","peppers","carrots","bananas","watermelons"]     
-        #multiple_items_2 = self.lang.fruits_2
-        #self.singular_items = singular_items        
-        
         item_indexes = [x for x in range(len(items))]
-        #quantities = [x for x in range(1,data[3]+1)]
         self.chosen_items = [[],[]]
         self.solution = {}
         #pick items and quantities
@@ -116,17 +114,10 @@ class Board(gd.BoardGame):
         for i in range(data[2]):
             ind = self.chosen_items[0][i]
             caption = self.lang._n(self.singular_items[ind], self.chosen_items[1][i])
+            if not self.lang.ltr_text:
+                caption = ex.reverse(caption, self.lang.alpha)
             if caption == None:
                 caption = ""
-            """
-            if self.chosen_items[1][i]>1:
-                if self.chosen_items[1][i] in self.lang.plural_rules[0]:
-                    caption = multiple_items_1[ind]
-                else:
-                    caption = multiple_items_2[ind]
-            else:
-                caption = singular_items[ind]
-            """
             self.board.add_unit(l[0],i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])
             self.board.add_unit(l[1],i+1,1,1,classes.board.ImgShip,"",white,items[ind]+f_end,data[4])
             self.board.add_unit(l[2],i+1,5,1,classes.board.Label,caption,white,"",data[4])

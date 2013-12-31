@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -14,7 +15,6 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,12,8)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,19,10)
-        
         
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
@@ -122,22 +122,6 @@ class Board(gd.BoardGame):
         ans_offset = 10+(data[0]-15)//2
         self.board.add_unit(0,0,data[0],1,classes.board.Label,self.lang.d["Set_clock"],white,"",1)
         self.board.units[-1].font_color = gray
-        #self.board.units[-1].align = 1
-        #self.board.add_unit(10,4,data[0]-10,2,classes.board.Label,self.lang.d["Set_clock_instr"],white,"",2)
-        #self.board.units[-1].font_color = gray
-        
-        """
-        self.board.add_unit(ans_offset+2,2,1,2,classes.board.Label,":",white,"",0)
-        self.board.add_unit(ans_offset+3,2,2,2,classes.board.Label,"%02d" % self.target_time[1],white,"",0)
-        self.ans_m = self.board.units[-1]
-        """
-        """
-        self.board.add_unit(0,10,data[0],1,classes.board.Label,"Quarter past twelve",white,"",2)
-        self.time_text = self.board.units[-1]
-        self.time_text.align = 1
-        self.time_text.font_color = color4
-        """
-        
         
         self.center = [self.size//2,self.size//2]
         self.board.add_unit(self.left_offset,2,10,10,classes.board.Ship,"",white,"",self.font_size)
@@ -177,7 +161,6 @@ class Board(gd.BoardGame):
         angle_arc_start = -pi/2
         self.r = self.size//3+self.size//10
         
-        #rs = [r*0.6, r*0.85,r*0.5]
         self.rs = [self.r*0.6, self.r*0.85,self.r*0.6]
         angle = self.angle_start
         angle_s = angle_arc_start
@@ -195,7 +178,6 @@ class Board(gd.BoardGame):
         
         rs = self.rs
         time = self.time
-        
         
         if self.show_outer_ring:
             pygame.draw.circle(self.canvas,self.colors4[1],self.center,int(rs[1]+10),0)
@@ -251,15 +233,12 @@ class Board(gd.BoardGame):
                     
                     pygame.draw.aaline(self.canvas, self.colors2[1], [x1,y1],[x2,y2])
             
-            
-        
         for i in range(12):
             val = str(i+1)
             if self.show_only_quarters_h:
                 if (i+1)%3 != 0:
                     val = ""
                     
-            #a = angle_start + angle_step_12*(i+1)
             a = self.angle_start + self.angle_step_12*(i+1)
             x1=(rs[2]+10)*cos(a)+self.center[0]
             y1=(rs[2]+10)*sin(a)+self.center[1]
@@ -308,11 +287,6 @@ class Board(gd.BoardGame):
             # Calculate the x,y for the end point
             x1=rs[i]*cos(angle)+self.center[0]
             y1=rs[i]*sin(angle)+self.center[1]
-            
-            #x2=h_size[i]*cos(angle-pi/2)+center[0]
-            #y2=h_size[i]*sin(angle-pi/2)+center[1]
-            #x3=h_size[i]*cos(angle+pi/2)+center[0]
-            #y3=h_size[i]*sin(angle+pi/2)+center[1]
             
             x2=hand_width[i]*cos(angle-pi/2)+self.center[0]
             y2=hand_width[i]*sin(angle-pi/2)+self.center[1]

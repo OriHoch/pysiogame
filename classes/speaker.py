@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+
 import sys
 import threading
 import os
 import subprocess
 import signal
+import classes.extras as ex
 
 class Speaker(threading.Thread):
     def __init__(self, lang, configo):
@@ -110,14 +112,13 @@ class Speaker(threading.Thread):
     def check_letter_name(self,text):
         if sys.version_info < (3, 0):
             try:
-                val = unicode(text, "utf-8")
+                val = ex.unival(text)#unicode(text, "utf-8")
             except:
                 val = text
-                
-            if len(val) == 1 and len(self.lang.letter_names)>0:
-                t = val.lower()
+            if len(val) == 1 and len(self.lang.letter_names) > 0:
+                t = ex.unival(val.lower())
                 for i in range(len(self.lang.alphabet_lc)):
-                    if t == unicode(self.lang.alphabet_lc[i],"utf-8"):
+                    if t == ex.unival(self.lang.alphabet_lc[i]):#unicode(self.lang.alphabet_lc[i],"utf-8"):
                         text = self.lang.letter_names[i]
                         break
         else:

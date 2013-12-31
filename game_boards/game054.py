@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -8,12 +9,10 @@ import random
 import math
 import pygame
 
-        
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,999,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
         
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
@@ -103,7 +102,6 @@ class Board(gd.BoardGame):
         self.board.add_door(7,0,2,data[1],classes.board.Door,"",self.col_k,"",0)
         self.board.units[-1].image.set_colorkey(None)
         
-        #self.color_info = self.board.units[-1]
         for i in [5,6,7,8,9,10,11,12,13]:
             if i>7:
                 self.board.units[i].image.set_colorkey(colorkey)
@@ -134,7 +132,6 @@ class Board(gd.BoardGame):
             self.canv[3].blit(self.canv[i],[0,0],special_flags = pygame.BLEND_ADD)
         
         pygame.draw.circle(self.canv[3], self.picked, ct, radius2, 0)
-        #self.canv[3].blit(self.canv[4],[0,0])
         
         self.canvas.painting = self.canv[3].copy()        
         self.canvas.update_me = True
@@ -172,40 +169,30 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        #print(self.rgbx3)
         r = self.rgbx3[0][0]
         g = self.rgbx3[1][1]
         b = self.rgbx3[2][2]
         if self.picked != [r,g,b]:
             help = ""
             if self.picked[0] > r:
-                #help += " more red; "
                 help += self.d['more red'] + ", "
             elif self.picked[0] < r:
-                #help += " less red; "
                 help += self.d['less red'] + ", "
             else:
-                #help += " red is ok; "
                 help += self.d['red is ok'] + ", "
 
             if self.picked[1] > g:
-                #help += " more green; "
                 help += self.d['more green'] + ", "
             elif self.picked[1] < g:
-                #help += " less green; "
                 help += self.d['less green'] + ", "
             else:
-                #help += " green is ok; "
                 help += self.d['green is ok'] + ", "
             
             if self.picked[2] > b:
-                #help += " more blue; "
                 help += self.d['more blue'] + ". "
             elif self.picked[2] < b:
-                #help += " less blue; "
                 help += self.d['less blue'] + ". "
             else:
-                #help += " blue is ok."
                 help += self.d['blue is ok'] + ". "
             self.say(help)
             if self.points > 0:

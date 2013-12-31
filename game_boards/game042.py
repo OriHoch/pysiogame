@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,8 +16,6 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-
         white = ((255,255,255))
         if self.level.lvl == 1:
             choice = [x for x in range(0,20)]
@@ -124,12 +123,11 @@ class Board(gd.BoardGame):
         #new point = size * orig_point / 200
         self.scaled_lines = [[int(size * each[0] / 200.0), int(size * each[1] / 200.0)] for each in lines]
         for i in range(5):
-            #h = random.randrange(0, 255)
-            color1 = self.hue_choice[self.chosen[i]] #ex.hsv_to_rgb(h,s,v)
-            color2 = self.hue_choice2[self.chosen[i]] #ex.hsv_to_rgb(h,255,255)
+            color1 = self.hue_choice[self.chosen[i]]
+            color2 = self.hue_choice2[self.chosen[i]]
             canvas = pygame.Surface([size, size-1])
             canvas.fill(self.board.units[i].initcolor)
-            self.draw_splash(canvas,size,color1,color2)#data[7](data, canvas, i)
+            self.draw_splash(canvas,size,color1,color2)
             self.board.units[i].painting = canvas.copy()
             
     def draw_splash(self,canvas,size,color,outline_color):
@@ -151,12 +149,7 @@ class Board(gd.BoardGame):
         if active_ship.grid_y == 0 and self.color_pos_offset <= active_ship.grid_x < 5 + self.color_pos_offset:
             active_ship.initcolor = self.hue_choice[self.chosen[active_ship.grid_x-self.color_pos_offset]]
             active_ship.color = active_ship.initcolor
-            #background 'door'
-            #bgd = self.hue_choice[self.chosen[active_ship.grid_x]]
-            #if bgd in [[2,2,2],[0,0,132],[132,0,132],[74,0,132]]:
-            active_ship.font_color = self.font_color[self.chosen[active_ship.grid_x-self.color_pos_offset]] #(255,85,85,0)
-            #else:
-            #    active_ship.font_color = (0,0,0,0)
+            active_ship.font_color = self.font_color[self.chosen[active_ship.grid_x-self.color_pos_offset]]
         else:
             active_ship.initcolor = [255,255,255]
             active_ship.color = active_ship.initcolor

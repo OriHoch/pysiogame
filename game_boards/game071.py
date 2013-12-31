@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -6,32 +7,24 @@ import classes.extras as ex
 import classes.board
 import random
 import pygame
-#import colorsys
-
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,7)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
         
-        
     def create_game_objects(self, level = 1):        
         self.board.draw_grid = False
 
-        color = (234,218,225) #ex.hsv_to_rgb(225,15,235)
+        color = (234,218,225)
         self.color = color
-        #font_color = ex.hsv_to_rgb(227,255,50)
-        #font_color = (85,0,212)
         font_color = (50,0,150)
         self.grey = (200,200,200)
         self.greyoutline = (190,190,190)
         self.grey2 = (150,150,150)
         self.font_hl = (100,0,250)
         self.font_hl2 = (250,0,200)
-        
-        
         self.task_str_color = ex.hsv_to_rgb(200,200,230)
-        #font_result = ex.hsv_to_rgb(225,70,230)
         self.activated_col = self.font_hl
         ver_color = (63,45,247)
         white = (255,255,255)
@@ -315,4 +308,4 @@ class Board(gd.BoardGame):
         else:
             if self.points > 0:
                 self.points -= 1
-            self.level.try_again() 
+            self.level.try_again()

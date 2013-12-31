@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -6,23 +7,17 @@ import classes.extras as ex
 import classes.board
 import random
 import os
-#import colorsys
-
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,5)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,40,30)
         
-        
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
 
         color = (234,218,225) #ex.hsv_to_rgb(225,15,235)
         self.color = color
-        #font_color = ex.hsv_to_rgb(227,255,50)
-        #font_color = (85,0,212)
-        #ver_color = (63,45,247)
         border_color = (105,12,100)
         letter_bg = (255,230,255)
         white = (255,255,255)
@@ -47,15 +42,6 @@ class Board(gd.BoardGame):
         img_size = 4
         img_left = (base_len - img_size)//2 + 1
         img_top = 2
-        
-        """
-        a = os.listdir(os.path.join('res','images','art4apps','actions'))
-        #print(a)
-        b = ['_("'+each[:-4]+'")' for each in a]
-        print(b)
-        b = [each[:-4] for each in a]
-        print(b)
-        """
         if self.mainloop.m.game_variant == 0:
             category = "animals"
             self.words = ['cow', 'turkey', 'shrimp', 'wolf', 'panther', 'panda', 'magpie', 'clam', 'pony', 'mouse', 'pug', 'koala', 'frog', 'ladybug', 'gorilla', 'llama', 'vulture', 'hamster', 'bird', 'starfish', 'crow', 'parakeet', 'caterpillar', 'tiger', 'hummingbird', 'piranha', 'pig', 'scorpion', 'fox', 'leopard', 'iguana', 'dolphin', 'bat', 'chick', 'crab', 'hen', 'wasp', 'chameleon', 'whale', 'hedgehog', 'fawn', 'moose', 'bee', 'viper', 'shrike', 'donkey', 'guinea_pig', 'sloth', 'horse', 'penguin', 'otter', 'bear', 'zebra', 'ostrich', 'camel', 'antelope', 'lemur', 'pigeon', 'lama', 'mole', 'ray', 'ram', 'skunk', 'jellyfish', 'sheep', 'shark', 'kitten', 'deer', 'snail', 'flamingo', 'rabbit', 'oyster', 'beaver', 'sparrow', 'dove', 'eagle', 'beetle', 'hippopotamus', 'owl', 'cobra', 'salamander', 'goose', 'kangaroo', 'dragonfly', 'toad', 'pelican', 'squid', 'lion_cub', 'jaguar', 'duck', 'lizard', 'rhinoceros', 'hyena', 'ox', 'peacock', 'parrot', 'elk', 'alligator', 'ant', 'goat', 'baby_rabbit', 'lion', 'squirrel', 'opossum', 'chimp', 'doe', 'gopher', 'elephant', 'giraffe', 'spider', 'puppy', 'jay', 'seal', 'rooster', 'turtle', 'bull', 'cat', 'lamb', 'rat', 'slug', 'buffalo', 'blackbird', 'swan', 'lobster', 'dog', 'mosquito', 'snake', 'chicken', 'anteater']
@@ -140,9 +126,7 @@ class Board(gd.BoardGame):
         self.board.units[-1].image.set_colorkey(None)
         
         self.board.add_unit(img_left,img_top,img_size,img_size,classes.board.ImgShip,self.word,color,os.path.join('art4apps', category,img_src))
-        #self.board.ships[-1].set_outline(color = [200,0,0], width = 1)
         self.board.ships[-1].immobilize()
-        #word_len = 26#len(self.word)
 
         shuffled = []
         choice_list = self.word[:]
@@ -168,7 +152,6 @@ class Board(gd.BoardGame):
         y2 = img_size + img_top + 5
         
         j = 0
-        #print(lowered)
         for i in range(len(self.word)):
             picked = False
             if lowered_ind[i] == 1: 
@@ -188,16 +171,13 @@ class Board(gd.BoardGame):
                 self.board.units[-1].door_outline = True
                 self.board.units[-1].perm_outline_color = border_color
                 self.board.units[-1].perm_outline_width = 1
-                #self.board.units[-1].set_outline(color = border_color, width = 1)
                 self.board.ships[-1].highlight = False
                 self.board.ships[-1].outline_highlight = True
                 self.board.ships[-1].set_outline(color = border_color, width = 1)
                 self.board.ships[-1].font_color = font_color
-                #print("lowered - %s" % caption)
                 j += 1         
             else:
                 caption = self.word[i]
-                #print("word - %s" % caption)
                 self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",0)
                 self.board.ships[-1].draggable = False
                 self.board.ships[-1].highlight = False
@@ -205,13 +185,9 @@ class Board(gd.BoardGame):
                 self.board.ships[-1].set_outline(color = border_color, width = 2)
                 self.board.ships[-1].font_color = font_color
             x += 1
-            #if x >= data[0]:
-            #    x = 0
-            #    y += 1
         for i in range(3, 3+n_letters):
             self.board.all_sprites_list.move_to_front(self.board.units[i])
-                
-        footer_caption = self.lang.d["art4apps"]# = "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+        footer_caption = self.lang.d["art4apps"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Label,footer_caption,white,"",27)
         self.board.units[-1].font_color = footer_font
     
@@ -232,7 +208,6 @@ class Board(gd.BoardGame):
                     result[self.board.ships[i].grid_x] = self.board.ships[i].value
             re = "".join(result)
             re = re.strip()
-            #print("%s == %s?" % (self.word, re))
             if self.word == re:
                 self.update_score(self.points)
                 self.level.next_board()

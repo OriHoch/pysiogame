@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -15,9 +16,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         self.max_size = 99
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.board.draw_grid = False
         self.active_tool = 0
         self.brush_size = 5
@@ -47,11 +46,6 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        """
-        self.slider_min = self.mainloop.size[0] - 8 * self.layout.scale
-        self.slider_max = self.mainloop.size[0] - 2
-        """
-        
         self.slider_min = self.mainloop.size[0] - self.layout.game_margin - 8 * self.layout.scale
         self.slider_max = self.mainloop.size[0] - self.layout.game_margin - 2
         
@@ -61,20 +55,13 @@ class Board(gd.BoardGame):
         self.canvas_block.set_outline([0,54,229],1)
         #tools        
         images = ["paint_pencil.png","paint_brush.png","paint_wide_brush.png","paint_line.png","paint_rect.png","paint_circle.png","paint_eraser.png","paint_bucket.png"]
-        #captions = ["pencil","brush","brush","rectangle","circle","eraser","fill"]
         j = 7
         for i in range(8):
             self.board.add_unit(j,0,3,3,classes.board.ImgShip,"",color,images[i])
             j += 3
 
-        #brush size
-        #self.board.add_unit(data[0]-6,1,1,2,classes.board.Letter,"-",color,"",1)
-        #self.board.add_unit(data[0]-5,1,2,2,classes.board.Label,"5",color,"",0)
-        #self.board.add_unit(data[0]-3,1,1,2,classes.board.Letter,"+",color,"",1)
-        
         self.board.add_unit(data[0]-8,1,8,2,classes.board.Letter,"",color,"",0)
         self.size_slider = self.board.ships[-1]
-        #self.board.add_unit(data[0]-2,1,2,2,classes.board.Letter,"+",color,"",0)
         
         self.board.add_unit(data[0]-8,0,8,1,classes.board.Label,self.d["brush size"] + ": " +  str(self.brush_size),color,"",0)
         
@@ -111,7 +98,6 @@ class Board(gd.BoardGame):
             for i in range(data[0]):
                 color2 = ex.hsv_to_rgb(h,s,v)
                 self.board.add_unit(i,j,1,1,classes.board.Letter,"",color2,"",2)
-                #self.board.ships[-1].highlight = False
                 if h < 255:
                     if v <= (255-v_num):
                         v += v_num
@@ -168,10 +154,8 @@ class Board(gd.BoardGame):
         self.slider_canvas = pygame.Surface([self.size_slider.grid_w*self.board.scale, self.size_slider.grid_h*self.board.scale-1])
         self.slider_bg_lines = [[0,self.board.scale],[8*self.board.scale,2],[8*self.board.scale,2*self.board.scale-4]]
         self.draw_slider(self.brush_size)
-        #self.outline_all(1,1)
     
     def draw_slider(self, size):
-        #midpoint = ((self.size_slider.grid_w * self.board.scale)*size) / 100
         x = (((self.size_slider.grid_w * self.board.scale)-10)*size) / 100
         slider_rect = [x,0,10,2*self.board.scale]
         self.slider_canvas.fill(self.size_slider.initcolor)
@@ -204,12 +188,6 @@ class Board(gd.BoardGame):
                     self.tool_door.set_pos(self.board.active_ship_pos)
                 elif active == 9:
                     self.change_size(pos, 0)
-                #elif active == 10:
-                #    self.size_up()
-                #elif active == 11:
-                #    self.size_down(5)
-                #elif active == 12:
-                #    self.size_up(5)
                 elif active == 10:
                     self.undo()
                 elif active == 11:
@@ -228,7 +206,7 @@ class Board(gd.BoardGame):
                 self.p_prev = self.p_current
                 self.p_current = canvas_pos
                 self.paint_function[self.active_tool](1)
-            elif active == 9 and self.sizing == True and column >= self.data[0]-8 and row < 3:
+            elif active == 9 and self.sizing == True and row < 3:#column >= self.data[0]-8 and :
                 self.change_size(pos, 1)
             elif active == 9:
                 self.sizing = False
@@ -246,7 +224,7 @@ class Board(gd.BoardGame):
                 self.p_last = canvas_pos
                 self.paint_function[self.active_tool](2)
                 self.update_history()
-            elif active == 9 and self.sizing == True and column >= self.data[0]-8 and row < 3:
+            elif active == 9 and self.sizing == True and row < 3:#column >= self.data[0]-8 and :
                 self.change_size(pos, 2)
             else:
                 if self.btn_down:
@@ -274,9 +252,7 @@ class Board(gd.BoardGame):
         
     def apply_size(self, pos):
         size = int(((pos[0] - self.slider_min) * 100.0 ) / (self.slider_max - self.slider_min))
-        #size = int(((pos[0] - self.slider_min) * 100.0 ) / (self.slider_max - self.slider_min))
         self.brush_size = size
-        #self.size_slider.value = str(self.brush_size)
         self.size_display.value = self.d["brush size"] + ": " + str(self.brush_size)
         self.draw_slider(size)
     
@@ -321,19 +297,6 @@ class Board(gd.BoardGame):
             elif state == 2:
                 self.var_brush = 1
                 
-    def paint_brush2_old(self,state):
-        if self.brush_size > 0:
-            if state == 0:
-                self.backup_canvas()
-            elif state == 1:
-                if self.brush_size > 5:
-                    step = 3
-                else:
-                    step = 1
-                for i in range(-(self.brush_size//2),self.brush_size//2,step):                
-                    pygame.draw.line(self.canvas, self.active_color, [self.p_prev[0]-i,self.p_prev[1]], [self.p_current[0]-i,self.p_current[1]],5)
-                self.copy_to_screen() 
-               
     def paint_brush2(self,state):
         if self.brush_size > 0:
             if state == 0:
@@ -485,7 +448,6 @@ class Board(gd.BoardGame):
                     border_width = 0
             else:
                 border_width = 0
-            #rectangle = [self.p_first[0], self.p_first[1], self.p_last[0]-self.p_first[0],self.p_last[1]-self.p_first[1]]
             self.screen_restore()
             pygame.draw.ellipse(self.canvas, self.active_color, rectangle, border_width)
             if border_width > 4:
@@ -507,8 +469,7 @@ class Board(gd.BoardGame):
                 pygame.draw.line(self.canvas, self.bg_color, self.p_prev, self.p_current,self.brush_size)
                 pygame.draw.circle(self.canvas, self.bg_color, self.p_current, self.brush_size//2,0)
                 self.copy_to_screen()
-  
-
+                
     def paint_bucket(self,state):
         if state == 0:
             self.backup_canvas()
@@ -529,17 +490,14 @@ class Board(gd.BoardGame):
         self.var_brush = 1
         
     def undo(self):
-        #print("undo")
         hist_len = len(self.history)
         if self.undo_step < hist_len-1:
             self.undo_step += 1
             self.canvas = self.history[-self.undo_step-1].copy()
             self.copy_to_screen()
             
-        
     def redo(self):
         if self.undo_step > 0:
-            #hist_len = len(self.history)
             self.undo_step -= 1
             self.canvas = self.history[-self.undo_step-1].copy()
             self.copy_to_screen()

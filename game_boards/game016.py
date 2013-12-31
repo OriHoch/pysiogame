@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -37,7 +38,6 @@ class Key(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x,self.y]
         
-        #self.image.fill(self.color)
         self.draw_key()
         
     def draw_key(self):
@@ -47,13 +47,11 @@ class Key(pygame.sprite.Sprite):
         else:
             self.image.fill((255,255,255))
             rect = [1,1,self.w-2, self.h-2]
-            #rect2 = [0,0,self.w, self.h]
             pygame.draw.ellipse(self.image, self.color, rect, 0)
             pygame.draw.ellipse(self.image, self.outline_color, rect, 1)
             self.image.set_colorkey((255,255,255))
         
     def update(self):
-        #self.image.fill(self.color)
         self.draw_key()
         if sys.version_info < (3, 0):
             val = []
@@ -72,9 +70,8 @@ class Key(pygame.sprite.Sprite):
                 if self.id < 64:
                     if i == 3:
                         text = self.font_1.render("%s" % (val[i]), 1, ((0,0,0)))
-                        font_x = 4 #((self.w - self.font_1.size(val[i])[0])//2)
-                        font_y = 0 #((self.h - self.font_1.size(val[i])[1])//2)
-                        #self.image.blit(text, (font_x,font_y))
+                        font_x = 4 
+                        font_y = 0
                     elif i < 3:
                         text = self.font_2.render("%s" % (val[i]), 1, ((0,0,0)))
                         if i == 0:
@@ -132,7 +129,6 @@ class KeyBoard:
         self.kbrd_w = kbrd_w
         self.kbrd_h = kbrd_h
         self.points = self.game_board.board.points
-        #self.highlighted = [button,shift,button_on_hand,shift_on_hand,AltGr,AltGr_on_hand]
         self.highlighted = [-1,-1,-1,-1,-1,-1]
         self.keys = []
         self.keys_list = pygame.sprite.RenderPlain()
@@ -237,13 +233,10 @@ class KeyBoard:
         self.keys_list.add(new_key)
         
     def add_keys(self):
-        #colors = [[249,91,91],[249,210,91],[169,249,91],[91,249,132],[91,249,249],[91,113,249],[188,91,249],[249,91,147],[249,219,180],[186,186,186]]
         colors = [[255,150,150],[255,229,150],[202,255,150],[150,255,185],[150,255,255], [150,165,255],[214,150,255],[255,150,187],[249,219,180],[186,186,186]]
         highlight_colors = [[255,0,0], [255,192,0], [127,255,0], [0,255,67], [0,255,255], [0,37,255], [156,0,255], [255,0,85], [255,157,29],[206,206,206]]
         keys = self.game_board.lang.kbrd.kbrd_keys
-        #print(len(keys))
         for each in keys:
-            #self.add_key(x, y, w, h, top_left, bottom_left, middle, letter, init_color, highlight_color)
             self.add_key(each, colors[each[10]], highlight_colors[each[10]])
         self.kbrd_h = self.keys[61].y + self.keys[61].h
         
@@ -319,7 +312,6 @@ class Board(gd.BoardGame):
             self.chapters = [1,3,5,7,10,12,14,16,18,20,23,26,29,32]
         elif self.lang.lang == "ru":
             self.chapters = [1,3,5,7,10,13,15,18,20,22,24,26,28]
-        #self.points = (self.level.lvl+3) // 4
         self.t_string = self.course[self.level.lvl-1][1]
         self.t_multi  = self.course[self.level.lvl-1][0]
        

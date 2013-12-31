@@ -79,10 +79,8 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
 
-
         self.completed_mode = False
 
-        #choice = [x for x in range(0,self.square_count//2)]
         shuffled = choice[:]
         random.shuffle(shuffled)
         self.chosen = shuffled[0:self.square_count//2]
@@ -239,6 +237,5 @@ class Board(gd.BoardGame):
                 self.ai_enabled = False
                 self.disp_counter = 0
 
-        
     def check_result(self):
         pass

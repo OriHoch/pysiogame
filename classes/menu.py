@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import with_statement
 import pygame
 import classes.game_driver as gd
@@ -8,14 +9,12 @@ import pickle
 import copy
 import os, sys
 import pygame.mixer
-if sys.version_info < (2, 6):
-    pass
+
 sounds = pygame.mixer
 sounds.init()
 
 sound_7 = '140508__blackstalian__click-sfx2.ogg'
 sound_9 = '140509__blackstalian__click-sfx1.ogg'
-
 
 s3 = sounds.Sound(os.path.join('res', 'sounds', sound_7))
 s4 = sounds.Sound(os.path.join('res', 'sounds', sound_9))
@@ -58,8 +57,6 @@ class MenuCategory(pygame.sprite.Sprite):
                 self.img = self.img_org
             except:
                 pass
-
-        #self.image.set_colorkey(self.color)
         
         # Make our top-left corner the passed-in location. The +1 is the margin
         self.rect = self.image.get_rect()
@@ -231,75 +228,23 @@ class Menu:
     def load_levels(self):
         if self.mainloop.config.save_levels:
             temp = dict()
-            #try:
-            """
-            file_name = self.mainloop.config.file_level
-            with open(file_name,"rb") as level_file:
-                temp = pickle.load(level_file)
-            #checking if there are any games that have not been saved in the pickle previously and adding them to the dictionary
-            """
             temp = self.mainloop.db.load_all_cursors(self.mainloop.userid)
             for key in self.saved_levels.keys():
                 if key not in temp.keys():
                     temp[key] = self.saved_levels[key]
-                """
-                for innerkey in self.saved_levels[key].keys():
-                    if innerkey not in temp[key].keys():
-                        temp[key][innerkey] = self.saved_levels[key][innerkey]
-                """
-                    
             self.saved_levels = temp
-            #except:
-            #    pass #print("Error loading level data")
-    """
-    def load_levels(self):
-        if self.mainloop.config.save_levels:
-            temp = dict()
-            try:
-                file_name = self.mainloop.config.file_level
-                with open(file_name,"rb") as level_file:
-                    temp = pickle.load(level_file)
-                #checking if there are any games that have not been saved in the pickle previously and adding them to the dictionary
-
-                for key in self.saved_levels.keys():
-                    if key not in temp.keys():
-                        temp[key] = self.saved_levels[key]
-                    " ""
-                    for innerkey in self.saved_levels[key].keys():
-                        if innerkey not in temp[key].keys():
-                            temp[key][innerkey] = self.saved_levels[key][innerkey]
-                    " ""
-                        
-                self.saved_levels = temp
-            except:
-                pass #print("Error loading level data")
-    """
 
     def save_levels(self):
         pass
-        """        
-        if self.mainloop.config.save_levels:
-            try:
-                file_name = self.mainloop.config.file_level
-                self.commit_save(file_name)
-            except:
-                print('Sorry could not save levels...')
-        """
                 
     def commit_save(self, file_name):
         pass
-        """
-        with open(file_name,"wb") as level_file:
-            pickle.dump(self.saved_levels, level_file)
-        """
             
     def create_lists(self):
         self.categories = []
         self.games = []
         self.games_current = []
         self.bookmarks = []
-        #self.scroll_btns = []
-        
         self.saved_levels = dict()
         
     def create_menu(self):
@@ -309,11 +254,7 @@ class Menu:
         self.categories_list.add(self.bookmarks[0])
         self.categories_list.move_to_back(self.bookmarks[0])
         self.add_bookmark("","tab_r.png")
-        #self.add_scroll_btns()
         self.update_scroll_pos()
-        #self.categories_list.add(self.scroll_btns[0])
-        #self.categories_list.move_to_front(self.scroll_btns[0])
-        #reload level
         self.load_levels()
         
     def empty_menu(self):
@@ -359,12 +300,10 @@ class Menu:
                     
                     if pos[1] > self.mainloop.size[1]-30:# and self.scroll_l == 0:
                         self.scroll_direction = 1
-                    #elif self.l.misio_pos[3]-20 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_l < 0:
                     elif 0 < pos[1] < self.l.misio_pos[3]+5:# and self.scroll_l < 0:
                         self.scroll_direction = -1
                     else:
                         self.scroll_direction = 0
-                    
                 else:
                     self.reset_titles()
                     
@@ -387,7 +326,6 @@ class Menu:
                     if self.y_margin+self.l.misio_pos[3] < pos[1] < self.cat_h+self.l.misio_pos[3]+self.scroll_l:
                         row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_l) // (self.cat_icon_size + self.y_margin)
                         self.lswipe_mouse_dn = row
-                        
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.mainloop.sb.update_me = True
                 pos = event.pos
@@ -440,8 +378,6 @@ class Menu:
                         self.scroll_direction = -1
                     else:
                         self.scroll_direction = 0
-                    
-                        
                 else:
                     self.reset_titles()
                     
@@ -458,7 +394,6 @@ class Menu:
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.mainloop.sb.update_me = True
                 pos = event.pos
-                
                 if (mlw + self.x_margin) < pos[0] < (mlw + self.icon_size + self.x_margin):
                     if self.y_margin+self.l.misio_pos[3] < pos[1] < self.game_h+self.l.misio_pos[3]:
                         row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_r) // (self.icon_size + self.y_margin)
@@ -467,10 +402,8 @@ class Menu:
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.mainloop.sb.update_me = True
                 pos = event.pos
-                
                 if (mlw + self.x_margin) < pos[0] < (mlw + self.icon_size + self.x_margin):
                     if self.y_margin+self.l.misio_pos[3] < pos[1] < self.game_h+self.l.misio_pos[3]:
-                        
                         row = (pos[1]-3-self.l.misio_pos[3]-self.scroll_r) // (self.icon_size + self.y_margin)
                         self.rswipe_mouse_up = row
                         if self.rswipe_mouse_dn == self.rswipe_mouse_up and not self.rswiped:
@@ -479,9 +412,6 @@ class Menu:
                             self.tab_game_id = row
                             self.game_constructor = self.games_current[row].game_constructor
                             self.game_variant = self.games_current[row].variant
-                            #self.mainloop.info.title_space = self.mainloop.info.width - 10
-                            #switch active speaker and replace some strings temporarily
-                            
                             if self.mainloop.config.settings["sounds"]:
                                 s4.play()
                                 
@@ -558,14 +488,6 @@ class Menu:
             
     def update_scroll_pos(self):
         pass
-        """
-        pos = [[9+self.x_margin,self.mainloop.size[1]-13],[9+self.x_margin,self.mainloop.size[1]-13]]
-        
-        i=0        
-        for each_item in self.scroll_btns:
-            each_item.rect.topleft = pos[i]
-            i+=1
-        """
         
     def add_category(self,title,subtitle,img_src):
         new_category = MenuCategory(len(self.categories),title,subtitle,self.cat_icon_size,img_src)
@@ -595,32 +517,16 @@ class Menu:
     def add_game(self,dbgameid,cat_id,constructor,title,subtitle,img_src,variant=0):
         new_game = MenuItem(dbgameid,len(self.games),cat_id,title,subtitle,constructor,self.icon_size,img_src,variant)
         self.games.append(new_game)
-        #if dbgameid not in self.saved_levels:
-        #    self.saved_levels[dbgameid] = dict()
         self.saved_levels[dbgameid] = 1
         
-        #self.saved_levels[constructor] = 1
-        """
-        if constructor not in self.saved_levels:
-            self.saved_levels[constructor] = dict()
-        self.saved_levels[constructor][str(variant)] = 1
-        """
-
     def add_games(self):
         'creates all menu buttons'
-        #last id = 118
         c_id = 0
         self.add_game(0,c_id,game000.Board,self.lang.d["About."],self.lang.d["Game info..."],"ico_g_0000.png")
         self.add_game(1,c_id,game001.Board,self.lang.d["Credits"],"","ico_g_0001.png")
         self.add_game(2,c_id,game002.Board,self.lang.d["Credits"],self.lang.d["Translators"],"ico_g_0001.png")
         self.add_game(3,c_id,game003.Board,self.lang.d["Translations"],"","ico_g_0003.png")
         
-        #self.add_game(c_id,game067.Board,"Font Test","","ico_g_0000.png")
-        
-        #self.add_game(c_id,game056.Board,self.lang.d["Preferences"],"game056","ico_g_0000.png")
-        #self.add_game(c_id,game058.Board,self.lang.d["TicTacToe"]+" 3",self.lang.d["multiline-tictactoe"],"ico_g_0808.png")
-        #self.add_game(c_id,game060.Board,self.lang.d["Preferences"],"game060","ico_g_0000.png")
-
         c_id += 1
         if self.mainloop.lang.lang[0:2] == "en":
             self.add_game(4,c_id,game037.Board,self.lang.d["English Alphabet"],self.lang.d["Letter Flashcards"],"ico_g_0100.png")
@@ -649,10 +555,6 @@ class Menu:
             if self.mainloop.lang.lang == 'el':
                 self.add_game(15,c_id,game077.Board,self.lang.d["Keyboard Skills"] + " - Ελληνικά",self.lang.d["Touch Typing"],"ico_g_0107.png")
 
-                
-        #self.add_game(c_id,game006.Board,self.lang.d["Sorting Letters"],self.lang.d["Lowercase Letters"],"ico_g_0000.png")
-        #self.add_game(c_id,game007.Board,self.lang.d["Sorting Letters"]+" ",self.lang.d["Uppercase Letters"],"ico_g_0000.png")
-        
         if  self.mainloop.lang.lang[0:2] != "he":
             c_id += 1
             self.add_game(17,c_id,game013.Board,self.lang.d["Word Builder"],"","ico_g_0200.png")
@@ -671,8 +573,7 @@ class Menu:
                 self.add_game(116,c_id,game082.Board,self.lang.d["Word Builder - Fruits and Vegetables"],self.lang.d["Complete the word"],"ico_g_0213.png",variant=9)
                 self.add_game(117,c_id,game082.Board,self.lang.d["Word Builder - Transport"],self.lang.d["Complete the word"],"ico_g_0214.png",variant=10)
                 self.add_game(118,c_id,game082.Board,self.lang.d["Word Builder - Food"],self.lang.d["Complete the word"],"ico_g_0207.png",variant=11)
-                #self.add_game(106,c_id,game083.Board,"Title","sub-title","ico_g_9998.png")
-            
+                
         if self.mainloop.lang.lang[0:2] != "en":
             c_id += 1
             self.en_list = ["037","068","010","014","082"]

@@ -70,8 +70,6 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
-        #self.board.add_unit(self.center[0],self.center[1],1,1,classes.board.ImgShip,"",white,"owl_150.png")
         self.board.add_unit(self.center[0],self.center[1],1,1,classes.board.MultiImgSprite,"",white,"owl_5.png",0,frame_flow = [0,1,2,3,4,3,2,1,0],frame_count=9,row_data=[5,1])
         self.owl = self.board.ships[0]
         self.owl.outline = False
@@ -87,7 +85,6 @@ class Board(gd.BoardGame):
         self.board.all_sprites_list.move_to_front(self.board.ships[0])
         self.add_next_move()
 
-        
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.ship_id < 0 and event.type == pygame.MOUSEBUTTONDOWN:
@@ -101,19 +98,15 @@ class Board(gd.BoardGame):
                 self.direction = [0,0]
                 arrow_clicked = False
                 if column == self.owl_pos[0]-1 and row == self.owl_pos[1]:
-                    #print("left")
                     self.direction[0] = -1
                     arrow_clicked = True
                 elif column == self.owl_pos[0]+1 and row == self.owl_pos[1]:
-                    #print("right")
                     self.direction[0] = 1
                     arrow_clicked = True
                 elif column == self.owl_pos[0] and row == self.owl_pos[1]-1:
-                    #print("up")
                     self.direction[1] = -1
                     arrow_clicked = True
                 elif column == self.owl_pos[0] and row == self.owl_pos[1]+1:
-                    #print("down")
                     self.direction[1] = 1
                     arrow_clicked = True
                     
@@ -164,7 +157,6 @@ class Board(gd.BoardGame):
             self.game_over()
         self.move = False
         
-                
     def next_level(self):
         self.current_step = 0
         self.board._place_unit(0, self.center)

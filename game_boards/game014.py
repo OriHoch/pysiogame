@@ -66,44 +66,6 @@ class Board(gd.BoardGame):
         else:
             self.points = data[5] // 5 + (self.level.lvl+3) // 8
         
-        """
-        if self.level.lvl == 17:
-            data = [26,9,97,123,0,5,11]
-        elif self.level.lvl == 18:
-            data = [26,9,97,123,0,10,11]
-        elif self.level.lvl == 19:
-            data = [26,9,97,123,0,15,11]
-        elif self.level.lvl == 20:
-            data = [26,9,97,123,0,20,11]
-            
-        elif self.level.lvl == 21:
-            data = [26,9,97,123,1,5,11]
-        elif self.level.lvl == 22:
-            data = [26,9,97,123,1,10,11]
-        elif self.level.lvl == 23:
-            data = [26,9,97,123,1,15,11]
-        elif self.level.lvl == 24:
-            data = [26,9,97,123,1,20,11]
-            
-        elif self.level.lvl == 25:
-            data = [26,9,65,91,0,5,11]
-        elif self.level.lvl == 26:
-            data = [26,9,65,91,0,10,11]
-        elif self.level.lvl == 27:
-            data = [26,9,65,91,0,15,11]
-        elif self.level.lvl == 28:
-            data = [26,9,65,91,0,20,11]
-            
-        elif self.level.lvl == 29:
-            data = [26,9,65,91,1,5,11]
-        elif self.level.lvl == 30:
-            data = [26,9,65,91,1,10,11]
-        elif self.level.lvl == 31:
-            data = [26,9,65,91,1,15,11]
-        elif self.level.lvl == 32:
-            data = [26,9,65,91,1,20,11]   
-        """
-        #self.chapters = [1,5,9,13,17,21,25,29,32]
         self.chapters = [1,5,9,13,16]
         self.data = data
         self.layout.update_layout(data[0],data[1])
@@ -165,12 +127,6 @@ class Board(gd.BoardGame):
                 y += 1
         for each in self.board.units:
             self.board.all_sprites_list.move_to_front(each)
-        #instruction = self.d["Complete abc"]
-        #self.board.add_unit(0,data[1]-2,data[0],2,classes.board.Letter,instruction,color0,"",0)
-        #self.board.ships[-1].immobilize()
-        #self.board.ships[-1].font_color = font_color
-        #if self.lang.lang[0:2] != "en":
-        #    self.board.ships[-1].readable = False
         self.outline_all(0,1)     
                  
 

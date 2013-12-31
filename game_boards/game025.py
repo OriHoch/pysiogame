@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import game_boards.game023_lvls as gl
@@ -16,7 +17,6 @@ class Board(gd.BoardGame):
     def create_game_objects(self, level = 1):
         self.vis_buttons = [0,1,1,1,1,1,1,0,1]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        #create non-movable objects
         self.change_count = 0
         self.ai_enabled = True
         s = random.randrange(150, 205, 5)
@@ -42,7 +42,6 @@ class Board(gd.BoardGame):
         self.points = data[4]
             
         self.data = data
-        #self.word_set = self.lang.di[data[4]][1:]
         self.board.level_start(data[0],data[1],self.layout.scale)
         self.solution = [data[0]-2,data[1]-2]
         
@@ -140,7 +139,6 @@ class Board(gd.BoardGame):
         self.board.active_ship = 0
         self.ship_id = 0
         self.units_len = len(self.board.units)
-        #self.say(self.s_word,2)
         
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up

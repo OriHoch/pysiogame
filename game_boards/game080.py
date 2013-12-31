@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -12,14 +13,12 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,1,16)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,18,9)
         
-        
     def create_game_objects(self, level = 1):
         self.vis_buttons = [0,1,1,1,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
 
         white = (255,255,255)
 
-        #data = [18,9]
         numbero = 5
         if self.level.lvl == 1:
             numbero = 6
@@ -101,7 +100,6 @@ class Board(gd.BoardGame):
             num1 = int(choice[0:2])
             num2 = int(choice[2:])
             self.solution = [num1,num2,num1-1 + num2-1]
-            #unique = set()
             for i in range(1,self.data[0]+1,2):
                 for j in range(1,self.data[1]+1):
                     unit_id = self.board.get_unit_id(i-1,j-1)
@@ -115,10 +113,9 @@ class Board(gd.BoardGame):
                         color=color2
                         self.board.units[unit_id].font_color = color2
                     else:
-                        color = color2#!
+                        color = color2
                         self.board.units[unit_id].font_color = color1
                     mul = ((i+1)//2)+j
-                    #unique.add(mul)
                     if i == 1 or j == 1:
                         caption = str(mul)
                         if (i+1)//2 == num1 or j == num2:
@@ -127,7 +124,6 @@ class Board(gd.BoardGame):
                             self.board.units[unit_id].font_color = color1
                     else:
                         caption = ""
-                        #self.board.units[unit_id].font_color = color3
                     
                     self.board.units[unit_id].color = color
                     self.board.units[unit_id].update_me = True
@@ -166,7 +162,6 @@ class Board(gd.BoardGame):
 
     def check_result(self):
         if self.changed_since_check:
-            #print("val = %d, sol = %d" % (int(self.home_square.value), self.solution[2]))
             if self.home_square.value != "" and (int(self.home_square.value) == self.solution[2]):
                 self.update_score(self.points)
                 self.quick_passed()
@@ -181,7 +176,6 @@ class Board(gd.BoardGame):
     def passed(self):
         self.level.next_board(tts)
         
-    
     def quick_passed(self):
         self.level.game_step += 1
         self.next_number()

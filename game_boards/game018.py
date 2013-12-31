@@ -115,7 +115,6 @@ class Board(gd.BoardGame):
         y = h1
         self.card_back = classes.board.ImgSurf(self.board,1,1,white,self.back_img_src)
         
-        
         for i in range(self.square_count):
             self.board.add_unit(x,y,1,1,classes.board.ImgShip,"",white,self.back_img_src)
             
@@ -169,7 +168,6 @@ class Board(gd.BoardGame):
                     self.counter.value = "%i/%i" % (self.found,self.clicks)
                     self.counter.update_me = True
 
-
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent
@@ -190,6 +188,5 @@ class Board(gd.BoardGame):
                 self.ai_enabled = False
                 self.disp_counter = 0
 
-        
     def check_result(self):
         pass

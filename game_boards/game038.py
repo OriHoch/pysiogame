@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
@@ -9,15 +10,12 @@ import random
 import colorsys
 import os
 
-
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         
-        
     def create_game_objects(self, level = 1):
-        #create non-movable objects
         self.board.draw_grid = False
         s = random.randrange(30, 80)
         v = random.randrange(200, 255)
@@ -65,11 +63,15 @@ class Board(gd.BoardGame):
         
         self.board.add_unit(x-2,y+5,2,2,classes.board.ImgShip,"1",frame_color,image_src[1])
         
-        #self.board.add_unit(x-2,y+3,2,2,classes.board.Label,"1",frame_color,"",13)
         #frame size 432 x 288
         self.board.add_unit(x,y+1,6,4,classes.board.MultiImgSprite,"1",frame_color,"flashcard_numbers.jpg",row_data=[5,4])
         self.board.add_unit(x,y+5,6,1,classes.board.Letter,self.word_list[0],frame_color,"",2)
-        self.board.ships[-1].speaker_val = "1"
+        if self.lang.ltr_text:
+            sv = "1"
+        else:
+            sv = self.lang.n2spk(1)
+            
+        self.board.ships[-1].speaker_val = sv
         self.board.ships[-1].speaker_val_update = False
         font_size = 15
         handwritten = self.word_list[0]
@@ -80,7 +82,7 @@ class Board(gd.BoardGame):
         self.board.add_unit(x,y+6,6,1,classes.board.Letter,handwritten,frame_color,"",font_size)
         if not self.lang.has_cursive:
             self.board.ships[-1].font_color = frame_color
-        self.board.ships[-1].speaker_val = "1"
+        self.board.ships[-1].speaker_val = sv
         self.board.ships[-1].speaker_val_update = False
         
         self.board.add_unit(x-2,y+1,2,4,classes.board.Letter,"1",frame_color,"",18)
@@ -114,23 +116,22 @@ class Board(gd.BoardGame):
                 self.mainloop.redraw_needed[0] = True
 
     def create_card(self, active):
+        if self.lang.ltr_text:
+            sv = active.value
+        else:
+            sv = self.lang.n2spk(int(active.value))
         self.board.ships[24].value = active.value
-        self.board.ships[24].speaker_val = active.value
+        self.board.ships[24].speaker_val = sv
         self.board.ships[24].speaker_val_update = False
-        #self.board.units[1].value = active.value
         self.board.ships[20].value = active.value
         self.board.ships[20].img = self.card_fronts[active.unit_id].img.copy()
         self.slide.value = active.value
         self.board.ships[22].value = self.word_list[active.unit_id]
-        self.board.ships[22].speaker_val = active.value
+        self.board.ships[22].speaker_val = sv
         self.board.ships[22].speaker_val_update = False
         self.board.ships[23].value = self.word_list[active.unit_id]
-        self.board.ships[23].speaker_val = active.value
+        self.board.ships[23].speaker_val = sv
         self.board.ships[23].speaker_val_update = False
-        #if self.lang.lang in self.safe_langs:
-        #self.board.ships[23].value = self.word_list[active.unit_id]
-        #else:
-        #    self.board.ships[23].value = ""
         self.mainloop.redraw_needed[0] = True
         self.slide.set_frame(active.unit_id)
         self.board.active_ship = -1
