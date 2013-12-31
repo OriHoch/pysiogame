@@ -15,8 +15,8 @@ from classes.extras import reverse
 d = dict()
 
 #alphabet he
-alphabet_lc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ך', 'ל', 'מ', 'ם', 'נ', 'ן', 'ס', 'ע', 'פ', 'ף', 'צ', 'ץ', 'ק', 'ר', 'ש', 'ת']
-alphabet_uc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ך', 'ל', 'מ', 'ם', 'נ', 'ן', 'ס', 'ע', 'פ', 'ף', 'צ', 'ץ', 'ק', 'ר', 'ש', 'ת']
+alphabet_lc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת']
+alphabet_uc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת']
 #correction of eSpeak pronounciation of single letters if needed
 alpha = "אבגדהוזחטיךכלםמןנסעףפץצקרשתװױײ׳״"
 
@@ -30,8 +30,8 @@ numbers2090 = ['עשרים','שלושים','ארבעים','חמישים','שיש
 #The following 2 lines are not to be translated but replaced with a sequence of words starting in each of the letters of your alphabet in order, best if these words have a corresponding picture in images/flashcard_images.jpg. The second line has the number of the image that the word describes. 
 #The images are numbered from left to bottom such that the top left is numbered 0, the last image is 73, if none of the available things have names that start with any of the letters we can add new pictures.
 #d['abc_flashcards_word_sequence'] = ['אבטיח', 'בננה', 'גיטרה', 'Dolphin', 'Elephant', 'Fortepiano', 'Guitar', 'Hedgehog', 'Igloo', 'Jar', 'Koala', 'Lion', 'Monitor', 'Notebook', 'Ocean', 'Parrot', 'Queen', 'Rabbit', 'Street', 'Tomato', 'Umbrella', 'Violin', 'Watermelon', 'Xylophone', 'Yarn', 'Zebra']
-d['abc_flashcards_word_sequence'] = [r("אבטיח"), r("בננה"), r("גיטרה"), r("דולפין"), r("היפופוטם"), r("ורד"), r("זברה"), r("חלזון"), r("טלפון"), r("ינשוף"), r("כינור"), r("מערוך"), r("לחם"), r("מסך"), r("מים"), r("נעליים"), r("שעון"), r("סירה"), r("עין"), r("פרח"), r("חוף"), r("צליל"), r("מיץ"), r("קוף"), r("רכבת"), r("שעון"), r("תפוח")]
-d['abc_flashcards_frame_sequence'] = [26, 71, 28, 59, 47, 78, 25, 61, 79, 14, 21, 80, 35, 40, 81, 60, 51, 1, 75, 69, 82, 83, 84, 37, 63, 51, 42]
+d['abc_flashcards_word_sequence'] = [r("אבטיח"), r("בננה"), r("גיטרה"), r("דולפין"), r("היפופוטם"), r("ורד"), r("זברה"), r("חלזון"), r("טלפון"), r("ינשוף"), r("כינור"), r("לחם"), r("מסך"), r("נעליים"), r("סירה"), r("עין"), r("פרח"), r("צליל"), r("קוף"), r("רכבת"), r("שעון"), r("תפוח")]
+d['abc_flashcards_frame_sequence'] = [26, 71, 28, 59, 47, 78, 25, 61, 79, 14, 21, 35, 40, 60, 1, 75, 69, 83, 37, 63, 51, 42]
 
 
 letter_names = []
