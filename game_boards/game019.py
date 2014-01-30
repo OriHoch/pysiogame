@@ -7,13 +7,12 @@ import classes.extras as ex
 import classes.board
 import random
 
-
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,11)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,7)
-        
-        
+
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
@@ -23,11 +22,11 @@ class Board(gd.BoardGame):
         color1 = ex.hsv_to_rgb(h,s,v)
         color2 = ex.hsv_to_rgb(h,150,v)
         color3 = ex.hsv_to_rgb(h,150,75)
-        
+
         #data = [0-x_count, 1-y_count, 2-bottom_range1, 3-top_range1, 4-bottom_range2, 5-top_range2, 6-operator, 7-font_size]
         if self.mainloop.m.game_variant == 0:
             self.points = self.level.lvl
-            self.level.lvl_count = 11   
+            self.level.lvl_count = 11
             if self.level.lvl == 1:#addition - ch0
                 data = [11,7,1,5,1,5,"+",2]
             elif self.level.lvl == 2:
@@ -75,7 +74,7 @@ class Board(gd.BoardGame):
                 data = [11,7,250,499,50,0,"-",4]
             elif self.level.lvl == 11:
                 data = [11,7,499,999,99,0,"-",4]
-        
+
         elif self.mainloop.m.game_variant == 2:
             self.points = self.level.lvl * 2
             self.level.lvl_count = 7
@@ -95,7 +94,7 @@ class Board(gd.BoardGame):
                 data = [11,7,2,15,2,15,"*",4]
             elif self.level.lvl == 7:
                 data = [11,7,2,20,2,20,"*",4]
-        
+
         elif self.mainloop.m.game_variant == 3:
             self.points = self.level.lvl * 2
             self.level.lvl_count = 7
@@ -125,7 +124,7 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
+
         self.num_list = []
         self.num_list2 = []
         self.solution = []
@@ -135,23 +134,23 @@ class Board(gd.BoardGame):
                 first_num = random.randrange(data[2],data[3]+1)
                 second_num = random.randrange(data[4],data[5]+1)
                 self.solution.append(first_num + second_num)
-                
+
             elif data[6]=="-":
                 first_num = random.randrange(data[2],data[3]+1)
                 second_num = random.randrange(data[4],first_num-1)
                 self.solution.append(first_num - second_num)
-                
+
             elif data[6]=="*":
                 first_num = random.randrange(data[2],data[3]+1)
                 second_num = random.randrange(data[4],data[5]+1)
                 self.solution.append(first_num * second_num)
-                
+
             elif data[6]=="/": #reversed multiplication - looking for the first factor
                 first = random.randrange(data[2],data[3]+1)
                 second_num = random.randrange(data[4],data[5]+1)
                 first_num = first * second_num
                 self.solution.append(first)
-            
+
             self.num_list.append(first_num)
             self.num_list2.append(second_num)
 
@@ -165,20 +164,20 @@ class Board(gd.BoardGame):
             operator = chr(247)
         else:
             operator = data[6]
-            
+
         x = (data[0]-5)//2
         y = 1
         for i in range(5):
-            caption = "%d %s %d" %  (self.num_list[i],operator,self.num_list2[i])
             self.board.add_unit(x,y,1,1,classes.board.Label,str(self.num_list[i]),color1,"",data[7])
             self.board.add_unit(x+1,y,1,1,classes.board.Label,operator,color1,"",data[7])
-            self.board.add_door(x+2,y,1,1,classes.board.Door,"",color1,"")            
+            self.board.add_door(x+2,y,1,1,classes.board.Door,"",color1,"")
             self.board.units[-1].door_outline = True
             self.board.add_unit(x+3,y,1,1,classes.board.Label,"=",color1,"",data[7])
             self.board.add_unit(x+4,y,1,1,classes.board.Label,str(self.solution[i]),color1,"",data[7])
 
             self.board.add_unit(x+6,y,1,1,classes.board.Letter,str(self.shuffled[i]),color2,"",data[7])
             self.board.ships[-1].audible = False
+            self.board.ships[-1].readable = False
             y += 1
         self.outline_all(1,1)
         for i in range(2,25,5):
@@ -187,7 +186,7 @@ class Board(gd.BoardGame):
             each.font_color = color3
         for each in self.board.ships:
             each.font_color = color3
-        
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 
@@ -214,4 +213,3 @@ class Board(gd.BoardGame):
             if self.points > 0:
                 self.points -= 1
             self.level.try_again()
-            

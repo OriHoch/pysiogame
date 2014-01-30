@@ -14,21 +14,25 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,99,6)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,9,6)
-        
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         self.board.draw_grid = True
-        
-        s = random.randrange(100, 150, 5)
-        v = random.randrange(230, 255, 5)
-        h = random.randrange(0, 255, 5)
-        color = ((255,255,255))
-        white = ((255,255,255))
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
-        self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
-        bg_color = ex.hsv_to_rgb(h,40,255)
+        if self.mainloop.scheme is None:
+            s = random.randrange(100, 150, 5)
+            v = random.randrange(230, 255, 5)
+            h = random.randrange(0, 255, 5)
+            self.bg_col = (255,255,255)
+            color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
+            self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
+            bg_color = ex.hsv_to_rgb(h,40,255)
+        else:
+            self.bg_col = self.mainloop.scheme.u_color
+            color1 = self.mainloop.scheme.u_font_color#(0,0,0)#ex.hsv_to_rgb(h,s,v) #highlight 2
+            self.color2 = self.mainloop.scheme.u_font_color3 #contours & borders
+            bg_color = self.bg_col
+
 
         if self.level.lvl == 1:
             data = [9,6,3,5,5,1]
@@ -44,7 +48,7 @@ class Board(gd.BoardGame):
             data = [9,6,3,11,5,10]
 
         self.points = self.level.lvl * 5
-        
+
         self.font_size = 7
         extra_w = 0
         if self.mainloop.m.game_variant == 0:
@@ -74,16 +78,16 @@ class Board(gd.BoardGame):
             instruction = self.d["Fract instr4"]
             instrp = self.dp["Fract instr4"]
             extra_w = 1
-        
+
         data[0] = data[0] + extra_w
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
+
         self.num_list = []
         self.num_list2 = []
-        
-        sign = "/"        
+
+        sign = "/"
         numbers = []
         #create list of available slots for mixed objects
 
@@ -116,16 +120,13 @@ class Board(gd.BoardGame):
                     disp = str(num1) + sign + str(num2)
                     self.num_list.append(expr)
                     self.num_list2.append(disp)
-        
-        
-        #create table to store the solution 
-        xd = (data[0]-data[2])//2
 
+        #create table to store the solution
         #add objects to the board
         size = self.board.scale
         center = [size//2,size//2]
         capt = copy.deepcopy(numbers)
-        
+
         for i in range(0,25):
             ew = 0
             xo = 0
@@ -134,7 +135,7 @@ class Board(gd.BoardGame):
                 if self.mainloop.m.game_variant >= 3:
                     ew = 1
             else:
-                xy = slots[i-5][0],slots[i-5][1]  
+                xy = slots[i-5][0],slots[i-5][1]
                 if self.mainloop.m.game_variant >= 3:
                     xo = 1
             f_index = i // 5
@@ -157,16 +158,16 @@ class Board(gd.BoardGame):
             elif drawing_f[f_index] == self.draw_decimals:
                 decimal = float(capt[i-f_index*5][0]) / float(capt[i-f_index*5][1])
                 disp = str(decimal)
-                
-            self.board.add_unit(xy[0]+xo,xy[1],1+ew,1,obj_classes[f_index],disp,white,"",self.font_size)
+
+            self.board.add_unit(xy[0]+xo,xy[1],1+ew,1,obj_classes[f_index],disp,self.bg_col,"",self.font_size)
             if ew == 1:
                 canvas = pygame.Surface([size*2, size-1])
             else:
                 canvas = pygame.Surface([size, size-1])
-            canvas.fill((255,255,255))
+            canvas.fill(self.bg_col)
             drawing_f[f_index](numbers[i-f_index*5],canvas,size,center,color1)#data[7](data, canvas, i)
-                       
-            if i < 5:            
+
+            if i < 5:
                 self.board.units[-1].hidden_value = numbers[i]
                 self.board.units[-1].font_color = self.color2
                 self.board.units[-1].painting = canvas.copy()
@@ -177,11 +178,11 @@ class Board(gd.BoardGame):
                 self.board.ships[-1].readable = False
         ind = len(self.board.units)
         for i in range(0,5):
-            self.board.add_door(0,i,5+xo,1,classes.board.Door,"",white,"")
-            self.board.units[ind + i].door_outline = True  
+            self.board.add_door(0,i,5+xo,1,classes.board.Door,"",self.bg_col,"")
+            self.board.units[ind + i].door_outline = True
             self.board.units[ind + i].perm_outline_color = self.color2
-            
-            self.board.all_sprites_list.move_to_front(self.board.units[ind + i])      
+
+            self.board.all_sprites_list.move_to_front(self.board.units[ind + i])
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,bg_color,"",9)
         self.board.ships[-1].set_outline(self.color2, 1)
         self.board.ships[-1].immobilize()
@@ -195,7 +196,6 @@ class Board(gd.BoardGame):
         angle_arc_start = -pi/2
         r = size//2 - 10
         angle = angle_start
-        angle_s = angle_arc_start
         angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
 
         i = 0
@@ -214,10 +214,10 @@ class Board(gd.BoardGame):
             # Calculate the x,y for the end point
             x=r*cos(angle)+center[0]
             y=r*sin(angle)+center[1]
-            
+
             # Draw the line from the center to the calculated end point
             pygame.draw.aaline(canvas,self.color2,[center[0],center[1]],[x,y])
-            
+
     def draw_polygons(self,numbers,canvas,size,center,color):
         half = False
         numbers = numbers[:]
@@ -226,30 +226,26 @@ class Board(gd.BoardGame):
             half = True
         angle_step = 2*pi/numbers[1]
         angle_start= -pi/2
-        angle_arc_start = -pi/2
         r = size//2 - 10
         angle = angle_start
-        angle_s = angle_arc_start
-        angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
 
         r = r-1
         x=r*cos(angle)+center[0]
         y=r*sin(angle)+center[1]
         prev = [center[0],center[1]]
-        
+
         lines = []
         multilines = []
         points = []
         points.append(prev)
-        
-            
+
         for i in range(numbers[1]+1):
             #angle for line
             angle = angle_start + angle_step*i
             # Calculate the x,y for the end point
             x=r*cos(angle)+center[0]
             y=r*sin(angle)+center[1]
-            
+
             # Draw the line from the center to the calculated end point
             if half == False or (half == True and i%2 == 0):
                 multilines.append([[center[0],center[1]],[x,y]])
@@ -259,22 +255,19 @@ class Board(gd.BoardGame):
                 points.append(prev)
         points.append(center)
         pygame.draw.polygon(canvas, color, points, 0)
-        
+
         lines.append([x,y])
         pygame.draw.aalines(canvas, self.color2, True, lines)
         for each in multilines:
             pygame.draw.aaline(canvas,self.color2,each[0],each[1])
-            
+
     def draw_rectangles(self,numbers,canvas,size,center,color):
-        lines = []
-        multilines = []
         points = []
-        
         step = (size - 10)//numbers[1]
         width = step * numbers[1]
         left = (size - width)//2
         rectangle = [[left,15],[size-left*2,size-30]]
-        
+
         if numbers[1] > 2:
             for i in range(numbers[1]):
                 points.extend([[left+step*i,15],[left+step*i,size-15],[left+step*(i+1),size-15],[left+step*(i+1),15]])
@@ -283,19 +276,15 @@ class Board(gd.BoardGame):
         #draw fraction
         fraction_rect = [[left,15],[step*numbers[0],size-30]]
         pygame.draw.rect(canvas, color, fraction_rect, 0)
-        #draw square with grid 
+        #draw square with grid
         pygame.draw.lines(canvas, self.color2, True, points)
         if numbers[1] == 2:
             pygame.draw.rect(canvas, self.color2, rectangle, 1)
-        
+
     def draw_minicircles(self,numbers,canvas,size,center,color):
         angle_step = 2*pi/numbers[1]
         angle_start= -pi/2
-        angle_arc_start = -pi/2
         r = size//3
-        angle = angle_start
-        angle_s = angle_arc_start
-        angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
         #manually draw the arc - the 100% width of the arc does not impress
 
         for i in range(numbers[1]):
@@ -313,11 +302,7 @@ class Board(gd.BoardGame):
     def draw_petals(self,numbers,canvas,size,center,color):
         angle_step = 2*pi/numbers[1]
         angle_start= -pi/2
-        angle_arc_start = -pi/2
         r = size//3+size//10
-        angle = angle_start
-        angle_s = angle_arc_start
-        angle_e = angle_arc_start + numbers[0]*2*pi/numbers[1]
 
         multilines = []
         for i in range(numbers[1]):
@@ -327,36 +312,35 @@ class Board(gd.BoardGame):
             # Calculate the x,y for the end point
             x=r*cos(angle)+center[0]
             y=r*sin(angle)+center[1]
-            
+
             x2=(r-size//10)*cos(angle-0.3)+center[0]
             y2=(r-size//10)*sin(angle-0.3)+center[1]
-            
+
             x3=(r-size//10)*cos(angle+0.3)+center[0]
             y3=(r-size//10)*sin(angle+0.3)+center[1]
-            
+
             points = [center,[x2,y2],[x,y],[x3,y3]]
-            
+
             if i < numbers[0]:
                 pygame.draw.polygon(canvas, color, points, 0)
             # Draw the line from the center to the calculated end point
             multilines.extend(points)
 
         pygame.draw.aalines(canvas, self.color2, True, multilines)
-            
-            
+
     def draw_fractions(self,numbers,canvas,size,center,color):
         lh = max(int(size * 0.04),2)
         pygame.draw.line(canvas,self.color2,[center[0]-size//7,center[1]-lh//2],[center[0]+size//7,center[1]-lh//2],lh)
-        
+
     def draw_ratios(self,numbers,canvas,size,center,color):
         pygame.draw.line(canvas,self.color2,[center[0],center[1]],[center[0]*3,center[1]],1)
-       
+
     def draw_decimals(self,numbers,canvas,size,center,color):
         pass
-        
+
     def draw_percents(self,numbers,canvas,size,center,color):
-        pass 
-            
+        pass
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 
@@ -366,7 +350,7 @@ class Board(gd.BoardGame):
 
     def check_result(self):
         correct = True
-        
+
         for i in range(len(self.board.ships)-1):
             ship = self.board.ships[i]
             if ship.hidden_value != self.board.units[ship.grid_y].hidden_value:
@@ -374,7 +358,7 @@ class Board(gd.BoardGame):
                 if self.points > 0:
                     self.points -= 1
                 self.level.try_again()
-                break;
+                break
         if correct:
             self.update_score(self.points)
             self.level.next_board()

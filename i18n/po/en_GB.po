@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-28 23:51+0100\n"
+"PO-Revision-Date: 2014-01-24 21:19+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "Language: English GB\n"
@@ -131,7 +131,7 @@ msgid "Cube"
 msgstr "Cube"
 
 msgid "Square Prism"
-msgstr "Square Prism"
+msgstr "Square Prism (Cuboid)"
 
 msgid "Triangular Prism"
 msgstr "Triangular Prism"
@@ -772,7 +772,7 @@ msgid "User Name"
 msgstr "User Name"
 
 msgid "Match Animals"
-msgstr "Соответствие животных"
+msgstr "Match Animals"
 
 msgid "Match Animals - Memory Game"
 msgstr "Match Animals - Memory Game"
@@ -1143,3 +1143,4 @@ msgstr "Complete the word"
 
 msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
 msgstr ""
+

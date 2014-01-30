@@ -174,6 +174,7 @@ class Board(gd.BoardGame):
             self.board.units[-1].door_outline = True
             self.board.add_unit(x+5,y,1,1,classes.board.Letter,str(self.shuffled[i]),color2,"",data[7])
             self.board.ships[-1].audible = False
+            self.board.ships[-1].readable = False
             self.outline_all(1,1)
             y += 1
         

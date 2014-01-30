@@ -657,7 +657,7 @@ class LoginScreen:
         normal_login = True
         al = self.mainloop.db.get_autologin()
         #print(al)
-        if al != None:
+        if al is not None:
             if al[1] and not self.mainloop.logged_out:
                 normal_login = False
                 self.fauto_login(al[0])
@@ -1005,7 +1005,7 @@ class LoginScreen:
         iso_code = self.mainloop.db.get_lang()
         for each in self.select:
             if each.iso_code == iso_code:
-                if self.in_focus != None:
+                if self.in_focus is not None:
                     self.in_focus.onBlur()
                     focus_changed = True
                 self.in_focus = each
@@ -1182,7 +1182,7 @@ class LoginScreen:
             
     def set_scrollbar_top(self, t):
         if self.state == "USERS" and self.scroll_bar.top != t:
-            if self.in_focus != None:
+            if self.in_focus is not None:
                 if self.scroll_down == False:
                     self.in_focus.onBlur()
                 focus_changed = True
@@ -1281,14 +1281,14 @@ class LoginScreen:
             self.prev_focus = self.in_focus
             for each in self.all_list:
                 if each.rect.topleft[0] + each.rect.width >= pos[0] >= each.rect.topleft[0] and each.rect.topleft[1] + each.rect.height >= pos[1] >= each.rect.topleft[1]:
-                    if self.in_focus != None:
+                    if self.in_focus is not None:
                         self.in_focus.onBlur()
                         focus_changed = True
                     
                     self.in_focus = each
                     each.handle(event)
             
-            if focus_changed == False and self.prev_focus != None and self.state != "LANG":
+            if focus_changed == False and self.prev_focus is not None and self.state != "LANG":
                 self.prev_focus.onBlur()
                 self.prev_focus = None
                 self.in_focus = None
@@ -1311,7 +1311,7 @@ class LoginScreen:
                         each.handle(event)
         
         elif event.type == pygame.KEYDOWN:
-            if self.in_focus != None:
+            if self.in_focus is not None:
                 self.in_focus.handle(event)
                 
     def nextFocus(self, current_focus):
@@ -1424,12 +1424,12 @@ class LoginScreen:
     def fdetails(self,username):
         #print("details of %s" % username)
         self.hidefdeluser()
-        if username != None:
+        if username is not None:
             details = self.mainloop.db.load_user_details(username)
         else:
             details = None
             
-        if details != None:
+        if details is not None:
             self.ilb1.value = self.lang.b["registered:"]
             self.dlb1.value = details[0]
             self.dlb2.value = details[1]# #registered field
@@ -1473,7 +1473,7 @@ class LoginScreen:
         self.swich_hl(self.login_tab)
         
     def swich_hl(self, tab):
-        if self.side_highlight != None:
+        if self.side_highlight is not None:
             self.side_highlight.highlight = False
             if self.side_highlight.hover == True:
                 self.side_highlight.update_trigger()

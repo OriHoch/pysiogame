@@ -13,26 +13,35 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,6,3)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
-        
-        
+
+
     def create_game_objects(self, level = 1):
-        #create non-movable objects
-        
+        self.board.decolorable = False
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.ai_enabled = False
         self.board.draw_grid = False
-        s = random.randrange(100, 150, 5)
-        v = random.randrange(230, 255, 5)
+
         h = random.randrange(0, 255, 5)
-        color = ((255,255,255))
-        white = ((255,255,255))
         color0 = ex.hsv_to_rgb(h,30,240) #highlight 1
-        color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
         self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
         self.font_color = self.color2
-        
+        black = (2,2,2)
+        white = (255,255,255)
+
+        bg_col = (255,255,255)
+        if self.mainloop.scheme is not None:
+            if self.level.lvl > 1:
+                self.font_color = self.mainloop.scheme.u_font_color
+            if self.mainloop.scheme.dark:
+                bg_col = (0,0,0)
+                color0 = (0,0,0)
+                black = (30,30,30)
+            else:
+                color0 = (255,255,255)
+                white = (240,240,240)
+
 
         choice = [x for x in range(0,20)]
         self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
@@ -40,42 +49,41 @@ class Board(gd.BoardGame):
         self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
         self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
         self.font_colorx  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255],[100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
-        self.init_font_color = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
+        self.init_font_color = [white,black,      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
 
         font_size = 6
         self.disp_counter = 0
         self.disp_len = 1
-        lvl = 0
-        
+
         if self.level.lvl == 1:
             data = [10,5,3,2,3]
         elif self.level.lvl == 2:
             data = [10,6,3,2,4]
         elif self.level.lvl == 3:
             data = [10,7,3,2,5]
-            
+
         self.points = data[4] * 2
-            
+
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
         if m == 0:
             x = self.get_x_count(data[1],even=True)
         else:
             x = self.get_x_count(data[1],even=False)
-        
+
         if x > data[0]:
             data[0] = x
-            
+
         self.data = data
-        
+
         self.found = 0
         self.clicks = 0
-        
+
         self.squares = self.data[3]*self.data[4]
-        
+
         self.square_count = self.squares * 2 #self.data[3]*self.data[4]
         self.history = [None,None]
-        
+
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
 
@@ -85,19 +93,17 @@ class Board(gd.BoardGame):
         random.shuffle(shuffled)
         self.chosen = shuffled[0:self.square_count//2]
         self.chosen = self.chosen * 2
-        
+
         h1=(data[1]-data[4])//2 #height of the top margin
         h2=data[1]-h1-data[4]#-1 #height of the bottom margin minus 1 (game label)
         w2=(data[0]-data[3]*4)//2 #side margin width
 
-        x = w2
-        y = h1
         small_slots = []
         for j in range(h1,data[1]-h2):
             for i in range(w2,w2+data[3]):
                 small_slots.append([i,j])
         random.shuffle(small_slots)
-        
+
         wide_slots = []
         for j in range(h1,data[1]-h2):
             for i in range(w2+data[3],data[0]-w2,3):
@@ -110,7 +116,6 @@ class Board(gd.BoardGame):
             if i < switch:
                 caption = ""
                 position_list = small_slots
-                show_value = False
                 pos = i
                 xw = 1
             else:
@@ -122,17 +127,17 @@ class Board(gd.BoardGame):
                     fc = self.init_font_color[self.chosen[i-switch]]
             self.board.add_unit(position_list[pos][0],position_list[pos][1],xw,1,classes.board.Letter,caption,color0,"",font_size)
             self.board.ships[-1].font_color=fc
-            
+
             self.board.ships[i].immobilize()
             self.board.ships[i].readable = False
             self.board.ships[i].perm_outline = True
             self.board.ships[i].uncovered = False
         self.outline_all(self.color2,1)
-        
-        self.board.add_door(0,data[1]-1,data[0],1,classes.board.Door,"0/0",white,"",font_size=3)
+
+        self.board.add_door(0,data[1]-1,data[0],1,classes.board.Door,"0/0",bg_col,"",font_size=3)
         self.counter = self.board.units[-1]
         self.counter.font_color = (80,80,80)
-        
+
         lines = [[135, 128],[133, 132],[135, 137],[157, 157],[158, 161],[155, 165],[150, 166],[146, 163],[133, 140],[129, 138],[125, 139],
             [122, 142],[122, 144],[128, 157],[128, 159],[126, 161],[123, 161],[121, 160],[114, 147],[112, 145],[107, 145],[104, 148],
             [104, 154],[110, 179],[111, 186],[110, 192],[105, 194],[100, 193],[98, 188],[98, 180],[101, 154],[100, 148],[96, 146],
@@ -154,7 +159,7 @@ class Board(gd.BoardGame):
             [180, 95],[175, 94],[158, 95],[154, 99],[153, 103],[156, 106],[163, 108],[185, 113],[190, 115],[191, 118],[189, 122],
             [184, 121],[163, 111],[156, 109],[151, 110],[147, 115],[145, 120],[146, 124],[151, 128],[163, 135],[168, 139],[171, 142],
             [171, 146],[167, 146],[162, 144],[158, 140],[149, 132],[144, 128],[140, 127]]
-        size = self.board.ships[0].grid_w*self.board.scale    
+        size = self.board.ships[0].grid_w*self.board.scale
         margin = size//20
         #new point = size * orig_point / 200
         self.scaled_lines = [[int((size-2*margin) * each[0] / 200.0)+margin, int((size-2*margin) * each[1] / 200.0)+margin] for each in lines]
@@ -166,8 +171,8 @@ class Board(gd.BoardGame):
             self.draw_splash(canvas,size,color1,color2)#data[7](data, canvas, i)
             self.board.ships[i].painting = canvas.copy()
             self.board.ships[i].image = canvas.copy()
-            
-            
+
+
     def draw_splash(self,canvas,size,color,outline_color):
         pygame.draw.polygon(canvas, color, self.scaled_lines,0)
         pygame.draw.aalines(canvas, outline_color, True, self.scaled_lines)
@@ -179,13 +184,13 @@ class Board(gd.BoardGame):
             if 0 <= self.board.active_ship < self.square_count:
                 active = self.board.ships[self.board.active_ship]
                 if active.uncovered == False:
-                    if self.history[0] == None:
+                    if self.history[0] is None:
                         active.perm_outline_width = 6
                         active.perm_outline_color = [150,150,255]
                         self.history[0] = active
                         self.clicks += 1
                         active.uncovered = True
-                    elif self.history[1] == None:
+                    elif self.history[1] is None:
                         active.perm_outline_width = 6
                         active.perm_outline_color = [150,150,255]
                         self.history[1] = active

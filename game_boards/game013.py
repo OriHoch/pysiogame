@@ -12,8 +12,8 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,10,8)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,15,9)
-        
-        
+
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
@@ -21,11 +21,10 @@ class Board(gd.BoardGame):
         s = random.randrange(190, 225)
         v = random.randrange(230, 255)
         h = random.randrange(0, 255)
-
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
-        color2 = ex.hsv_to_rgb(h,s,v) #normal color
-        color3 = ex.hsv_to_rgb(h,230,100)
+        if self.mainloop.scheme is not None:
+            color0 = self.mainloop.scheme.u_color
+        else:
+            color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
         font_color = ex.hsv_to_rgb(h,255,140)
 
         #data = [x_count, y_count, letter_count, top_limit, ordered]
@@ -48,8 +47,8 @@ class Board(gd.BoardGame):
         self.points = data[4]
         letter_table =  []
         letter_table.extend(self.lang.alphabet_lc)
-        letter_table.extend(self.lang.accents_lc)  
-             
+        letter_table.extend(self.lang.accents_lc)
+
         self.words = self.lang.di[data[3]]
         self.data = data
 
@@ -59,12 +58,12 @@ class Board(gd.BoardGame):
         if sys.version_info < (3, 0):
             self.wordu = unicode(self.word,"utf-8")
             word_len = len(self.wordu)
-            self.word_l = []      
-            #dirty way of replacing the word with letters from alphabet  
+            self.word_l = []
+            #dirty way of replacing the word with letters from alphabet
             for each in self.wordu:
                 for i in range(len(letter_table)):
                     if each == unicode(letter_table[i],"utf-8"):
-                        self.word_l.append(letter_table[i])            
+                        self.word_l.append(letter_table[i])
         else:
             word_len = len(self.word)
             self.word_l = self.word
@@ -75,21 +74,24 @@ class Board(gd.BoardGame):
         for i in range(data[2]-word_len):#adding noice letters
             index = random.randrange(0,len(choice_list))
             self.num_list.append(choice_list[index])
-                
+
         shuffled = self.num_list[:]
         for i in range(word_len):
             shuffled.append(self.word_l[i])
         random.shuffle(shuffled)
         color = ((255,255,255))
-        
-        #create table to store 'binary' solution 
+
+        #create table to store 'binary' solution
         self.solution_grid = [1 for x in range(data[0])]
 
         x = 0
         y = 3
         for i in range(len(shuffled)):
-            h = random.randrange(0, 255, 5)
-            number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
+            if self.mainloop.scheme is not None:
+                number_color =  self.mainloop.scheme.u_font_color
+            else:
+                h = random.randrange(0, 255, 5)
+                number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             caption = shuffled[i]
             self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",1)
             x += 1
@@ -104,18 +106,18 @@ class Board(gd.BoardGame):
         for i in range(word_len):
             self.board.add_door(x+i,0,1,1,classes.board.Door,"",color,"")
             self.board.units[i].door_outline = True
-            self.board.all_sprites_list.move_to_front(self.board.units[i]) 
+            self.board.all_sprites_list.move_to_front(self.board.units[i])
 
         self.board.add_unit(0,0,x,1,classes.board.Obstacle,"",color0)
         self.board.add_unit(x+word_len,0,data[0]-x-word_len,1,classes.board.Obstacle,"",color0)
-                    
+
         self.board.add_unit(0,data[1]-2,data[0],1,classes.board.Letter,self.d["Write a word:"],color0,"",1)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
         self.board.ships[-1].speaker_val = self.dp["Write a word:"]
         self.board.ships[-1].speaker_val_update = False
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,self.word,color0,"",0)
-        self.board.ships[-1].immobilize()   
+        self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
         self.outline_all(0,1)
 

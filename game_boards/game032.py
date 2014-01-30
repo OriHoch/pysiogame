@@ -19,11 +19,8 @@ class Board(gd.BoardGame):
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
-        color2 = ex.hsv_to_rgb(h,s,v) #normal color
-        color3 = ex.hsv_to_rgb(h,230,100)
         font_color = ex.hsv_to_rgb(h,255,140)
-        
+
         if self.level.lvl == 1:
             data = [11,6,3,9,2,1]
         elif self.level.lvl == 2:
@@ -47,29 +44,29 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 11:
             data = [11,6,9,20,5,2]
         elif self.level.lvl == 12:
-            data = [11,6,9,99,5,2]  
+            data = [11,6,9,99,5,2]
         elif self.level.lvl == 13:
-            data = [11,6,11,9,6,2]            
+            data = [11,6,11,9,6,2]
         elif self.level.lvl == 14:
-            data = [11,6,11,20,6,2] 
+            data = [11,6,11,20,6,2]
         elif self.level.lvl == 15:
             data = [11,6,11,999,6,4]
-        self.points = data[4] - 1   
+        self.points = data[4] - 1
         self.chapters = [1,4,7,10,13,15]
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
 
         self.num_list = []
-        
+
         choice_list = [x for x in range(data[3])]
         for i in range(data[4]):
             index = random.randrange(0,len(choice_list))
             self.num_list.append(choice_list[index])
 
         color = ((255,255,255))
-        
-        #create table to store 'binary' solution 
+
+        #create table to store 'binary' solution
         self.solution_grid = [0 for x in range(data[0])]
         self.expression = [" " for x in range(data[0])]
 
@@ -77,7 +74,7 @@ class Board(gd.BoardGame):
         xd = (data[0]-data[2])//2
 
         #add objects to the board
-        h = random.randrange(0, 255, 5)            
+        h = random.randrange(0, 255, 5)
         number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
         for i in range(0,data[4]):
             x2 = xd+i*2
@@ -85,9 +82,9 @@ class Board(gd.BoardGame):
             self.board.add_unit(x2,2,1,1,classes.board.Label,caption,number_color,"",data[5])
             self.solution_grid[x2]=1
             self.expression[x2]=str(self.num_list[i])
-            if i< data[4]-1:            
+            if i< data[4]-1:
                 self.solution_grid[x2+1]=1
-        h = random.randrange(0, 255, 5)            
+        h = random.randrange(0, 255, 5)
         number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
 
         indu = len(self.board.units)
@@ -95,16 +92,16 @@ class Board(gd.BoardGame):
         for i in range(0,data[4]-1):
             self.board.add_unit(xd+i*2+1,1,1,3,classes.board.Letter,[">","=","<"],number_color,"",data[5])
             self.board.add_door(xd+i*2+1,2,1,1,classes.board.Door,"",color,"")
-            self.board.units[indu + i].door_outline = True   
-            self.board.ships[inds + i].readable = False   
-            self.board.all_sprites_list.move_to_front(self.board.units[indu + i])      
-        
-        
+            self.board.units[indu + i].door_outline = True
+            self.board.ships[inds + i].readable = False
+            self.board.all_sprites_list.move_to_front(self.board.units[indu + i])
+
+
         instruction = self.d["Drag the slider"]
         self.board.add_unit(0,5,11,1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
- 
+
         self.board.ships[-1].speaker_val = self.dp["Drag the slider"]
         self.board.ships[-1].speaker_val_update = False
         self.changed_since_check = True #to make it possible to confirm if numbers are equal
@@ -119,7 +116,7 @@ class Board(gd.BoardGame):
 
     def check_result(self):
         for i in range(len(self.board.ships)-1):
-            #calculate the active value based on grid_y of the slider                
+            #calculate the active value based on grid_y of the slider
             value = self.board.ships[i].value[2 - self.board.ships[i].grid_y]
             if value == "=":
                 value = "=="
@@ -133,4 +130,3 @@ class Board(gd.BoardGame):
             if self.points > 0:
                 self.points -= 1
             self.level.try_again()
-                

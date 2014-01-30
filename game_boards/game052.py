@@ -14,7 +14,8 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         
-    def create_game_objects(self, level = 1):        
+    def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.board.draw_grid = False
 
         color = ex.hsv_to_rgb(225,15,235)
@@ -85,8 +86,16 @@ class Board(gd.BoardGame):
         self.board.add_door(4,data[1]-1,2,1,classes.board.Door,"",self.col_m,"",0)
         self.board.add_door(7,data[1]-1,2,1,classes.board.Door,"",self.col_y,"",0)
 
+        #white background
+        self.board.add_door(1,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(4,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(7,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        
         #self.color_info = self.board.units[-1]
-        for i in [5,6,7,8,9,10]:
+        for i in [5,6,7,8,9,10,11,12,13]:
             if i>7:
                 self.board.units[i].image.set_colorkey(colorkey)
                 self.board.all_sprites_list.move_to_back(self.board.units[i])

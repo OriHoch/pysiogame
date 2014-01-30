@@ -7,6 +7,7 @@ import classes.extras as ex
 import pygame
 import classes.board
 import random
+import os
 
 
 class Board(gd.BoardGame):
@@ -19,12 +20,13 @@ class Board(gd.BoardGame):
         s = random.randrange(30, 50)
         v = random.randrange(230, 255)
         h = random.randrange(0, 225)
-        letter_color = ex.hsv_to_rgb(h,s,v)
-        white = ((255,255,255))
-        outline_color =  ex.hsv_to_rgb(h,s+50,v-50)
-        frame_color = [255,255,255]
+        white = (255,255,255)
         card_color = ex.hsv_to_rgb(h+10,s-25,v)
         font_color = ex.hsv_to_rgb(h,255,140)
+        scheme = "white"
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                scheme = "black"
 
         data = [15,10]
         #stretch width to fit the screen size
@@ -44,7 +46,7 @@ class Board(gd.BoardGame):
         t_area = "½ah"
 
         self.shape_names = self.lang.shape_names
-        if self.lang.lang == "ru":
+        if self.lang.lang in ["ru", "he"]:
             self.shape_namesp = self.lang.dp["shape_names"]
         else:
             self.shape_namesp = self.shape_names
@@ -84,13 +86,13 @@ class Board(gd.BoardGame):
         self.board.add_unit(x+2,y+6,5,1,classes.board.Label,"3a",card_color,"",3)
 
         #frame size 288 x 216        
-        self.board.add_unit(x-2,y+3,4,4,classes.board.MultiImgSprite,self.shape_names[0],card_color,"flashcard_shapes.jpg",row_data=[15,1])
+        self.board.add_unit(x-2,y+3,4,4,classes.board.MultiImgSprite,self.shape_names[0],card_color,os.path.join("schemes",scheme,"flashcard_shapes.jpg"),row_data=[15,1])
         self.board.ships[-1].speaker_val = self.shape_namesp[0]
         self.board.ships[-1].speaker_val_update = False
 
         self.board.add_door(x-2,y+1,9,6,classes.board.Door,"",card_color,"")
         
-        self.board.add_door(x-5,0,15,1,classes.board.Door,"",card_color,"flashcard_shapes_72.jpg")
+        self.board.add_door(x-5,0,15,1,classes.board.Door,"",card_color,os.path.join("schemes",scheme,"flashcard_shapes_72.jpg"))
         
         self.board.units[2].door_outline = True
         self.board.units[2].perm_outline_color = font_color

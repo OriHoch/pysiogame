@@ -16,7 +16,7 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
+
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
         s = random.randrange(30, 80)
@@ -25,7 +25,6 @@ class Board(gd.BoardGame):
         self.letter_color = ex.hsv_to_rgb(h,s,v)
         font_color = ex.hsv_to_rgb(h,s,75)
         outline_color =  ex.hsv_to_rgb(h,s+50,v-50)
-        frame_color = [255,255,255]
         card_color = ex.hsv_to_rgb(h+10,s-25,v)
 
         data = [14,10]
@@ -34,7 +33,7 @@ class Board(gd.BoardGame):
         if data[0]<14:
             data[0]=14
         self.data = data
-       
+
         self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
 
@@ -42,14 +41,14 @@ class Board(gd.BoardGame):
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
         self.word_list = ['Ant', 'Boat', 'Cat', 'Duck', 'Elephant', 'Fish', 'Grapes', 'House', 'Igloo', 'Jar', 'Key', 'Lion', 'Mouse', 'Notebook', 'Owl', 'Parrot', 'Queen', 'Rabbit', 'Sun', 'Teapot', 'Umbrella', 'Violin', 'Window', 'Xylophone', 'Yarn', 'Zebra']
-        self.frame_flow = [i for i in range(26)]        
+        self.frame_flow = [i for i in range(26)]
         if data[0] > 26:
             x = (data[0] - 26)//2
         else:
             x = 0
         x2 = (data[0] - (26 - data[0]))//2
         y = 0
-        
+
         for i in range(26):
             self.board.add_unit(x,y,1,1,classes.board.Letter,chr(i+65)+chr(i+97),self.letter_color,"",2)
             self.board.ships[i].readable = False
@@ -61,7 +60,7 @@ class Board(gd.BoardGame):
 
         x=(data[0]-4)//2
         y=1
-        
+
         #Card
         self.board.add_unit(x,y+1,2,1,classes.board.Label,"A",card_color,"",0)
         self.board.add_unit(x+2,y+1,2,1,classes.board.Label,"a",card_color,"",0)
@@ -70,7 +69,7 @@ class Board(gd.BoardGame):
         self.board.add_unit(x+4,y+1,2,4,classes.board.Label,"a",card_color,"",18)
         img_src = os.path.join('fc', "fc%03i.jpg" % self.frame_flow[0])
         self.board.add_unit(x,y+2,4,3,classes.board.ImgShip,self.word_list[0],card_color,img_src)
-        
+
         self.board.add_unit(x-2,y+5,8,1,classes.board.Letter,self.word_list[0],card_color,"",2)
         self.board.add_unit(x-2,y+6,8,1,classes.board.Letter,self.word_list[0],card_color,"",15)
 
@@ -79,24 +78,24 @@ class Board(gd.BoardGame):
         self.board.all_sprites_list.move_to_front(self.board.units[4])
         self.slide = self.board.ships[26]
         self.slide.perm_outline = True
-        
+
         for each in self.board.ships:
             each.immobilize()
             each.font_color = font_color
         for each in self.board.units:
             each.font_color = font_color
-        
+
         self.active_item = self.board.ships[0]
         self.active_item.color = (255,255,255)
         self.prev_item = self.active_item
-            
-            
+
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.active_item = self.board.ships[self.board.active_ship]
             if self.active_item.unit_id < 26:
-                if self.prev_item != None:
+                if self.prev_item is not None:
                     self.prev_item.color = self.letter_color
                     self.prev_item.update_me = True
                 self.active_item.color = (255,255,255)
@@ -114,17 +113,17 @@ class Board(gd.BoardGame):
         self.board.ships[27].value = self.word_list[active.unit_id]
         self.board.ships[28].value = self.word_list[active.unit_id]
         self.mainloop.redraw_needed[0] = True
-        
+
         img_src = os.path.join('fc', "fc%03i.jpg" %  self.frame_flow[active.unit_id])
         self.slide.change_image(img_src)
-        
+
         self.board.active_ship = -1
         self.slide.update_me = True
         for i in [0,1,2,3]:
             self.board.units[i].update_me = True
         for i in [26,27,28]:
             self.board.ships[i].update_me = True
-        
+
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent

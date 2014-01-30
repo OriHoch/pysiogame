@@ -13,8 +13,9 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,999,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
-    def create_game_objects(self, level = 1):        
+
+    def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.board.draw_grid = False
 
         color = ex.hsv_to_rgb(225,15,235)
@@ -25,55 +26,55 @@ class Board(gd.BoardGame):
         self.col_k = (0,0,0)
         self.col_e = (255,255,255)
         colorkey = (2,2,2)
-        self.col_bg = self.col_e#(255,246,219)
+        self.col_bg = self.col_e
         data = [32,23]
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=True)
         if x_count > 32:
             data[0] = x_count
-            
+
         self.data = data
         self.points = 20
         self.vis_buttons = [1,0,0,0,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
+
         self.board.board_bg.initcolor = self.col_bg
         self.board.board_bg.color = self.col_bg
         self.board.board_bg.update_me = True
-        
+
         self.board.moved = self.moved
         step = 255 / 20.0
-        
+
         self.picked_steps = []
         self.picked = []
         for i in range(3):
             self.picked_steps.append(random.randrange(0,21))
-        
+
         self.cmy = [int(self.picked_steps[i]*step) for i in range(3)]
         self.picked_rgb = [255 - self.cmy[i] for i in range(3)]
         y = data[1]-3
-        
+
         self.rgb_g = [y,y,y]
         self.rgbx3 = [self.col_e,self.col_e,self.col_e]
-        
+
         self.board.add_unit(1,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"brush_c.png")
         self.board.add_unit(4,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"brush_m.png")
         self.board.add_unit(7,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"brush_y.png")
-        
+
         for each in self.board.ships:
             each.outline = False
             each.audible = False
-            
+
         #add colour container
         self.board.add_unit(10,0,data[0]-10,data[1],classes.board.Label,"",self.col_e,"",0)
-             
+
         self.canvas = self.board.units[0]
         self.canvas_center = [(self.canvas.grid_w*self.board.scale)//2,(self.canvas.grid_h*self.board.scale)//2]
-        
+
         #adding borders between the colour tubes
         self.board.add_unit(0,0,1,data[1],classes.board.Label,"",self.col_bg,"",0)
         self.board.add_unit(3,0,1,data[1],classes.board.Label,"",self.col_bg,"",0)
@@ -93,13 +94,22 @@ class Board(gd.BoardGame):
         self.board.add_door(4,data[1]-1,2,1,classes.board.Door,"",self.col_m,"",0)
         self.board.add_door(7,data[1]-1,2,1,classes.board.Door,"",self.col_y,"",0)
 
-        for i in [5,6,7,8,9,10]:
+        #white background
+        self.board.add_door(1,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(4,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(7,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+
+        #self.color_info = self.board.units[-1]
+        for i in [5,6,7,8,9,10,11,12,13]:
             if i>7:
                 self.board.units[i].image.set_colorkey(colorkey)
                 self.board.all_sprites_list.move_to_back(self.board.units[i])
             else:
 	            self.board.all_sprites_list.move_to_front(self.board.units[i])
-            
+
         self.board.all_sprites_list.move_to_back(self.board.board_bg)
         self.canvas.set_outline([255,229,127],1)
         self.canv = []
@@ -108,14 +118,14 @@ class Board(gd.BoardGame):
 
         self.board.all_sprites_list.move_to_back(self.board.board_bg)
         self.mix()
-        
+
     def mix(self):
         for i in range(3):
             self.rgb_g[i] = self.board.ships[i].grid_y
         self.update_sliders()
-        self.canv[3].fill(self.col_e)  
+        self.canv[3].fill(self.col_e)
         ct = self.canvas_center
-        radius = 9*self.board.scale        
+        radius = 9*self.board.scale
         radius2 = 5*self.board.scale
         x = 1*self.board.scale
         rect = [[ct[0],ct[1]-x],[ct[0]-x,ct[1]+x],[ct[0]+x,ct[1]+x]]
@@ -123,8 +133,8 @@ class Board(gd.BoardGame):
             pygame.draw.circle(self.canv[i], self.rgbx3[i], rect[i], radius, 0)
             self.canv[3].blit(self.canv[i],[0,0],special_flags = pygame.BLEND_SUB)
         pygame.draw.circle(self.canv[3], self.cmy, ct, radius2, 0)
-                
-        self.canvas.painting = self.canv[3].copy()        
+
+        self.canvas.painting = self.canv[3].copy()
         self.canvas.update_me = True
 
     def update_sliders(self):
@@ -144,7 +154,7 @@ class Board(gd.BoardGame):
                         col.append(int((strip.grid_y-3) * step))
                 else:
                     col.append(255)
-                    
+
             col2 = [255-col[0],255-col[1],255-col[2]]
             self.rgbx3[i] = col2
             strip.color = col
@@ -153,7 +163,7 @@ class Board(gd.BoardGame):
 
     def moved(self):
         self.mix()
-        
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 
@@ -165,31 +175,31 @@ class Board(gd.BoardGame):
         if self.picked_steps != self.rgb_g:
             help = ""
             if self.picked_steps[0] < self.rgb_g[0]:
-                help += self.d['more cyan'] + ", "
+                help += self.dp['more cyan'] + ", "
             elif self.picked_steps[0] > self.rgb_g[0]:
-                help += self.d['less cyan'] + ", "
+                help += self.dp['less cyan'] + ", "
             else:
-                help += self.d['cyan is ok'] + ", "
+                help += self.dp['cyan is ok'] + ", "
 
             if self.picked_steps[1] < self.rgb_g[1]:
-                help += self.d['more magenta'] + ", "
+                help += self.dp['more magenta'] + ", "
             elif self.picked_steps[1] > self.rgb_g[1]:
-                help += self.d['less magenta'] + ", "
+                help += self.dp['less magenta'] + ", "
             else:
-                help += self.d['magenta is ok'] + ", "
-            
+                help += self.dp['magenta is ok'] + ", "
+
             if self.picked_steps[2] < self.rgb_g[2]:
-                help += self.d['more yellow'] + ". "
+                help += self.dp['more yellow'] + ". "
             elif self.picked_steps[2] > self.rgb_g[2]:
-                help += self.d['less yellow'] + ". "
+                help += self.dp['less yellow'] + ". "
             else:
-                help += self.d['yellow is ok'] + ". "
+                help += self.dp['yellow is ok'] + ". "
             self.say(help)
             if self.points > 0:
                 self.points -= 1
-                
+
             self.level.try_again(silent = self.mainloop.speaker.talkative)
-                
+
         else:
             self.update_score(self.points)
             self.level.next_board()

@@ -12,23 +12,27 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,99,7)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
-        
-    def create_game_objects(self, level = 1):        
+
+    def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.board.draw_grid = False
 
         color = (234,218,225)
         self.color = color
-        font_color = (50,0,150)
         self.grey = (200,200,200)
         self.font_hl = (100,0,250)
         self.hint1_fcol = (100,0,250)
         self.hint2_fcol = (200,0,0)
         self.hint3_fcol = (250,0,200)
-        
+
         self.task_str_color = ex.hsv_to_rgb(200,200,230)
         self.activated_col = self.font_hl
-        ver_color = (63,45,247)
         white = (255,255,255)
+        self.bg_col = white
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                self.bg_col = (0,0,0)
+
         if self.level.lvl == 1:
             rngs = [150,500,50,100]
         elif self.level.lvl == 2:
@@ -48,12 +52,12 @@ class Board(gd.BoardGame):
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 39:
             data[0] = x_count
-            
+
         self.data = data
-        
+
         self.vis_buttons = [0,1,1,1,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
@@ -75,9 +79,9 @@ class Board(gd.BoardGame):
         s = "%0" + str(self.sumn1n2sl) + "d"
         self.n1sh = s % self.n1
         self.n2sh = s % self.n2
-        
+
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
-        
+
         if self.lang.lang == 'el':
             qm = ";"
         else:
@@ -85,39 +89,39 @@ class Board(gd.BoardGame):
 
         question = self.n1s + " + " + self.n2s + " = " + qm
         #question
-        self.board.add_unit(1,0,data[0]-1-self.sumn1n2sl*3 ,3,classes.board.Label,question,white,"",21)
+        self.board.add_unit(1,0,data[0]-1-self.sumn1n2sl*3 ,3,classes.board.Label,question,self.bg_col,"",21)
         self.board.units[-1].align = 1
-        
+
         #carry 1
         for i in range(self.sumn1n2sl - 1):
-            self.board.add_unit(data[0]-5-i*3,1,1,1,classes.board.Letter,"",white,"",0)
+            self.board.add_unit(data[0]-5-i*3,1,1,1,classes.board.Letter,"",self.bg_col,"",0)
             self.carryl.append(self.board.ships[-1])
             self.carryl[-1].set_outline(self.grey, 2)
             self.carryl[-1].pos_id = i
 
         #first number
         for i in range(self.n1sl):
-            self.board.add_unit(data[0]-3-i*3,2,3,3,classes.board.Label,self.n1s[-(i+1)],white,"",21)
+            self.board.add_unit(data[0]-3-i*3,2,3,3,classes.board.Label,self.n1s[-(i+1)],self.bg_col,"",21)
             self.nums1l.append(self.board.units[-1])
             self.nums1l[-1].font_color = self.grey
             self.nums1l[-1].pos_id = i
         #second number
         i = 0
         for i in range(self.n2sl):
-            self.board.add_unit(data[0]-3-i*3,5,3,3,classes.board.Label,self.n2s[-(i+1)],white,"",21)
+            self.board.add_unit(data[0]-3-i*3,5,3,3,classes.board.Label,self.n2s[-(i+1)],self.bg_col,"",21)
             self.nums2l.append(self.board.units[-1])
             self.nums2l[-1].pos_id = i
         i += 1
-        self.board.add_unit(data[0]-3-i*3,5,3,3,classes.board.Label,"+",white,"",21)
+        self.board.add_unit(data[0]-3-i*3,5,3,3,classes.board.Label,"+",self.bg_col,"",21)
         self.plus_label = self.board.units[-1]
         #line
         line = "―" * (self.sumn1n2sl*2)
-        self.board.add_unit(data[0]-self.sumn1n2sl*3,8,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+        self.board.add_unit(data[0]-self.sumn1n2sl*3,8,self.sumn1n2sl*3,1,classes.board.Label,line,self.bg_col,"",21)
         self.board.units[-1].text_wrap = False
-        
+
         #result
         for i in range(self.sumn1n2sl):
-            self.board.add_unit(data[0]-3-i*3,9,3,3,classes.board.Letter,"",white,"",21)
+            self.board.add_unit(data[0]-3-i*3,9,3,3,classes.board.Letter,"",self.bg_col,"",21)
             self.resultl.append(self.board.ships[-1])
             self.resultl[-1].set_outline(self.grey, 2)
             self.resultl[-1].pos_id = i
@@ -125,19 +129,19 @@ class Board(gd.BoardGame):
         self.resultl[0].set_outline(self.activated_col, 3)
         self.home_square = self.resultl[0]
         self.board.active_ship = self.home_square.unit_id
-        
-        self.board.add_unit(0,8,data[0]-self.sumn1n2sl*3,2,classes.board.Label,"",white,"",22)
+
+        self.board.add_unit(0,8,data[0]-self.sumn1n2sl*3,2,classes.board.Label,"",self.bg_col,"",22)
         self.hint1 = self.board.units[-1]
         self.hint1.align = 1
         #carry 1
-        self.board.add_unit(0,12,data[0]-self.sumn1n2sl*3,2,classes.board.Label,"",white,"",22)
+        self.board.add_unit(0,12,data[0]-self.sumn1n2sl*3,2,classes.board.Label,"",self.bg_col,"",22)
         self.hint2 = self.board.units[-1]
         self.hint2.align = 1
         #enter: result % 10
-        self.board.add_unit(0,10,data[0]-self.sumn1n2sl*3,2,classes.board.Label,"",white,"",22)
+        self.board.add_unit(0,10,data[0]-self.sumn1n2sl*3,2,classes.board.Label,"",self.bg_col,"",22)
         self.hint3 = self.board.units[-1]
         self.hint3.align = 1
-        self.board.add_unit(0,15,data[0],2,classes.board.Letter,self.lang.d["demo start"],white,"",22)
+        self.board.add_unit(0,15,data[0],2,classes.board.Letter,self.lang.d["demo start"],self.bg_col,"",22)
         self.next_step_btn = self.board.ships[-1]
         self.next_step_btn.readable = False
 
@@ -147,7 +151,7 @@ class Board(gd.BoardGame):
         self.board.units[0].font_color = self.task_str_color
         self.next_step_btn.font_color = (0,200,0)
 
-        
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:
@@ -159,11 +163,11 @@ class Board(gd.BoardGame):
                         self.level.next_board_load()
                     else:
                         self.next_step()
-                
+
     def home_sqare_switch(self, activate):
         if activate < 0 or activate > self.sumn1n2sl * 2 - 1:
             activate = self.sumn1n2sl-1
-            
+
         if activate >= 0 and activate < self.sumn1n2sl * 2 - 1:
             self.board.active_ship = activate
             self.home_square.update_me = True
@@ -176,10 +180,10 @@ class Board(gd.BoardGame):
                 self.home_square.font_color = self.font_hl
             self.home_square.update_me = True
             self.mainloop.redraw_needed[0] = True
-            
+
     def demonstration(self):
         pass
-        
+
     def next_step(self):
         self.ship_id = 0
         if self.cursor_pos < self.sumn1n2sl+1:
@@ -188,12 +192,12 @@ class Board(gd.BoardGame):
             result = 0
             if self.cursor_pos == self.sumn1n2sl:
                 self.next_step_btn.value = self.lang.d["demo next eg"]
-                self.next_step_btn.update_me == True
+                self.next_step_btn.update_me = True
             elif self.cursor_pos == 1:
                 self.next_step_btn.value = self.lang.d["demo next step"]
-                self.next_step_btn.update_me == True
+                self.next_step_btn.update_me = True
             if self.cursor_pos > 1 and self.cursor_pos <= self.sumn1n2sl:
-                
+
                 self.carryl[self.cursor_pos-2].set_outline(self.grey, 2)
                 if self.carryl[self.cursor_pos-2].value == "1":
                     self.hint1.value =  self.carryl[self.cursor_pos-2].value
@@ -207,47 +211,56 @@ class Board(gd.BoardGame):
             if self.cursor_pos <= self.n2sl:
                 self.hint1.value += " + " +  self.n2sh[0-self.cursor_pos]
             self.hint1.value += " = " + str(result)
-            
+
             #if 1 = 1 don't display
             if len(self.hint1.value) == 5:
                 self.hint1.value = ""
-            if self.hint1.value == "":
-                self.hint2.value = self.lang.d["demo rewrite"] + str(result % 10)
+            if self.lang.ltr_text:
+                if self.hint1.value == "":
+                    self.hint2.value = self.lang.d["demo rewrite"] + str(result % 10)
+                else:
+                    self.hint2.value = self.lang.d["demo write"] + str(result % 10)
             else:
-                self.hint2.value = self.lang.d["demo write"] + str(result % 10)
+                if self.hint1.value == "":
+                    self.hint2.value = str(result % 10) + " " +self.lang.d["demo rewrite"]
+                else:
+                    self.hint2.value = str(result % 10) + " " + self.lang.d["demo write"]
             if result > 9:
-                self.hint3.value = self.lang.d["carry"] + " 1"
+                if self.lang.ltr_text:
+                    self.hint3.value = self.lang.d["carry"] + " 1"
+                else:
+                    self.hint3.value =  "1 " + self.lang.d["carry"]
                 self.carryl[self.cursor_pos-1].set_outline(self.hint3_fcol, 3)
                 self.carryl[self.cursor_pos-1].value = "1"
                 self.carryl[self.cursor_pos-1].font_color = self.hint3_fcol
                 self.carryl[self.cursor_pos-1].update_me = True
             else:
                 self.hint3.value = ""
-            
+
             self.resultl[self.cursor_pos-1].value = str(result % 10)
             self.resultl[self.cursor_pos-1].font_color = self.hint2_fcol
             self.resultl[self.cursor_pos-1].set_outline(self.hint2_fcol, 3)
             self.resultl[self.cursor_pos-1].update_me = True
-            
+
             self.hint1.update_me = True
             self.hint2.update_me = True
             self.hint3.update_me = True
-            
+
             self.mainloop.redraw_needed[0] = True
             self.cursor_pos += 1
-        
+
     def deactivate_colors(self):
         for each in self.board.ships:
             each.font_color = self.grey
             if each != self.next_step_btn:
                 each.set_outline(self.grey, 2)
             each.update_me = True
-            
-        
+
+
         for each in self.board.units:
             each.font_color = self.grey
             each.update_me = True
-            
+
     def reactivate_colors(self):
         self.plus_label.font_color = self.font_hl
         self.board.units[0].font_color = self.task_str_color

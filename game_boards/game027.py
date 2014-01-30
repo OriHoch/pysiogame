@@ -7,26 +7,22 @@ import pygame
 
 import classes.board
 import random
+import os
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,20,10)
-        
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         #create non-movable objects
         self.board.draw_grid = False
-        s = random.randrange(150, 190, 5)
-        v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
-        color2 = ex.hsv_to_rgb(h,s,v) #normal color
-        color3 = ex.hsv_to_rgb(h,230,100)
         font_color = ex.hsv_to_rgb(h,255,140)
-        white = ((255,255,255))
+        white = (255,255,255)
 
         #data = [x_count, y_count, number of items on the list, top_quntity,font-size]
         if self.level.lvl == 1: #images 42x42
@@ -54,46 +50,53 @@ class Board(gd.BoardGame):
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 20 :
             data[0] = x_count
-            
+
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
+
         shelf_len = 7
         #basket
         basket_w = data[0]- shelf_len - 1
         self.board.add_door(data[0]-basket_w,data[1]-6,basket_w,5,classes.board.Door,"",white,"")
         self.board.units[0].door_outline = True
         #basket image - 260 x 220
-        self.board.add_door(data[0]-6,data[1]-6,6,5,classes.board.Door,"",white,"basket.png")
+        img_bg_col = white
+        scheme = "white"
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                scheme = "black"
+                img_bg_col = (0,0,0)
+        img_src = os.path.join("schemes",scheme,"basket.png")
+        self.board.add_door(data[0]-6,data[1]-6,6,5,classes.board.Door,"",img_bg_col,img_src)
 
-        
+
         self.board.add_unit(data[0]-7,0,7,1,classes.board.Label,self.d["Shopping List"],white,"",data[4]+1)
         f_end = ".png"
         items = ["fr_apple1","fr_apple2","fr_strawberry","fr_pear","fr_orange","fr_onion","fr_tomato","fr_lemon","fr_cherry","fr_pepper","fr_carrot","fr_banana","fr_wmelon"]
-        self.items = items   
+        self.items = items
         self.img_captions = []
-        self.singular_items = ["green apple", "red apple", "strawberry", "pear", "orange [fruit]", "onion", "tomato", "lemon", "cherry", "pepper", "carrot", "banana", "watermelon"]    
+        self.singular_items = ["green apple", "red apple", "strawberry", "pear", "orange [fruit]", "onion", "tomato", "lemon", "cherry", "pepper", "carrot", "banana", "watermelon"]
         for each in self.singular_items:
             caption = self.lang._n(each, 1)
             if not self.lang.ltr_text:
                 caption = ex.reverse(self.lang._n(each, 1), self.lang.alpha)
                 #caption = self.lang._n(each, 1)
-            if caption == None:
+            if caption is None:
                 caption = ""
             self.img_captions.append(caption)
-        
-        if self.lang.lang == "ru":
+
+        if self.lang.lang in ["ru","he"]:
             self.img_pcaptions = []
             si = self.lang.dp["fruit"]
             for each in si:
                 pcaption = self.lang._n(each, 1)
-                if pcaption == None:
+                if pcaption is None:
                     pcaption = ""
                 self.img_pcaptions.append(pcaption)
         else:
             self.img_pcaptions = self.img_captions
-        
+
         item_indexes = [x for x in range(len(items))]
         self.chosen_items = [[],[]]
         self.solution = {}
@@ -105,7 +108,7 @@ class Board(gd.BoardGame):
             self.chosen_items[1].append(quantity)
             self.solution[str(item_indexes[index])] = quantity
             del(item_indexes[index])
-            
+
         if self.lang.ltr_text:
             l = [data[0]-7,data[0]-6,data[0]-5]
         else:
@@ -116,10 +119,10 @@ class Board(gd.BoardGame):
             caption = self.lang._n(self.singular_items[ind], self.chosen_items[1][i])
             if not self.lang.ltr_text:
                 caption = ex.reverse(caption, self.lang.alpha)
-            if caption == None:
+            if caption is None:
                 caption = ""
             self.board.add_unit(l[0],i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])
-            self.board.add_unit(l[1],i+1,1,1,classes.board.ImgShip,"",white,items[ind]+f_end,data[4])
+            self.board.add_unit(l[1],i+1,1,1,classes.board.ImgShip,"",white,os.path.join("schemes",scheme,items[ind]+f_end),data[4])
             self.board.add_unit(l[2],i+1,5,1,classes.board.Label,caption,white,"",data[4])
             self.board.ships[i].immobilize()
             self.board.ships[i].outline = False
@@ -130,21 +133,21 @@ class Board(gd.BoardGame):
         #rearange z-order of red outlines (shopping list and basket)
         for i in range(2):
             self.board.all_sprites_list.move_to_front(self.board.units[i])
-        
+
         #put stuff on shelves:
         for i in range(len(items)):
-            image = items[i]+f_end
-            
+            image = os.path.join("schemes",scheme,items[i]+f_end)
+
             for j in range(0,shelf_len):
                 self.board.add_unit(j,i,1,1,classes.board.ImgShip,self.img_captions[i],white,image,data[4])
                 self.board.ships[-1].audible = False
                 self.board.ships[-1].speaker_val = self.img_pcaptions[i]
                 self.board.ships[-1].speaker_val_update = False
-        self.board.all_sprites_list.move_to_front(self.board.units[0]) 
+        self.board.all_sprites_list.move_to_front(self.board.units[0])
         instruction = self.d["Check the shopping list"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",3)
         self.board.ships[-1].set_outline(0, 1)
-        self.board.ships[-1].immobilize() 
+        self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
         self.board.ships[-1].speaker_val = self.dp["Check the shopping list"]
         self.board.ships[-1].speaker_val_update = False
@@ -152,7 +155,7 @@ class Board(gd.BoardGame):
 
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
-            
+
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent

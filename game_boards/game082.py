@@ -12,7 +12,7 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,5)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,40,30)
-        
+
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
 
@@ -28,16 +28,16 @@ class Board(gd.BoardGame):
         x_count = self.get_x_count(data[1],even=True)
         if x_count > data[0]:
             data[0] = x_count
-            
+
         self.data = data
-        
+
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
+
         base_len = data[0] - 2#(img_left - 1) * 2 + img_size
         img_size = 4
         img_left = (base_len - img_size)//2 + 1
@@ -91,44 +91,51 @@ class Board(gd.BoardGame):
             self.level.games_per_lvl = len(self.words)//2
         else:
             self.level.games_per_lvl = len(self.words)
-            
+
         self.w_index = random.randint(0,len(self.words)-1)
         self.word = self.lang.d["a4a_%s" % category][self.w_index]
         img_src = "%s.jpg" % self.words[self.w_index]
-        
+
         w_len = len(self.word)
-        
+
         n_letters = self.level.lvl + 1
         if self.level.lvl == 3:
             if n_letters >= w_len:
                 n_letters = w_len - 1
         if n_letters > w_len or self.level.lvl == 5:
             n_letters = w_len
-        
+
+        #frame around image caption
+        if self.mainloop.scheme is not None:
+            clx = self.mainloop.scheme.u_color
+            border_color = self.mainloop.scheme.u_font_color
+            if self.mainloop.scheme_code == "BW":
+                border_color = (253,253,253)
+        else:
+            clx = white
+
         #n_letters = 6
         self.points = (n_letters//2) + 1
         #frame around image
         self.board.add_door(img_left - 1,1,img_size+2,img_size+3,classes.board.Door,"",white,"",font_size = 2)
         self.board.units[-1].image.set_colorkey(None)
         self.board.units[-1].set_outline(color = border_color, width = 1)
-        
-        #frame around image caption
-        self.board.add_door(1,img_size+3,base_len,3,classes.board.Door,"",white,"",font_size = 2)
+
+        self.board.add_door(1,img_size+3,base_len,3,classes.board.Door,"",clx,"",font_size = 2)
         self.board.units[-1].image.set_colorkey(None)
         self.board.units[-1].set_outline(color = border_color, width = 1)
-        
+
         #temp frame around word
         w = len(self.word)
         l = (data[0] - w) // 2
-        
+
         #dummy frame hiding bottome line of the image frame
-        self.board.add_door(img_left - 1,img_size + img_top + 1,img_size +2,1,classes.board.Door,"",white,"",font_size = 2)
+        self.board.add_door(img_left - 1,img_size + img_top + 1,img_size +2,1,classes.board.Door,"",clx,"",font_size = 2)
         self.board.units[-1].image.set_colorkey(None)
-        
+
         self.board.add_unit(img_left,img_top,img_size,img_size,classes.board.ImgShip,self.word,color,os.path.join('art4apps', category,img_src))
         self.board.ships[-1].immobilize()
 
-        shuffled = []
         choice_list = self.word[:]
         index_list = [x for x in range(w_len)]
         lowered_ind = [0 for x in range(w_len)]
@@ -139,31 +146,27 @@ class Board(gd.BoardGame):
             lowered_ind[index_list[index]] = 1
             del(index_list[index])
         random.shuffle(lowered)
-        color = ((255,255,255))
-        
-        #create table to store 'binary' solution 
+        color = (255,255,255)
+
+        #create table to store 'binary' solution
         self.solution_grid = [0 for x in range(data[0])]
         x = l
         y = img_size + img_top + 2
-        
+
         self.sol_grid_y = y
 
         x2 = (data[0]-len(lowered))//2
         y2 = img_size + img_top + 5
-        
+
         j = 0
         for i in range(len(self.word)):
             picked = False
-            if lowered_ind[i] == 1: 
+            if lowered_ind[i] == 1:
                 picked = True
-            if picked:
-                letter = lowered[j]
-            else:
-                letter = self.word[i]
             h = 0
             number_color = letter_bg
             self.solution_grid[x] = 1
-            #change y 
+            #change y
             if picked:
                 caption = lowered[j]
                 self.board.add_unit(x2+j,y2,1,1,classes.board.Letter,caption,number_color,"",0)
@@ -175,7 +178,7 @@ class Board(gd.BoardGame):
                 self.board.ships[-1].outline_highlight = True
                 self.board.ships[-1].set_outline(color = border_color, width = 1)
                 self.board.ships[-1].font_color = font_color
-                j += 1         
+                j += 1
             else:
                 caption = self.word[i]
                 self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",0)
@@ -190,7 +193,7 @@ class Board(gd.BoardGame):
         footer_caption = self.lang.d["art4apps"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Label,footer_caption,white,"",27)
         self.board.units[-1].font_color = footer_font
-    
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 

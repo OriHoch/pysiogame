@@ -19,7 +19,16 @@ class BaseButton(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         self.pos = [pos_x, pos_y]
-        self.color = (255, 255, 255) #(70,70,70)#70
+        if self.panel.mainloop.scheme is not None:
+            if self.panel.mainloop.scheme.dark:
+                self.color = (40, 40, 40)
+                self.scheme_dir = "black"
+            else:
+                self.color = (255, 255, 255)
+                self.scheme_dir = "white"
+        else:
+            self.color = (255, 255, 255)
+            self.scheme_dir = "white"
         self.image = pygame.Surface([width, height])
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
@@ -53,10 +62,10 @@ class Button(BaseButton):
     def load_images(self, rev):
         self.img_pos = (0,0)
         try:
-            self.img_1 = pygame.image.load(os.path.join('res', 'images', self.img_src_1)).convert()
-            self.img_2 = pygame.image.load(os.path.join('res', 'images', self.img_src_2)).convert()
+            self.img_1 = pygame.image.load(os.path.join('res', 'images', "schemes", self.scheme_dir, self.img_src_1)).convert()
+            self.img_2 = pygame.image.load(os.path.join('res', 'images', "schemes", self.scheme_dir,  self.img_src_2)).convert()
             if self.img_src_3 != "":
-                self.img_3 = pygame.image.load(os.path.join('res', 'images', self.img_src_3)).convert()
+                self.img_3 = pygame.image.load(os.path.join('res', 'images', "schemes", self.scheme_dir,  self.img_src_3)).convert()
             if rev:
                 self.img_1 = pygame.transform.flip(self.img_1, 1, 0)
                 self.img_2 = pygame.transform.flip(self.img_2, 1, 0)
@@ -116,22 +125,25 @@ class Button(BaseButton):
 
 class InfoBar():
     def __init__(self,mainloop):
-        self.btns = []
+        self.mainloop = mainloop
+        self.create()
         
+    def create(self):
+        self.btns = []
         #orange
-        self.font_color = (255,75,0,0) #0,0,0,0)
+        self.font_color = (255,75,0,0)
         self.font_color1 = (60,60,60,0)
         
-        self.font_color2 = (130,0,115,0)
-        self.font_color3 = (255,130,240,0)
-        
-        
-        self.font_color2 = (255,75,0,0) #0,0,0,0)
+        self.font_color2 = (255,75,0,0)
         self.font_color3 = (90,90,90,0)
-        
+        if self.mainloop.scheme is not None:
+            self.font_color = self.mainloop.scheme.info_font_color0
+            self.font_color1 = self.mainloop.scheme.info_font_color1
+            
+            self.font_color2 = self.mainloop.scheme.info_font_color2
+            self.font_color3 = self.mainloop.scheme.info_font_color3
         self.hidden = False
         self.close_dialog = False
-        self.mainloop = mainloop
         self.margin_top = 13
         self.lang = self.mainloop.lang
         self.arrow_down = False
@@ -450,11 +462,21 @@ class InfoBar():
             
     def draw(self,screen):
         #draw info bar
-        screen.fill((255,255,255))
-        #colors = ((250,250,250),(233,233,233),(192,192,192),(141,141,141),(137,137,137))#,(255,255,255),(240,223,238),(133,0,116),(148,31,133))
-        #colors = ((250,250,250),(233,233,233),(233,233,233),(192,192,192),(192,192,192),(141,141,141),(141,141,141),(137,137,137),(137,137,137))#,(255,255,255),(240,223,238),(133,0,116),(148,31,133))
         colors = ((250,250,250),(242,242,242),(236,236,236),(228,228,228),(218,218,218),(206,206,206),(193,193,193),(180,180,180),(166,166,166),(152,152,152),(140,140,140),(177,177,177))        
         hs = 0
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                color = (40,40,40)
+                colors = ((0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(0,0,0),(255,255,255),(255,255,255),(255,255,255))
+                hs = 0
+            else:
+                color = (255,255,255)
+        else:
+            color = (255,255,255)
+        screen.fill(color)
+        #colors = ((250,250,250),(233,233,233),(192,192,192),(141,141,141),(137,137,137))#,(255,255,255),(240,223,238),(133,0,116),(148,31,133))
+        #colors = ((250,250,250),(233,233,233),(233,233,233),(192,192,192),(192,192,192),(141,141,141),(141,141,141),(137,137,137),(137,137,137))#,(255,255,255),(240,223,238),(133,0,116),(148,31,133))
+        
         for each in colors:
             pygame.draw.line(screen,each,[0,hs],[self.game_board.layout.screen_w - self.game_board.layout.menu_w,hs],1)
             hs += 1

@@ -13,32 +13,32 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,3,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
-        
-        
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.ai_enabled = False
         self.board.draw_grid = False
         s = random.randrange(100, 150, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
-        color = ((255,255,255))
-        white = ((255,255,255))
+        bg_col = (255,255,255)
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                bg_col = (0,0,0)
         if self.mainloop.m.game_variant > 3:
             h = 116
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,s,v) #highlight 2
         self.color2 = ex.hsv_to_rgb(h,255,170) #contours & borders
         self.font_color = self.color2
-        
-        white = ((255,255,255))
+
+        white = (255,255,255)
 
         self.disp_counter = 0
         self.disp_len = 1
         lvl = 0
-        
+
         if self.mainloop.m.game_variant in [4,5]:
             lvl = -2
             self.level.lvl_count = 8
@@ -46,17 +46,17 @@ class Board(gd.BoardGame):
             self.level.lvl_count = 7
         elif self.mainloop.m.game_variant in [1,3]:
             self.level.lvl_count = 6
-            
-            
+
+
         if self.level.lvl > self.level.lvl_count:
             self.level.lvl = self.level.lvl_count
-                
+
         if self.mainloop.m.game_variant < 4 :
             if self.level.lvl == lvl+1:
                 data = [6,4,3,4,2]
             elif self.level.lvl == lvl+2:
                 data = [7,4,3,5,2]
-                
+
         if self.level.lvl == lvl+3:
             data = [6,5,3,4,3]
         elif self.level.lvl == lvl+4:
@@ -86,30 +86,38 @@ class Board(gd.BoardGame):
             x = self.get_x_count(data[1],even=True)
         else:
             x = self.get_x_count(data[1],even=False)
-        
+
         if x > data[0]:
             data[0] = x
-            
+
         self.data = data
-        
+
         self.found = 0
         self.clicks = 0
         self.square_count = self.data[3]*self.data[4]
         self.points = self.square_count // 2
-        
+
         self.history = [None,None]
-        
+
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
         texts1 = []
         texts2 = []
         if self.mainloop.m.game_variant == 4:
-            image_src1 = [os.path.join('memory', "m_img%da.png" % (i)) for i in range(1,22)]
+            if self.mainloop.scheme is None or not self.mainloop.scheme.dark:
+                image_src1 = [os.path.join('memory', "m_img%da.png" % (i)) for i in range(1,22)]
+            else:
+                image_src1 = [os.path.join('schemes', "black", "match_animals", "m_img%da.png" % (i)) for i in range(1,22)]
             image_src2 = image_src1
+
         elif self.mainloop.m.game_variant == 5:
-            image_src1 = [os.path.join('memory', "m_img%da.png" % (i)) for i in range(1,22)]
-            image_src2 = [os.path.join('memory', "m_img%db.png" % (i)) for i in range(1,22)]
-            
+            if self.mainloop.scheme is None or not self.mainloop.scheme.dark:
+                image_src1 = [os.path.join('memory', "m_img%da.png" % (i)) for i in range(1,22)]
+                image_src2 = [os.path.join('memory', "m_img%db.png" % (i)) for i in range(1,22)]
+            else:
+                image_src1 = [os.path.join('schemes', "black", "match_animals", "m_img%da.png" % (i)) for i in range(1,22)]
+                image_src2 = [os.path.join('schemes', "black", "match_animals", "m_img%db.png" % (i)) for i in range(1,22)]
+
         elif self.mainloop.m.game_variant == 0:
             if self.level.lvl == 1:#addition
                 draw_data = [1,5,1,5,6]
@@ -132,7 +140,7 @@ class Board(gd.BoardGame):
                 if my_sum not in texts1:
                     texts1.append(str(my_sum))
                     texts2.append("%d + %d" % (first_num, second_num))
-            
+
         elif self.mainloop.m.game_variant == 1:
             if self.level.lvl == 1:#subtraction  - ch1
                 draw_data = [3,10,1,0,6]
@@ -153,7 +161,7 @@ class Board(gd.BoardGame):
                 if my_sum not in texts1:
                     texts1.append(str(my_sum))
                     texts2.append("%d - %d" % (first_num, second_num))
-                    
+
         elif self.mainloop.m.game_variant == 2:
             if self.level.lvl == 1:#multiplication  - ch2
                 draw_data = [1,3,1,3,6]
@@ -193,14 +201,14 @@ class Board(gd.BoardGame):
                 first = random.randrange(draw_data[0],draw_data[1]+1)
                 second_num = random.randrange(draw_data[2],draw_data[3]+1)
                 first_num = first * second_num
-                
+
                 my_sum = str(first) #str(first_num * second_num)
                 if my_sum not in texts1:
                     texts1.append(my_sum)
                     texts2.append("%d %s %d" % (first_num, chr(247), second_num))
         elif self.mainloop.m.game_variant == 6:
             pass
-            
+
         self.completed_mode = False
         if self.mainloop.m.game_variant in [4,5]:
             choice = [x for x in range(0,21)]
@@ -210,19 +218,17 @@ class Board(gd.BoardGame):
         random.shuffle(shuffled)
         self.chosen = shuffled[0:self.square_count//2]
         self.chosen = self.chosen * 2
-        
+
         h1=(data[1]-data[4])//2 #height of the top margin
         h2=data[1]-h1-data[4]#-1 #height of the bottom margin minus 1 (game label)
         w2=(data[0]-data[3])//2 #side margin width
 
-        x = w2
-        y = h1
         slots = []
         for j in range(h1,data[1]-h2):
             for i in range(w2,w2+data[3]):
                 slots.append([i,j])
         random.shuffle(slots)
-        
+
         switch = self.square_count // 2
         for i in range(self.square_count):
             if self.mainloop.m.game_variant in [4,5]:
@@ -238,14 +244,14 @@ class Board(gd.BoardGame):
                     caption = texts2[self.chosen[i-switch]]
                 self.board.add_unit(slots[i][0],slots[i][1],1,1,classes.board.Letter,caption,color0,"",draw_data[4])
                 self.board.ships[-1].font_color=self.font_color
-            
+
             self.board.ships[i].immobilize()
             self.board.ships[i].readable = False
             self.board.ships[i].perm_outline = True
             self.board.ships[i].uncovered = False
         self.outline_all(self.color2,1)
-        
-        self.board.add_door(0,data[1]-1,data[0],1,classes.board.Door,"0/0",white,"",font_size=3)
+
+        self.board.add_door(0,data[1]-1,data[0],1,classes.board.Door,"0/0",bg_col,"",font_size=3)
         self.counter = self.board.units[-1]
         self.counter.font_color = (80,80,80)
 
@@ -256,13 +262,13 @@ class Board(gd.BoardGame):
             if 0 <= self.board.active_ship < self.square_count:
                 active = self.board.ships[self.board.active_ship]
                 if active.uncovered == False:
-                    if self.history[0] == None:
+                    if self.history[0] is None:
                         active.perm_outline_width = 6
                         active.perm_outline_color = [150,150,255]
                         self.history[0] = active
                         self.clicks += 1
                         active.uncovered = True
-                    elif self.history[1] == None:
+                    elif self.history[1] is None:
                         active.perm_outline_width = 6
                         active.perm_outline_color = [150,150,255]
                         self.history[1] = active
@@ -314,6 +320,6 @@ class Board(gd.BoardGame):
                 self.ai_enabled = False
                 self.disp_counter = 0
 
-        
+
     def check_result(self):
         pass

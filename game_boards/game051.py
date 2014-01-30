@@ -52,14 +52,15 @@ def ryb_to_rgb(r,y,b):
         return rgb
     else:
         return (255,255,255)
-        
+
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
-        
-    def create_game_objects(self, level = 1):        
+
+
+    def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.board.draw_grid = False
 
         color = ex.hsv_to_rgb(225,15,235)
@@ -77,43 +78,43 @@ class Board(gd.BoardGame):
         x_count = self.get_x_count(data[1],even=True)
         if x_count > 30:
             data[0] = x_count
-            
+
         self.data = data
-        
+
         self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
+
         self.board.board_bg.initcolor = self.col_bg
         self.board.board_bg.color = self.col_bg
         self.board.board_bg.update_me = True
-        
+
         self.board.moved = self.moved
-        
+
         y = data[1]-3
-        
+
         self.rybke_g = [y,y,y,y,y]
         self.rybke = [0,0,0,0,0]
-        
+
         self.board.add_unit(1,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"tube_r.png")
         self.board.add_unit(4,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"tube_y.png")
         self.board.add_unit(7,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"tube_b.png")
         self.board.add_unit(10,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"tube_k.png")
         self.board.add_unit(13,y,2,3,classes.board.ImgAlphaShip,"",self.col_bg,"tube_e.png")
-        
+
         for each in self.board.ships:
             each.outline = False
             each.audible = False
-            
+
         #add colour container
         self.board.add_unit(16,0,data[0]-16,data[1],classes.board.Label,"",self.col_e,"",0)
-             
+
         self.canvas = self.board.units[0]
         self.canvas_center = [(self.canvas.grid_w*self.board.scale)//2,(self.canvas.grid_h*self.board.scale)//2]
-        
+
         #adding borders between the colour tubes
         self.board.add_unit(0,0,1,data[1],classes.board.Label,"",self.col_bg,"",0)
         self.board.add_unit(3,0,1,data[1],classes.board.Label,"",self.col_bg,"",0)
@@ -140,8 +141,20 @@ class Board(gd.BoardGame):
         self.board.add_door(7,data[1]-1,2,1,classes.board.Door,"",self.col_b,"",0)
         self.board.add_door(10,data[1]-1,2,1,classes.board.Door,"",self.col_k,"",0)
         self.board.add_door(13,data[1]-1,2,1,classes.board.Door,"",self.col_e2,"",0)
-        
-        for i in range(8,24-7):
+
+        #white background
+        self.board.add_door(1,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(4,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(7,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(10,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+        self.board.add_door(13,0,2,data[1],classes.board.Door,"",self.col_bg,"",0)
+        self.board.units[-1].image.set_colorkey(None)
+
+        for i in range(8,24-2):
             if i>12:
                 self.board.units[i].image.set_colorkey(colorkey)
                 self.board.all_sprites_list.move_to_back(self.board.units[i])
@@ -163,8 +176,6 @@ class Board(gd.BoardGame):
         total = self.rybke[0] + self.rybke[1] + self.rybke[2]
         total_bw = self.rybke[3] + self.rybke[4]
         mixed_total = total + total_bw
-        hsl = [0,0,0]
-        info = ""
         if total == 0:
             if total_bw > 0:
                 white_ratio = ((self.rybke[4]*100//total_bw)*255)//100
@@ -172,9 +183,9 @@ class Board(gd.BoardGame):
                 rgb = e
             else:
                 rgb = (0,0,0)
-                
+
         elif total > 0:
-            
+
             m = max(self.rybke[0:3])
             for i in range(3):
                 ratio[i] = self.rybke[i]/(m*1.0)
@@ -193,13 +204,13 @@ class Board(gd.BoardGame):
                     e = self.rybke[4]*100//mixed_total #(total+self.rybke[4])
                     xe = e*(255-hsl[2])//100
                     x += xe
-                
+
                 desaturator = total_bw - (max(self.rybke[3:5]) - min(self.rybke[3:5]))
                 d = desaturator*100//mixed_total #%
                 xd = d*hsl[1]//100
-                
+
                 rgb = ex.hsl_to_rgb(hsl[0],hsl[1]-xd,hsl[2]+x)
-                
+
         self.canv.fill(self.col_e)
         #draw container
         x = self.canvas_center[0] - 5*self.board.scale
@@ -208,17 +219,17 @@ class Board(gd.BoardGame):
         h = (self.canvas.grid_h-2)*self.board.scale
         container_lines = [[x,y],[x,y+h],[x+w,y+h],[x+w,y]]
         pygame.draw.lines(self.canv, [0,0,0], False, container_lines, 1)
-        
+
         #fill the container
         h = mixed_total*self.board.scale//25
         y = (self.canvas.grid_h-1)*self.board.scale - h
-        
+
         pygame.draw.rect(self.canv, rgb, [x+1,y,w-1,h],0)
         self.canvas.painting = self.canv.copy()
         self.canvas.update_me = True
-        
+
         self.update_sliders()
-       
+
     def update_sliders(self):
         for i in range(5):
             strip = self.board.units[i+12]
@@ -229,7 +240,7 @@ class Board(gd.BoardGame):
 
     def moved(self):
         self.mix()
-        
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 

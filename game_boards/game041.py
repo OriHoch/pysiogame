@@ -8,12 +8,13 @@ import pygame
 
 import classes.board
 import random
+import os
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,2,15)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
@@ -45,7 +46,7 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 12:
             data = [11,9,9,6,1,20,4,self.bezier2x_lines,1]
         elif self.level.lvl == 13:
-            data = [11,9,3,6,2,50,4,self.bezier3x_simplified,3]   
+            data = [11,9,3,6,2,50,4,self.bezier3x_simplified,3]
         elif self.level.lvl == 14:
             data = [11,9,5,6,2,35,4,self.bezier3x_simplified,2]
         elif self.level.lvl == 15:
@@ -63,16 +64,23 @@ class Board(gd.BoardGame):
         self.level.games_per_lvl = data[6]
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
+
         s = random.randrange(5, 20)
         v = random.randrange(240, 250)
         h = random.randrange(0, 255)
-        color = ex.hsv_to_rgb(h,s,v)
-        
+        self.line_col = (0,0,0)
+        scheme = "white"
+        if self.mainloop.scheme is None:
+            color = ex.hsv_to_rgb(h,s,v)
+        else:
+            color = self.mainloop.scheme.u_color
+            if self.mainloop.scheme.dark:
+                self.line_col = self.mainloop.scheme.u_font_color
+                scheme = "black"
         self.board.add_unit(0,1,data[0],data[3],classes.board.Obstacle,"",color)
-        self.board.units[0].set_outline(0,1)        
+        self.board.units[0].set_outline(0,1)
         self.top_colors = []
-        
+
         h = random.randrange(0, 75, 1)
         start_from = (data[0]-data[2])//2
         end_at = start_from+data[2]
@@ -82,20 +90,20 @@ class Board(gd.BoardGame):
             v = random.randrange(180, 250, 5)
             color = ex.hsv_to_rgb(h+(i-start_from)*data[5],s,v)
             self.colors.append(self.all_colors[j-1])
-            self.board.add_door(i,0,1,1,classes.board.Door,"",color,"b"+str(j)+".png")
-            self.board.add_unit(i,data[1]-1,1,1,classes.board.ImgShip,"",color,"t"+str(j)+".png")
+            self.board.add_door(i,0,1,1,classes.board.Door,"",color,os.path.join("schemes",scheme,"b"+str(j)+".png"))
+            self.board.add_unit(i,data[1]-1,1,1,classes.board.ImgShip,"",color,os.path.join("schemes",scheme,"t"+str(j)+".png"))
             self.board.ships[-1].outline=False
             self.board.units[-1].outline=False
             j += data[8]
         self.colors_completed = self.colors[:]
-        
+
         self.draw_the_mess(data,start_from,end_at)
-        
+
         for i in range(data[0]):
             if self.solution_positions[i] == 1:
                 self.board.add_door(i,data[1]-2,1,1,classes.board.Door,"",color,"")
                 self.board.units[-1].door_outline = True
-                
+
     def draw_the_mess(self,data,start_from,end_at):
         #set up the beginning and ending positions
         #starting points:
@@ -103,7 +111,7 @@ class Board(gd.BoardGame):
         self._step = step
         half_st = round(self.board.scale/2)
         self.possible_positions = []
-        self.start_positions = []        
+        self.start_positions = []
         self.end_positions = []
         self.ready_lines = []
         indexes = []
@@ -115,7 +123,7 @@ class Board(gd.BoardGame):
             self.possible_positions.append(next_step)
             indexes.append(i)
             self.solution_positions.append(0)
-        
+
         for i in range(start_from, end_at):
             next_step = [i*step+half_st,0]
             self.start_positions.append(next_step)
@@ -124,22 +132,22 @@ class Board(gd.BoardGame):
             while (picked[0] < (next_step[0]+(step*data[4]))) and (picked[0] > (next_step[0]-(step*data[4]))):
                 index = random.randrange(0,len(indexes))
                 picked = self.possible_positions[indexes[index]]
-                
+
             self.end_positions.append(picked)
             self.solution.append(indexes[index])
             del(indexes[index])
-        
-        
+
+
         #get a list of positions where the squares should be dragged to
         for i in range(0,len(self.solution)):
             self.solution_positions[self.solution[i]]=1
         self.canvas = pygame.Surface([self.board.units[0].grid_w*self.board.scale, self.board.units[0].grid_h*self.board.scale-1])
         self.canvas.fill(self.board.units[0].initcolor)
-        
+
         #create randomized lines
         for i in range(data[2]):
             data[7](data, self.canvas, i)
-        
+
         #and draw them all at once in a separate loop
         self.draw_lines()
 
@@ -156,18 +164,18 @@ class Board(gd.BoardGame):
             if each_item.grid_y == 7 and each_item.grid_x == self.solution[each_item.unit_id]:
                 self.colors_completed[each_item.unit_id] = self.colors[each_item.unit_id]
             else:
-                self.colors_completed[each_item.unit_id] = [0,0,0]
-                
+                self.colors_completed[each_item.unit_id] = self.line_col
+
     def straight_lines(self, data, canvas, i):
         self.ready_lines.append([self.start_positions[i],self.end_positions[i]])
-        
+
     def bezier_lines(self, data, canvas, i):
         #points = [[beginning], [beginning_midifier], [end_midifier], [end]]
         #points = [[200, 400], [300, 250], [450, 500], [500, 475]]
-        
+
         modifiers=[[0,0],[0,0]]
-        modifiers[0]=[random.randrange(0,self.layout.game_w),random.randrange(self._step*2,self._step*data[3])]        
-        modifiers[1]=[random.randrange(0,self.layout.game_w),random.randrange(0,self._step*(data[3]-2))]              
+        modifiers[0]=[random.randrange(0,self.layout.game_w),random.randrange(self._step*2,self._step*data[3])]
+        modifiers[1]=[random.randrange(0,self.layout.game_w),random.randrange(0,self._step*(data[3]-2))]
         points = [Vector2(self.start_positions[i]), Vector2(modifiers[0]), Vector2(self.end_positions[i]), Vector2(modifiers[1])]
         bezier_points = ex.DrawBezier(points)
         self.ready_lines.append(bezier_points)
@@ -180,7 +188,7 @@ class Board(gd.BoardGame):
         x_center = self.layout.game_w //2
         y_center =  self._step*data[3]//2
         bezier = [[[0,0] for j in range(4)] for j in range(2)]
-        
+
         #line 1 start
         bezier[0][0] = Vector2(self.start_positions[i])
         bezier[0][1] = Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step*2,canvas_h-self._step))#mod1 #first point modifier
@@ -188,17 +196,17 @@ class Board(gd.BoardGame):
         #line 1 end
         bezier[0][2] = Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step,canvas_h-self._step)) #first line end
         bezier[0][3] = Vector2(ex.rand_safe_curve(bezier[0][2],canvas_w,canvas_h))
-        
-    
+
+
         #line 3 start
         bezier[1][0] = bezier[0][2]
         bezier[1][1] = bezier[0][2] + Vector2(-(Vector2.from_points(bezier[0][2], bezier[0][3]))) #5th point modifier
-        
+
         #line 3 end
         bezier[1][2] = Vector2(self.end_positions[i]) #last point
         bezier[1][3] = Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step,self._step*(data[3]-1))) #6th point modifier
         bezier_points = []
-        for j2 in range(2):            
+        for j2 in range(2):
             bezier_points.extend(ex.DrawBezier(bezier[j2]))
         self.ready_lines.append(bezier_points)
 
@@ -210,20 +218,20 @@ class Board(gd.BoardGame):
         x_center = self.layout.game_w //2
         y_center =  self._step*data[3]//2
         bezier = [[[0,0] for j in range(4)] for j in range(3)]
-        
+
         #line 1 start
         bezier[0][0] = Vector2(self.start_positions[i])
         bezier[0][1] = Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step*2,canvas_h-self._step))#mod1 #first point modifier
-        
+
         #line 1 end
         bezier[0][2] = Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step,canvas_h-self._step)) #first line end
         bezier[0][3] = Vector2(ex.rand_safe_curve(bezier[0][2],canvas_w,canvas_h))
-        
+
         #line 2 start
         bezier[1][0] = bezier[0][2]
         bezier[1][1] = bezier[0][2] + Vector2(-(Vector2.from_points(bezier[0][2], bezier[0][3]))) #3rd point modifier
-        
-        #line 2 end            
+
+        #line 2 end
         if bezier[0][2][0] > x_center: #if first point is on the right the second will be on the left
             x_range = [self._step,x_center]
         else: x_range = [x_center,canvas_w-self._step]
@@ -235,7 +243,7 @@ class Board(gd.BoardGame):
         #line 3 start
         bezier[2][0] = bezier[1][2]
         bezier[2][1] = bezier[1][2] + Vector2(-(Vector2.from_points(bezier[1][2], bezier[1][3]))) #5th point modifier
-        
+
         #line 3 end
         bezier[2][2] = Vector2(self.end_positions[i]) #last point
         bezier[2][3] = Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step,self._step*(data[3]-1))) #6th point modifier
@@ -243,7 +251,7 @@ class Board(gd.BoardGame):
         for j in range(3):
             bezier_points.extend(ex.DrawBezier(bezier[j]))
         self.ready_lines.append(bezier_points)
-        
+
     def bezier3x_simplified(self, data, canvas, i):
         #points = [[beginning], [beginning_midifier], [end], [end_midifier]]
         #points = [[200, 400], [300, 250], [450, 500], [500, 475]]
@@ -257,7 +265,7 @@ class Board(gd.BoardGame):
         #points = ex.simplified_points(self.start_positions[i],self.end_positions[i],canvas_w,canvas_h,x_center,y_center,self._step)
         bezier[0][0] = Vector2(first[i])
         bezier[0][1] = Vector2(random.randrange(first[i][0] - self._step*2,first[i][0]+self._step*2),random.randrange(self._step*3,canvas_h))#mod1 #first point modifier
-        
+
         #p1
         if first[i][0] < x_center:
             x_range = (first[i][0]+self._step,canvas_w-self._step)
@@ -268,7 +276,7 @@ class Board(gd.BoardGame):
         #line 1 end
         bezier[0][2] = Vector2(random.randrange(*x_range),random.randrange(*y_range))#Vector2(random.randrange(self._step,canvas_w-self._step),random.randrange(self._step,canvas_h-self._step)) #first line end
         bezier[0][3] = Vector2(bezier[0][2][0],bezier[0][2][1]-self._step)
-        
+
         #line 2 start
         bezier[1][0] = bezier[0][2]
         bezier[1][1] = Vector2(bezier[0][2][0],bezier[0][2][1]+self._step)#bezier[0][2] + Vector2(-(Vector2.from_points(bezier[0][2], bezier[0][3]))) #3rd point modifier
@@ -280,7 +288,7 @@ class Board(gd.BoardGame):
         else:
             x_range = (self._step, last[i][0]-self._step)
             p4_x_mod = last[i][0]+self._step
-        
+
         y_range = (canvas_h-y_center,round(canvas_h-self._step*0.5))
 
         bezier[1][2] = Vector2(random.randrange(*x_range),random.randrange(*y_range)) #second line end
@@ -288,15 +296,15 @@ class Board(gd.BoardGame):
         #line 3 start
         bezier[2][0] = bezier[1][2]
         bezier[2][1] = Vector2(bezier[1][2][0]-self._step,bezier[1][2][1]+self._step)#bezier[1][2] + Vector2(-(Vector2.from_points(bezier[1][2], bezier[1][3]))) #5th point modifier
-        
+
         #line 3 end
         bezier[2][2] = Vector2(self.end_positions[i]) #last point
         bezier[2][3] = Vector2(p4_x_mod,random.randrange(2 * self._step,canvas_h - self._step)) #Vector2(random.randrange(self.end_positions[i][0]-self._step//2,self.end_positions[i][0]+self._step//2),random.randrange(self._step*(data[3]-3),self._step*(data[3]-1))) #6th point modifier
         bezier_points = []
-        
+
         #labels = ["p1s","mod","p1e","mod","p2s","mod","p2e","mod","p3s","mod","p3e","mod"]
 
-        for j in range(3):            
+        for j in range(3):
             bezier_points.extend(ex.DrawBezier(bezier[j]))
         self.ready_lines.append(bezier_points)
 
@@ -315,7 +323,7 @@ class Board(gd.BoardGame):
 
     def update(self,game):
         game.fill((255,255,255))
-        
+
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
@@ -323,13 +331,13 @@ class Board(gd.BoardGame):
         if self.solution_positions == self.board.grid[7]:
             for each_item in self.board.ships:
                 if each_item.grid_x != self.solution[each_item.unit_id]:
-                    correct = False 
+                    correct = False
                     break
         else:
             correct = False
         if correct == True:
             self.update_score(self.points)
-            self.level.next_board() 
+            self.level.next_board()
         else:
             if self.points > 0 :
                 self.points -= 1

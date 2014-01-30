@@ -2,30 +2,22 @@
 from __future__ import with_statement
 import classes.level_controller as lc
 import classes.game_driver as gd
-import classes.extras as ex
 
-import os, sys
 import classes.board
-import random
 import pygame
-import pickle
 
-    
+
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,2,2)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
+
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
 
-        s = 20
-        v = random.randrange(200, 255)
-        h = random.randrange(0, 255)
         white = ((255,255,255))
-        red = ((255,0,0))
         color = white
-        
+
         self.lang_titles = self.mainloop.lang.lang_titles
         self.all_lng = self.mainloop.lang.all_lng
         self.ok_lng = self.mainloop.lang.ok_lng
@@ -33,32 +25,29 @@ class Board(gd.BoardGame):
             self.languages = self.all_lng
         else:
             self.languages = self.ok_lng
-            
-        door_pos = []
-        
+
         self.lang_count = len(self.languages)
 
         data = [22,self.lang_count + 2]
-        
+
         max_x_count = self.get_x_count(data[1],even=True)
         if max_x_count > self.lang_count*2 and max_x_count > 24:
             data[0] = max_x_count
         self.data = data
-        
+
         self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
-        
+
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
+
         self.center = self.data[0] // 2
-        x = self.center - self.lang_count
-        
+
         self.board.add_unit(0,0,data[0],2,classes.board.Label,self.d["Language"]+":",color,"",25)
         self.board.units[-1].font_color = (255,75,0,0)
-        
+
         lang = self.mainloop.config.settings["lang"]
         lng_index = 0
 
@@ -71,15 +60,15 @@ class Board(gd.BoardGame):
             """
             if self.all_lng[i] == lang:
                 lng_index = i
-                
+
         for each in self.board.ships:
             each.immobilize()
             each.readable = False
             each.outline = False
             each.font_color = (55,105,5)
-            
+
         self.reselect(lng_index)
-        
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -90,7 +79,7 @@ class Board(gd.BoardGame):
                     #change language
                     if self.lang.lang != self.languages[active]:
                         self.change_language(self.languages[active],self.lang_titles[active],active)
-                    if toggle:                    
+                    if toggle:
                         self.mainloop.fullscreen_toggle(self.mainloop.info)
                     else:
                         self.level.load_level()
@@ -104,7 +93,7 @@ class Board(gd.BoardGame):
         self.mainloop.speaker.restart_server()
         self.mainloop.m.lang_change()
         self.mainloop.redraw_needed = [True,True,True]
-        
+
         if lng == "he":
             sv = self.lang.dp["Hebrew"]
         else:
@@ -114,7 +103,7 @@ class Board(gd.BoardGame):
         self.reselect(lang_id)
         self.mainloop.sb.resize()
         self.mainloop.sb.update_me = True
-        
+
     def reselect(self,selectid):
         for each in self.board.ships:
             if each.unit_id != selectid:

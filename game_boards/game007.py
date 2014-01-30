@@ -12,22 +12,24 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,99,27)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
-        
-        
+
+
     def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.vis_buttons = [0,1,1,0,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.ai_enabled = True
         self.board.draw_grid = False
-        s = random.randrange(150, 190, 2)
-        v = random.randrange(230, 255, 2)
         h = random.randrange(0, 255, 5)
         color0 = ex.hsv_to_rgb(h,30,230) #highlight 1
         self.color = color0
-        self.highlight_color = ex.hsv_to_rgb(h,230,150) 
+        self.highlight_color = ex.hsv_to_rgb(h,230,150)
         font_color = ex.hsv_to_rgb(h,70,230)
-        white = ((255,255,255))
+        white = (255,255,255)
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                white = (0,0,0)
         self.level.game_step = 0
         self.start_sequence = True
         self.completed_mode = False
@@ -91,37 +93,37 @@ class Board(gd.BoardGame):
             data = [13,9,0,7,7,26]
         elif self.level.lvl == 27:
             data = [13,9,0,7,7,27]
-            
+
         #rescale the number of squares horizontally to better match the screen width
         m = data[0] % 2
         if m == 0:
             data[0] = self.get_x_count(data[1],even=True)
         else:
             data[0] = self.get_x_count(data[1],even=False)
-        
+
         self.data = data
-        
+
         self.square_count = self.data[3]*self.data[4]
-        
+
         if self.square_count % 2 == 0: a = 0
         else: a = 1
-        
+
         self.max_games = self.square_count // 2 + a
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
+
 
         self.current_count = data[5]
         self.level.games_per_lvl = self.current_count
-        
+
         self.choice_list = [x for x in range(1,data[2]+1)]
         self.shuffled = self.choice_list[:]
         random.shuffle(self.shuffled)
-        
+
         h1=(data[1]-data[4])//2 #height of the top margin
         h2=data[1]-h1-data[4]#-1 #height of the bottom margin minus 1 (game label)
         w2=(data[0]-data[3])//2 #side margin width
-        
+
         self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",white,"")
 
         x = w2
@@ -139,7 +141,7 @@ class Board(gd.BoardGame):
             else:
                 x += 1
         self.outline_all(0,1)
-        
+
         #horizontal
         if data[4] < 8:
             self.board.add_unit(0,0,data[0],h1,classes.board.Obstacle,"",white,"",7)#top
@@ -150,9 +152,9 @@ class Board(gd.BoardGame):
         if data[3]<12:
             self.board.add_unit(0,h1,w2,data[4],classes.board.Obstacle,"",white,"",7)#left
             self.board.add_unit(w2+data[3],h1,w2,data[4],classes.board.Obstacle,"",white,"",7)#right
-        
+
         self.board.all_sprites_list.move_to_front(self.board.units[0])
-        
+
         self.draw_nums()
 
     def handle(self,event):
@@ -169,7 +171,7 @@ class Board(gd.BoardGame):
                     if len2 > len1:
                         self.level.game_step+=1
                         self.mainloop.redraw_needed[1] = True
-                        
+
                     if len(self.found)==self.current_count:
                         self.completed_mode = True
                         self.ai_enabled = True
@@ -188,16 +190,16 @@ class Board(gd.BoardGame):
         shuffled = choice[:]
         random.shuffle(shuffled)
         self.chosen = shuffled[0:self.current_count]
-        
+
 
     def next_level(self):
         self.level.levelup()
-        
-    
+
+
     def game_over(self):
         self.current_count = self.data[5]
         self.level.load_level()
-        
+
     def highlight_colors(self):
         for each in self.board.ships:
             if each.unit_id in self.chosen:
@@ -206,14 +208,14 @@ class Board(gd.BoardGame):
                 each.update_me = True
         self.mainloop.redraw_needed[0] = True
         self.mainloop.redraw_needed[1] = True
-                
+
     def reset_colors(self):
         for each in self.board.ships:
             each.initcolor = self.color
             each.color = self.color
             each.update_me = True
-        self.mainloop.redraw_needed[0] = True  
-                
+        self.mainloop.redraw_needed[0] = True
+
     def ai_walk(self):
         if self.start_sequence:
             if self.disp_counter < self.disp_len:
@@ -231,7 +233,7 @@ class Board(gd.BoardGame):
                 self.completed_mode = False
                 self.update_score(self.level.lvl * 2)
                 self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
-                self.disp_counter = 0                
+                self.disp_counter = 0
                 self.next_level()
         elif self.game_over_mode:
             self.disp_counter += 1
@@ -240,6 +242,6 @@ class Board(gd.BoardGame):
                 self.game_over_mode = False
                 self.disp_counter = 0
                 self.game_over()
-        
+
     def check_result(self):
         pass

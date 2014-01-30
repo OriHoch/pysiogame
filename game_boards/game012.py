@@ -2,27 +2,27 @@
 
 import classes.level_controller as lc
 import classes.game_driver as gd
-import classes.extras as ex
 
 import classes.board
 import random
 import pygame
+import os
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
-        
+
     def create_game_objects(self, level = 1):
         self.ai_enabled = True
         self.board.draw_grid = False
-        s = random.randrange(30, 80)
-        v = random.randrange(200, 255)
-        h = random.randrange(0, 255)
-        color = ex.hsv_to_rgb(h,s,v)
         white = [255,255,255]
-        
+
+        scheme = "white"
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                scheme = "black"
+
         if self.level.lvl == 1:
             data = [7,5,17,-2]
         elif self.level.lvl == 2:
@@ -43,13 +43,13 @@ class Board(gd.BoardGame):
             data = [7,5,8,-2]
         elif self.level.lvl == 10:
             data = [7,5,8,-1]
-            
+
         self.ai_speed = data[2]
         #stretch width to fit the screen size
         max_x_count = self.get_x_count(data[1],even=False)
         if max_x_count > 7:
             data[0] = max_x_count
-            
+
         self.data = data
         self.level.game_step = 0
         self.level.games_per_lvl = 1
@@ -61,23 +61,24 @@ class Board(gd.BoardGame):
         self.current_step = 0
         self.start_sequence = True
         self.completed_mode = False
-        
+
         self.center = [data[0]//2,data[1]//2]
-        
+
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        self.board.add_unit(self.center[0],self.center[1],1,1,classes.board.MultiImgSprite,"",white,"owl_5.png",0,frame_flow = [0,1,2,3,4,3,2,1,0],frame_count=9,row_data=[5,1])
+        self.board.add_unit(self.center[0],self.center[1],1,1,classes.board.MultiImgSprite,"",white,os.path.join("schemes",scheme,"owl_5.png"),0,frame_flow = [0,1,2,3,4,3,2,1,0],frame_count=9,row_data=[5,1])
         self.owl = self.board.ships[0]
         self.owl.outline = False
         self.owl.draggable = False
         self.owl.audible = True
         self.board.active_ship = 0
         self.ship_id = 0
-        self.images = ["a_yellow_150.png","a_green_150.png","a_blue_150.png","a_red_150.png"]
+
+        self.images = [os.path.join("schemes",scheme,"a_yellow_150.png"),os.path.join("schemes",scheme,"a_green_150.png"),os.path.join("schemes",scheme,"a_blue_150.png"),os.path.join("schemes",scheme,"a_red_150.png")]
         for i in range(4):
             self.board.add_door(self.center[0],self.center[1],1,1,classes.board.SlidingDoor,"",white,self.images[i],frame_flow=[0,1], frame_count=2,row_data=[2,1])
 
@@ -109,7 +110,7 @@ class Board(gd.BoardGame):
                 elif column == self.owl_pos[0] and row == self.owl_pos[1]+1:
                     self.direction[1] = 1
                     arrow_clicked = True
-                    
+
                 if arrow_clicked:
                     self.check_direction_kdown()
         if (event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN) and self.moveable == False:
@@ -118,7 +119,7 @@ class Board(gd.BoardGame):
             self.highlight_color(-1)
             self.mainloop.redraw_needed[0] = True
             self.move = False
-        
+
     def update_arrows(self):
         directions = [[-1,0],[1,0],[0,-1],[0,1]]
         self.owl_pos = list(self.board.active_ship_pos)
@@ -133,13 +134,13 @@ class Board(gd.BoardGame):
                 pos = self.owl_pos
             self.board.units[i].set_pos(pos)
         self.mainloop.redraw_needed[0] = True
-        
+
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def after_keydown_move(self):
-        
+
         self.update_arrows()
         if self.owl_pos == self.moves[self.current_step]:
             self.highlight_color(self.move_buttons[self.current_step])
@@ -156,18 +157,18 @@ class Board(gd.BoardGame):
         else:
             self.game_over()
         self.move = False
-        
+
     def next_level(self):
         self.current_step = 0
         self.board._place_unit(0, self.center)
         self.update_arrows()
-    
+
     def game_over(self):
         self.level.games_per_lvl = 1
         self.level.game_step = 0
         self.mainloop.redraw_needed[1] = True
         self.level.game_over()
-        
+
     def highlight_color(self,btn_id):
         for i in range(4):
             if i == btn_id:
@@ -176,7 +177,7 @@ class Board(gd.BoardGame):
             else:
                 self.board.units[i].set_frame(0)
                 self.board.units[i].update_me = True
-        
+
     def add_next_move(self):
         next, btn = self.pick_index()
         if len(self.moves) > -1 - self.data[3]:
@@ -189,7 +190,7 @@ class Board(gd.BoardGame):
         index = random.choice(range(len(self.possible_moves)))
         next = self.possible_moves[index]
         btn = self.possible_move_buttons[index]
-        return [next, btn]    
+        return [next, btn]
 
     def ai_walk(self):
         if self.start_sequence:
@@ -210,7 +211,7 @@ class Board(gd.BoardGame):
                 self.owl.update_me = True
             else:
                 self.check_result()
-        
+
     def check_result(self):
         if self.current_step == len(self.moves)-1:
             self.update_score(len(self.moves)*2)
@@ -220,10 +221,9 @@ class Board(gd.BoardGame):
             self.level.game_step = 0
             self.owl.set_frame(0)
             self.owl.update_me = True
-            self.mainloop.redraw_needed[1] = True            
+            self.mainloop.redraw_needed[1] = True
             self.completed_mode = False
             self.start_sequence = True
             self.ai_enabled = True
             self.ai_speed = self.data[2]
             self.moveable = False
-            

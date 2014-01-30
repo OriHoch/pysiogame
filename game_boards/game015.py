@@ -13,16 +13,25 @@ class Board(gd.BoardGame):
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
         
     def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
         self.board.draw_grid = False
-        
         s = random.randrange(150, 190, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        white = ((255,255,255))
+        white = (255,255,255)
+        if self.mainloop.scheme is None:
+            color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
+            font_col = (0,0,0)
+        else:
+            font_col = self.mainloop.scheme.u_font_color
+            if self.mainloop.scheme.dark:
+                white = (0,0,0)
+                color0 = (0,0,10)
+            else:
+                color0 = (254,254,255)
         #setting level variable
         #data = [x_count, y_count, number_count, top_limit, ordered]
         if self.level.lvl == 1:
@@ -81,15 +90,13 @@ class Board(gd.BoardGame):
             temp = self.shuffled[0]
             self.shuffled[0]=self.shuffled[1]
             self.shuffled[1]=temp
-
-        color = ((255,255,255))
         
         h1=(data[1]-data[4])//2 #height of the top margin
         h2=data[1]-h1-data[4]-1 #height of the bottom margin minus 1 (game label)
         w2=(data[0]-data[3])//2 #side margin width
         self.check = [h1,h2,w2]
         
-        self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",color,"")
+        self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",white,"")
         #create table to store 'binary' solution 
         #find position of first door square
         x = w2
@@ -100,11 +107,15 @@ class Board(gd.BoardGame):
         h_start = random.randrange(0, 155, 5)
         h_step = 100 // (data[2])
         for i in range(data[2]):
-            h = (h_start + (self.shuffled[i]-1)*h_step)
-            number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
+            if self.mainloop.scheme is None:
+                h = (h_start + (self.shuffled[i]-1)*h_step)
+                number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
+            else:
+                number_color = color0
             caption = str(self.shuffled[i])
             self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",2)
             self.board.ships[-1].readable = False
+            self.board.ships[-1].font_color = font_col
             line.append(i)
             x += 1            
             if x >= w2+data[3] or i == data[2]-1:
@@ -112,15 +123,18 @@ class Board(gd.BoardGame):
                 y += 1
                 self.mini_grid.append(line)
                 line=[]
+        if self.mainloop.scheme is not None:
+            self.outline_all(font_col,1)
         instruction = self.d["Re-arrange right"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",5)#bottom 2
         self.board.ships[-1].immobilize()
+        if self.mainloop.scheme is not None:
+            self.board.ships[-1].font_color = self.mainloop.scheme.u_font_color
         
         self.board.ships[-1].speaker_val = self.dp["Re-arrange right"]
         self.board.ships[-1].speaker_val_update = False
-        
-        self.outline_all(0,1)
-        
+        if self.mainloop.scheme is None:
+            self.outline_all(0,1)
         #horizontal
         self.board.add_unit(0,0,data[0],h1,classes.board.Obstacle,"",white,"",7)#top
         self.board.add_unit(0,h1+data[4],data[0],h2,classes.board.Obstacle,"",white,"",7)#bottom 1

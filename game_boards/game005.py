@@ -6,14 +6,13 @@ import classes.extras as ex
 
 import classes.board
 import random
-import colorsys
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,99,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,6)
-        
-        
+
+
     def create_game_objects(self, level = 1):
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
@@ -21,11 +20,8 @@ class Board(gd.BoardGame):
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
-        color2 = ex.hsv_to_rgb(h,s,v) #normal color
-        color3 = ex.hsv_to_rgb(h,230,100)
         font_color = ex.hsv_to_rgb(h,255,140)
-        
+
         #data = [x_count, y_count, number_count, top_limit, ordered]
         if self.level.lvl == 1:
             data = [11,6,3,9,True,1]
@@ -48,15 +44,15 @@ class Board(gd.BoardGame):
         elif self.level.lvl == 10:
             data = [11,6,11,99,False,2]
         self.chapters = [1,3,5,7,9,10]
-        
+
         self.points = (data[2]+2) // 3 + self.level.lvl // 4
-        
+
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
 
         self.num_list = []
-        
+
         if data[4] == True:
             choice_list = [x for x in range(data[3]-data[2])]
             index = random.randrange(0,len(choice_list))
@@ -70,13 +66,13 @@ class Board(gd.BoardGame):
                 index = random.randrange(0,len(choice_list))
                 self.num_list.append(choice_list[index])
                 del(choice_list[index])
-                
+
         shuffled = self.num_list[:]
         random.shuffle(shuffled)
 
         color = ((255,255,255))
-        
-        #create table to store 'binary' solution 
+
+        #create table to store 'binary' solution
         self.solution_grid = [0 for x in range(data[0])]
 
         #find position of first door square
@@ -90,19 +86,20 @@ class Board(gd.BoardGame):
             y = random.randrange(1,5)
             number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             caption = str(shuffled[i])
-            self.board.add_unit(x+i,y,1,1,classes.board.Letter,caption,number_color,"",data[5])         
+            self.board.add_unit(x+i,y,1,1,classes.board.Letter,caption,number_color,"",data[5])
             self.solution_grid[x+i]=1
-            
+            self.board.ships[-1].readable = False
+
         for each in self.board.units:
-            self.board.all_sprites_list.move_to_front(each) 
-            
+            self.board.all_sprites_list.move_to_front(each)
+
         instruction = self.d["Re-arrange ascending"]
         self.board.add_unit(0,5,11,1,classes.board.Letter,instruction,color0,"",7)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
         self.board.ships[-1].speaker_val = self.dp["Re-arrange ascending"]
         self.board.ships[-1].speaker_val_update = False
-        self.outline_all(0,1)        
+        self.outline_all(0,1)
 
 
     def handle(self,event):

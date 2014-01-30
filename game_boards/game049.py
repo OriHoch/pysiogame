@@ -11,11 +11,11 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,2,16)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,26,9)
-        
+
     def create_game_objects(self, level = 1):
         if not self.lang.has_uc:
             self.level.lvl_count = 8
-            
+
         if self.level.lvl > self.level.lvl_count:
             self.level.lvl = self.level.lvl_count
         self.vis_buttons = [1,1,1,1,1,1,1,1,0]
@@ -24,32 +24,26 @@ class Board(gd.BoardGame):
         v = random.randrange(230, 255)
         h = random.randrange(0, 255)
         color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
-        color2 = ex.hsv_to_rgb(h,s,v) #normal color
-        color3 = ex.hsv_to_rgb(h,230,100)
-        red = ex.hsv_to_rgb(255,s,v)
         font_color = ex.hsv_to_rgb(h,255,140)
-        
-        self.alphabet_lc = self.lang.alphabet_lc 
+
+        self.alphabet_lc = self.lang.alphabet_lc
         self.alphabet_uc = self.lang.alphabet_uc
         self.alphabet_len = len(self.alphabet_lc)
-        
+
         if self.alphabet_len % 2 == 0:
             self.alphabet_width = self.alphabet_len // 2
             self.last_block = False
         else:
             self.alphabet_width = self.alphabet_len // 2 + 1
             self.last_block = True
-            
-        
+
         #number of letters to find
         nlf = [0,0,0,0]
-        
-        al = self.alphabet_len
+
         aw = self.alphabet_width
-        
+
         nlf[1] = aw
-        
+
         if aw % 2 == 0:
             if (aw//2)%2 == 0:
                 nlf[0] = aw // 2
@@ -60,8 +54,7 @@ class Board(gd.BoardGame):
                 nlf[0] = aw // 2 + 1
             else:
                 nlf[0] = aw // 2
-            #nlf[0] = aw // 2
-        
+
         nlf[2] = nlf[0] + nlf[1]
         nlf[3] = aw * 2 - 4
 
@@ -73,7 +66,7 @@ class Board(gd.BoardGame):
             data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[2]]
         elif self.level.lvl == 4:
             data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[3]]
-            
+
         elif self.level.lvl == 5:
             data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[0]]
         elif self.level.lvl == 6:
@@ -91,7 +84,7 @@ class Board(gd.BoardGame):
                 data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[2]]
             elif self.level.lvl == 12:
                 data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[3]]
-                
+
             elif self.level.lvl == 13:
                 data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[0]]
             elif self.level.lvl == 14:
@@ -99,13 +92,13 @@ class Board(gd.BoardGame):
             elif self.level.lvl == 15:
                 data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[2]]
             elif self.level.lvl == 16:
-                data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[3]]    
-            
+                data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[3]]
+
         if self.level.lvl < 9:
             self.points = data[4] // 5 + (self.level.lvl+3) // 4
         else:
             self.points = data[4] // 5 + (self.level.lvl+3) // 8
-            
+
         if self.lang.has_uc:
             self.chapters = [1,5,9,13,16]
         else:
@@ -113,20 +106,18 @@ class Board(gd.BoardGame):
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
-        self.word = self.data[2][:] #[chr(x) for x in range(data[2],data[3])]#self.words[random.randrange(0,len(self.words))]
-        word_len = self.alphabet_len #26#len(self.word)
+
+        self.word = self.data[2][:]
+        word_len = self.alphabet_len
         if not self.lang.ltr_text:
-            s = "".join(self.word)
-            s = ex.unival(s)
-            self.word = s[data[0]-1:0:-1] + s[0]
-            self.word += s[word_len:data[0]-1:-1]
+            sx = "".join(self.word)
+            sx = ex.unival(sx)
+            self.word = sx[data[0]-1:0:-1] + sx[0]
+            self.word += sx[word_len:data[0]-1:-1]
         chosen_indexes = []
-        shuffled = []
-        choice_list = self.word[:]
         index_list_org = [x for x in range(self.alphabet_len)]
         index_list = [x for x in range(self.alphabet_len)]
-        
+
         lowered = []
         for i in range(data[4]):#picking letters to lower
             index = random.randrange(0,len(index_list))
@@ -135,10 +126,10 @@ class Board(gd.BoardGame):
             del(index_list[index])
         random.shuffle(lowered)
         color = ((255,255,255))
-        
-        #create table to store 'binary' solution 
+
+        #create table to store 'binary' solution
         self.solution_grid = [1 for x in range(data[0])]
-        
+
         x = 0
         y = 0
         if data[4] < data[0]:
@@ -150,32 +141,28 @@ class Board(gd.BoardGame):
         y2 = 2
         j = 0
         h_step = 255 // self.alphabet_len
-        
+
         for i in range(self.alphabet_len):
             picked = False
             if i in lowered:
                 picked = True
-            if data[3] == 1: 
+            if data[3] == 1:
                 h = random.randrange(0, 255, 5)
             else:
                 if self.lang.ltr_text:
                     if picked:
-                        letter = lowered[j]
                         h = round(h_step*lowered[j])
                     else:
-                        letter = self.word[i]
                         h = round(h_step*index_list_org[i])
                 else:
                     if picked:
-                        letter = lowered[j]
                         h = round(h_step*(self.alphabet_len - lowered[j]))
                     else:
-                        letter = self.word[i]
                         h = round(h_step*(self.alphabet_len - index_list_org[i]))
-                    
+
             number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
-            
-            #change y 
+
+            #change y
             if picked:
                 if j < data[0]:
                     xj = x2 + j
@@ -188,7 +175,7 @@ class Board(gd.BoardGame):
                 self.board.units[j].door_outline = True
                 self.board.ships[i].highlight = False
                 self.board.ships[i].outline_highlight = True
-                j += 1         
+                j += 1
             else:
                 caption = self.word[i]
                 self.board.add_unit(x,y,1,1,classes.board.Letter,caption,number_color,"",0)
@@ -203,7 +190,7 @@ class Board(gd.BoardGame):
                     else:
                         x = 1
                 y = data[1]-2
-                
+
         for each in self.board.units:
             self.board.all_sprites_list.move_to_front(each)
 
@@ -222,7 +209,7 @@ class Board(gd.BoardGame):
         self.board.ships[-1].immobilize()
         self.board.ships[-1].speaker_val = self.dp["Complete abc"]
         self.board.ships[-1].speaker_val_update = False
-        self.outline_all(0,1)   
+        self.outline_all(0,1)
 
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
@@ -252,4 +239,3 @@ class Board(gd.BoardGame):
                 self.level.try_again()
         else:
             self.level.try_again()
-                

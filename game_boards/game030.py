@@ -5,10 +5,9 @@ import classes.game_driver as gd
 import pygame
 import classes.board
 import random
-import colorsys
-
 import os.path
 import pygame.mixer
+
 sounds = pygame.mixer
 sounds.init()
 
@@ -19,8 +18,8 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,15,6)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,12,7)
-        
-        
+
+
     def create_game_objects(self, level = 1):
         self.change_count = 0
         self.ai_enabled = True
@@ -50,15 +49,15 @@ class Board(gd.BoardGame):
             data = [6,3,50,-1,45]
 
         self.data = data
-        
+
         self.level.games_per_lvl = data[2]
-        
+
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
+
         self.board.add_unit(0,0,2,2,classes.board.Label,"0",self.score_bg,"",3)
         self.board.add_unit(0,2,2,1,classes.board.Label,str(self.mainloop.score),self.score_bg,"",3)
         self.hit_miss = self.board.units[0]
@@ -81,7 +80,7 @@ class Board(gd.BoardGame):
     def update(self,game):
         game.fill(self.grass_bg)
         gd.BoardGame.update(self, game) #rest of painting done by parent
-    
+
     def ai_walk(self):
         if self.frame_flow == 0:
             self.activate()
@@ -92,30 +91,30 @@ class Board(gd.BoardGame):
         elif 4 + self.data[3] < self.frame_tick < 8 + self.data[3]:#4 -> 8
             self.active_mole.next_frame()
             self.active_mole.update_me = True
-        
+
         self.frame_tick += 1
         if self.frame_tick > 14+self.data[3]:
             self.frame_tick = 0
             self.active_mole.reset()
             self.activate()
             self.check_result()
-        
+
     def activate(self):
         self.active_mole_id = random.randrange(0,12)
-        self.active_mole = self.board.ships[self.active_mole_id]        
+        self.active_mole = self.board.ships[self.active_mole_id]
         self.active_mole.reset()
         self.frame_tick = 0
         y = self.active_mole_id // 4
         x = self.active_mole_id - (y*4)+2
         self.active_mole_pos = (x,y)
-        
+
         self.total_ += 1
         if self.total_ == self.data[2]+1:
             pass#self.check_result()
         else:
             self.level.game_step = self.total_
             self.hit_miss.value = str(self.hit_)
-        
+
         self.mainloop.redraw_needed[1]=True
 
     def reset(self):
@@ -126,12 +125,12 @@ class Board(gd.BoardGame):
         self.reset()
         self.points = 0
         self.hit_ = 0
-        self.total_ = 1 
+        self.total_ = 1
         self.score.value = str(self.mainloop.score)
         self.hit_miss.value = str(self.hit_)
 
     def hit(self):
-        if self.active_mole != None and self.frame_tick < 8+self.data[3] and self.board.active_ship_pos == self.active_mole_pos:
+        if self.active_mole is not None and self.frame_tick < 8+self.data[3] and self.board.active_ship_pos == self.active_mole_pos:
             self.points += self.active_mole.frame_flow[self.active_mole.frame]*10
             self.score.value = str(self.mainloop.score+self.points)
             self.active_mole_pos = (-1,-1)
@@ -142,12 +141,12 @@ class Board(gd.BoardGame):
             self.hit_miss.value = str(self.hit_)
             self.hit_miss.update_me = True
             self.score.update_me = True
-            
+
     def game_over(self):
-        tts = self.dp["work harder"]          
+        tts = self.dp["work harder"]
         self.level.game_step = self.total_
         self.level.game_over(tts)
-        
+
     def check_result(self):
         if self.total_ < self.data[2]:
             if self.total_ - self.hit_ > self.max_escape:

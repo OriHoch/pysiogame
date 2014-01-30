@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import os, sys
-import subprocess
+import sys
 import colorsys
-from classes.simple_vector import Vector2
 import random
 
 #the following four color functions take 3 values in range 0 - 255
 #h - hue
 #s - saturation - s=0 white, s=255 full color
 #v - vibrance - v=0 black, v=255 full color
+
 def hsv_to_rgb(h,s,v):
     hsv = [h,s,v]
     hsv_clean = hsv
@@ -20,12 +19,10 @@ def hsv_to_rgb(h,s,v):
             hsv_clean[i] = 1
         else:
             hsv_clean[i] = float(hsv[i])/255.0
-
     rgb = colorsys.hsv_to_rgb(*hsv_clean)
     return [int(each*255) for each in rgb]
 
 def rgb_to_hsv(r,g,b):
-    #pass
     hsv = colorsys.rgb_to_hsv(r/255.0,g/255.0,b/255.0)
     hsv255 = [int(each*255) for each in hsv]
     return hsv255
@@ -49,7 +46,7 @@ def rgb_to_hsl(r,g,b):
     hsl255 = [int(each*255) for each in hsl]
     hsl255 = [hsl255[0],hsl255[2],hsl255[1]]
     return hsl255
-    
+
 def unival(value):
     val = value
     if sys.version_info < (3, 0):
@@ -63,55 +60,71 @@ def unival(value):
     else:
         val = value
     return val
-    
-def reverse_x(s, alpha):
-    return s
-    
+
+def IsHebrew(s):
+    alpha = "אבּבגדהוזחטיכּכךּךלמםנןסעפּפףצץקרשׁשׂתּתװױײ׳״"
+    alpha += ",.;:?"
+    if sys.version_info < (3, 0):
+        alpha = alpha.decode("utf-8")
+    for each in s:
+        if each not in alpha:
+            return False
+    return True
+
 def reverse(s, alpha):
-    "used with right-to-left languages to reverse text. Takes the string to reverse and a string containing all letters of the rtl alphabet" 
-    l = []
-    p =" :',.?-"
-    s2 = s[:]
     if sys.version_info < (3, 0):
         if not isinstance(s, unicode):
             s = s.decode('utf-8')
-        p = p.decode("utf-8")
         alpha = alpha.decode("utf-8")
-        
-    for each in s:
-        l.append(each)
-    
-    ln = len(l)
-    l2 = [' '] * ln
-    tmp = ""
-    mode = None
-    i = ln-1
-    j = 0
-    ej = None
-    while i > -1:
-        if l[i] in alpha or (mode == "rtl" and l[i] in p):
-            ltmp = len(tmp)
-            if ltmp > 0:
-                if ltmp == 1:
-                    l2[ej] = tmp
-                else:
-                    l2[ej-1:j-1] = tmp
-                tmp = ""
-                ej = None
-            l2[j] = l[i]
-            mode = "rtl"
+
+    ret = list()
+    words = s.split()
+
+    curHebrewList = list()
+    curEnglishList = list()
+    curLangIsHebrew = False
+
+    for w in words:
+        if(IsHebrew(w) and curLangIsHebrew):
+            curHebrewList.append(w[::-1])
+        elif(IsHebrew(w) and not curLangIsHebrew):
+            if(len(curEnglishList) > 0):
+                curEnglishList.reverse()
+                ret.extend(curEnglishList)
+            curEnglishList = list()
+            curHebrewList.append(w[::-1])
+            curLangIsHebrew=True
+        elif(not IsHebrew(w) and not curLangIsHebrew):
+            w = w.split()
+
+            w.reverse()
+            curEnglishList.append("".join(w))
+        elif(not IsHebrew(w) and curLangIsHebrew):
+            if(len(curHebrewList) > 0):
+                ret.extend(curHebrewList)
+            curHebrewList = list()
+
+            w = w.split()
+            w.reverse()
+            curEnglishList.append("".join(w))
+            curLangIsHebrew=False
         else:
-            if ej == None:
-                ej = j
-            tmp = l[i] + tmp
-            mode = "ltr"
-        j = j+1
-        i = i-1
-    if tmp != "":
-        l2[ej: j+1] = tmp
-        
-    return "".join(l2)
-    
+            pass
+    if(len(curHebrewList) > 0):
+        ret.extend(curHebrewList)
+    if(len(curEnglishList) > 0):
+        curEnglishList.reverse()
+        ret.extend(curEnglishList)
+
+    ln = len(ret)
+    s = ""
+    for i in range(ln-1,-1,-1):
+        s+=ret[i]
+        if i>-1:
+            s+= " "
+    return s
+
+
 def rr2(from1,to1,from2,to2,step=1):
     x = random.choice([-1,1])
     if x == -1:
@@ -119,34 +132,34 @@ def rr2(from1,to1,from2,to2,step=1):
     else:
         a = random.randrange(from2,to2,step)
     return a
-    
+
 def rr3(from1,to2, center, exclusion_zone,step=1):
     to1 = center-exclusion_zone
     from2 = center+exclusion_zone
     if from1 < to1 < from2 < to2:
         return rr2(from1, to1, from2, to2, step)
-    
+
 def rand_safe_curve(point,width,height):
-    x_space = width - point[0] 
-    y_space = height - point[1] 
- 
+    x_space = width - point[0]
+    y_space = height - point[1]
+
     if x_space > point[0]:
         max_x = point[0]
     else:
         max_x = x_space
-        
+
     if y_space > point[1]:
         max_y = point[1]
     else:
         max_y = y_space
-        
+
     x = rr3(point[0]-max_x,point[0]+max_x, point[0], max_x//2)
     y = rr3(point[1]-max_y,point[1]+max_y, point[1], max_y//2)
     return [x,y]
 
 def sqr(num):
     return num*num
- 
+
 def cube(num):
     return num*num*num
 
@@ -188,7 +201,7 @@ def get_word_list(di):
             tmp.add(word)
         wl.append(list(tmp))
     return wl
-    
+
 def first_upper(text):
     #word_list[i][k][0]) + word_list[i][k][1:]
     if sys.version_info < (3, 0):
@@ -198,9 +211,9 @@ def first_upper(text):
         text = text.encode("utf-8")
     else:
         text = text[0].upper() + text[1:]
-        
+
     return text
-    
+
 def word_typing_course(word_list):
     'used in touch typing program to build a list of words to retype'
     #repeats =[3,4,5,6,7,8,9,10]

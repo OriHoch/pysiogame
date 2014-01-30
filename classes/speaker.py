@@ -26,7 +26,7 @@ class Speaker(threading.Thread):
             self.needs_encode = True
         
     def start_server(self):
-        if self.enabled and self.lang.voice != None:
+        if self.enabled and self.lang.voice is not None:
             #prior to lang
             #voices = ["-s 190 -a 100 -p 75 -ven+m1 ", "-s 170 -a 100 -p 80 -ven+m2 ","-s 175 -a 100 -p 80 -ven+m3 ","-s 190 -a 100 -p 60 -ven+f1 ","-s 170 -a 100 -p 75 -ven+f2 ","-s 170 -a 100 -p 80 -ven+m2 "]
             #attr = voices[4]
@@ -71,7 +71,7 @@ class Speaker(threading.Thread):
         pass
         
     def stop_server(self):
-        if self.enabled and self.started and self.process != None:
+        if self.enabled and self.started and self.process is not None:
             self.process.stdin.close()
             self.process.stdout.close()
             self.process.stderr.close()
@@ -81,7 +81,7 @@ class Speaker(threading.Thread):
                 print("Error killing the espeak process")
                 
     def stop_server_en(self):
-        if self.enabled and self.started_en and self.process_en != None:
+        if self.enabled and self.started_en and self.process_en is not None:
             self.process_en.stdin.close()
             self.process_en.stdout.close()
             self.process_en.stderr.close()
@@ -91,7 +91,7 @@ class Speaker(threading.Thread):
                 print("Error killing the espeak process")
                 
     def say(self,text,voice=1):
-        if self.enabled and self.talkative and (self.lang.voice != None or self.spk == self.process_en):
+        if self.enabled and self.talkative and (self.lang.voice is not None or self.spk == self.process_en):
             if self.spk == self.process:
                 text = self.check_letter_name(text)
             text = text + "\n"

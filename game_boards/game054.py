@@ -14,7 +14,7 @@ class Board(gd.BoardGame):
         self.level = lc.Level(self,mainloop,999,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         
-    def create_game_objects(self, level = 1):        
+    def create_game_objects(self, level = 1):
         self.board.draw_grid = False
 
         color = ex.hsv_to_rgb(225,15,235)
@@ -175,25 +175,25 @@ class Board(gd.BoardGame):
         if self.picked != [r,g,b]:
             help = ""
             if self.picked[0] > r:
-                help += self.d['more red'] + ", "
+                help += self.dp['more red'] + ", "
             elif self.picked[0] < r:
-                help += self.d['less red'] + ", "
+                help += self.dp['less red'] + ", "
             else:
-                help += self.d['red is ok'] + ", "
+                help += self.dp['red is ok'] + ", "
 
             if self.picked[1] > g:
-                help += self.d['more green'] + ", "
+                help += self.dp['more green'] + ", "
             elif self.picked[1] < g:
-                help += self.d['less green'] + ", "
+                help += self.dp['less green'] + ", "
             else:
-                help += self.d['green is ok'] + ", "
+                help += self.dp['green is ok'] + ", "
             
             if self.picked[2] > b:
-                help += self.d['more blue'] + ". "
+                help += self.dp['more blue'] + ". "
             elif self.picked[2] < b:
-                help += self.d['less blue'] + ". "
+                help += self.dp['less blue'] + ". "
             else:
-                help += self.d['blue is ok'] + ". "
+                help += self.dp['blue is ok'] + ". "
             self.say(help)
             if self.points > 0:
                 self.points -= 1

@@ -13,57 +13,61 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,20)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
-        
-        
+
+
     def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.vis_buttons = [0,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.board.draw_grid = False
-        
-        s = random.randrange(150, 190, 5)
-        v = random.randrange(230, 255, 5)
-        h = random.randrange(0, 255, 5)
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        outline_color = ((150,150,150))
-        white = ((255,255,255))
+
+        outline_color = (150,150,150)
+        white = (255,255,255)
+        if self.mainloop.scheme is not None and self.mainloop.scheme.dark:
+            white = (0,0,0)
         #setting level variable
         #data = [x_count, y_count, number_count, top_limit, ordered]
         data = [7,6,8,3,3]
         self.chapters = [1,5,10,15,20]
-        
+
         #rescale the number of squares horizontally to better match the screen width
         data[0] = self.get_x_count(data[1],even=False)
-            
+
         self.data = data
-        
+
         self.points = 9
-        
+
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        
+
         if self.mainloop.m.game_variant == 0:
-            image_src = [os.path.join('memory', "m_img%da.png" % (i)) for i in range(1,21)] 
-            grey_image_src = [os.path.join('memory', "m_img%db.png" % (i)) for i in range(1,22)] 
+            if self.mainloop.scheme is None or not self.mainloop.scheme.dark:
+                image_src = [os.path.join('memory', "m_img%da.png" % (i)) for i in range(1,21)]
+                grey_image_src = [os.path.join('memory', "m_img%db.png" % (i)) for i in range(1,22)]
+            else:
+                image_src = [os.path.join('schemes', "black", "match_animals", "m_img%da.png" % (i)) for i in range(1,21)]
+                grey_image_src  = [os.path.join('schemes', "black", "match_animals", "m_img%db.png" % (i)) for i in range(1,22)]
+
         elif self.mainloop.m.game_variant == 1:
-            image_src = [os.path.join('memory', "f_img%da.png" % (i)) for i in range(1,21)] 
+            image_src = [os.path.join('memory', "f_img%da.png" % (i)) for i in range(1,21)]
             grey_image_src = [os.path.join('memory', "m_img22b.png")]
         elif self.mainloop.m.game_variant == 2:
-            image_src = [os.path.join('memory', "n_img%da.png" % (i)) for i in range(2,22)] 
+            image_src = [os.path.join('memory', "n_img%da.png" % (i)) for i in range(2,22)]
             grey_image_src = [os.path.join('memory', "m_img22b.png")]
-            
+
         self.bg_img_src = image_src[self.level.lvl-1] #os.path.join('memory', "m_img13a.png")
-        if len(grey_image_src) > 1:        
+        if len(grey_image_src) > 1:
             self.bg_img_grey_src = grey_image_src[self.level.lvl-1] #os.path.join('memory', "m_img13b.png")
         else:
-            self.bg_img_grey_src = grey_image_src[0]
+            self.bg_img_grey_src = "" #grey_image_src[0]
         self.bg_img = classes.board.ImgSurf(self.board,3,3,white,self.bg_img_src)
-            
+
         self.finished = False
         self.choice_list = [x for x in range(1,data[2]+1)]
         self.shuffled = self.choice_list[:]
         random.shuffle(self.shuffled)
-        
+
         inversions = ex.inversions(self.shuffled)
         if inversions % 2 != 0: #if number of inversions is odd it is unsolvable
             #in unsolvable combinations swapping 2 squares will make it solvable
@@ -71,17 +75,14 @@ class Board(gd.BoardGame):
             self.shuffled[0]=self.shuffled[1]
             self.shuffled[1]=temp
 
-        color = ((255,255,255))
-        
         h1=(data[1]-data[4])//2 #height of the top margin
         h2=data[1]-h1-data[4]-1 #height of the bottom margin minus 1 (game label)
         w2=(data[0]-data[3])//2 #side margin width
         self.check = [h1,h2,w2]
-        
-        self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",color,self.bg_img_grey_src)
-            
+        self.board.add_door(w2,h1,data[3],data[4],classes.board.Door,"",white,self.bg_img_grey_src)
+
         self.board.units[0].image.set_colorkey((1,2,3))
-        #create table to store 'binary' solution 
+        #create table to store 'binary' solution
         #find position of first door square
         x = w2
         y = h1
@@ -90,10 +91,9 @@ class Board(gd.BoardGame):
         line = []
         h_start = random.randrange(0, 155, 5)
         h_step = 100 // (data[2])
-        
+
         for i in range(data[2]):
             h = (h_start + (self.shuffled[i]-1)*h_step)
-            number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
             caption = str(self.shuffled[i])
             self.board.add_unit(x,y,1,1,classes.board.ImgShip,caption,white,self.bg_img_src)
             self.board.ships[-1].img = self.bg_img.img.copy()
@@ -104,22 +104,22 @@ class Board(gd.BoardGame):
                 offset_x = self.board.scale - 0
             elif self.shuffled[i] in [3,6]:
                 offset_x = (self.board.scale - 0)*2
-                
+
             if self.shuffled[i] in [4,5,6]:
                 offset_y = self.board.scale - 0
             elif self.shuffled[i] in [7,8]:
                 offset_y = (self.board.scale - 0)*2
-                
+
             self.board.ships[-1].img_pos = (-offset_x,-offset_y)
-            
+
             line.append(i)
-            x += 1            
+            x += 1
             if x >= w2+data[3] or i == data[2]-1:
                 x = w2
                 y += 1
                 self.mini_grid.append(line)
                 line=[]
-        
+
         #mini img below game
         self.board.add_unit(w2+data[3]-2,data[1]-1,1,1,classes.board.ImgShip,"",white,self.bg_img_src)
         self.preview = self.board.ships[-1]
@@ -131,17 +131,17 @@ class Board(gd.BoardGame):
         pygame.draw.line(self.preview.img,outline_color,[step*2,0],[step*2,step*3],1)
         pygame.draw.line(self.preview.img,outline_color,[0,step],[step*3,step],1)
         pygame.draw.line(self.preview.img,outline_color,[0,step*2],[step*3,step*2],1)
-        
+
         self.preview.update_me = True
         self.outline_all(outline_color,1)
-        
+
         #horizontal
         self.board.add_unit(0,0,data[0],1,classes.board.Obstacle,"",white,"",7)#top
         self.board.add_unit(0,h1+data[4],data[0],1,classes.board.Obstacle,"",white,"",7)#bottom 1
         #side obstacles
         self.board.add_unit(0,h1,w2,data[4],classes.board.Obstacle,"",white,"",7)#left
         self.board.add_unit(w2+data[3],h1,w2,data[4],classes.board.Obstacle,"",white,"",7)#right
-        
+
         #self.board.all_sprites_list.move_to_front(self.board.units[0])
         self.board.all_sprites_list.move_to_back(self.board.units[0])
         self.board.all_sprites_list.move_to_back(self.board.board_bg)
@@ -150,7 +150,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONUP:
             self.check_result()
-            
+
 
     def update(self,game):
         game.fill((255,255,255))
@@ -168,7 +168,7 @@ class Board(gd.BoardGame):
                 h = self.data[4]
                 pos = x + (y*w)
                 current[pos]=int(self.board.ships[i].value)
-            del(current[-1])          
+            del(current[-1])
             if self.choice_list == current:
                 self.update_score(self.points)
                 self.mainloop.db.update_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)

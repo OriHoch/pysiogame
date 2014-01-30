@@ -1,6 +1,12 @@
 Changelog:
-pySioGame - 2.31.227-dev:
+pySioGame - 2.40.129-dev:
+    - new feature - color modes - to make the game more accessible for kids with colour vision deficiencies. 
+           The choice of modes available: default full colour, black on white background, white on black and yellow on black.
+           Some games that rely on colour remain unchanged or have been changed to better fit the black background - and care has been taken to create a contrast in lightness of colour. 
+pySioGame - 2.40.105-dev:
     - added (partial) support for right-to-left languages
+    - added Hebrew translation by Ori Hoch
+    - changed the application so it works with phenomes when language is not supported by espeak.
     - multiple bug fixes
     - redesigned the game layout and colour scheme - centered the game area.
 pySioGame - 1.31.127-dev:
@@ -13,7 +19,7 @@ pySioGame - 1.31.127-dev:
     - added option to auto-login you on next visit - the login screen will appear for a fraction of a second and then tha main window will open
     - to go back to the initial screen or admin settings you have to press the log out "link" in top right corner.
     - added exit button on the initial screen
-    - other bugs fixed - thanks to Алексей Логинов for finding and reporting them.
+    - multiple bugs fixes - thanks to Алексей Логинов for finding and reporting them.
     
 pySioGame - 1.31.111-dev:
     - added an initial screen used for login and administrative settings
@@ -155,4 +161,5 @@ pySioGame - 0.0.2 - (0.0.2.0) - pre-alpha:
     	- now most of the changes in the Config object/class will be overridden by data loaded from file
     		- only changes to screen auto-detect and screen size related stuff works, rest of settings in file.
     
-    I guess that's a long story short, I hope I haven't missed anything important, if any of the new changes or anything else breaks the game than let me know.
+    I guess that's a long story short, I hope I haven't missed anything important. Please let me know if any of the new changes or anything else breaks the game.
+    

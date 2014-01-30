@@ -7,29 +7,38 @@ import classes.extras as ex
 import classes.board
 import random
 import pygame
+import os
 
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,1,5)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
-        
-    def create_game_objects(self, level = 1):        
+
+    def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.board.draw_grid = True
 
         color = ex.hsv_to_rgb(225,15,235)
         self.col_bg = (180,180,180)
-        self.white_color = (255,255,255)
-        
-        self.red_color = (255,220,220)
-        self.green_color = (220,255,220)
-        self.blue_color = (220,220,250)
-        self.red_color2 = (255,0,0)
-        self.green_color2 = (0,255,0)
-        self.blue_color2 = (0,0,255)
-        
+        if self.mainloop.scheme is None or not self.mainloop.scheme.dark:
+            self.red_color = (220,220,255)
+            self.green_color = (220,255,220)
+            self.blue_color = (255,255,220)
+            self.red_color2 = (0,0,255)
+            self.green_color2 = (0,255,0)
+            self.blue_color2 = (255,255,0)
+            font_color = (0,0,0)
+        else:
+            self.red_color = (0,0,55)
+            self.green_color = (0,55,0)
+            self.blue_color = (55,55,0)
+            self.red_color2 = (0,0,155)
+            self.green_color2 = (0,155,0)
+            self.blue_color2 = (155,155,0)
+            font_color = (255,255,255)
+            self.col_bg = (50,50,50)
         self.turn=1
-        font_color = ex.hsv_to_rgb(227,255,50)
         if self.level.lvl == 1:
             data = [10,12,2]
         elif self.level.lvl == 2:
@@ -44,7 +53,7 @@ class Board(gd.BoardGame):
         x_count = self.get_x_count(data[1],even=True)
         if x_count > 10:
             data[0] = x_count
-            
+
         self.data = data
         self.scores = [0,0,0]
         self.score_board = []
@@ -53,73 +62,87 @@ class Board(gd.BoardGame):
         self.max_moves = self.data[0]*(self.data[1]-3)
         self.game_state = [[0 for x in range(0,data[1])] for y in range(0,data[0])]
         self.lookaround = [[-1,-1],[0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0]]
-        
+
         self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
-        
-        self.board.board_bg.line_color = self.col_bg
-        self.board.board_bg.update_me = True
-        
+
         #player label
         self.board.add_unit(1,0,data[0]-6,1,classes.board.Letter,self.d["Player"] +" 1",self.red_color2,"",self.data[2])
         self.board.add_unit(1,1,data[0]-6,1,classes.board.Letter,self.d["Player"] +" 2",self.green_color,"",self.data[2])
         self.board.add_unit(1,2,data[0]-6,1,classes.board.Letter,self.d["Player"] +" 3",self.blue_color,"",self.data[2])
-        
+        self.board.board_bg.line_color = self.col_bg
+        scheme = "white"
+        if self.mainloop.scheme is not None:
+            self.board.board_bg.line_color = self.col_bg
+            if self.mainloop.scheme.dark:
+                scheme = "black"
+                self.board.board_bg.line_color = (200,200,200)
+        self.board.board_bg.update_me = True
+
+        ttx = os.path.join("schemes", scheme, "tictactoe_x.png")
+        tto = os.path.join("schemes", scheme, "tictactoe_o.png")
+        tts = os.path.join("schemes", scheme, "tictactoe_s.png")
+        ttx2 = os.path.join("schemes", scheme, "tictactoe_x2.png")
+        tto2 = os.path.join("schemes", scheme, "tictactoe_o2.png")
+        tts2 = os.path.join("schemes", scheme, "tictactoe_s2.png")
+        ttv = os.path.join("schemes", scheme, "tictactoe_v.png")
+        ttyx = os.path.join("schemes", scheme, "tictactoe_y.png")
+
         #player colour label
-        self.board.add_unit(data[0]-5,0,1,1,classes.board.ImgShip,"x",self.red_color,"tictactoe_x.png",0)
+        self.board.add_unit(data[0]-5,0,1,1,classes.board.ImgShip,"x",self.red_color,ttx,0)
         self.imgs.append(self.board.ships[-1].img.copy())
-        
-        self.board.add_unit(data[0]-5,1,1,1,classes.board.ImgShip,"o",self.green_color,"tictactoe_o.png",0)
+
+        self.board.add_unit(data[0]-5,1,1,1,classes.board.ImgShip,"o",self.green_color,tto,0)
         self.imgs.append(self.board.ships[-1].img.copy())
-        
-        self.board.add_unit(data[0]-5,2,1,1,classes.board.ImgShip,"s",self.blue_color,"tictactoe_s.png",0)
+
+        self.board.add_unit(data[0]-5,2,1,1,classes.board.ImgShip,"s",self.blue_color,tts,0)
         self.imgs.append(self.board.ships[-1].img.copy())
-        
-        self.board.add_unit(data[0]-4,0,1,1,classes.board.ImgShip,"x",self.red_color,"tictactoe_x2.png",0)
+
+        self.board.add_unit(data[0]-4,0,1,1,classes.board.ImgShip,"x",self.red_color,ttx2,0)
         self.imgs.append(self.board.ships[-1].img.copy())
-        
-        self.board.add_unit(data[0]-4,1,1,1,classes.board.ImgShip,"o",self.green_color,"tictactoe_o2.png",0)
+
+        self.board.add_unit(data[0]-4,1,1,1,classes.board.ImgShip,"o",self.green_color,tto2,0)
         self.imgs.append(self.board.ships[-1].img.copy())
-        
-        self.board.add_unit(data[0]-4,2,1,1,classes.board.ImgShip,"s",self.blue_color,"tictactoe_s2.png",0)
+
+        self.board.add_unit(data[0]-4,2,1,1,classes.board.ImgShip,"s",self.blue_color,tts2,0)
         self.imgs.append(self.board.ships[-1].img.copy())
-        
+
         #score counters
         self.board.add_unit(data[0]-3,0,3,1,classes.board.Letter,str(self.scores[0]),self.red_color,"",0)
-        self.score_board.append(self.board.ships[-1])  
-           
+        self.score_board.append(self.board.ships[-1])
+
         self.board.add_unit(data[0]-3,1,3,1,classes.board.Letter,str(self.scores[1]),self.green_color,"",0)
-        self.score_board.append(self.board.ships[-1])     
+        self.score_board.append(self.board.ships[-1])
 
         self.board.add_unit(data[0]-3,2,3,1,classes.board.Letter,str(self.scores[1]),self.blue_color,"",0)
         self.score_board.append(self.board.ships[-1])
 
         #indicator
-        self.board.add_unit(0,0,1,1,classes.board.ImgShip,"",self.red_color,"tictactoe_v.png",0)
+        self.board.add_unit(0,0,1,1,classes.board.ImgShip,"",self.red_color,ttv,0)
         self.ind = self.board.ships[-1]
-        
-        self.legend_count = len(self.board.ships)    
+
+        self.legend_count = len(self.board.ships)
         for k in range(self.legend_count):
             self.board.ships[k].immobilize()
             self.board.ships[k].readable=False
             self.board.ships[k].outline=False
-            
+
         k=self.legend_count
         for j in range(3,data[1]):
             for i in range(data[0]):
-                self.board.add_unit(i,j,1,1,classes.board.ImgShip,"",color,"tictactoe_y.png",0)
+                self.board.add_unit(i,j,1,1,classes.board.ImgShip,"",color,ttyx,0)
                 self.board.ships[k].immobilize();
                 self.board.ships[k].readable=False
                 self.board.ships[k].outline=False
                 k+=1
 
-        for each in self.board.units:
+        for each in self.board.ships:
             each.font_color = font_color
-        
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if event.type == pygame.MOUSEBUTTONDOWN and self.show_msg == False:
@@ -162,15 +185,15 @@ class Board(gd.BoardGame):
                         self.board.ships[0].color=self.red_color2
                         self.board.ships[1].color=self.green_color
                         self.board.ships[2].color=self.blue_color
-                        
+
                     self.board.ships[0].update_me = True
                     self.board.ships[1].update_me = True
                     self.board.ships[2].update_me = True
-                    
+
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent
-        
+
     def move_taken(self,active):
         self.moves_taken += 1
         if self.moves_taken == self.max_moves:
@@ -188,11 +211,11 @@ class Board(gd.BoardGame):
                 if self.scores[2] >= self.scores[0] and self.scores[2] >= self.scores[1]:
                     #Player1 - Winner
                     self.board.ships[2].value+=" "+self.d["Won"]
-                
+
             self.board.ships[0].update_me = True
             self.board.ships[1].update_me = True
             self.board.ships[2].update_me = True
-                        
+
     def look_around(self,active):
         matched = []
         for i in range(8):
@@ -202,15 +225,15 @@ class Board(gd.BoardGame):
                 if first_neigh==self.turn:
                     #fix number of points given to each player for multiple lines
                     second_pos = [active.grid_x + self.lookaround[i][0] + self.lookaround[i][0],active.grid_y + self.lookaround[i][1] + self.lookaround[i][1]]
-                    if 0<=second_pos[0]<self.board.x_count and 2<=second_pos[1]<self.board.y_count:                    
+                    if 0<=second_pos[0]<self.board.x_count and 2<=second_pos[1]<self.board.y_count:
                         second_neigh = self.game_state[second_pos[0]][second_pos[1]]
                         if second_neigh==self.turn:
                             matched.append(first_pos)
                             matched.append(second_pos)
-                            
+
                             #check further in that direction
                     opposite_pos = [active.grid_x - self.lookaround[i][0],active.grid_y - self.lookaround[i][1]]
-                    if 0<=opposite_pos[0]<self.board.x_count and 2<=opposite_pos[1]<self.board.y_count:    
+                    if 0<=opposite_pos[0]<self.board.x_count and 2<=opposite_pos[1]<self.board.y_count:
                         opposite_neigh = self.game_state[opposite_pos[0]][opposite_pos[1]]
                         if opposite_neigh==self.turn:
                             #check in the oposite direction
@@ -234,6 +257,6 @@ class Board(gd.BoardGame):
         self.score_board[1].update_me=True
         self.score_board[2].value=str(self.scores[2])
         self.score_board[2].update_me=True
-        
+
     def check_result(self):
         pass

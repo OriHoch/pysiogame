@@ -67,7 +67,13 @@ class Board(gd.BoardGame):
         s = random.randrange(5, 20)
         v = random.randrange(240, 250)
         h = random.randrange(0, 255)
-        color = ex.hsv_to_rgb(h,s,v)
+        self.line_col = (0,0,0)
+        if self.mainloop.scheme is None:
+            color = ex.hsv_to_rgb(h,s,v)
+        else:
+            color = self.mainloop.scheme.u_color
+            if self.mainloop.scheme.dark:
+                self.line_col = self.mainloop.scheme.u_font_color
         
         self.board.add_unit(0,1,data[0],data[3],classes.board.Obstacle,"",color)
         self.top_colors = []
@@ -156,7 +162,7 @@ class Board(gd.BoardGame):
             if each_item.grid_y == 7 and each_item.grid_x == self.solution[each_item.unit_id]:
                 self.colors_completed[each_item.unit_id] = self.colors[each_item.unit_id]
             else:
-                self.colors_completed[each_item.unit_id] = [0,0,0]
+                self.colors_completed[each_item.unit_id] = self.line_col
                 
     def straight_lines(self, data, canvas, i):
         self.ready_lines.append([self.start_positions[i],self.end_positions[i]])

@@ -2,7 +2,6 @@
 
 from __future__ import with_statement
 import os, sys
-import pickle
 
 import gettext
 import locale
@@ -22,7 +21,7 @@ class Language():
             # windows
             locale.setlocale(locale.LC_ALL, '')
         #locale.setlocale(locale.LC_MESSAGES, '') # use user's preferred locale
-        
+
         self.config = configo
         self.alphabet_26 = ["en_GB","en_US","pt_PT"]
         self.def_imported = False
@@ -30,24 +29,24 @@ class Language():
         self.lang_titles = self.config.lang_titles
         self.all_lng = self.config.all_lng
         self.ok_lng = self.config.ok_lng
-        
+
     def load_language(self, lang_code = None):
-        if lang_code == None:
+        if lang_code is None:
             if self.config.settings["lang"] not in self.all_lng:
                 self.config.reset_settings()
-                
+
             self.lang = self.config.settings["lang"]
         else:
             if lang_code not in self.all_lng:
                 self.lang = 'en_GB'
             else:
                 self.lang = lang_code
-        
+
         self.get_lang_attr()
-        
+
     def _n(self, word, count):
         return self.trans[self.lang].ngettext(word, word, count)
-        
+
     def get_lang_attr(self):
         filename = os.path.join(self.locale_dir, self.lang, "LC_MESSAGES", "pysiogame.mo")
         #filename = "locale/%s/LC_MESSAGES/pysiogame.mo" % self.lang
@@ -59,7 +58,7 @@ class Language():
             self.trans[self.lang]  = gettext.NullTranslations()
 
         self.trans[self.lang].install()
-        
+
         import i18n.custom.default
         self.oi18n = i18n.custom.default.I18n()
         self.ltr_text = True
@@ -184,7 +183,7 @@ class Language():
             self.lang_file = i18n.custom.en_gb
             self.kbrd = i18n.custom.kbrd.en_gb
             self.kbrd_course_mod = i18n.custom.kbrd.en_course
-        
+
         if self.lang not in ["en_gb","en_us","pl","ru","el"]:
             import i18n.custom.kbrd.en_gb
             import i18n.custom.kbrd.en_course
@@ -194,7 +193,7 @@ class Language():
         self.b = dict()
         self.dp = dict()
         self.kbrd_course = self.kbrd_course_mod.course
-        
+
         self.d.update(self.oi18n.d)
         self.d.update(self.lang_file.d)
         self.b.update(self.oi18n.b)
@@ -202,11 +201,10 @@ class Language():
         self.numbers2090 = self.lang_file.numbers2090
         self.n2txt = self.lang_file.n2txt
         self.time2str = self.lang_file.time2str
-        
+
         self.solid_names = self.oi18n.solid_names
         self.shape_names = self.oi18n.shape_names
         self.letter_names = self.lang_file.letter_names
-        
         if not self.ltr_text:
             for each_d in [self.d, self.b]:
                 for key in each_d.keys():
@@ -218,10 +216,8 @@ class Language():
                             else:
                                 if isinstance(each_d[key][index], str):
                                     each_d[key][index] = reverse(each_d[key][index], self.alpha)
-                        
                     else:
                         each_d[key] = reverse(each_d[key], self.alpha)
-        
             for each in [self.solid_names, self.shape_names]:
                 for index in range(len(each)):
                     if sys.version_info < (3, 0):
@@ -230,15 +226,15 @@ class Language():
                     else:
                         if isinstance(each[index], str):
                             each[index] = reverse(each[index], self.alpha)
-        
-        
+
+
         self.dp.update(self.d)
         if self.lang == 'ru' or self.lang == 'he':
             self.dp.update(self.lang_file.dp)
             #self.dp["Great job!"] = self.lang_file.dp["Great job!"][:]
-            
+
         self.alphabet_lc = self.lang_file.alphabet_lc
         self.alphabet_uc = self.lang_file.alphabet_uc
         self.accents_lc = self.lang_file.accents_lc
         self.accents_uc = self.lang_file.accents_uc
-        
+

@@ -12,13 +12,13 @@ class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
         self.level = lc.Level(self,mainloop,5,7)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,11)
-        
-    def create_game_objects(self, level = 1):        
+
+    def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.board.draw_grid = False
 
         color = (234,218,225)
         self.color = color
-        font_color = (50,0,150)
         self.grey = (200,200,200)
         self.greyoutline = (190,190,190)
         self.grey2 = (150,150,150)
@@ -26,8 +26,11 @@ class Board(gd.BoardGame):
         self.font_hl2 = (250,0,200)
         self.task_str_color = ex.hsv_to_rgb(200,200,230)
         self.activated_col = self.font_hl
-        ver_color = (63,45,247)
         white = (255,255,255)
+        self.bg_col = white
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                self.bg_col = (0,0,0)
         self.level.games_per_lvl = 5
         if self.level.lvl == 1:
             rngs = [11,50,11,20]
@@ -46,19 +49,19 @@ class Board(gd.BoardGame):
             rngs = [1000,2500,100,299]
         elif self.level.lvl == 7:
             rngs = [2500,9999,250,999]
-        
+
         data = [39,24]
         self.points = self.level.lvl
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 39:
             data[0] = x_count
-            
+
         self.data = data
-        
+
         self.vis_buttons = [1,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        
+
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
@@ -71,7 +74,7 @@ class Board(gd.BoardGame):
         self.n1sl = len(self.n1s)
         self.n2sl = len(self.n2s)
         self.sumn1n2sl =len(self.sumn1n2s)
-        
+
         self.cursor_pos = 0
         self.correct = False
         self.carryl = []
@@ -89,12 +92,12 @@ class Board(gd.BoardGame):
                 self.semiresultlengths.append(self.n1sl)
             else:
                 self.semiresultlengths.append(len(str(int(self.n2s[self.n2sl-1-i])*self.n1)))
-        self.semi_count = sum(self.semiresultlengths)    
+        self.semi_count = sum(self.semiresultlengths)
         self.nums1l = []
         self.nums2l = []
         self.ship_id = 0
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
-        
+
         if self.lang.lang == 'el':
             qm = ";"
         else:
@@ -102,13 +105,13 @@ class Board(gd.BoardGame):
 
         question = self.n1s + " × " + self.n2s + " = " + qm
         #question
-        self.board.add_unit(1,3,data[0]-1-self.sumn1n2sl*3 ,3,classes.board.Label,question,white,"",21)
+        self.board.add_unit(1,3,data[0]-1-self.sumn1n2sl*3 ,3,classes.board.Label,question,self.bg_col,"",21)
         self.board.units[-1].align = 1
-        
+
         #carry 1
         for i in range(self.n2sl):
             for j in range(self.n1sl):
-                self.board.add_unit(data[0]-5-j*3,2-i,1,1,classes.board.Letter,"",white,"",0)
+                self.board.add_unit(data[0]-5-j*3,2-i,1,1,classes.board.Letter,"",self.bg_col,"",0)
                 self.carryl[i].append(self.board.ships[-1])
                 self.carryl[i][-1].set_outline(self.grey, 1)
                 self.carryl[i][-1].pos_id = j
@@ -117,45 +120,45 @@ class Board(gd.BoardGame):
 
         #first number
         for i in range(self.n1sl):
-            self.board.add_unit(data[0]-3-i*3,3,3,3,classes.board.Label,self.n1s[-(i+1)],white,"",21)
+            self.board.add_unit(data[0]-3-i*3,3,3,3,classes.board.Label,self.n1s[-(i+1)],self.bg_col,"",21)
             self.nums1l.append(self.board.units[-1])
             self.nums1l[-1].font_color = self.grey
             self.nums1l[-1].pos_id = i
         #second number
         i = 0
         for i in range(self.n2sl):
-            self.board.add_unit(data[0]-3-i*3,6,3,3,classes.board.Label,self.n2s[-(i+1)],white,"",21)
+            self.board.add_unit(data[0]-3-i*3,6,3,3,classes.board.Label,self.n2s[-(i+1)],self.bg_col,"",21)
             self.nums2l.append(self.board.units[-1])
             self.nums2l[-1].pos_id = i
         i += 1
-        self.board.add_unit(data[0]-3-i*3,6,3,3,classes.board.Label,"×",white,"",21)
+        self.board.add_unit(data[0]-3-i*3,6,3,3,classes.board.Label,"×",self.bg_col,"",21)
         self.plus_label = self.board.units[-1]
         #line
         line = "―" * (self.sumn1n2sl*2)
-        self.board.add_unit(data[0]-self.sumn1n2sl*3,9,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+        self.board.add_unit(data[0]-self.sumn1n2sl*3,9,self.sumn1n2sl*3,1,classes.board.Label,line,self.bg_col,"",21)
         self.board.units[-1].text_wrap = False
 
         for i in range(self.sumn1n2sl - 2):
-            self.board.add_unit(data[0]-8-i*3,10,1,1,classes.board.Letter,"",white,"",0)
+            self.board.add_unit(data[0]-8-i*3,10,1,1,classes.board.Letter,"",self.bg_col,"",0)
             self.carrysuml.append(self.board.ships[-1])
             self.carrysuml[-1].set_outline(self.grey, 1)
             self.carrysuml[-1].pos_id = i
-            
+
         for j in range(self.n2sl):
             for i in range(self.semiresultlengths[j]):
-                self.board.add_unit(data[0]-3-i*3-j*3,11+j*3,3,3,classes.board.Letter,"",white,"",21)
+                self.board.add_unit(data[0]-3-i*3-j*3,11+j*3,3,3,classes.board.Letter,"",self.bg_col,"",21)
                 self.semiresultl[j].append(self.board.ships[-1])
                 self.semiresultl[j][-1].set_outline(self.grey, 1)
                 self.semiresultl[j][-1].pos_id = i
                 self.semiresultl[j][-1].posy_id = j
                 self.semiresultlall.append(self.semiresultl[j][-1])
-        
-        self.board.add_unit(data[0]-self.sumn1n2sl*3,10+self.n2sl*3+1,self.sumn1n2sl*3,1,classes.board.Label,line,white,"",21)
+
+        self.board.add_unit(data[0]-self.sumn1n2sl*3,10+self.n2sl*3+1,self.sumn1n2sl*3,1,classes.board.Label,line,self.bg_col,"",21)
         self.board.units[-1].text_wrap = False
-        self.board.add_unit(data[0]-(self.sumn1n2sl+1)*3,7+self.n2sl*3+1,3,3,classes.board.Label," + ",white,"",21)
+        self.board.add_unit(data[0]-(self.sumn1n2sl+1)*3,7+self.n2sl*3+1,3,3,classes.board.Label," + ",self.bg_col,"",21)
         self.plus2_label = self.board.units[-1]
         for i in range(self.sumn1n2sl):
-            self.board.add_unit(data[0]-3-i*3,10+self.n2sl*3+2,3,3,classes.board.Letter,"",white,"",21)
+            self.board.add_unit(data[0]-3-i*3,10+self.n2sl*3+2,3,3,classes.board.Letter,"",self.bg_col,"",21)
             self.resultl.append(self.board.ships[-1])
             self.resultl[-1].set_outline(self.grey, 1)
             self.resultl[-1].pos_id = i
@@ -165,14 +168,14 @@ class Board(gd.BoardGame):
         self.board.active_ship = self.home_square.unit_id
 
         self.all_count = sum(self.semiresultlengths) + self.n1sl + self.n2sl + self.sumn1n2sl * 2 - 2 + (self.sumn1n2sl - 1) * self.n2sl
-        self.all_a_count = len(self.board.ships) #self.all_count - self.n1sl - self.n2sl        
+        self.all_a_count = len(self.board.ships) #self.all_count - self.n1sl - self.n2sl
 
         for each in self.board.ships:
             each.immobilize()
-        
+
         self.deactivate_colors()
         self.reactivate_colors()
-                
+
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:
@@ -182,15 +185,15 @@ class Board(gd.BoardGame):
                 self.home_sqare_switch(self.board.active_ship-1)
 
             elif event.type == pygame.KEYDOWN and event.key != pygame.K_RETURN and not self.correct:
-                lhv = len(self.home_square.value)      
-                self.changed_since_check = True   
+                lhv = len(self.home_square.value)
+                self.changed_since_check = True
                 if event.key == pygame.K_BACKSPACE:
                     if  lhv > 0:
                         self.home_square.value = self.home_square.value[0:lhv-1]
                 else:
                     char = event.unicode
                     if (len(char)>0 and lhv < 2 and char in self.digits):
-                        if True: #self.home_square in self.resultl:
+                        if True:
                             if lhv == 1:
                                 s = self.home_square.value + char
                                 if s[0] == "0":
@@ -204,7 +207,7 @@ class Board(gd.BoardGame):
                                             self.carryl[self.home_square.pos_id].update_me = True
                                         except:
                                             pass
-                                        
+
                                     else:
                                         self.home_square.value = char
                             else:
@@ -212,7 +215,7 @@ class Board(gd.BoardGame):
                         elif self.home_square in self.carryl:
                             if char == "1":
                                 self.home_square.value = char
-                            else: 
+                            else:
                                 self.home_square.value = ""
                 self.home_square.update_me = True
                 self.mainloop.redraw_needed[0] = True
@@ -220,10 +223,10 @@ class Board(gd.BoardGame):
                 self.home_sqare_switch(self.board.active_ship)
 
     def home_sqare_switch(self, activate):
-        if activate < 0 or activate > self.all_a_count: #self.sumn1n2sl * 2 - 1:
+        if activate < 0 or activate > self.all_a_count:
             activate = self.all_a_count
-            
-        if activate >= 0 and activate < self.all_a_count: #self.sumn1n2sl * 2 - 1:
+
+        if activate >= 0 and activate < self.all_a_count:
             self.board.active_ship = activate
             self.home_square.update_me = True
             if self.board.active_ship >= 0:
@@ -235,19 +238,19 @@ class Board(gd.BoardGame):
                 self.home_square.font_color = self.font_hl
             self.home_square.update_me = True
             self.mainloop.redraw_needed[0] = True
-        
+
     def deactivate_colors(self):
         for each in self.board.ships:
             each.font_color = self.grey
             each.set_outline(self.greyoutline, 1)
             each.update_me = True
-        
+
         for each in self.board.units:
             each.font_color = self.grey
             each.update_me = True
-            
+
     def reactivate_colors(self):
-        
+
         self.plus_label.font_color = self.font_hl
         self.board.units[0].font_color = self.task_str_color
         if self.home_square in self.carrylall:
@@ -282,7 +285,7 @@ class Board(gd.BoardGame):
                 self.carrysuml[self.home_square.pos_id-1].set_outline(self.font_hl2, 2)
             self.plus_label.font_color = self.grey
             self.plus2_label.font_color = self.font_hl
-                 
+
         elif self.home_square in self.carrysuml:
             for i in range(self.n2sl):
                 if self.semiresultlengths[i] > self.home_square.pos_id - i + 1 >= 0:
@@ -292,7 +295,7 @@ class Board(gd.BoardGame):
             self.resultl[self.home_square.pos_id+1].set_outline(self.grey2, 2)
             self.plus_label.font_color = self.grey
             self.plus2_label.font_color = self.font_hl
-            
+
     def update(self,game):
         game.fill(self.color)
         gd.BoardGame.update(self, game) #rest of painting done by parent
@@ -301,7 +304,7 @@ class Board(gd.BoardGame):
         s = ""
         for each in reversed(self.resultl):
             s += each.value
-            
+
         if s == self.sumn1n2s:
             self.update_score(self.points)
             self.level.next_board()

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # pySioGame - Educational Activity Pack
-# Copyright (C) 2012-2013  Ireneusz Imiolek
+# Copyright (C) 2012-2014  Ireneusz Imiolek
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, 
-# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
-# AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
-# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES,
+# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 # LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
-# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
@@ -56,40 +56,40 @@ import classes.colors
 import classes.lang
 import classes.logoimg
 import classes.score_bar
-            
+
 class GamePlay(threading.Thread):
-    'The top most class - subclasses the Thread to keep the game and speaker in two different processes'
-    'holds main loop'
+    """The top most class - subclasses the Thread to keep the game and speaker in two different processes
+    holds main loop"""
     def __init__(self,speaker,lang,configo):
         #Call parent's initialization
         threading.Thread.__init__(self)
-        
+
         #Create / set additional top level game objects and mainloop variables
         self.speaker = speaker
         self.lang = lang
         self.config = configo
-        
+        self.game_board = None
         self.cl = classes.colors.Color()
-        
+
         self.userid = -1
 
         #!!!!!!!!!!!!!!TO REPLACE!!!!!!!!!!!!!!!!!!
         #'global' score holder used in one game so far
         self.score = 0
-        
-        
+
+
         self.window_states = ["LOG IN", "GAME"]
         self.window_state = self.window_states[0]
-        
-        
+
+
         #As long as this is False the main loop of a state will keep running. If some action sets it to True the loop ends and so does the current state.
         self.done = False
-        
-        #but if you log out you are still given a chance to log back in... 
+
+        #but if you log out you are still given a chance to log back in...
         self.done4good = False
-        
+
         self.logged_out = False
-        
+
     def set_init_vals(self):
         self.redraw_needed = [True,True,True]
         self.game_redraw_tick = [0,0,0]
@@ -99,9 +99,9 @@ class GamePlay(threading.Thread):
         self.menu_speed = 7
         self.menu_tick = 7
         self.done = False
-        
+
         #self.counter = 0
-        
+
     def create_subsurfaces(self,game_board):
         #create subsurfaces & set some of the initial layout constraints
         self.menu = self.screen.subsurface(self.game_board.layout.menu_pos)         #menu panel
@@ -116,32 +116,32 @@ class GamePlay(threading.Thread):
         self.info_bar = self.screen.subsurface(self.game_board.layout.info_bar_pos) #info panel - level control, game info, etc.
 
         self.score_bar = self.screen.subsurface(self.game_board.layout.score_bar_pos)         #top panel - holding username, score etc.
-        
+
         self.misio = self.screen.subsurface(self.game_board.layout.misio_pos)       #holds an image/logo in top left corner - over menu
-        self.misio.set_colorkey((255,75,0))        
+        self.misio.set_colorkey((255,75,0))
         self.sb.resize()
         #self.counter += 1
-        
+
     def fs_rescale(self, info):
-        'rescale the game after fullscreen toggle, this will restart the board'
-        'could not get all the game objects to scale nicely'
+        """rescale the game after fullscreen toggle, this will restart the board
+        could not get all the game objects to scale nicely"""
         #pass new screen resolution
         self.game_board.layout.update_layout_fs(self.size[0], self.size[1],self.game_board.layout.x_count,self.game_board.layout.y_count)
-        #load new game - create game objects        
+        #load new game - create game objects
         self.game_board.level.load_level()
         if self.game_board.game_type == "Board":
             #adjust the layout to accommodate changes to number of squares automatically added due to screen ratio change
-            self.game_board.layout.update_layout(self.game_board.data[0],self.game_board.data[1])  
+            self.game_board.layout.update_layout(self.game_board.data[0],self.game_board.data[1])
         else:
             self.game_board.layout.update_layout()
         self.create_subsurfaces(self.game_board)
         info.new_game(self.game_board,self.info_bar)
         self.m.reset_scroll()
-        
-        
+
+
     def fullscreen_toggle(self, info):
-        'toggle between fullscreen and windowed version with CTRL + F'
-        'current activity will be reset'
+        """toggle between fullscreen and windowed version with CTRL + F
+        current activity will be reset"""
         self.redraw_needed = [True,True,True]
         if self.config.fullscreen == True:
             self.config.fullscreen = False
@@ -153,9 +153,9 @@ class GamePlay(threading.Thread):
             self.size = self.fs_size[:]
             self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)
             self.fs_rescale(info)
-            
+
             pygame.display.flip()
-    
+
     def on_resize(self, size, info):
         pygame.event.set_blocked(pygame.VIDEORESIZE)
         repost = False
@@ -165,7 +165,7 @@ class GamePlay(threading.Thread):
         if size[0] > self.config.size_limits[2]:
             size[0] = self.config.size_limits[2]
             repost = True
-            
+
         if size[1] < self.config.size_limits[1]:
             size[1] = self.config.size_limits[1]
             repost = True
@@ -179,7 +179,7 @@ class GamePlay(threading.Thread):
         self.config.settings["screenw"] = self.size[0]
         self.config.settings["screenh"] = self.size[1]
         self.screen = pygame.display.set_mode(self.size, pygame.RESIZABLE)
-        
+
         self.fs_rescale(info)
         self.config.settings_changed = True
         self.config.save_settings(self.db)
@@ -198,12 +198,12 @@ class GamePlay(threading.Thread):
         if self.config.loaded_settings:
             self.config.fullscreen = self.config.settings["full_screen"]
         #message said at the start of the game
-        
+
         if self.lang.lang != 'he':
             uname = self.user_name
         else:
             uname = ""
-        
+
         if sys.version_info < (3, 0):
             try:
                 self.welcome_msg = lang.dp["Hello"] + " " + uname.encode("utf-8") + "! " + lang.dp["Welcome back."]
@@ -212,29 +212,63 @@ class GamePlay(threading.Thread):
         else:
             self.welcome_msg = lang.dp["Hello"] + " " + uname + "! " + lang.dp["Welcome back."]
         self.speaker.say(self.welcome_msg) #say welcome message
-    
+
     def set_icon(self,icon_src):
         icon_canvas = pygame.Surface((32,32))
         icon_canvas.set_colorkey((0,0,0))
         icon_img =  pygame.image.load(icon_src).convert()
-        
+
         for i in range(0,32):
             for j in range(0,32):
                 icon_canvas.set_at((i,j), icon_img.get_at((i,j)))
-        
+
         pygame.display.set_icon(icon_canvas)
-        
+
+    def switch_scheme(self, scheme):
+        self.redraw_needed = [True,True,True]
+        self.scheme_code = scheme
+        if scheme is None:
+            self.scheme = None
+        else:
+            self.scheme = eval("classes.colors.%sScheme()" % scheme)
+        self.info.create()
+        self.fs_rescale(self.info)
+        self.m.lang_change()
+        self.game_board.line_color = self.game_board.board.board_bg.line_color
+
+        if scheme == None: s_id = 0
+        elif scheme == "WB": s_id = 1
+        elif scheme == "BW": s_id = 2
+        elif scheme == "BY": s_id = 3
+        self.config.settings["scheme"] = s_id
+        self.config.settings_changed = True
+        self.config.save_settings(self.db)
+
+    def set_up_scheme(self):
+        s_id = self.config.settings["scheme"]
+        if s_id == 0: scheme = None
+        elif s_id == 1: scheme = "WB"
+        elif s_id == 2: scheme = "BW"
+        elif s_id == 3: scheme = "BY"
+        if scheme != self.scheme_code:
+            self.switch_scheme(scheme)
+
     def run(self):
         #start of this Thread
         self.speaker.join() #join speaker Thread
         self.speaker.start_server_en()
         #initialize pygame
         pygame.init()
-        
+
         self.db = classes.dbconn.DBConnection(self.config.file_db, self)
+        self.scheme = None #classes.colors.BYScheme() #BW, WB, BY
+        self.scheme_code = None
+
         self.user_name = None
         self.display_info = pygame.display.Info()
-        
+        #Used to manage how fast the screen updates
+        clock=pygame.time.Clock()
+        self.clock = clock
         while self.done4good == False:
             if self.window_state == "LOG IN":
                 self.done == False
@@ -248,7 +282,8 @@ class GamePlay(threading.Thread):
                 self.set_icon(os.path.join('res', 'icon', 'window_icon.bmp'))
                 pygame.display.set_caption(self.config.window_caption)
                 self.loginscreen = classes.loginscreen.LoginScreen(self, self.screen, self.size)
-                clock=pygame.time.Clock()
+                #clock=pygame.time.Clock()
+
                 while self.done == False and self.userid < 0:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -256,7 +291,7 @@ class GamePlay(threading.Thread):
                             self.done4good = True
                         else:
                             self.loginscreen.handle(event)
-                    
+
                     if (self.redraw_needed[0] and self.game_redraw_tick[0] < 3) and self.loginscreen.update_me:
                         self.loginscreen.update()
                         self.game_redraw_tick[0] += 1
@@ -264,24 +299,24 @@ class GamePlay(threading.Thread):
                             self.redraw_needed[0] = False
                             self.game_redraw_tick[0] = 0
                         self.flip_needed = True
-                                
+
                     if self.flip_needed:
                         #update the screen with what we've drawn.
                         pygame.display.flip()
                         self.flip_needed = False
-                    
+
                     clock.tick(30)
-                        
+
             if self.window_state == "GAME":
                 self.set_up_user()
-                
+
                 self.done == False
                 #self.force_no_resize = True
                 self.set_init_vals()
                 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,0)
                 self.config.fs_width  = self.display_info.current_w
                 self.config.fs_height = self.display_info.current_h
-                
+
                 #check if there's a size available from previous session
                 if self.config.settings["screenw"] >= self.config.size_limits[0] and self.config.settings["screenh"] >= self.config.size_limits[1] and self.config.settings["screenw"] <= self.config.size_limits[2] and self.config.settings["screenh"] <= self.config.size_limits[3]:
                     self.wn_size = [self.config.settings["screenw"], self.config.settings["screenh"]]
@@ -289,53 +324,52 @@ class GamePlay(threading.Thread):
                     self.wn_size = [min(self.config.fs_width - self.config.os_panels_w, self.config.size_limits[2]), min(self.config.fs_height - self.config.os_panels_h, self.config.size_limits[3])]
                     self.config.settings["screenw"] = self.wn_size[0]
                     self.config.settings["screenh"] = self.wn_size[1]
-                    
+
                 self.fs_size = [self.config.fs_width, self.config.fs_height]
-                
+
                 if self.config.fullscreen == True:
                     self.size = self.fs_size[:]
                     flag = pygame.FULLSCREEN
                 else:
                     self.size = self.wn_size[:]
                     flag = pygame.RESIZABLE
-                
-                #restarting the display to solve a bug causing some of the game area unresponsive after resizing (this bug affected the game only when it was set to start in fullscreen) 
+
+                #restarting the display to solve a bug causing some of the game area unresponsive after resizing (this bug affected the game only when it was set to start in fullscreen)
                 pygame.display.quit()
                 pygame.display.init()
                 self.screen = pygame.display.set_mode(self.size, flag)
                 self.set_icon(os.path.join('res', 'icon', 'window_icon.bmp'))
-                
+
                 #Set title of the window
                 pygame.display.set_caption(self.config.window_caption)
-                
+
                 #create a list of one sprite holding game image or logo
                 self.sprites_list = pygame.sprite.RenderPlain()
-                
+
                 #create the logo object and add it to the list to render on update
                 self.front_img = classes.logoimg.LogoImg()
                 self.sprites_list.add(self.front_img)
-                
+
                 #create a dummy self.game_board variable to be deleted and recreated at the beginning of the main loop
                 self.game_board = None
-                
+
                 #kind of a dirty workaround to avoid issues with anti-aliasing on devices not supporting aa compatible bit depths - hopefully it works (not tested - haven't got such device)
                 if pygame.display.get_surface().get_bitsize() not in [32,24]:
                     pygame.draw.aalines = pygame.draw.lines
                     pygame.draw.aaline = pygame.draw.line
-                    
+
                 #create game menu / game manager
                 m = classes.menu.Menu(self)
                 self.m = m
-                
-                self.sb = classes.score_bar.ScoreBar(self) 
-        
+
+                self.sb = classes.score_bar.ScoreBar(self)
+
                 #create info panel integrated with level control - holds current level/game and some buttons to change levels, etc.
                 info = classes.info_bar.InfoBar(self)
                 self.info = info
-                
                 #Used to manage how fast the screen updates
-                clock=pygame.time.Clock()
-                
+                #clock=pygame.time.Clock()
+
                 #test values
                 #self.video_resize_count = 0
                 #self.resize_func = 0
@@ -344,16 +378,18 @@ class GamePlay(threading.Thread):
                     # start, switch or continue a game
                     #not really an implementation of a State Machine but does the job
                     if m.active_game_id != m.game_started_id: #if game id changed since last frame
-                        if self.game_board != None:
+                        if self.game_board is not None:
                             #if this is not the first start of a game - the self.game_board has been already 'created' at least once
                             self.game_board.board.clean() #empty sprite groups, delete lists
                             del(self.game_board) #delete all previous game objects
+                            self.game_board = None
                         #recreate a new game and subsurfaces
                         self.game_board = m.game_constructor(self,self.speaker,self.config,self.size[0],self.size[1])
                         m.game_started_id = m.active_game_id
                         m.l = self.game_board.layout
                         self.create_subsurfaces(self.game_board)
                         info.new_game(self.game_board,self.info_bar)
+                        self.set_up_scheme()
                         #self.game_board.update_score(0)
                         """
                         if self.config.loaded_settings == False and self.init_resize:
@@ -363,18 +399,18 @@ class GamePlay(threading.Thread):
                         """
                         #self.fs_rescale(info)
                         gc.collect() #force garbage collection to remove remaining variables to free memory
-                    
+
                     elif self.game_board.level.lvl != self.game_board.level.prev_lvl:
                         #if game id is the same but the level changed load new level
                         self.create_subsurfaces(self.game_board)
                         info.new_game(self.game_board,self.info_bar)
                         self.game_board.level.prev_lvl = self.game_board.level.lvl
                         gc.collect()
-        
+
                     #Process or delegate events
                     #mods = pygame.key.get_mods()
                     for event in pygame.event.get(): #pygame.event.get(): # User did something
-                                      
+
                         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                             self.done = True #mark to finish the loop and the game
                             self.done4good = True
@@ -430,14 +466,14 @@ class GamePlay(threading.Thread):
                         else:
                             #let the game handle other events
                             self.game_board.handle(event)
-                    
+
                     #trying to save the CPU - only update a subsurface entirely, (can't be bothered to play with dirty sprites)
                     #if anything has changed on the subsurface or it's size has changed
-                    
+
                     #creating list of drawing functions and arguments for each subsurface
                     draw_func = [self.game_board.update,info.draw,m.draw_menu]
                     draw_func_args = [[self.game],[self.info_bar],[self.menu,self.menu_l,self.menu_r,self.game_board.layout]]
-                    
+
                     if self.m.scroll_direction != 0:
                         if self.menu_speed == self.menu_tick:
                             self.m.scroll_menu()
@@ -445,7 +481,7 @@ class GamePlay(threading.Thread):
                         else:
                             self.menu_tick += 1
                         #self.redraw_needed[2] = True
-                        
+
                     #checking if any of the subsurfaces need updating and updating them if needed
                     #in reverse order so the menu is being drawn first
                     for i in range(2,-1,-1):
@@ -464,26 +500,26 @@ class GamePlay(threading.Thread):
                     if self.sb.update_me:
                         self.sb.draw(self.score_bar)
                         self.flip_needed = True
-                        
+
                     if self.flip_needed:
                         #update the screen with what we've drawn.
                         pygame.display.flip()
                         self.flip_needed = False
-        
+
                     #Limit to 30 frames per second but most redraws are made when needed - less often
                     #30 frames per second used mainly for event handling
                     self.game_board.process_ai()
                     clock.tick(30)
-            
+
                 #close eSpeak process, quit pygame, collect garbage and exit the game.
                 #self.m.save_levels()
                 if self.config.settings_changed:
                     self.config.save_settings(self.db)
                 clock.tick(300)
         self.db.close()
-        if self.speaker.process != None:
+        if self.speaker.process is not None:
             self.speaker.stop_server()
-            
+
         self.speaker.stop_server_en()
         pygame.quit()
         gc.collect()

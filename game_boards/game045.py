@@ -15,6 +15,7 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
+        self.board.decolorable = False
         self.vis_buttons = [4,1,1,1,1,1,1,1,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         
@@ -23,9 +24,14 @@ class Board(gd.BoardGame):
         s = random.randrange(150, 190, 5)
         v = random.randrange(230, 255, 5)
         h = random.randrange(0, 255, 5)
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        outline_color = ((150,150,150))
-        white = ((255,255,255))
+        white = (255,255,255)
+        if self.mainloop.scheme is None:
+            color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
+        else:
+            color0 = self.mainloop.scheme.u_color
+            if self.mainloop.scheme.dark:
+                white = (0,0,0)
+        outline_color = (150,150,150)
         #setting level variable
         #data = [x_count, y_count, number_count, top_limit, ordered]
         if self.level.lvl == 1:
@@ -108,13 +114,15 @@ class Board(gd.BoardGame):
                 y += 1
                 self.mini_grid.append(line)
                 line=[]
+        self.outline_all(outline_color,1)
         instruction = self.d["Re-arrange right"]
         self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,instruction,color0,"",8)#bottom 2
         self.board.ships[-1].immobilize()
-        
+        if self.mainloop.scheme is not None:
+            self.board.ships[-1].font_color = self.mainloop.scheme.u_font_color
         self.board.ships[-1].speaker_val = self.dp["Re-arrange right"]
         self.board.ships[-1].speaker_val_update = False
-        self.outline_all(outline_color,1)
+        
         
         #horizontal
         self.board.add_unit(0,0,data[0],h1,classes.board.Obstacle,"",white,"",7)#top

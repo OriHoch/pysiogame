@@ -24,14 +24,12 @@ class PScoreItem(pygame.sprite.Sprite):
         pass
     
 class PToggleBtn(PScoreItem):
-    def __init__(self, score_bar, pos_rect, img_on, img_off, fsubmit):
+    def __init__(self, score_bar, pos_rect, img_on, img_off, fsubmit, fargs):
         PScoreItem.__init__(self, score_bar, pos_rect)
-        #img on
-        #img off
-        #temp
         self.enabled = True
         self.img_loaded = False
         self.fsubmit = fsubmit
+        self.fargs = fargs
         try:
             self.img_on = pygame.image.load(os.path.join('res', 'images', img_on)).convert()
             self.img_off = pygame.image.load(os.path.join('res', 'images', img_off)).convert()
@@ -39,13 +37,6 @@ class PToggleBtn(PScoreItem):
             self.img_loaded = True
         except IOError:
             pass
-            
-        """
-        self.bg_color = (0,100,0)
-        
-        self.bg_color1 = (0,100,0)
-        self.bg_color2 = (100,0,0)
-        """
         
     def handle(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -65,6 +56,34 @@ class PToggleBtn(PScoreItem):
             else:
                 self.image.blit(self.img_off, self.img_pos)
                 
+class PSelectBtn(PScoreItem):
+    def __init__(self, score_bar, pos_rect, img_src1, img_src2, fsubmit, fargs):
+        PScoreItem.__init__(self, score_bar, pos_rect)
+        self.enabled = True
+        self.img_loaded = False
+        self.fsubmit = fsubmit
+        self.fargs = fargs
+        try:
+            self.img1 = pygame.image.load(os.path.join('res', 'images', img_src1)).convert()
+            self.img2 = pygame.image.load(os.path.join('res', 'images', img_src2)).convert()
+            self.img_pos = (0,0)
+            self.img_loaded = True
+        except IOError:
+            pass
+        
+    def handle(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.fsubmit(self.fargs)
+            self.score_bar.update_me = True
+            
+    def update(self):
+        PScoreItem.update(self)
+        if self.img_loaded:
+            if self.score_bar.mainloop.scheme_code == self.fargs:
+                self.image.blit(self.img2, self.img_pos)
+            else:
+                self.image.blit(self.img1, self.img_pos)
+        
 class PLabel(PScoreItem):
     def __init__(self, score_bar, pos_rect, value):
         PScoreItem.__init__(self, score_bar, pos_rect)
@@ -84,7 +103,7 @@ class PLabel(PScoreItem):
                     val = self.value
             else:
                 val = self.value
-            if self.bold == None:
+            if self.bold is None:
                 fnt = self.score_bar.font_clock
             elif self.bold == True:
                 fnt = self.score_bar.font_bold
@@ -134,15 +153,24 @@ class ScoreBar:
     def add_scroll_bar_elements(self):
         #toggle sounds
         l = 2
-        self.elements.append(PToggleBtn(self, (l,2,28,28), "score_sound_on.png", "score_sound_off.png",self.toggle_sound))
+        self.elements.append(PToggleBtn(self, (l,2,28,28), "score_sound_on.png", "score_sound_off.png",self.toggle_sound,None))
         l += 28 + 5
         #toggle espeak
-        if self.mainloop.speaker.enabled:# and self.mainloop.lang.voice != None:
-            self.elements.append(PToggleBtn(self, (l,2,28,28),"score_espeak_on.png", "score_espeak_off.png",self.toggle_espeak))
+        if self.mainloop.speaker.enabled:# and self.mainloop.lang.voice is not None:
+            self.elements.append(PToggleBtn(self, (l,2,28,28),"score_espeak_on.png", "score_espeak_off.png",self.toggle_espeak,None))
             l += 28 + 15
         else:
-            l += 10 
-        
+            l += 10
+        l+=0
+        self.elements.append(PSelectBtn(self, (l,2,28,28), "score_hc_none.png", "score_hc_anone.png", self.switch_scheme,None))
+        l += 28 
+        self.elements.append(PSelectBtn(self, (l,2,28,28), "score_hc_wb.png", "score_hc_awb.png", self.switch_scheme,"WB"))
+        l += 28
+        self.elements.append(PSelectBtn(self, (l,2,28,28), "score_hc_bw.png", "score_hc_abw.png", self.switch_scheme,"BW"))
+        l += 28
+        self.elements.append(PSelectBtn(self, (l,2,28,28), "score_hc_by.png", "score_hc_aby.png", self.switch_scheme,"BY"))
+        l += 28
+        l+=10
         #score label
         #label = "Score" #self.lang.d["Score: "] + "0" #"Score: 12345"
         #w = self.font_bold.size(label)[0]
@@ -205,7 +233,7 @@ class ScoreBar:
     def resize(self):
         self.width = self.mainloop.game_board.layout.score_bar_pos[2]
         self.height = self.mainloop.game_board.layout.score_bar_pos[3]
-        if self.widget_list != None:
+        if self.widget_list is not None:
             self.widget_list.empty()
         self.widget_list = pygame.sprite.LayeredUpdates()
         self.elements = []
@@ -266,3 +294,6 @@ class ScoreBar:
             self.mainloop.config.settings["espeak"] = False
             self.mainloop.speaker.talkative = False
         self.mainloop.config.settings_changed = True
+        
+    def switch_scheme(self,scheme):
+        self.mainloop.switch_scheme(scheme)

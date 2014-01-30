@@ -16,7 +16,14 @@ class Board(gd.BoardGame):
         
         
     def create_game_objects(self, level = 1):
-        white = ((255,255,255))
+        self.board.decolorable = False
+        white = (255,255,255)
+        self.font_col = (0,0,0)
+        if self.mainloop.scheme is not None:
+            if self.level.lvl > 1:
+                self.font_col = self.mainloop.scheme.u_font_color
+                    
+                    
         if self.level.lvl == 1:
             choice = [x for x in range(0,20)]
             self.color_choice = [self.d["white"],self.d["black"],self.d["grey"],self.d["red"],self.d["orange"],self.d["yellow"],self.d["olive"],self.d["green"],self.d["sea green"],self.d["teal"],self.d["blue"],self.d["navy"],self.d["purple"],self.d["magenta"],self.d["indigo"],self.d["pink"],self.d["maroon"],self.d["brown"],self.d["aqua"],self.d["lime"]]
@@ -35,7 +42,7 @@ class Board(gd.BoardGame):
             self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[0,0,255], [0,0,132],[132,0,132],[255,20,138],[140,69,16]]
             self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[0,0,200], [0,0,82], [92,0,92],  [200,10,88],[100,39,6]]
             self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[0,0,100], [0,0,255],[255,0,255],[100,5,48],[200,100,26]]
-            self.init_font_color = [[0,0,0] for i in range(13)]
+            self.init_font_color = [self.font_col for i in range(13)]
             self.points = 5
         elif self.level.lvl >= 3:
             choice = [x for x in range(0,20)]
@@ -45,9 +52,16 @@ class Board(gd.BoardGame):
             self.hue_choice = [[255,255,255],[2,2,2],      [140,140,140],[255,0,0],[255,138,0],[255,255,0],[181,219,3],[0,160,0],[41,131,82],[0,130,133],[0,0,255],[0,0,132],[132,0,132],[255,0,255],[74,0,132],[255,20,138],[132,0,0], [140,69,16], [0,255,255], [0,255,0]]
             self.hue_choice2 =[[150,150,150],[100,100,100],[100,100,100],[200,0,0],[200,80,0], [200,200,0],[121,159,3],[0,100,0],[31,100,52],[0,90,90],  [0,0,200],[0,0,82], [92,0,92],  [200,0,200],[44,0,82], [200,10,88], [100,0,0], [100,39,6],  [0,200,200], [0,200,0]]
             self.font_color  =[[0,0,0],      [225,225,225],[0,0,0],      [100,0,0],[100,40,0], [100,100,0],[60,80,3],  [0,50,0],[11,50,22], [0,40,40],  [0,0,100],[0,0,255],[255,0,255], [100,0,100],[140,0,255],[100,5,48],  [200,50,50],  [200,100,26],  [0,155,155], [0,155,0]]
-            self.init_font_color = [[0,0,0] for i in range(20)]
-            
+            self.init_font_color = [self.font_col for i in range(20)]
             self.points = 7
+            
+        self.bg_col = (255,255,255)
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                self.bg_col = (0,0,0)
+                if self.level.lvl == 1:
+                    self.init_font_color[1] = (30,30,30)
+                
         data = [5,3]
         
         if self.lang.lang in ["en_GB","en_US"]:
@@ -76,17 +90,20 @@ class Board(gd.BoardGame):
         x = self.center - 2
         self.color_pos_offset = x
         for i in range(5):
-            self.board.add_door(x+i,0,1,1,classes.board.Door,self.color_choice[self.chosen[i]],white)
-            self.board.add_unit(x+i,2,1,1,classes.board.Letter,self.color_choice[self.shuffled2[i]],white,"",font_size)
+            self.board.add_door(x+i,0,1,1,classes.board.Door,self.color_choice[self.chosen[i]],self.bg_col)
+            self.board.add_unit(x+i,2,1,1,classes.board.Letter,self.color_choice[self.shuffled2[i]],self.bg_col,"",font_size)
             
             self.board.ships[-1].speaker_val = self.color_choicep[self.shuffled2[i]]
             self.board.ships[-1].speaker_val_update = False
             font_color = self.init_font_color[self.shuffled2[i]]
             if self.level.lvl == 1:
                 self.board.ships[i].font_color = font_color
-            elif self.level.lvl == 4:
+            else:
+                self.board.ships[i].font_color = self.font_col
+            if self.level.lvl == 4:
                 self.board.ships[i].readable = False
-
+        #self.board.add_door(0,0,data[0],data[1],classes.board.Door,"",white)
+        #self.board.units[-1].image.set_colorkey(None)
         for each in self.board.ships:
             self.board.all_sprites_list.move_to_front(each) 
             each.highlight = False
@@ -151,17 +168,17 @@ class Board(gd.BoardGame):
             active_ship.color = active_ship.initcolor
             active_ship.font_color = self.font_color[self.chosen[active_ship.grid_x-self.color_pos_offset]]
         else:
-            active_ship.initcolor = [255,255,255]
+            active_ship.initcolor = self.bg_col
             active_ship.color = active_ship.initcolor
             if self.level.lvl == 1:
                 active_ship.font_color = self.init_font_color[self.shuffled2[self.board.active_ship]]
             else:
-                active_ship.font_color = (0,0,0,0)
+                active_ship.font_color = self.font_col#(0,0,0,0)
         active_ship.image.set_colorkey(active_ship.initcolor)
         active_ship.update_me = True
         
     def update(self,game):
-        game.fill((255,255,255))
+        game.fill(self.bg_col)
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
