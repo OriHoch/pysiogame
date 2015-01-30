@@ -14,6 +14,7 @@ class Board(gd.BoardGame):
 
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
+        self.show_info_btn = False
 
         self.color = (255,255,255)#(234,218,225)
 
@@ -36,7 +37,7 @@ class Board(gd.BoardGame):
         self.board.board_bg.color = self.color
         self.board.board_bg.update_me = True
 
-        self.board.add_unit(0,0,data[0],1,classes.board.Label,"Copyright (C) 2012 - 2013  Ireneusz Imiolek",self.color,"",1)
+        self.board.add_unit(0,0,data[0],1,classes.board.Label,"Copyright (C) 2012 - 2014  Ireneusz Imiolek",self.color,"",1)
         self.board.add_unit(0,1,data[0],1,classes.board.Label,"",self.color,"",2)
         self.board.add_unit(0,2,data[0],5,classes.board.Label,self.lang.d["Credits_long"],self.color,"",2)
         self.board.units[-1].valign = 1

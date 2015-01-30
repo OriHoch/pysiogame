@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2014-01-04 21:04+0100\n"
+"PO-Revision-Date: 2014-11-24 19:30+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "Language: he\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.6.1\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -39,7 +39,7 @@ msgid_plural "pears"
 msgstr[0] "אגס"
 msgstr[1] "אגסים"
 
-msgid "orange"
+msgid "orange [fruit]"
 msgid_plural "oranges"
 msgstr[0] "תפוז"
 msgstr[1] "תפוזים"
@@ -566,7 +566,11 @@ msgstr "השלימו את האותיות"
 msgid "Write a word:"
 msgstr "כתיבת מילה"
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
+msgid "Build the following word using the letters below."
+msgstr ""
+
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
 msgstr "מצאו והפרידו את המספרים השווים מהמספרים הלא שווים"
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
@@ -655,6 +659,9 @@ msgstr "אפור"
 
 msgid "red"
 msgstr "אדום"
+
+msgid "orange [color]"
+msgstr "כָּתוֹם"
 
 msgid "yellow"
 msgstr "צהוב"
@@ -812,17 +819,25 @@ msgstr "יחסים"
 msgid "Match fraction charts on the right to the ones on the left"
 msgstr "תרשימי שבריר התאמה מימין לאלה בצד השמאל"
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
 msgstr "תרשימי התאמת שבריר ושברים על הזכות לתרשימי החלק בצד השמאל"
 
 msgid "Match fraction charts to the fractions on the left"
 msgstr "תרשימי שבריר התאמה לשברים בצד השמאל"
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
 msgstr "תרשימי שבריר התאמה, שברים ושברים עשרוניים על הזכות לייצוג אחוזם"
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "התאם תרשימים ליחסים בצד השמאל. יחסים באים לידי ביטוי כיחס בין חתיכות צבעוניות לחתיכות הלבנות"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
+msgstr ""
+"התאם תרשימים ליחסים בצד השמאל. יחסים באים לידי ביטוי כיחס בין חתיכות "
+"צבעוניות לחתיכות הלבנות"
 
 msgid "Maths Matching Game"
 msgstr "משחק התאמה במתמטיקה"
@@ -836,8 +851,12 @@ msgstr "חסור"
 msgid "Multiplication"
 msgstr "כפל"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "בדקו אם יש גירסה חדשה יותר, דווחו באגים, דונו, תרגמו או תכתבו ביקורת על הפרוייקט פה"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
+msgstr ""
+"בדקו אם יש גירסה חדשה יותר, דווחו באגים, דונו, תרגמו או תכתבו ביקורת על "
+"הפרוייקט פה"
 
 msgid "Match numbers to their spelling"
 msgstr "מספרי התאמה לאיות שלהם"
@@ -871,7 +890,8 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr "כזה שאורכי צלעותיה שווים %d %d"
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
 msgstr "כזה שהאורכים של 2 הבסיסים המקבילים שלה שווים %d וגובה %d"
 
 #, python-format
@@ -1084,15 +1104,28 @@ msgstr "זכור אותי"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
 
 msgid "Licence"
 msgstr ""
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program. If not, see http://www.gnu.org/licenses/"
 
 msgid "A little set of educational apps for kids"
 msgstr "יישומים לימודיים לילדים"
@@ -1136,6 +1169,82 @@ msgstr "בונה מילה - תחבורה"
 msgid "Word Builder - Food"
 msgstr "בונה מילה - מזון"
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
 msgstr ""
 
+msgid "Decimals and Fractions"
+msgstr ""
+
+msgid "Decimals, fractions and percentages"
+msgstr ""
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr ""
+
+msgid "Shapes and Solids"
+msgstr ""
+
+msgid "Translation Credits"
+msgstr ""
+
+msgid "Level"
+msgstr ""
+
+msgid "Find solution"
+msgstr ""
+
+msgid "Find missing number"
+msgstr ""
+
+msgid "Achievements"
+msgstr ""
+
+msgid "Select age group:"
+msgstr ""
+
+msgid "show activities for:"
+msgstr ""
+
+msgid "preschool"
+msgstr ""
+
+msgid "Year 1"
+msgstr ""
+
+msgid "Year 2"
+msgstr ""
+
+msgid "Year 3"
+msgstr ""
+
+msgid "Year 4"
+msgstr ""
+
+msgid "Year 5"
+msgstr ""
+
+msgid "Year 6"
+msgstr ""
+
+msgid "show all"
+msgstr ""
+
+msgid "Do you want to exit the game?"
+msgstr ""
+
+msgid "Do you want to  log out of the game?"
+msgstr ""
+
+msgid "Ready to go to the next level?"
+msgstr ""
+
+msgid "Language arts"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Educational Activity Pack for Kids"
+msgstr ""

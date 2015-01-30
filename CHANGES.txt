@@ -1,8 +1,20 @@
 Changelog:
-pySioGame - 2.40.129-dev:
-    - new feature - color modes - to make the game more accessible for kids with colour vision deficiencies. 
+pySioGame - 3.50.112:
+    - rearranged menu and game layout, game categorisation makes a bit more sense now
+    - grouped activities by age suitability, too hard games will not be shown too early, and very basic games will be hidden from more advanced users
+    - replaced meaningless score with the achivements screen that shows all completed levels and what language they were completed in
+    - removed some unsuitable activities
+    - fixed some minor bugs
+    - changed sound effects to more subtle ones
+
+pySioGame - 2.40.603.1:
+    - added Ukrainian translation by Yuri Chornoivan (Юрій Чорноіван)
+    - the Word Builder games now also translated to Polish, Ukrainian and Russian (that's 589 words in 12 categories)
+    - minor bug fixes and improvements
+pySioGame - 2.40.208.1-dev:
+    - new feature - color modes - to make the game more accessible for kids with colour vision deficiencies.
            The choice of modes available: default full colour, black on white background, white on black and yellow on black.
-           Some games that rely on colour remain unchanged or have been changed to better fit the black background - and care has been taken to create a contrast in lightness of colour. 
+           Some games that rely on colour remain unchanged or have been changed to better fit the black background - and care has been taken to create a contrast in lightness of colour.
 pySioGame - 2.40.105-dev:
     - added (partial) support for right-to-left languages
     - added Hebrew translation by Ori Hoch
@@ -20,7 +32,7 @@ pySioGame - 1.31.127-dev:
     - to go back to the initial screen or admin settings you have to press the log out "link" in top right corner.
     - added exit button on the initial screen
     - multiple bugs fixes - thanks to Алексей Логинов for finding and reporting them.
-    
+
 pySioGame - 1.31.111-dev:
     - added an initial screen used for login and administrative settings
     - some settings have been moved to administrator's settings
@@ -35,7 +47,7 @@ pySioGame - 1.31.111-dev:
       English is still used as default if language is not found.
     - Translations are now a mixture of .po files and some custom translations (where more control over the translation was required) - solves wishlist item #721852
     - solved a critical bug in "Color Matching" game (the game crashed when the width was larger than 5 squares and the colour label was dragged onto the empty square in the top line)
-    - minor fixes to some of the games    
+    - minor fixes to some of the games
     - where completing a level is possible the completed level numbers are highlighted
     - added possibility to receive points (where applicable) for completing games
     - flashcard images are now stored as a separate files rather than sprite - takes up more space but is easier to add new images.
@@ -48,11 +60,11 @@ pySioGame - 1.30.7xx - beta:
     - scrolling categories/games in menu now moves them one at a time rather than skipping to the very bottom + added support for mouse wheel for scrolling.
     - quitting game through the bottom-right button requires two clicks (not necessarily double click), Esc and in windowed version "X" button gets you out of the game without confirmation.
     - paint game - brush size now being changed by slider rather than +/- buttons
-    - window can now be resized (but exactly as with toggling full-screen on and off - changing window size will also reload the current activity, so don't do it in the middle of working on something) 
+    - window can now be resized (but exactly as with toggling full-screen on and off - changing window size will also reload the current activity, so don't do it in the middle of working on something)
     - handwriting font redrawn: advantages: one font for all languages, no more unknown authors and licences for fonts, more letters available including accents, tildes and what not, disadvantages: it's not as visually pleasing as the previous ones and there's no arrow guides the previous fonts had.
     - and many other changes to the way the game looks and works.
     - PS. changed the version numbering system and since this large leap in numbers, and yes still beta and the game is very likely to stay in beta through its entire life
-    
+
 pySioGame - 0.4.1 - beta:
     - added Spanish translation - thanks to Miriam Ruiz
     - removed a bug in calculating window size
@@ -64,7 +76,7 @@ pySioGame - 0.4.0 - beta:
     - made cosmetic changes to some of the existing activities.
     - optimized images further
     - now it is possible to change child's name in settings screen (just start typing and press enter when finished)
-    
+
 pySioGame - 0.3.1.2 - beta:
     - corrected some area/volume formulas and changed shape/solid images - added labels
     - paint - flat brush behaviour changed slightly.
@@ -96,12 +108,12 @@ pySioGame - 0.2.3 - pre-alpha:
 pySioGame - 0.2.2 - pre-alpha:
     - added multi-row functionality to the multi-sprite object, which in turn:
     - fixed the problem with game crashing on letter flashcard game
-    
+
 pySioGame - 0.2.1 - pre-alpha:
 	- corrected few errors
 	- added new colour matching game - colours stacked vertically so there is more space for colour names
 
-pySioGame - 0.2.0 - pre-alpha: (jump to 0.2 in order to be in line with upubuntu.com version which started at 0.1 instead of 0.0.1) 
+pySioGame - 0.2.0 - pre-alpha: (jump to 0.2 in order to be in line with upubuntu.com version which started at 0.1 instead of 0.0.1)
     - added Greek translation thanks to Στέλιος, versys650gr and other members of the Official Greek Community of Linux Mint who helped with the translation
     - changed some icons - categories colour coded
     - added further support for multiple languages
@@ -116,7 +128,7 @@ pySioGame - 0.0.2.1 - pre-alpha:
         - added little graphical arrow key pad in games that require the arrow keys - not tested on touch screens - are the buttons large enough for little fingers?
         - in the owl memory game - the "in-game" arrows are now clickable/tapable
     Other changes:
-        - sheep maze - sheep movement now slightly changed - now the object (the sheep) behaves nearly the same as other movable objects in the game 
+        - sheep maze - sheep movement now slightly changed - now the object (the sheep) behaves nearly the same as other movable objects in the game
             - holding the arrow key will make it move till it hits the wall or end of board
         - enabled the game to be translated to Finnish.
 
@@ -147,19 +159,19 @@ pySioGame - 0.0.2 - (0.0.2.0) - pre-alpha:
     		- word list has changed completely - the words in it are kind of more commonly used words in English
     	- renamed first category to hold game information, copyright info and settings, and some related stuff in the future
     	- changed few category icons
-    	
+
     Technical changes:
     	- changed coding of all source files to utf-8
     	- enabled the objects to render/speak and deal with utf-8 characters
     		- and all this to still keep it py2.7.2 and py3+ compatible (let me know if it is not)
     	- fixed scaling problem in older pygame versions ( < 1.8 - hopefully fixed - untested)
-    	- cleaned up a little bit, removed (emptied) some disused/replaced game files that has been left in game_boards folder 
+    	- cleaned up a little bit, removed (emptied) some disused/replaced game files that has been left in game_boards folder
     		- the empty files are still there as placeholders for new stuff in the future did not want to rename files to fill the gap, and the way the games are added to __all__ does not allow for number skipping.
     	- removed old icons and disused images, renamed some images so related stuff stays together.
     	- changed font from default None to FreeSansBold (which BTW was default), but specifying the font name dealt with a problem of cropping accents at the top.
     	- added loadable/savable settings - as above the languages/lang_config.txt needs to be writable.
     	- now most of the changes in the Config object/class will be overridden by data loaded from file
     		- only changes to screen auto-detect and screen size related stuff works, rest of settings in file.
-    
+
     I guess that's a long story short, I hope I haven't missed anything important. Please let me know if any of the new changes or anything else breaks the game.
-    
+

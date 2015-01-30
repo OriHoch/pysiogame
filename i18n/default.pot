@@ -37,7 +37,7 @@ msgid_plural "pears"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "orange"
+msgid "orange [fruit]"
 msgid_plural "oranges"
 msgstr[0] ""
 msgstr[1] ""
@@ -561,10 +561,10 @@ msgstr ""
 msgid "Complete the abc using the letters above."
 msgstr ""
 
-msgid "Write a word:"
+msgid "Build the following word using the letters below."
 msgstr ""
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
+msgid "Find and separate the Even Numbers from the Odd Numbers in the above series."
 msgstr ""
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
@@ -580,9 +580,6 @@ msgid "Sorry! It is wrong."
 msgstr ""
 
 msgid "Perfect! Task solved!"
-msgstr ""
-
-msgid "You need to work a little bit harder next time."
 msgstr ""
 
 msgid "Game Over!"
@@ -652,6 +649,9 @@ msgid "grey"
 msgstr ""
 
 msgid "red"
+msgstr ""
+
+msgid "orange [color]"
 msgstr ""
 
 msgid "yellow"
@@ -1139,4 +1139,37 @@ msgid "Word Builder - Food"
 msgstr ""
 
 msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgstr ""
+
+msgid "Decimals and Fractions"
+msgstr ""
+
+msgid "Decimals, fractions and percentages"
+msgstr ""
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr ""
+
+msgid "Shapes and Solids"
+msgstr ""
+
+msgid "Translation Credits"
+msgstr ""
+
+msgid "Level"
+msgstr ""
+
+msgid "Build the following word using the letters below."
+msgstr ""
+
+msgid "Find solution"
+msgstr ""
+
+msgid "Find missing number"
+msgstr ""
+
+msgid "Achievements"
+msgstr ""
+
+msgid "Educational Activity Pack for Kids"
 msgstr ""

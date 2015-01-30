@@ -108,7 +108,7 @@ class Key(pygame.sprite.Sprite):
         y = 0
         w2 = 1
         if self.id < 64:
-            if self.id != 28 and self.id != 42:
+            if (self.id != 28 and self.id != 42) or self.kbrd.game_board.lang.lang == "uk":
     	        pygame.draw.lines(self.image, color, True, [[x,y],[self.w-w2,y],[self.w-w2,self.h-w2],[x,self.h-w2]],width)
             else:
                 if self.kbrd.keys[28].h > self.kbrd.keys[42].h:
@@ -132,8 +132,8 @@ class KeyBoard:
         self.keys = []
         self.keys_list = pygame.sprite.RenderPlain()
         self.kbrd_font = []
-        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/2))))
-        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/3))))
+        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSansBold.ttf'),  (int(float(self.points)/2))))
+        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSansBold.ttf'),  (int(float(self.points)/3))))
         self.canvas = pygame.Surface([kbrd_w, kbrd_h])
         self.canvas.fill(self.game_board.bg_col)
         self.add_keys()
@@ -314,7 +314,7 @@ class Board(gd.BoardGame):
             self.chapters = [1,3,5,7,10,13,15,18,20,22,24,26,28]
         elif self.lang.lang == "pl":
             self.chapters = [1,3,5,7,10,12,14,16,18,20,23,26,29,32]
-        elif self.lang.lang == "ru":
+        elif self.lang.lang in ("ru","uk"):
             self.chapters = [1,3,5,7,10,13,15,18,20,22,24,26,28]
         self.t_string = self.course[self.level.lvl-1][1]
         self.t_multi  = self.course[self.level.lvl-1][0]
@@ -372,8 +372,7 @@ class Board(gd.BoardGame):
                             self.middle.value = next_letter
                             self.right.value = self.right.value[1:]
                             self.kbrd.get_btns_to_hl(next_letter)
-                            if self.mainloop.config.settings["sounds"]:
-                                self.board.s1.play()
+                            self.mainloop.sfx.play(15)
                         elif len(self.middle.value) > 0:
                             self.left.value += char
                             self.middle.value = ""
@@ -381,8 +380,7 @@ class Board(gd.BoardGame):
                         for each in [self.left, self.middle, self.right]:
                             each.update_me = True
                     else:
-                        if self.mainloop.config.settings["sounds"]:
-                            self.board.s2.play()
+                        self.mainloop.sfx.play(16)
                         if self.pointsx > 0:
                             self.pointsx -= 1
 

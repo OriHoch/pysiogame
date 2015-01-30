@@ -4,6 +4,15 @@ import sys
 import colorsys
 import random
 
+fribidi_loaded = False
+try:
+    import pyfribidi
+    fribidi_loaded = True
+    frididi = pyfribidi
+except:
+    frididi = None
+
+
 #the following four color functions take 3 values in range 0 - 255
 #h - hue
 #s - saturation - s=0 white, s=255 full color
@@ -61,68 +70,75 @@ def unival(value):
         val = value
     return val
 
-def IsHebrew(s):
-    alpha = "אבּבגדהוזחטיכּכךּךלמםנןסעפּפףצץקרשׁשׂתּתװױײ׳״"
-    alpha += ",.;:?"
+def is_rtl(s, alpha):
     if sys.version_info < (3, 0):
-        alpha = alpha.decode("utf-8")
-    for each in s:
-        if each not in alpha:
-            return False
-    return True
+        alpha = unival(alpha)
+    if s[0] in alpha and s[-1] in alpha:
+        return True
+    return False
 
-def reverse(s, alpha):
+def reverse(s, alpha,lng):
     if sys.version_info < (3, 0):
         if not isinstance(s, unicode):
             s = s.decode('utf-8')
         alpha = alpha.decode("utf-8")
-
-    ret = list()
-    words = s.split()
-
-    curHebrewList = list()
-    curEnglishList = list()
-    curLangIsHebrew = False
-
-    for w in words:
-        if(IsHebrew(w) and curLangIsHebrew):
-            curHebrewList.append(w[::-1])
-        elif(IsHebrew(w) and not curLangIsHebrew):
-            if(len(curEnglishList) > 0):
-                curEnglishList.reverse()
-                ret.extend(curEnglishList)
-            curEnglishList = list()
-            curHebrewList.append(w[::-1])
-            curLangIsHebrew=True
-        elif(not IsHebrew(w) and not curLangIsHebrew):
-            w = w.split()
-
-            w.reverse()
-            curEnglishList.append("".join(w))
-        elif(not IsHebrew(w) and curLangIsHebrew):
-            if(len(curHebrewList) > 0):
-                ret.extend(curHebrewList)
-            curHebrewList = list()
-
-            w = w.split()
-            w.reverse()
-            curEnglishList.append("".join(w))
-            curLangIsHebrew=False
+    if lng == "ar":
+        if fribidi_loaded:
+            st = unival(s)
+            return frididi.log2vis(st)
         else:
-            pass
-    if(len(curHebrewList) > 0):
-        ret.extend(curHebrewList)
-    if(len(curEnglishList) > 0):
-        curEnglishList.reverse()
-        ret.extend(curEnglishList)
+            return ""
+    elif lng == "he":
+        if fribidi_loaded:
+            st = unival(s)
+            return frididi.log2vis(st)
+        else:
+            ret = list()
+            words = s.split()
 
-    ln = len(ret)
-    s = ""
-    for i in range(ln-1,-1,-1):
-        s+=ret[i]
-        if i>-1:
-            s+= " "
-    return s
+            cur_rtl_list = list()
+            cur_ltr_list = list()
+            cur_is_rtl = False
+
+            for w in words:
+                if (is_rtl(w, alpha) and cur_is_rtl):
+                    cur_rtl_list.append(w[::-1])
+                elif (is_rtl(w, alpha) and not cur_is_rtl):
+                    if (len(cur_ltr_list) > 0):
+                        cur_ltr_list.reverse()
+                        ret.extend(cur_ltr_list)
+                    cur_ltr_list = list()
+                    cur_rtl_list.append(w[::-1])
+                    cur_is_rtl=True
+                elif (not is_rtl(w, alpha) and not cur_is_rtl):
+                    w = w.split()
+
+                    w.reverse()
+                    cur_ltr_list.append("".join(w))
+                elif (not is_rtl(w, alpha) and cur_is_rtl):
+                    if (len(cur_rtl_list) > 0):
+                        ret.extend(cur_rtl_list)
+                    cur_rtl_list = list()
+
+                    w = w.split()
+                    w.reverse()
+                    cur_ltr_list.append("".join(w))
+                    cur_is_rtl=False
+                else:
+                    pass
+            if (len(cur_rtl_list) > 0):
+                ret.extend(cur_rtl_list)
+            if (len(cur_ltr_list) > 0):
+                cur_ltr_list.reverse()
+                ret.extend(cur_ltr_list)
+
+            ln = len(ret)
+            s = ""
+            for i in range(ln-1,-1,-1):
+                s += ret[i]
+                if i > 0:
+                    s += " "
+            return s
 
 
 def rr2(from1,to1,from2,to2,step=1):

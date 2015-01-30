@@ -9,7 +9,7 @@ import random
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,2,16)
+        self.level = lc.Level(self,mainloop,2,8)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,26,9)
 
     def create_game_objects(self, level = 1):
@@ -57,52 +57,47 @@ class Board(gd.BoardGame):
 
         nlf[2] = nlf[0] + nlf[1]
         nlf[3] = aw * 2 - 4
+        if self.mainloop.m.game_variant == 0:
+            if self.level.lvl == 1:
+                data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[0]]
+            elif self.level.lvl == 2:
+                data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[1]]
+            elif self.level.lvl == 3:
+                data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[2]]
+            elif self.level.lvl == 4:
+                data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[3]]
 
-        if self.level.lvl == 1:
-            data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[0]]
-        elif self.level.lvl == 2:
-            data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[1]]
-        elif self.level.lvl == 3:
-            data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[2]]
-        elif self.level.lvl == 4:
-            data = [self.alphabet_width,6,self.alphabet_lc,0,nlf[3]]
-
-        elif self.level.lvl == 5:
-            data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[0]]
-        elif self.level.lvl == 6:
-            data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[1]]
-        elif self.level.lvl == 7:
-            data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[2]]
-        elif self.level.lvl == 8:
-            data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[3]]
-        elif self.lang.has_uc:
-            if self.level.lvl == 9:
+            elif self.level.lvl == 5:
+                data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[0]]
+            elif self.level.lvl == 6:
+                data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[1]]
+            elif self.level.lvl == 7:
+                data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[2]]
+            elif self.level.lvl == 8:
+                data = [self.alphabet_width,6,self.alphabet_lc,1,nlf[3]]
+        elif self.mainloop.m.game_variant == 1:
+            if self.level.lvl == 1:
                 data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[0]]
-            elif self.level.lvl == 10:
+            elif self.level.lvl == 2:
                 data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[1]]
-            elif self.level.lvl == 11:
+            elif self.level.lvl == 3:
                 data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[2]]
-            elif self.level.lvl == 12:
+            elif self.level.lvl == 4:
                 data = [self.alphabet_width,6,self.alphabet_uc,0,nlf[3]]
 
-            elif self.level.lvl == 13:
+            elif self.level.lvl == 5:
                 data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[0]]
-            elif self.level.lvl == 14:
+            elif self.level.lvl == 6:
                 data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[1]]
-            elif self.level.lvl == 15:
+            elif self.level.lvl == 7:
                 data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[2]]
-            elif self.level.lvl == 16:
+            elif self.level.lvl == 8:
                 data = [self.alphabet_width,6,self.alphabet_uc,1,nlf[3]]
 
-        if self.level.lvl < 9:
-            self.points = data[4] // 5 + (self.level.lvl+3) // 4
-        else:
-            self.points = data[4] // 5 + (self.level.lvl+3) // 8
 
-        if self.lang.has_uc:
-            self.chapters = [1,5,9,13,16]
-        else:
-            self.chapters = [1,4,8]
+        self.points = data[4] // 5 + (self.level.lvl+3) // 4
+
+        self.chapters = [1,4,8]
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
@@ -147,7 +142,7 @@ class Board(gd.BoardGame):
             if i in lowered:
                 picked = True
             if data[3] == 1:
-                h = random.randrange(0, 255, 5)
+                s = 100
             else:
                 if self.lang.ltr_text:
                     if picked:

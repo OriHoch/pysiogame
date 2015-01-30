@@ -7,46 +7,46 @@ Translations:
     Hebrew - Ori Hoch
     Italian - Giuliano
     Polish - Kamila Roszak-Imiolek, Ireneusz Imiolek
-    Portugese - Américo Monteiro
+    Portuguese - Américo Monteiro
     Russian - Anton Kayukov (Антон Каюков) & Alexey Loginov (Алексей Логинов)
     Spanish - Miriam Ruiz - http://www.miriamruiz.es
-    
+    Ukrainian - Yuri Chornoivan (Юрій Чорноіван)
+
     French - Not translated yet
     German - Not translated yet
 
 Game Ideas:
     Kamila Roszak-Imiolek & Ireneusz Imiolek
 
+Usability Testing:
+    Elisabete Cunha
+    
 Thanks to creators of python and pygame - without their work this program would never exist.
-
 Thanks to everyone sending various bug reports and fixes.
 
-
 Below is a list of links to media files used in this game (or shortlisted for later use):
-For more information about authors please visit their 
-profiles on either openclipart.org or freesound.org
+For more information about authors please visit their profiles on either openclipart.org or freesound.org
 
 Thanks to everyone who shared their hard work on those sites - making project like this is much easier with so much stuff freely available.
 
 Fonts:
     pysiogameFonts/* - by Ireneusz Imiolek - GPL + Font Exception.
     FreeSans, FreeSansBold - GPL
+    LinBiolinum_RBah - LinuxLibertine - GPL - https://sourceforge.net/projects/linuxlibertine/
+    KacstOne - KACST holds the copyright of the included Arabic font which is donated under GPL by KACST.
 
 Sounds Licence - Public Domain:
+    Most of the sounds were created with help of: http://www.superflashbros.net/as3sfxr/ these are being released under Public Domain licence:
     http://creativecommons.org/publicdomain/zero/1.0/
-    
-    Sounds downloaded from freesound.org:
+
+    Sounds downloaded from freesound.org also under Public Domain - http://creativecommons.org/publicdomain/zero/1.0/:
         by various authors:
-            menu / info-bar sounds:
-                http://www.freesound.org/people/blackstalian/packs/8738/
             object moves - 2 sounds created from:
                 http://www.freesound.org/people/Robinhood76/sounds/104874/
             hit the mole - section of:
                 http://www.freesound.org/people/AntumDeluge/sounds/188043/
             game lost - created from:
                 http://www.freesound.org/people/fins/sounds/146731/
-            leaving game:
-                http://www.freesound.org/people/Kastenfrosch/sounds/162465/
 
 Large amount of images used from http://www.art4apps.org/
     "Art4Apps is a database of images and audio files of words created by Smart4Kids under a Creative Common License (CC BY-SA)"
@@ -103,7 +103,7 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/133873/french-artist-dragon-by-americanknight
     http://openclipart.org/detail/16148/whirlpool-by-andy
     http://openclipart.org/detail/1301/paint-brush-by-johnny_automatic
-    
+
     Flags:
     http://openclipart.org/detail/76507/united-kingdom-flag-by-shokunin
     http://openclipart.org/detail/22700/flag-of-the-united-states-by-papapishu
@@ -111,11 +111,11 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/17736/flag-of-france-by-tobias
     http://openclipart.org/detail/17737/flag-of-italy-by-tobias
     http://openclipart.org/detail/12785/flag-of-germany-by-anonymous-12785
-    http://openclipart.org/detail/13125/flag-of-portugal-by-anonymous-13125   
-    http://openclipart.org/detail/13147/flag-of-the-russian-federation-by-anonymous 
+    http://openclipart.org/detail/13125/flag-of-portugal-by-anonymous-13125
+    http://openclipart.org/detail/13147/flag-of-the-russian-federation-by-anonymous
     http://openclipart.org/detail/17744/flag-of-finland-by-tobias
     http://openclipart.org/detail/17745/flag-of-greece-by-tobias
-    
+
     Paint:
     http://openclipart.org/detail/167325/color-bucket-blue-by-frankes
     http://openclipart.org/detail/167519/color-bucket-yellow-by-frankes
@@ -127,7 +127,7 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/3297/pencil-by-barretr
     http://openclipart.org/detail/3981/eraser-by-lmproulx
     http://openclipart.org/detail/166897/fill-by-roshellin
-    
+
     Other:
     http://openclipart.org/detail/35383/tango-applications-graphics-by-warszawianka
     http://openclipart.org/detail/34561/tango-input-keyboard-by-warszawianka
@@ -142,8 +142,8 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/61201/red-racing-car-top-view-by-qubodup
     http://openclipart.org/detail/4421/aquarela-colors-by-valessiobrito-4421
     http://openclipart.org/detail/4070/green-sea-turtle-by-valessiobrito-4070
-    
-    
+
+
     Fish:
     http://openclipart.org/detail/3753/gold-fish-by-tomas_arad
     http://openclipart.org/detail/15731/aquarium-fish---xiphophorus-maculatus-by-mystica
@@ -163,8 +163,8 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/8230/crawfish-by-gerald_g-8230
     http://openclipart.org/detail/8233/crawfish-by-gerald_g-8233
     http://openclipart.org/detail/3006/flowerhorn-fish-by-danz
-    
-    
+
+
 
     Letter Flashcards:
     http://openclipart.org/detail/1581/ant-by-aurium
@@ -194,7 +194,7 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/23398/pink-ball-of-yarn-by-adam_lowe
     http://openclipart.org/detail/100297/cebra-by-ha1flosse
     http://openclipart.org/detail/4802/violin-by-papapishu
-    
+
     http://openclipart.org/detail/155773/hedgehog-by-tzunghaor
     http://openclipart.org/detail/28555/sapin_01-by-jean_victor_balin
     http://openclipart.org/detail/155125/yogurt-by-mazeo
@@ -238,33 +238,33 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/38065/hockey-goal-by-j_alves
     http://openclipart.org/detail/24366/tiger-by-anonymous-24366
     http://openclipart.org/detail/2218/bus-by-drunken_duck
-    
-    
+
+
     Shapes:
     http://openclipart.org/detail/68527/cube-by-buggi
     http://openclipart.org/detail/151285/sphere-by-lemonade_jo
     http://openclipart.org/detail/82747/brown-cone-by-mireille
-    
+
     Cartoon Characters:
     http://openclipart.org/detail/137851/umbrella-panda-by-shu
     http://openclipart.org/user-cliparts/StudioFibonacci - author's profile - multiple images used
     http://openclipart.org/user-detail/lemmling - author's profile - multiple images used
     http://openclipart.org/user-detail/14thWarrior - author's profile - multiple images used
-    
+
     Kindergarden:
     http://openclipart.org/detail/17506/jigsaw-puzzle-by-ben
-    
+
     Collections:
     http://openclipart.org/user-detail/ha1flosse - multiple images
     http://openclipart.org/user-detail/TheStructorr - multiple images
     http://openclipart.org/user-detail/TheresaKnott - multiple images
     http://openclipart.org/user-cliparts/horse50 - multiple images - rebuilt from - http://openclipart.org/detail/27962/number-animals-by-kablam
-    
+
     Other:
     http://openclipart.org/detail/170834/hen-and-chicks-cartoon-style-by-qubodup-170834
     http://openclipart.org/detail/17922/books-by-aj
     http://openclipart.org/detail/17506/jigsaw-puzzle-by-ben
-    
+
     Memory Games:
     http://openclipart.org/detail/170794/alternative-pineapple-by-qubodup-170794
     http://openclipart.org/detail/131485/mango-fruit-by-netalloy
@@ -308,21 +308,21 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/140677/sveglia-by-emilie.rollandin
     http://openclipart.org/detail/25516/architetto----clessidra-by-anonymous-25516
     http://openclipart.org/detail/179359/owl-by-rematuche-179359
-    
+
     http://openclipart.org/detail/167095/secure-gold-by-rygle
-    
+
     http://openclipart.org/detail/171109/filter--funnel-icon-by-mlampret-171109
-    
+
     http://openclipart.org/detail/48937/trophy-by-sheikh_tuhin
     http://openclipart.org/detail/170859/trophy-by-hatalar205-170859
     http://openclipart.org/detail/25414/architetto----cassa-negozio-by-anonymous-25414
     http://openclipart.org/detail/173984/pretty-coin-golden-by-qubodup-173984
-    
+
     http://openclipart.org/detail/167328/jaguar-by-frankes
     http://openclipart.org/detail/3469/-by--3469
     http://openclipart.org/detail/171184/interactive-language-button-by-gmcglinn-171184
     http://openclipart.org/detail/58735/cat-paw-print-by-j_alves
-    
+
     http://openclipart.org/detail/2163/jogging-by-machovka
     http://openclipart.org/detail/2838/bike-by-machovka
     http://openclipart.org/detail/138967/people-by-netalloy
@@ -335,11 +335,21 @@ Images from openclipart.org by various authors:
     http://openclipart.org/detail/61933/maple-leaf-by-rones
     http://openclipart.org/detail/131689/apples-by-gnokii
 
+    https://openclipart.org/detail/166368/thumb-up-by-nikitan
+
+New images for version 3:
+    https://openclipart.org/detail/76339/books-by-inky2010
+    https://openclipart.org/detail/35365/tango-applications-accessories-by-warszawianka
+    https://openclipart.org/detail/22089/quill-by-nicubunu
+    https://openclipart.org/detail/191524/clock-by-agomjo-191524
+    https://openclipart.org/detail/5247/sack-by-jonata
+    https://openclipart.org/detail/189958/rabbit-by-peterm-189958
+
 Wikipedia images:
     http://de.wikipedia.org/wiki/Datei:Koala.svg
-	
+
 Laby code based on:
-    Laby, 2010 by Mehdi Cherti(mehdidc): 
+    Laby, 2010 by Mehdi Cherti(mehdidc):
         http://www.pythonfrance.com/codes/GENERATION-LABYRINTHE-AVEC-RECHERCHE-CHEMIN-PLUS-COURT-AVEC_51293.aspx
 
 Cinderella in the Touch Typing Tutor:

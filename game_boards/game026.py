@@ -11,9 +11,8 @@ from math import pi,cos,sin
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,99,3)
+        self.level = lc.Level(self,mainloop,15,3)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,9,5)
-
 
     def create_game_objects(self, level = 1):
         self.board.decolorable = False
@@ -139,7 +138,8 @@ class Board(gd.BoardGame):
 
     def draw_fractions(self,canvas,size,center,color):
         lh = max(int(size * 0.05),2)
-        pygame.draw.line(canvas,self.font_color,[center[0]-size//7,center[1]-lh//2],[center[0]+size//7,center[1]-lh//2],lh)
+        la = self.mainloop.config.font_start_at_adjustment
+        pygame.draw.line(canvas,self.font_color,[center[0]-size//7,center[1]-lh//2+la],[center[0]+size//7,center[1]-lh//2+la],lh)
 
     def draw_circles(self,numbers,canvas,size,center,color):
         angle_step = 2*pi/numbers[1]

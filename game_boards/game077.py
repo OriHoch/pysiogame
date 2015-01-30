@@ -134,8 +134,8 @@ class KeyBoard:
         self.keys = []
         self.keys_list = pygame.sprite.RenderPlain()
         self.kbrd_font = []
-        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/2))))
-        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'),  (int(float(self.points)/3))))
+        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSansBold.ttf'),  (int(float(self.points)/2))))
+        self.kbrd_font.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSansBold.ttf'),  (int(float(self.points)/3))))
         self.canvas = pygame.Surface([kbrd_w, kbrd_h])
         self.canvas.fill(self.game_board.bg_col)
         self.add_keys()
@@ -394,8 +394,7 @@ class Board(gd.BoardGame):
                             self.middle.value = next_letter
                             self.right.value = self.right.value[1:]
                             self.kbrd.get_btns_to_hl(next_letter)
-                            if self.mainloop.config.settings["sounds"]:
-                                self.board.s1.play()
+                            self.mainloop.sfx.play(15)
                         elif len(self.middle.value) > 0:
                             self.left.value += char
                             self.middle.value = ""
@@ -403,8 +402,7 @@ class Board(gd.BoardGame):
                         for each in [self.left, self.middle, self.right]:
                             each.update_me = True
                     else:
-                        if self.mainloop.config.settings["sounds"]:
-                            self.board.s2.play()
+                        self.mainloop.sfx.play(16)
                         if self.pointsx > 0:
                             self.pointsx -= 1
 

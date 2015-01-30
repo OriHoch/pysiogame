@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-27 05:17+0100\n"
+"PO-Revision-Date: 2014-11-24 19:31+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "Language: Greek\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -225,7 +226,8 @@ msgid "require password to log in"
 msgstr "να απαιτείται συνθηματικό για τη σύνδεση"
 
 msgid "require password to access admin area"
-msgstr "να απαιτείται συνθηματικό για την πρόσβαση στις λειτουργίες διαχείρισης"
+msgstr ""
+"να απαιτείται συνθηματικό για την πρόσβαση στις λειτουργίες διαχείρισης"
 
 msgid "Update admin's password:"
 msgstr "Ενημέρωση συνθηματικού διαχειριστή:"
@@ -541,7 +543,9 @@ msgid "With a Twist"
 msgstr "Με μια στροφή"
 
 msgid "Drag the slider up or down so that the right sign is in the red square."
-msgstr "Σύρτε την στήλη πάνω ή κάτω μέχρι το σωστό σύμβολο να βρεθεί στο κόκκινο τετράγωνο"
+msgstr ""
+"Σύρτε την στήλη πάνω ή κάτω μέχρι το σωστό σύμβολο να βρεθεί στο κόκκινο "
+"τετράγωνο"
 
 msgid "Take your sheep to the rest of the herd."
 msgstr "Οδήγησε το πρόβατό σου πίσω στο κοπάδι."
@@ -550,7 +554,8 @@ msgid "Check the shopping list and drag all needed items into the basket."
 msgstr "Συμπλήρωσε την λίστα με τα ψώνια και τοποθέτησέ τα μέσα στο καλάθι."
 
 msgid "Drag one of the <, > or = (lesser, greater or equal) to the red square."
-msgstr "Σύρε ένα από τα <, > ή = (μικρότερο, μεγαλύτερο ή ίσο) στο κόκκινο τετράγωνο."
+msgstr ""
+"Σύρε ένα από τα <, > ή = (μικρότερο, μεγαλύτερο ή ίσο) στο κόκκινο τετράγωνο."
 
 msgid "Drag one of the lesser, greater or equal to the red square."
 msgstr "Σύρε ένα από τα μικρότερο, μεγαλύτερο ή ίσο στο κόκκινο τετράγωνο."
@@ -564,14 +569,21 @@ msgstr "Συμπλήρωσε την αλφάβητο με τα παραπάνω 
 msgid "Write a word:"
 msgstr "Γράψε μια λέξη:"
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
-msgstr "Βρες και χώρισε τους ζυγούς από τους περιττούς αριθμούς στην παραπάνω σειρά."
+msgid "Build the following word using the letters below."
+msgstr ""
+
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
+msgstr ""
+"Βρες και χώρισε τους ζυγούς από τους περιττούς αριθμούς στην παραπάνω σειρά."
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
 msgstr "Βάλε με αλφαβητική σειρά τα παραπάνω γράμματα."
 
 msgid "Re-arrange the above numbers so they are in the ascending order."
-msgstr "Βάλε τους παραπάνω αριθμούς στην σειρά, από τον μικρότερο προς τον μεγαλύτερο."
+msgstr ""
+"Βάλε τους παραπάνω αριθμούς στην σειρά, από τον μικρότερο προς τον "
+"μεγαλύτερο."
 
 msgid "Please try again."
 msgstr "Παρακαλώ ξαναπροσπάθησε."
@@ -730,13 +742,15 @@ msgid "Additive Colour Mixing - Light"
 msgstr "Μίξη με ρύθμιση της έντασης των βασικών χρωμάτων"
 
 msgid "Mix red, green and blue light to get other colours"
-msgstr "Ρύθμιση έντασης  κόκκινου, πράσινου και μπλε για δημιουργία άλλων χρωμάτων"
+msgstr ""
+"Ρύθμιση έντασης  κόκκινου, πράσινου και μπλε για δημιουργία άλλων χρωμάτων"
 
 msgid "Subtractive Colour Mixing - Paints, Dyes, Inks"
 msgstr "Μίξη με αφαίρεση χρωμάτων - Μπογιές, βαφές και μελάνια"
 
 msgid "Mix cyan, magenta and yellow paint to get other colours"
-msgstr "Μίξη κυανής, ματζέντα και κίτρινης μπογιάς για δημιουργία άλλων χρωμάτων"
+msgstr ""
+"Μίξη κυανής, ματζέντα και κίτρινης μπογιάς για δημιουργία άλλων χρωμάτων"
 
 msgid "Find the colour of the circle"
 msgstr "Βρες το χρώμα του κύκλου"
@@ -813,17 +827,29 @@ msgstr "Λόγος"
 msgid "Match fraction charts on the right to the ones on the left"
 msgstr "Ταίριαξε τους πίνακες κλασμάτων στα δεξιά με εκείνους στα αριστερά"
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
-msgstr "Ταίριαξε τους πίνακες κλασμάτων και τα κλάσματα στα δεξιά με τους πίνακες κλασμάτων στα αριστερά"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
+msgstr ""
+"Ταίριαξε τους πίνακες κλασμάτων και τα κλάσματα στα δεξιά με τους πίνακες "
+"κλασμάτων στα αριστερά"
 
 msgid "Match fraction charts to the fractions on the left"
 msgstr "Ταίριαξε τους πίνακες κλασμάτων με τα κλάσματα στα αριστερά"
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
-msgstr "Ταίριαξε τους πίνακες κλασμάτων, κλάσματα και δεκαδικά κλάσματα στα δεξιά με την παράστασή τους ως ποσοστά"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
+msgstr ""
+"Ταίριαξε τους πίνακες κλασμάτων, κλάσματα και δεκαδικά κλάσματα στα δεξιά με "
+"την παράστασή τους ως ποσοστά"
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "Ταίριαξε τους χάρτες με τις αναλογίες στα αριστερά Οι αναλογίες παρουσιάζονται ως τα χρωματιστά κομμάτια σε σχέση με τα λευκά"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
+msgstr ""
+"Ταίριαξε τους χάρτες με τις αναλογίες στα αριστερά Οι αναλογίες "
+"παρουσιάζονται ως τα χρωματιστά κομμάτια σε σχέση με τα λευκά"
 
 msgid "Maths Matching Game"
 msgstr "Παιχνίδι με μαθηματικές πράξεις"
@@ -837,8 +863,12 @@ msgstr "Αφαίρεση"
 msgid "Multiplication"
 msgstr "Πολλαπλασιασμός"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "Έλεγχος για καινούργιες εκδόσεις, αναφορά σφαλμάτων, συζήτηση, μετάφραση και επισκόπηση του προγράμματος στη διεύθυνση:"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
+msgstr ""
+"Έλεγχος για καινούργιες εκδόσεις, αναφορά σφαλμάτων, συζήτηση, μετάφραση και "
+"επισκόπηση του προγράμματος στη διεύθυνση:"
 
 msgid "Match numbers to their spelling"
 msgstr "Ταίριαξε τους αριθμούς με την γραφή τους σαν λέξεις"
@@ -872,7 +902,8 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr "των πλευρών του να είναι ίσο με %d και %d"
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
 msgstr "των 2 παράλληλων πλευρών του να είναι ίσο με %d και το ύψος του με %d"
 
 #, python-format
@@ -1085,29 +1116,43 @@ msgstr "θυμήσου με"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 
 msgid "Licence"
 msgstr "Licence"
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
-msgstr "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
 msgid "A little set of educational apps for kids"
-msgstr "A little set of educational apps for kids"
-
-
-
-msgid "Word Builder - Animals"
 msgstr ""
 
 msgid "Complete the word"
+msgstr ""
+
+msgid "Word Builder - Animals"
 msgstr ""
 
 msgid "Word Builder - Sports"
@@ -1143,5 +1188,82 @@ msgstr ""
 msgid "Word Builder - Food"
 msgstr ""
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
+msgstr ""
+
+msgid "Decimals and Fractions"
+msgstr "Δεκαδικοί και κλάσματα"
+
+msgid "Decimals, fractions and percentages"
+msgstr "Δεκαδικοί, κλάσματα και ποσοστά"
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr "Δεκαδικοί, κλάσματα, λόγοι και ποσοστά"
+
+msgid "Shapes and Solids"
+msgstr "Σχήματα και Στερεά"
+
+msgid "Translation Credits"
+msgstr "Συμβολές μετάφρασης"
+
+msgid "Level"
+msgstr "Επίπεδο"
+
+msgid "Find solution"
+msgstr "Βρες την λύση"
+
+msgid "Find missing number"
+msgstr "Βρες τον αριθμό που λείπει"
+
+msgid "Achievements"
+msgstr "Επιτεύγματα"
+
+msgid "Select age group:"
+msgstr "Διάλεξε ηλικιακή ομάδα"
+
+msgid "show activities for:"
+msgstr "δείξε δραστηριότητες για:"
+
+msgid "preschool"
+msgstr "προσχολικό"
+
+msgid "Year 1"
+msgstr "Πρώτη τάξη"
+
+msgid "Year 2"
+msgstr "Δευτέρα τάξη"
+
+msgid "Year 3"
+msgstr "Τρίτη τάξη"
+
+msgid "Year 4"
+msgstr "Τετάρτη τάξη"
+
+msgid "Year 5"
+msgstr "Πέμπτη τάξη"
+
+msgid "Year 6"
+msgstr "Έκτη τάξη"
+
+msgid "show all"
+msgstr "δείξε τα όλα"
+
+msgid "Do you want to exit the game?"
+msgstr ""
+
+msgid "Do you want to  log out of the game?"
+msgstr ""
+
+msgid "Ready to go to the next level?"
+msgstr ""
+
+msgid "Language arts"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Educational Activity Pack for Kids"
 msgstr ""

@@ -13,7 +13,7 @@ class DBConnection():
         self.mainloop = mainloop
         self.userid = 0
         self.username = ""
-        db_version = 3
+        db_version = 4
         self.connect()
         if self.db_connected:
             self.c.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'admin'")
@@ -33,14 +33,14 @@ class DBConnection():
                             continue
 
 
-                self.c.execute("CREATE TABLE users (username TEXT, password TEXT, date_added TEXT, last_login TEXT, lang TEXT, sounds INTEGER, espeak INTEGER, screenw INTEGER, screenh INTEGER, score INTEGER, scheme INTEGER)")
+                self.c.execute("CREATE TABLE users (username TEXT, password TEXT, date_added TEXT, last_login TEXT, lang TEXT, sounds INTEGER, espeak INTEGER, screenw INTEGER, screenh INTEGER, score INTEGER, scheme INTEGER, age_group INTEGER)")
                 self.c.execute("CREATE TABLE levelcursors (userid integer KEY, gameid integer KEY,lastlvl integer)")
                 #self.c.execute("CREATE TABLE completions (userid integer, constructor text, variant integer, lvl_completed integer)")
-                self.c.execute("CREATE TABLE completions (userid integer KEY, gameid integer KEY, lvl_completed integer, num_completed integer)")
+                self.c.execute("CREATE TABLE completions (userid integer KEY, gameid integer KEY, lvl_completed integer, lang_id integer, num_completed integer)")
                 #admin data - 1, admin, admin_pass, "en_gb", "00000"
                 self.c.execute("CREATE TABLE admin (admin_id INTEGER KEY, admin_name TEXT, admin_pass TEXT, default_lang TEXT, login_screen_defaults TEXT, autologin_userid INTEGER, autologin INTEGER, db_version INTEGER)")
                 #self.c.execute("INSERT INTO admin VALUES (?, ?, ?, ?, ?)", (admin_id, admin_name, admin_pass, default_lang, login_screen_defaults, db_version,autologin_userid TEXT,autologin INTEGER))
-                self.c.execute("INSERT INTO admin VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (0, "", "", default_lang, "01011", 0, 0, db_version))
+                self.c.execute("INSERT INTO admin VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (0, "", "", default_lang, "01001", 0, 0, db_version))
                 self.conn.commit()
 
                 self.lang = self.mainloop.lang
@@ -63,13 +63,15 @@ class DBConnection():
                 self.conn.commit()
                 row = self.c.fetchone()
                 current_db_ver = row[0]
-                if 0 < current_db_ver < 3:
-                    print("Database structure changed in this version of the game. Updating the database to version 3.")
+                if 0 < current_db_ver < 4:
+                    print("Database structure changed in this version of the game. Updating the database to version 4.")
 
                 if current_db_ver == 1:
                     self.c.execute("ALTER TABLE admin ADD COLUMN autologin_userid INTEGER DEFAULT 0")
                     self.c.execute("ALTER TABLE admin ADD COLUMN autologin INTEGER DEFAULT 0")
+                    self.c.execute("ALTER TABLE completions ADD COLUMN lang_id INTEGER DEFAULT 1")
                     self.c.execute("UPDATE admin SET db_version = ? WHERE (admin_id = 0)", (db_version, ))
+
 
                     self.c.execute("ALTER TABLE users ADD COLUMN scheme INTEGER DEFAULT 0")
                     self.c.execute("UPDATE users SET scheme = 0")
@@ -80,8 +82,11 @@ class DBConnection():
                     self.c.execute("UPDATE users SET scheme = 0")
                     self.c.execute("UPDATE admin SET db_version = ? WHERE (admin_id = 0)", (db_version, ))
                     self.conn.commit()
-                else:
-                    pass
+                elif current_db_ver == 3:
+                    self.c.execute("ALTER TABLE completions ADD COLUMN lang_id INTEGER DEFAULT 1")
+                    self.c.execute("UPDATE admin SET db_version = ? WHERE (admin_id = 0)", (db_version, ))
+                    self.conn.commit()
+
                     """
                     self.c.execute("UPDATE users SET username = ? WHERE (ROWID=?)", ("Guest", 1))
                     self.c.execute("SELECT username FROM users WHERE (ROWID=?)", (1,))
@@ -90,7 +95,7 @@ class DBConnection():
                     name = row[0]
                     print("Guest username set to: %s" % name)
                     """
-                if 0 < current_db_ver < 3:
+                if 0 < current_db_ver < 4:
                     print("Database version updated from %d to %d." % (current_db_ver, db_version))
 
     def unset_autologin(self):
@@ -213,24 +218,43 @@ class DBConnection():
 
     def update_completion(self, userid, gameid, lvl):
         if self.db_connected:
-            self.c.execute("SELECT num_completed FROM completions WHERE (userid = ? AND gameid = ? AND lvl_completed = ?)", (userid, gameid, lvl))
+            self.c.execute("SELECT num_completed FROM completions WHERE (userid = ? AND gameid = ? AND lvl_completed = ? AND lang_id = ?)", (userid, gameid, lvl, self.mainloop.lang.lang_id))
             self.conn.commit()
             count = self.c.fetchone()
             if count is None:
-                self.c.execute("INSERT INTO completions VALUES (?, ?, ?, ?)", (userid, gameid, lvl, 1))
+                self.c.execute("INSERT INTO completions VALUES (?, ?, ?, ?,?)", (userid, gameid, lvl, self.mainloop.lang.lang_id, 1))
             else:
-                self.c.execute("UPDATE completions SET num_completed = ?  WHERE (userid=? AND gameid = ? AND lvl_completed = ?)", (count[0] + 1, userid, gameid, lvl))
+                self.c.execute("UPDATE completions SET num_completed = ?  WHERE (userid=? AND gameid = ? AND lang_id = ? AND lvl_completed = ?)", (count[0] + 1, userid, gameid, self.mainloop.lang.lang_id, lvl))
             self.conn.commit()
 
     def query_completion(self, userid, gameid, lvl):
         if self.db_connected:
-            self.c.execute("SELECT num_completed FROM completions WHERE (userid = ? AND gameid = ? AND lvl_completed = ?)", (userid, gameid, lvl))
+            self.c.execute("SELECT num_completed FROM completions WHERE (userid = ? AND gameid = ? AND lang_id = ? AND lvl_completed = ?)", (userid, gameid, self.mainloop.lang.lang_id, lvl))
             self.conn.commit()
             count = self.c.fetchone()
             if count is None:
                 return 0
             else:
                 return count[0]
+
+    def get_completion_count(self, userid):
+        if self.db_connected:
+            self.c.execute("SELECT count(*) FROM completions WHERE userid=?", (userid,))
+            self.conn.commit()
+            count = self.c.fetchone()
+            if count is None:
+                return 0
+            else:
+                return count[0]
+
+    def completion_book(self, userid, offset = 0):
+        if self.db_connected:
+            self.c.execute("SELECT gameid, lvl_completed, lang_id, num_completed FROM completions WHERE (userid = ?) LIMIT 10 OFFSET ?", (userid, offset))
+            self.conn.commit()
+            temp = []
+            for each in self.c:
+                temp.append(each)
+            return temp
 
     def load_all_cursors(self,userid):
         if self.db_connected:
@@ -306,7 +330,7 @@ class DBConnection():
             m.update(password.encode("utf-8"))
             md5password = m.hexdigest()
             if count[0] == 0:
-                self.c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (username, md5password,  self.get_now(), "", lang, sounds, espeak, screenw, screenh, 0, 0))
+                self.c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (username, md5password,  self.get_now(), "", lang, sounds, espeak, screenw, screenh, 0, 0, 0))
                 self.conn.commit()
                 return 0 #"%s added" % username
             else:
@@ -361,10 +385,27 @@ class DBConnection():
             self.c.execute("SELECT lang, sounds, espeak, screenw, screenh, scheme FROM users WHERE (ROWID=?)", (self.userid,))
             self.conn.commit()
             row = self.c.fetchone()
+            return row
+
+    def update_age_group(self, username, age_group):
+        if self.db_connected:
+            #print("updating age_group for user %s to %d" % (username, age_group))
+            self.c.execute("UPDATE users SET age_group = ? WHERE (username=?)", (age_group, username))
+            self.conn.commit()
+
+    def get_age_group(self, username="", userid = -1 ):
+        if self.db_connected:
+            if username != "":
+                self.c.execute("SELECT age_group FROM users WHERE (username=?)", (username,))
+            else:
+                self.c.execute("SELECT age_group FROM users WHERE (ROWID=?)", (userid,))
+            self.conn.commit()
+
+            row = self.c.fetchone()
             if row is None:
                 return None
             else:
-                return row
+                return row[0]
 
     def update_user(self, prev_username, prev_password, new_username, new_password):
         if self.db_connected:

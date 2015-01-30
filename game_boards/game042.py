@@ -11,7 +11,7 @@ import random
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,99,4)
+        self.level = lc.Level(self,mainloop,10,4)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,5,3)
         
         

@@ -5,31 +5,25 @@ import pygame
 
 class Dialog:
     def __init__(self,game_board):
-        self.lines = ["CONGRATULATIONS!!!", "YOU HAVE COMPLETED", "THIS LEVEL"]
-        self.lines_game_over = ["GAME OVER!!!"]
         self.game_board = game_board
-        self.color = (255,255,255)#(70,70,70)
-        self.color = (255,255,255)#(70,70,70)
+        self.color = (255,255,255)
         self.scheme = "white"
         if self.game_board.mainloop.scheme is not None:
             if self.game_board.mainloop.scheme.dark:
                 self.scheme = "black"
                 self.color = (0,0,0)
-
         if self.game_board.lang.lang in ['en_GB','en_US']:
-            self.img_src = "congrats.jpg"
+            self.img_src = "congrats_en.jpg"
+            self.img_src2 = "game_over_en.jpg"
         else:
-            self.img_src = "congratsx.jpg"
-
-        self.img_src2 = "game_over.jpg"
-        points = int(round((60 * 72 /96)*1.5,0))
-        self.font = pygame.font.Font(None, (points))
+            self.img_src = "congrats.jpg"
+            self.img_src2 = "game_over.jpg"
         self.layout = game_board.layout
         self.layout_update()
         self.level = game_board.level
 
     def layout_update(self):
-        self.color = (255,255,255)#(70,70,70)
+        self.color = (255,255,255)
         self.scheme = "white"
         if self.game_board.mainloop.scheme is not None:
             if self.game_board.mainloop.scheme.dark:
@@ -48,19 +42,6 @@ class Dialog:
         img_pos_x = self.img.get_rect(centerx=self.image.get_width()//2)
         img_pos_y = self.img.get_rect(centery=self.image.get_height()//2)
         self.img_pos = (img_pos_x[0],img_pos_y[1])
-
-    def image_swap(self,img_src):
-        pass
-
-
-    def display_lines(self, lines):
-        y_pos = 190
-        for each in lines:
-            text = self.font.render("%s" % (each), 1, (0, 0, 0, 0))
-            textpos = text.get_rect(centerx=self.image.get_width()//2)
-            self.image.fill(self.color)
-            self.image.blit(text, (textpos[0],y_pos))
-            y_pos += 70
 
     def update(self,screen):
         self.image.fill(self.color)

@@ -10,7 +10,8 @@ class Color:
         
         #orange
         self.menu_l    = (255,75,0)
-        self.menu_r    = (60,60,60)
+        #self.menu_r   = (60,60,60)
+        self.menu_r    = (33,121,149)
         self.info      = (70,70,70)
         
 class WBScheme:

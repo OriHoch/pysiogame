@@ -89,9 +89,9 @@ if __name__ == "__main__":
     distribute_mo(path, popath, ".mo")
     s = path.split("/")
     v = s[-1][10:]
-    if v[0] == "2":
+    if v[0] in ["1","2","3"]:
         with open(os.path.join(path, "classes", "cversion.py"),"w") as s_file:
             s_file.write('ver = "%s"' % v)
-    print("\nVersion number updated.\n")
+            print("\nVersion number updated.\n")
     print("Done!\n")
     

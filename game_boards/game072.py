@@ -36,10 +36,13 @@ class Board(gd.BoardGame):
         self.level.games_per_lvl = 5
         self.auto_select = True
         if self.level.lvl == 1:
+            self.level.games_per_lvl = 3
             rngs = [2,5,20,50]
         elif self.level.lvl == 2:
+            self.level.games_per_lvl = 3
             rngs = [3,9,20,50]
         elif self.level.lvl == 3:
+            self.level.games_per_lvl = 3
             rngs = [3,9,50,99]
         elif self.level.lvl == 4:
             rngs = [3,9,100,150]
@@ -80,6 +83,9 @@ class Board(gd.BoardGame):
         self.layout.update_layout(data[0],data[1])
         scale = self.layout.scale
         self.board.level_start(data[0],data[1],scale)
+        
+        self.top_line = self.board.scale//2
+        
         nr1 = random.randrange(rngs[0],rngs[1])
         nr2 = random.randrange(rngs[2],rngs[3])
         self.n1 = nr1 * nr2
@@ -137,12 +143,22 @@ class Board(gd.BoardGame):
         self.num2 = self.board.units[-1]
         self.num2.align = num2_align
 
-        line = "―" * (self.n1sl*2)
+        #line = "―" * (self.n1sl*2)
 
-        self.board.add_unit(data[0]-self.n1sl*2-r_offset,2,self.n1sl*2,1,classes.board.Label,line,self.bg_col,"",21)
-        self.board.units[-1].text_wrap = False
-        self.board.add_unit(data[0]-self.n1sl*2-1+ds_offset,2,1,d_h,classes.board.Label,d_str,self.bg_col,"",21)
+        self.board.add_unit(data[0]-self.n1sl*2-r_offset,2,self.n1sl*2,1,classes.board.Label,"",self.bg_col,"",21)
+        self.line_unit = self.board.units[-1]
+        self.draw_hori_line(self.line_unit)
+        
+        #self.board.units[-1].text_wrap = False
+        if self.divisor_pos == 0:
+            self.board.add_unit(data[0]-self.n1sl*2-1+ds_offset,2,1,d_h,classes.board.Label,"",self.bg_col,"",21)
+            self.vert_line = self.board.units[-1]
+            self.draw_vert_line(self.vert_line)
+        else:
+            self.board.add_unit(data[0]-self.n1sl*2-1+ds_offset,2,1,d_h,classes.board.Label,d_str,self.bg_col,"",21)
         self.division_sign = self.board.units[-1]
+        
+        
         self.resl = []
         self.nbel = []
         self.mpll = []
@@ -199,8 +215,9 @@ class Board(gd.BoardGame):
                 self.subl[i][-1].posy_id = j
                 self.activables += 1
 
-            self.board.add_unit(xp[4]+(2-len(str(nbr[i]))*2)-r_offset,yp[4],len(str(nbr[i]))*2,1,classes.board.Label,line,self.bg_col,"",21)
-            self.board.units[-1].text_wrap = False
+            self.board.add_unit(xp[4]+(2-len(str(nbr[i]))*2)-r_offset,yp[4],len(str(nbr[i]))*2,1,classes.board.Label,"",self.bg_col,"",21)
+            #self.board.units[-1].text_wrap = False
+            self.draw_hori_line(self.board.units[-1])
             for i in range(5):
                 xp[i] += 2
                 if i > 0:
@@ -214,7 +231,31 @@ class Board(gd.BoardGame):
         self.deactivate_colors()
         self.reactivate_colors()
 
-
+    def draw_vert_line(self, unit):
+        w = unit.grid_w*self.board.scale
+        h = unit.grid_h*self.board.scale
+        center = [w//2,h//2]
+        
+        canv = pygame.Surface([w, h-1])
+        canv.fill(self.bg_col)
+        pygame.draw.line(canv,self.grey,(center[0],self.top_line),(center[0],h-self.top_line),3)
+        pygame.draw.line(canv,self.grey,(center[0]-1,self.top_line),(w,self.top_line),3)
+        unit.painting = canv.copy()        
+        unit.update_me = True
+        
+    def draw_hori_line(self,unit):
+        w = unit.grid_w*self.board.scale
+        h = unit.grid_h*self.board.scale
+        center = [w//2,h//2]
+        
+        canv = pygame.Surface([w, h-1])
+        canv.fill(self.bg_col)
+        
+        pygame.draw.line(canv,self.grey,(0,self.top_line),(w,self.top_line),3)
+        unit.painting = canv.copy()        
+        unit.update_me = True
+        
+        
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
 

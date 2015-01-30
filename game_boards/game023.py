@@ -2,7 +2,7 @@
 
 import classes.level_controller as lc
 import classes.game_driver as gd
-import game_boards.game023_lvls as gl
+import classes.maze_lvls as gl
 import classes.extras as ex
 
 import classes.board
@@ -15,7 +15,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,27,19)
 
     def create_game_objects(self, level = 1):
-        self.vis_buttons = [0,1,1,1,1,1,1,0,1]
+        self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
         self.change_count = 0
         s = random.randrange(150, 205, 5)
@@ -138,9 +138,9 @@ class Board(gd.BoardGame):
 
         #add the bug
         self.board.add_unit(x2,midscreen-1,1,1,classes.board.ImgShipRota,self.s_word,letter_bg,data[3])
-        self.board.ships[0].audible = True
+        self.board.ships[0].audible = False
         self.board.ships[0].outline=False
-        self.board.ships[0].draggable=False
+        self.board.ships[0].draggable=True
         self.board.all_sprites_list.move_to_front(self.board.ships[0])
 
         self.ships_count = len(self.board.ships)
@@ -148,6 +148,8 @@ class Board(gd.BoardGame):
         self.board.active_ship = 0
         self.ship_id = 0
         self.units_len = len(self.board.units)
+        self.board.moved = self.walk_through
+        self.drag = False
 
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
@@ -189,7 +191,7 @@ class Board(gd.BoardGame):
                     break
 
     def after_keydown_move(self):
-        self.walk_through()
+        pass#self.walk_through()
 
     def check_result(self):
         if self.changed_since_check:

@@ -9,7 +9,7 @@ import random
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,5,11)
+        self.level = lc.Level(self,mainloop,7,11)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,7)
 
 
@@ -83,7 +83,7 @@ class Board(gd.BoardGame):
             if self.level.lvl == 1:#multiplication  - ch2
                 data = [11,7,1,3,1,3,"*",2]
             elif self.level.lvl == 2:
-                data = [11,7,1,9,1,2,"*",2]
+                data = [11,7,1,9,1,3,"*",2]
             elif self.level.lvl == 3:
                 data = [11,7,2,6,2,6,"*",2]
             elif self.level.lvl == 4:
@@ -103,7 +103,7 @@ class Board(gd.BoardGame):
             if self.level.lvl == 1:#division - ch3
                 data = [11,7,1,3,1,3,"/",2]
             elif self.level.lvl == 2:
-                data = [11,7,1,9,1,2,"/",2]
+                data = [11,7,1,9,1,3,"/",2]
             elif self.level.lvl == 3:
                 data = [11,7,2,6,2,6,"/",2]
             elif self.level.lvl == 4:
@@ -129,25 +129,35 @@ class Board(gd.BoardGame):
         self.num_list2 = []
         self.solution = []
 
+        num1 = [x for x in range(data[2],data[3]+1)]
+        num2 = [x for x in range(data[4],data[5]+1)]
+
+        if len(num1) < 5:
+            num1 *= 2
+        if len(num2) < 5:
+            num2 *= 2
+        random.shuffle(num1)
+        random.shuffle(num2)
+
         for i in range(5):
             if data[6]=="+":
-                first_num = random.randrange(data[2],data[3]+1)
-                second_num = random.randrange(data[4],data[5]+1)
+                first_num = num1[i]
+                second_num = num2[i]
                 self.solution.append(first_num + second_num)
 
             elif data[6]=="-":
-                first_num = random.randrange(data[2],data[3]+1)
+                first_num = num1[i]
                 second_num = random.randrange(data[4],first_num-1)
                 self.solution.append(first_num - second_num)
 
             elif data[6]=="*":
-                first_num = random.randrange(data[2],data[3]+1)
-                second_num = random.randrange(data[4],data[5]+1)
+                first_num = num1[i]
+                second_num = num2[i]
                 self.solution.append(first_num * second_num)
 
             elif data[6]=="/": #reversed multiplication - looking for the first factor
-                first = random.randrange(data[2],data[3]+1)
-                second_num = random.randrange(data[4],data[5]+1)
+                first = num1[i]
+                second_num = num2[i]
                 first_num = first * second_num
                 self.solution.append(first)
 

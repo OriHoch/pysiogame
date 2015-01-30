@@ -5,14 +5,6 @@ import classes.game_driver as gd
 import pygame
 import classes.board
 import random
-import os.path
-import pygame.mixer
-
-sounds = pygame.mixer
-sounds.init()
-
-sound_12 = '188043__antumdeluge__mouse.ogg'
-s12 = sounds.Sound(os.path.join('res', 'sounds', sound_12))
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
@@ -136,8 +128,7 @@ class Board(gd.BoardGame):
             self.active_mole_pos = (-1,-1)
             self.hit_ += 1
             self.reset()
-            if self.mainloop.config.settings["sounds"]:
-                s12.play()
+            self.mainloop.sfx.play(12)
             self.hit_miss.value = str(self.hit_)
             self.hit_miss.update_me = True
             self.score.update_me = True

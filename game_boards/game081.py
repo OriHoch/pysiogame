@@ -78,7 +78,10 @@ class Board(gd.BoardGame):
 
         self.digits = ["0","1","2","3","4","5","6","7","8","9"]
         self.roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
-        self.catalan = ["i5", "-5", "1/4", "i5", "-5", "2/4", "i5", "-5", "3/4", "i5", "-5", "12"]
+        if self.mainloop.lang.lang == "ca":
+            self.catalan = ["i5", "-5", "1/4", "i5", "-5", "2/4", "i5", "-5", "3/4", "i5", "-5", "12"]
+        else:
+            self.catalan = ["5", "10", "1/4", "20", "25", "1/2", "25", "20", "1/4", "10", "5", "0"]
 
         x_count = self.get_x_count(data[1],even=False)
         if x_count > data[0]:
@@ -140,7 +143,8 @@ class Board(gd.BoardGame):
         self.clock_canvas.painting = self.canvas.copy()
 
     def update_text_time(self):
-        self.lang.numbers[0] = "un"
+        if self.mainloop.lang.lang == "ca":
+            self.lang.numbers[0] = "un"
         tt = self.time
 
         self.text_string = self.lang.time2str(tt[0],tt[1])
@@ -150,7 +154,8 @@ class Board(gd.BoardGame):
         self.ans_m.value = "%02d" % self.time[1]
         self.ans_h.update_me = True
         self.ans_m.update_me = True
-        self.lang.numbers[0] = "u"
+        if self.mainloop.lang.lang == "ca":
+            self.lang.numbers[0] = "u"
 
 
     def hands_vars(self):
@@ -204,26 +209,26 @@ class Board(gd.BoardGame):
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors2[1])
                     else:
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors[1])
-                    x3=(rs[1]+30+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
-                    y3=(rs[1]+30+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
+                    x3=(rs[1]+15*self.layout.scale/34+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
+                    y3=(rs[1]+15*self.layout.scale/34+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
 
                     self.canvas.blit(text, (x3,y3))
                     if self.show_only_quarters_m or self.show_only_fives_m:
                         if (i+1)%15 == 0:
-                            marklen = 30
+                            marklen = 20*self.layout.scale/34
                         elif (i+1)%5 == 0:
-                            marklen = 25
+                            marklen = 15*self.layout.scale/34
                         else:
-                            marklen = 15
+                            marklen = 10*self.layout.scale/34
                     else:
-                        marklen = 25
+                        marklen = 15*self.layout.scale/34
                 else:
                     if (i+1)%15 == 0:
-                        marklen = 30
+                        marklen = 20*self.layout.scale/34
                     elif (i+1)%5 == 0:
-                        marklen = 25
+                        marklen = 15*self.layout.scale/34
                     else:
-                        marklen = 15
+                        marklen = 10*self.layout.scale/34
                 if self.show_outer_ring:
                     x1=(rs[1]+10)*cos(a)+self.center[0]
                     y1=(rs[1]+10)*sin(a)+self.center[1]
@@ -240,11 +245,11 @@ class Board(gd.BoardGame):
                     val = ""
 
             a = self.angle_start + self.angle_step_12*(i+1)
-            x1=(rs[2]-5)*cos(a)+self.center[0]
-            y1=(rs[2]-5)*sin(a)+self.center[1]
+            x1=(rs[2]-3)*cos(a)+self.center[0]
+            y1=(rs[2]-3)*sin(a)+self.center[1]
 
-            x2=(rs[2]+15)*cos(a)+self.center[0]
-            y2=(rs[2]+15)*sin(a)+self.center[1]
+            x2=(rs[2]+10)*cos(a)+self.center[0]
+            y2=(rs[2]+10)*sin(a)+self.center[1]
 
             pygame.draw.aaline(self.canvas, self.colors2[0], [x1,y1],[x2,y2])
 
@@ -273,10 +278,10 @@ class Board(gd.BoardGame):
                 y3=(rs2[2]+20+font_size[1]//2)*sin(a)+self.center[1] - rect.height / 2
 
             else:
-                x3=(rs2[2]+20+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
-                y3=(rs2[2]+20+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
-                xc=(rs[2]+20+font_size[1]//2)*cos(a)+self.center[0] - font_size2[0] / 2
-                yc=(rs[2]+20+font_size[1]//2)*sin(a)+self.center[1] - font_size2[1] / 2
+                x3=int((rs2[2]+10*self.layout.scale/34+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2)
+                y3=int((rs2[2]+10*self.layout.scale/34+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2)
+                xc=int((rs[2]+15*self.layout.scale/34+font_size[1]//2)*cos(a)+self.center[0] - font_size2[0] / 2)
+                yc=int((rs[2]+15*self.layout.scale/34+font_size[1]//2)*sin(a)+self.center[1] - font_size2[1] / 2)
             self.canvas.blit(text, (x3,y3))
             self.canvas.blit(text2, (xc,yc))
             if self.show_24h:

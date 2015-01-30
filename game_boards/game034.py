@@ -10,7 +10,7 @@ import pygame
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,99,5)
+        self.level = lc.Level(self,mainloop,36,5)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,23,9)
 
     def create_game_objects(self, level = 1):
@@ -25,6 +25,8 @@ class Board(gd.BoardGame):
             color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
             color2 = ex.hsv_to_rgb(h,s,v) #normal color
             color3 = ex.hsv_to_rgb(h,230,100)
+            task_bg_color = (255,255,255)
+            task_font_color = (0,0,0)
         else:
             s = 150
             v = 225
@@ -33,6 +35,8 @@ class Board(gd.BoardGame):
             color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
             color2 = ex.hsv_to_rgb(h,s,v) #normal color
             color3 = ex.hsv_to_rgb(h,230,100)
+            task_bg_color = self.mainloop.scheme.u_color
+            task_font_color = self.mainloop.scheme.u_font_color
         white = (255,255,255)
 
         #data = [x_count, y_count, range_from, range_to, max_sum_range, image]
@@ -111,9 +115,10 @@ class Board(gd.BoardGame):
 
         self.outline_all(0,1)
 
-        self.board.add_door(16,y,1,1,classes.board.Door,"",white,"",font_size = 2)
+        self.board.add_door(16,y,1,1,classes.board.Door,"",task_bg_color,"",font_size = 2)
         self.home_square = self.board.units[86]
         self.home_square.door_outline = True
+        self.home_square.font_color = task_font_color
         self.board.all_sprites_list.move_to_front(self.home_square)
 
     def handle(self,event):

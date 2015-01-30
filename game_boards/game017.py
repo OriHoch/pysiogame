@@ -32,15 +32,15 @@ class Board(gd.BoardGame):
             card_color = (255,255,255)
 
         if self.lang.lang == 'fr':
-            lc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+            alc = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
             uc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         else:
 
-            lc = self.lang.alphabet_lc
+            alc = self.lang.alphabet_lc
             if self.lang.has_uc:
                 uc = self.lang.alphabet_uc
 
-        self.abc_len = len(lc)
+        self.abc_len = len(alc)
         h = int(math.ceil(self.abc_len/3.0))
 
         data = [16,h]
@@ -63,10 +63,9 @@ class Board(gd.BoardGame):
         self.base26 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         self.font_size = 17
         #if self.lang.lang in ['en_gb', 'en_us']:
-        self.word_list = self.lang.d['abc_flashcards_word_sequence']# = ['Apple', 'Butterfly', 'Cat', 'Dolphin', 'Elephant', 'Fortepiano', 'Guitar', 'Hedgehog', 'Igloo', 'Jar', 'Koala', 'Lion', 'Monitor', 'Notebook', 'Ocean', 'Parrot', 'Queen', 'Rabbit', 'Street', 'Tomato', 'Umbrella', 'Violin', 'Watermelon', 'Xylophone', 'Yarn', 'Zebra']
+        self.word_list = self.lang.d['abc_flashcards_word_sequence']
         self.pword_list = self.lang.dp['abc_flashcards_word_sequence']
-        self.frame_flow = self.lang.d['abc_flashcards_frame_sequence']# = [42, 27, 2, 59, 4, 34, 28, 29, 8, 9, 72, 11, 40, 13, 52, 15, 16, 17, 53, 33, 20, 21, 26, 23, 24, 25]
-
+        self.frame_flow = self.lang.d['abc_flashcards_frame_sequence']
         if self.lang.lang == "el":
             self.font_size = 16
         if self.lang.ltr_text:
@@ -77,9 +76,9 @@ class Board(gd.BoardGame):
 
         for i in range(self.abc_len):
             if self.lang.has_uc:
-                caption = uc[i]+lc[i]
+                caption = uc[i]+alc[i]
             else:
-                caption = lc[i]
+                caption = alc[i]
             self.board.add_unit(x,y,2,1,classes.board.Letter,caption,self.letter_color,"",3)
             self.board.ships[i].readable = False
             self.board.ships[i].set_outline(outline_color,1)
@@ -120,28 +119,44 @@ class Board(gd.BoardGame):
             if self.lang.has_cursive:
                 self.board.add_unit(x-2,y+1,2,3,classes.board.Label,uc[0],card_color,"",self.font_size)
 
-            self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
+            self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,alc[0],card_color,"",0)
             if self.lang.has_cursive:
-                self.board.add_unit(x+4-xd,y+1,2,3,classes.board.Label,lc[0],card_color,"",self.font_size)
+                self.board.add_unit(x+4-xd,y+1,2,3,classes.board.Label,alc[0],card_color,"",self.font_size)
         else:
             img_plus = 1
             if self.lang.has_cursive:
-                self.board.add_unit(x+1-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
-                self.board.add_unit(x+3-xd,y,2,1,classes.board.Label,lc[0],card_color,"",self.font_size)
+                self.board.add_unit(x+1-xd,y,2,1,classes.board.Label,alc[0],card_color,"",0)
+                self.board.add_unit(x+3-xd,y,2,1,classes.board.Label,alc[0],card_color,"",self.font_size)
             else:
-                self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,lc[0],card_color,"",0)
+                self.board.add_unit(x+2-xd,y,2,1,classes.board.Label,alc[0],card_color,"",0)
 
         #frame size 288 x 216
         img_src = os.path.join('fc', "fc%03i.jpg" % self.frame_flow[0])
         self.board.add_unit(x-xd+img_plus,y+1,4,3,classes.board.ImgShip,self.word_list[0],card_color,img_src)
         self.board.ships[-1].speaker_val = self.pword_list[0]
         self.board.ships[-1].speaker_val_update = False
-
-        self.board.add_unit(x-2+xd,y+4,w,1,classes.board.Letter,self.word_list[0],card_color,"",2)
+        
+        #TO DO adjust for color schemes
+        font_colors = ((200,0,0), (0,0,0))
+        if self.mainloop.scheme is not None:
+            if self.mainloop.scheme.dark:
+                #font_colors = ((255,200,200), (255,255,255))
+                font_colors = (self.mainloop.scheme.u_font_color3,self.mainloop.scheme.u_font_color)
+                
+        if self.lang.ltr_text:
+            self.board.add_unit(x-2+xd,y+4,w,1,classes.board.MultiColorLetters,self.word_list[0],card_color,"",2)
+            self.board.ships[-1].set_font_colors(font_colors[0],font_colors[1])
+        else:
+            self.board.add_unit(x-2+xd,y+4,w,1,classes.board.Letter,self.word_list[0],card_color,"",2)
+        
         self.board.ships[-1].speaker_val = self.pword_list[0]
         self.board.ships[-1].speaker_val_update = False
         if self.lang.has_cursive:
-            self.board.add_unit(x-2+xd,y+5,w,2,classes.board.Letter,self.word_list[0],card_color,"",self.font_size)
+            if self.lang.ltr_text:
+                self.board.add_unit(x-2+xd,y+5,w,2,classes.board.MultiColorLetters,self.word_list[0],card_color,"",self.font_size)
+                self.board.ships[-1].set_font_colors(font_colors[0],font_colors[1])
+            else:
+                self.board.add_unit(x-2+xd,y+5,w,2,classes.board.Letter,self.word_list[0],card_color,"",self.font_size)
             self.board.ships[-1].speaker_val = self.pword_list[0]
             self.board.ships[-1].speaker_val_update = False
             h = 7
@@ -198,14 +213,13 @@ class Board(gd.BoardGame):
         self.board.ships[self.abc_len].value = self.word_list[active.unit_id]
         self.board.ships[self.abc_len].speaker_val = self.pword_list[active.unit_id]
 
-        self.board.ships[self.abc_len+1].value = self.word_list[active.unit_id]
+        self.board.ships[self.abc_len+1].set_value(self.word_list[active.unit_id])
         self.board.ships[self.abc_len+1].speaker_val = self.pword_list[active.unit_id]
 
         if self.lang.has_cursive:
             indx2 = [self.abc_len, self.abc_len+1, self.abc_len+2]
-            self.board.ships[self.abc_len+2].value = self.word_list[active.unit_id]
+            self.board.ships[self.abc_len+2].set_value(self.word_list[active.unit_id])
             self.board.ships[self.abc_len+2].speaker_val = self.pword_list[active.unit_id]
-
         else:
             indx2 = [self.abc_len, self.abc_len+1]
         img_src = os.path.join('fc', "fc%03i.jpg" %  self.frame_flow[active.unit_id])

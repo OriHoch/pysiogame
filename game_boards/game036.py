@@ -9,7 +9,7 @@ import random
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,99,12)
+        self.level = lc.Level(self,mainloop,5,12)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,4)
 
     def create_game_objects(self, level = 1):

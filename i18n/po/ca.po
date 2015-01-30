@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-27 05:17+0100\n"
+"PO-Revision-Date: 2014-11-24 19:31+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "Language: Catalan\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -156,110 +157,110 @@ msgid "Torus"
 msgstr "Torus"
 
 msgid "Guest"
-msgstr ""
+msgstr "Convidat"
 
 msgid "Hi Stranger :) Would you like to log in so we know who you are?"
-msgstr ""
+msgstr "Hola foraster :) Vols iniciar la sessió per a saber qui ets?"
 
 msgid "Log in:"
-msgstr ""
+msgstr "Iniciar la sessió:"
 
 msgid "user name:"
-msgstr ""
+msgstr "nom d'usuari:"
 
 msgid "password:"
-msgstr ""
+msgstr "paraula clau:"
 
 msgid "remember me"
 msgstr "recorda't de mi"
 
 msgid "Login"
-msgstr ""
+msgstr "Inici de sessió"
 
 msgid "Add new user:"
-msgstr ""
+msgstr "Afegeix nou usuari:"
 
 msgid "confirm password:"
-msgstr ""
+msgstr "confirma paraula clau:"
 
 msgid "Register new user"
-msgstr ""
+msgstr "Registra nou usuari"
 
 msgid "Administrator Login:"
-msgstr ""
+msgstr "Inici de sessió de l'administrador:"
 
 msgid "User Management"
-msgstr ""
+msgstr "Administració d'usuaris"
 
 msgid "Please select a user from the list."
-msgstr ""
+msgstr "Seleccion un usuari de la llista."
 
 msgid "Delete user"
-msgstr ""
+msgstr "Esborra l'usuari"
 
 msgid "Delete"
-msgstr ""
+msgstr "Esborra"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #, python-format
 msgid "%s deleted from database."
-msgstr ""
+msgstr "s'ha esborrat %s de la base de dades."
 
 msgid "Failed to delete the user."
-msgstr ""
+msgstr "No s'ha pogut esborrar l'usuari."
 
 msgid "Preferences"
-msgstr ""
+msgstr "Preferències"
 
 msgid "switch to full screen after login"
-msgstr ""
+msgstr "canvia a pantalla completa després d'iniciar sessió"
 
 msgid "allow adding new users on login screen"
-msgstr ""
+msgstr "permet afegir usuaris nous a la pantalla d'inici de sessió"
 
 msgid "display languages with uncompleted translations"
-msgstr ""
+msgstr "mostra idiomes amb traduccions incompletes"
 
 msgid "require password to log in"
-msgstr ""
+msgstr "exigeix paraula clau per iniciar sessió"
 
 msgid "require password to access admin area"
-msgstr ""
+msgstr "exigeix paraula clau per accedir a l'àrea d'administració"
 
 msgid "Update admin's password:"
-msgstr ""
+msgstr "Modifica la paraula clau de l'administrador:"
 
 msgid "previous password:"
-msgstr ""
+msgstr "paraula clau antiga:"
 
 msgid "new password:"
-msgstr ""
+msgstr "paraula clau nova:"
 
 msgid "confirm new password:"
-msgstr ""
+msgstr "confirma contrasenya nova:"
 
 msgid "Create admin's account:"
-msgstr ""
+msgstr "Crea el compte de l'administrador:"
 
 msgid "admin's user name:"
-msgstr ""
+msgstr "nom d'usuari de l'administrador:"
 
 msgid "admin's password:"
-msgstr ""
+msgstr "contrasenya de l'administrador:"
 
 msgid "confirm admin's password:"
-msgstr ""
+msgstr "confirma contrasenya de l'administrador:"
 
 msgid "Save"
-msgstr ""
+msgstr "Desa"
 
 msgid "Please enter user name (at least 3 characters long)"
-msgstr ""
+msgstr "Introdueix el nom d'usuari (de com a mínim tres caràcters)"
 
 msgid "Please enter password (at least 4 characters long)"
-msgstr ""
+msgstr "Introdueix la paraula clau (de com a mínim quatre caràcters)"
 
 msgid "This username and password combination doesn't exist."
 msgstr ""
@@ -272,13 +273,13 @@ msgstr ""
 
 #, python-format
 msgid "%s added"
-msgstr ""
+msgstr "s'ha afegit %s"
 
 msgid "This user name already exists, please choose a different one"
-msgstr ""
+msgstr "Aquest nom d'usuari ja existeix, tria'n un diferent"
 
 msgid "Admin's password has been updated"
-msgstr ""
+msgstr "La paraula clau de l'administrador s'ha modificat"
 
 msgid "ERROR: This operation is not allowed at this point"
 msgstr ""
@@ -293,25 +294,25 @@ msgid "Previous password doesn't seem to be in the database"
 msgstr ""
 
 msgid "Registered:"
-msgstr ""
+msgstr "Registrat/ada:"
 
 msgid "Last login:"
-msgstr ""
+msgstr "Última sessió:"
 
 msgid "Preferences saved..."
-msgstr ""
+msgstr "S'han desat les preferències…"
 
 msgid "Score: "
-msgstr ""
+msgstr "Puntuació: "
 
 msgid "Logged in as: "
-msgstr ""
+msgstr "Sessió iniciada com: "
 
 msgid "(Log out)"
-msgstr ""
+msgstr "(Finalitza sessió)"
 
 msgid "Addition Table"
-msgstr ""
+msgstr "Taula de sumes"
 
 msgid "Hello"
 msgstr "Hola"
@@ -323,7 +324,7 @@ msgid "Language"
 msgstr "Idioma"
 
 msgid "Translations"
-msgstr ""
+msgstr "Traduccions"
 
 msgid "Info & Settings"
 msgstr "Informació i preferències"
@@ -350,7 +351,7 @@ msgid "Sorting and Comparing"
 msgstr "Ordena i compara"
 
 msgid "Geometry and Shape Recognition"
-msgstr "Geometría i formes"
+msgstr "Geometria i formes"
 
 msgid "Art and Colour"
 msgstr "Art i color"
@@ -371,7 +372,7 @@ msgid "Game info..."
 msgstr "Informació del joc..."
 
 msgid "Copyright & Credits"
-msgstr "Drets de copia i credits"
+msgstr "Drets de copia i crèdits"
 
 msgid "Hit the Mole"
 msgstr ""
@@ -416,7 +417,7 @@ msgid "Collect all letters in the right order"
 msgstr ""
 
 msgid "Word Maze + 4"
-msgstr ""
+msgstr "Laberint de paraules + 4"
 
 msgid "Numbers"
 msgstr "Números"
@@ -464,7 +465,7 @@ msgid "Addition & Subtraction"
 msgstr "Sumes i restes"
 
 msgid "Comparison"
-msgstr ""
+msgstr "Comparació"
 
 msgid "Fractions"
 msgstr "Fraccions"
@@ -512,7 +513,7 @@ msgid "Photographic Memory"
 msgstr "Memòria fotogràfica"
 
 msgid "Training"
-msgstr ""
+msgstr "Entrenament"
 
 msgid "Automatic Levels"
 msgstr "Nivells automàtics"
@@ -521,22 +522,22 @@ msgid "Mouse Maze"
 msgstr "Laberint del ratolí"
 
 msgid "Let's have some cheese"
-msgstr ""
+msgstr "Mengem formatge"
 
 msgid "Sheep Maze"
 msgstr "Laberint de l'ovella"
 
 msgid "Find the rest of the herd"
-msgstr ""
+msgstr "Troba la resta del ramat"
 
 msgid "Connect"
-msgstr ""
+msgstr "Connecta"
 
 msgid "Balloons with threads"
 msgstr "Globus amb fils"
 
 msgid "Fifteen"
-msgstr ""
+msgstr "Quinze"
 
 msgid "With a Twist"
 msgstr ""
@@ -562,10 +563,11 @@ msgstr ""
 msgid "Complete the abc using the letters above."
 msgstr ""
 
-msgid "Write a word:"
+msgid "Build the following word using the letters below."
 msgstr ""
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
 msgstr ""
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
@@ -578,16 +580,13 @@ msgid "Please try again."
 msgstr "Torna-ho a provar."
 
 msgid "Sorry! It is wrong."
-msgstr ""
+msgstr "Ho sento! És incorrecte."
 
 msgid "Perfect! Task solved!"
-msgstr "Perfecte! Task solved!"
-
-msgid "You need to work a little bit harder next time."
-msgstr ""
+msgstr "Perfecte! La feina està resolta!"
 
 msgid "Game Over!"
-msgstr "Fí del joc!"
+msgstr "Fi del joc!"
 
 msgid "Congratulations! You have completed all tasks in this game."
 msgstr "Enhorabona! Has completat totes les tasques d'aquest joc."
@@ -686,7 +685,7 @@ msgid "violet"
 msgstr "violeta"
 
 msgid "magenta"
-msgstr ""
+msgstr "magenta"
 
 msgid "indigo"
 msgstr "anyil"
@@ -701,7 +700,7 @@ msgid "brown"
 msgstr "marró"
 
 msgid "aqua"
-msgstr ""
+msgstr "aiguamarí"
 
 msgid "lime"
 msgstr "llima"
@@ -758,13 +757,13 @@ msgid "Noughts and Crosses 3"
 msgstr "Tres en ratlla 3"
 
 msgid "Get as many lines of 3 as possible to win"
-msgstr " Per guanyar aconsegueix el major numero de línies de 3"
+msgstr "Per guanyar aconsegueix el major numero de línies de 3"
 
 msgid "Player"
 msgstr "Participant"
 
 msgid "Won"
-msgstr "ha guanyat"
+msgstr "Ha guanyat"
 
 msgid "Draw"
 msgstr "Empat"
@@ -809,21 +808,27 @@ msgid "Percentages"
 msgstr "Percentatges"
 
 msgid "Ratios"
-msgstr "Propocions"
+msgstr "Proporcions"
 
 msgid "Match fraction charts on the right to the ones on the left"
 msgstr ""
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
 msgstr ""
 
 msgid "Match fraction charts to the fractions on the left"
 msgstr ""
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
 msgstr ""
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
 msgstr ""
 
 msgid "Maths Matching Game"
@@ -838,7 +843,9 @@ msgstr "Resta"
 msgid "Multiplication"
 msgstr "Multiplicació"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
 msgstr ""
 
 msgid "Match numbers to their spelling"
@@ -858,7 +865,7 @@ msgstr ""
 
 #, python-format
 msgid "Shape to draw: %s"
-msgstr ""
+msgstr "Forma a dibuixar: %s"
 
 #, python-format
 msgid "such that lengths of its bases are equal to %d and %d and height to %d"
@@ -873,7 +880,8 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr ""
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
 msgstr ""
 
 #, python-format
@@ -910,7 +918,7 @@ msgid "Trapezium "
 msgstr "Trapezoide"
 
 msgid "Triangle"
-msgstr ""
+msgstr "Triangle"
 
 msgid "Ouch... squished quadrilateral"
 msgstr "Ai... quadrilàter aixafat"
@@ -952,10 +960,10 @@ msgid "What time is it?"
 msgstr "Quina hora és?"
 
 msgid "Click again to exit"
-msgstr ""
+msgstr "Fes clic un altre cop per sortir"
 
 msgid "Type your answer and hit enter"
-msgstr ""
+msgstr "Escriu la teva resposta i prem Entrar"
 
 msgid "Time"
 msgstr "Temps"
@@ -982,7 +990,7 @@ msgid "Long multiplication"
 msgstr "Multiplicació llarga"
 
 msgid "Long division"
-msgstr "Divisiço llarga"
+msgstr "Divisió llarga"
 
 msgid "borrow 10"
 msgstr "en prenc 10"
@@ -1006,7 +1014,7 @@ msgid "Demonstration"
 msgstr "Demostració"
 
 msgid "Do it yourself"
-msgstr "Fes-ho tú"
+msgstr "Fes-ho tu"
 
 msgid "Ratio"
 msgstr "Proporció"
@@ -1018,7 +1026,7 @@ msgid "rewrite "
 msgstr "reescriu "
 
 msgid "remainder"
-msgstr ""
+msgstr "recordatori"
 
 msgid "result"
 msgstr "resultat"
@@ -1027,40 +1035,40 @@ msgid "Time Matching"
 msgstr ""
 
 msgid "Add some red"
-msgstr "més vermell"
+msgstr "Afegeix més vermell"
 
 msgid "Add some green"
-msgstr "més verd"
+msgstr "Afegeix més verd"
 
 msgid "Add some blue"
-msgstr "més blau"
+msgstr "Afegeix més blau"
 
 msgid "Add some cyan"
-msgstr "més cian"
+msgstr "Afegeix més cian"
 
 msgid "Add some magenta"
-msgstr "més magenta"
+msgstr "Afegeix més magenta"
 
 msgid "Add some yellow"
-msgstr "més groc"
+msgstr "Afegeix més groc"
 
 msgid "Too much red"
-msgstr "menys vermell"
+msgstr "Massa vermell"
 
 msgid "Too much green"
-msgstr "menys verd"
+msgstr "Massa verd"
 
 msgid "Too much blue"
-msgstr "menys blau"
+msgstr "Massa blau"
 
 msgid "Too much cyan"
-msgstr "menys cian"
+msgstr "Massa cian"
 
 msgid "Too much magenta"
-msgstr "menys magenta"
+msgstr "Massa magenta"
 
 msgid "Too much yellow"
-msgstr "menys groc"
+msgstr "Massa groc"
 
 msgid "red is spot on"
 msgstr "el vermell està bé"
@@ -1083,30 +1091,32 @@ msgstr "el groc està bé"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
-"Laby, 2010 by Mehdi Cherti (mehdidc) \n"
-" Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
 
 msgid "Licence"
-msgstr "Licence"
+msgstr "Llicencia"
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
-msgstr "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
 
 msgid "A little set of educational apps for kids"
-msgstr "A little set of educational apps for kids"
-
-
+msgstr "Un petit conjunt d'aplicacions educatives per a nens"
 
 msgid "Word Builder - Animals"
 msgstr ""
 
 msgid "Complete the word"
-msgstr ""
+msgstr "Completa la paraula"
 
 msgid "Word Builder - Sports"
 msgstr ""
@@ -1141,5 +1151,82 @@ msgstr ""
 msgid "Word Builder - Food"
 msgstr ""
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
+msgstr ""
+
+msgid "Decimals and Fractions"
+msgstr "Decimals i fraccions"
+
+msgid "Decimals, fractions and percentages"
+msgstr "Decimals, fraccions i percentatges"
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr "Decimals, fraccions, proporcions i percentatges"
+
+msgid "Shapes and Solids"
+msgstr "Formes i sòlids"
+
+msgid "Translation Credits"
+msgstr "Crèdits de traducció"
+
+msgid "Level"
+msgstr "Nivell"
+
+msgid "Find solution"
+msgstr "Troba una solució"
+
+msgid "Find missing number"
+msgstr "Troba el número que falta"
+
+msgid "Achievements"
+msgstr "Èxits"
+
+msgid "Select age group:"
+msgstr "Selecciona grup d'edat:"
+
+msgid "show activities for:"
+msgstr "mostra activitats per a:"
+
+msgid "preschool"
+msgstr "preescolar"
+
+msgid "Year 1"
+msgstr ""
+
+msgid "Year 2"
+msgstr ""
+
+msgid "Year 3"
+msgstr ""
+
+msgid "Year 4"
+msgstr ""
+
+msgid "Year 5"
+msgstr ""
+
+msgid "Year 6"
+msgstr ""
+
+msgid "show all"
+msgstr "mostra tots"
+
+msgid "Do you want to exit the game?"
+msgstr "Vols sortir del joc?"
+
+msgid "Do you want to  log out of the game?"
+msgstr "Vols finalitzar la sessió del joc?"
+
+msgid "Ready to go to the next level?"
+msgstr "Vols anar al nivell següent?"
+
+msgid "Language arts"
+msgstr "Arts del llenguatge"
+
+msgid "Other"
+msgstr "Altres"
+
+msgid "Educational Activity Pack for Kids"
 msgstr ""

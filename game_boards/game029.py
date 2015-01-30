@@ -52,7 +52,7 @@ class Board(gd.BoardGame):
 
         self.data = data
         self.points = (data[0]+data[1]) // 5
-        self.vis_buttons = [0,1,1,1,1,1,1,0,1]
+        self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
 
         self.layout.update_layout(data[0],data[1])
@@ -76,20 +76,20 @@ class Board(gd.BoardGame):
         self.ships_count = len(self.board.ships)
         self.board.add_unit(x,y,1,1,classes.board.ImgShipRota,"",(255,255,255),img1)
         self.board.ships[0].outline=False
-        self.board.ships[0].draggable=False
-        self.board.ships[0].audible = True
+        self.board.ships[0].draggable=True
+        self.board.ships[0].audible = False
         self.board.all_sprites_list.move_to_front(self.board.ships[0])
         self.board.active_ship = 0
         self.ship_id = 0
+        self.board.moved = self.check_result
+        self.drag = False
 
     def handle(self,event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pass
-        else:
-            gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:
             if self.board.ships[0].grid_pos == self.solution:
                 self.check_result()
+
+        gd.BoardGame.handle(self, event) #send event handling up
 
     def update(self,game):
         game.fill((255,255,255))
@@ -100,9 +100,9 @@ class Board(gd.BoardGame):
         self.check_result()
 
     def check_result(self):
-        if self.changed_since_check:
-            if self.board.ships[self.board.active_ship].grid_pos == self.solution:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                self.changed_since_check = False
+        if self.board.ships[self.board.active_ship].grid_pos == self.solution:
+            self.update_score(self.points)
+            self.board.ships[0].draggable=False
+            self.level.next_board()
+        else:
+            self.changed_since_check = False

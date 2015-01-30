@@ -38,11 +38,14 @@ class BoardGame(GameBase):
         self.speaker = speaker
         self.lang = self.mainloop.lang
         self.level.d = self.lang.d
+        self.min_level = 1
         self.d = self.mainloop.lang.d
         self.dp = self.mainloop.lang.dp
+        self.uage = self.mainloop.config.user_age_group
         self.config = config
         #self.color_scheme = 2
         self.move = False # used to start moving the square when pressed
+        self.mouse_over = False
         self.direction = [0,0]
         self.ship_id = -1
         self.drag = False #used to control draging objects around
@@ -59,6 +62,7 @@ class BoardGame(GameBase):
         self.mainloop.info.reset_buttons()
         self.changed_since_check = True
         self.mouse_entered_new = False
+        self.show_info_btn = False
 
         self.active_game = self.mainloop.m.games[self.mainloop.m.active_game_id]
         #print(self.active_game.dbgameid)
@@ -93,12 +97,13 @@ class BoardGame(GameBase):
                 self.mainloop.info.title_only()
         except:
             pass
-        #to make sure game gets updated after starting
-        #self.mainloop.redraw_needed[0] = True
-        self.mainloop.redraw_needed = [True,True,True]
+
         self.level.completed = self.mainloop.db.query_completion(self.mainloop.userid, self.active_game.dbgameid, self.level.lvl)
         self.level.update_level_dict()
 
+        #to make sure game gets updated after starting
+        #self.mainloop.redraw_needed[0] = True
+        self.mainloop.redraw_needed = [True,True,True]
 
     def board_layout_update(self):
         self.screen_w=self.layout.screen_w
@@ -156,7 +161,6 @@ class BoardGame(GameBase):
                 each.set_outline(color,width)
 
     def handle(self, event):
-        #if self.show_msg == False:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             # Change the x/y screen coordinates to grid coordinates
             pos = event.pos
@@ -189,17 +193,15 @@ class BoardGame(GameBase):
                     self.say(value,6)
 
         elif event.type == pygame.MOUSEMOTION:
+            self.on_mouse_over()
             #make sure the current game title is displayed
             if self.mainloop.info.hidden == True:
                 self.mainloop.info.buttons_restore()
             if self.mainloop.info.title != self.mainloop.m.games[self.mainloop.m.active_game_id].title:
                 self.mainloop.info.reset_titles()
-                #self.mainloop.info.title = self.mainloop.m.games[self.mainloop.m.active_game_id].title
-                #self.mainloop.info.subtitle = self.mainloop.m.games[self.mainloop.m.active_game_id].subtitle
-                #self.mainloop.redraw_needed[1] = True
-                #print("ok", end=", ")
             if self.drag:
-                pos = event.pos #pygame.mouse.get_pos()
+                pos = event.pos
+
                 if pos[0] > self.layout.game_left and self.layout.top_margin < pos[1] < self.layout.game_h+self.layout.top_margin: #if still on game board
                     self.mouse_entered_new = False
                     # Change the x/y screen coordinates to grid coordinates
@@ -207,38 +209,44 @@ class BoardGame(GameBase):
                     row = (pos[1] - self.layout.top_margin) // (self.layout.height)
 
                     mdir = [0,0] #mouse drag direction
+                    i = 0
 
                     if self.gridpos_prev_top != (column-self.x_diff, row-self.y_diff): #on_mouse_enter on a grid square simulation
-                        #mouse entered a new square
-                        self.mouse_entered_new = True
-                        self.mainloop.redraw_needed[0] = True
-                        self.gridpos_prev_top = (column-self.x_diff, row-self.y_diff)
-                        column = column - self.x_diff
-                        row = row - self.y_diff
+                        while self.gridpos_now_top != (column-self.x_diff, row-self.y_diff) and i < 5:
+                            if self.board.ships[self.ship_id].grid_w > 1 or self.board.ships[self.ship_id].grid_h > 1:
+                                i = 4
+                            i += 1
+                            #mouse entered a new square
+                            self.mouse_entered_new = True
+                            self.mainloop.redraw_needed[0] = True
+                            self.gridpos_prev_top = (column-self.x_diff, row-self.y_diff)
+                            column = column - self.x_diff
+                            row = row - self.y_diff
 
-                        x_change = column - self.gridpos_now_top[0]
-                        y_change = row    - self.gridpos_now_top[1]
+                            x_change = column - self.gridpos_now_top[0]
+                            y_change = row    - self.gridpos_now_top[1]
 
-                        if -1 <= x_change <= 1 and -1 <= y_change <= 1:
-                            mdir = [x_change, y_change]
-                        #else if mouse is out of the range try to follow in one direction
-                        else:
-                            if x_change >= 1 and (self.gridpos_now_top[0] != column-self.x_diff):
-                                mdir[0] = 1
-                            elif x_change <= -1: #is smaller than -1
-                                mdir[0] = -1
-                            if y_change >= 1 and (self.gridpos_now_top[1] != column-self.y_diff):
-                                mdir[1] = 1
-                            elif y_change <= -1: #is smaller than -1
-                                mdir[1] = -1
+                            if -1 <= x_change <= 1 and -1 <= y_change <= 1:
+                                mdir = [x_change, y_change]
+                            #else if mouse is out of the range try to follow in one direction
+                            else:
+                                if (self.gridpos_now_top[0] != column):
+                                    if x_change >= 1:
+                                        mdir[0] = 1
+                                    elif x_change <= -1:
+                                        mdir[0] = -1
+                                if (self.gridpos_now_top[1] != row):
+                                    if y_change >= 1:
+                                        mdir[1] = 1
+                                    elif y_change <= -1:
+                                        mdir[1] = -1
+                            if mdir[0] != 0 or mdir[1] != 0:
+                                self.board.move(self.ship_id,*mdir)
+                                self.board.ships[self.ship_id].turn(mdir)
+                                self.gridpos_now_top = self.board.active_ship_pos
+                                #self.circle_lock_pos = ((self.board.active_ship_pos[0]+x_diff)*self.layout.scale,(self.board.active_ship_pos[1]+y_diff)*self.layout.scale)
+                                self.circle_lock_pos = (self.x_diff*self.layout.scale, self.y_diff*self.layout.scale)
 
-                        if mdir[0] != 0 or mdir[1] != 0:
-                            self.board.move(self.ship_id,*mdir)
-                            self.board.ships[self.ship_id].turn(mdir)
-                            self.gridpos_now_top = self.board.active_ship_pos
-                            #self.circle_lock_pos = ((self.board.active_ship_pos[0]+x_diff)*self.layout.scale,(self.board.active_ship_pos[1]+y_diff)*self.layout.scale)
-                            self.circle_lock_pos = (self.x_diff*self.layout.scale, self.y_diff*self.layout.scale)
-                        #self.moved()
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             if self.drag:
@@ -274,6 +282,29 @@ class BoardGame(GameBase):
                     self.show_msg = False
                     self.level.next_board_load()
                 self.changed_since_check = False
+
+    def on_mouse_over(self):
+        if not self.mouse_over:
+            self.on_mouse_enter()
+
+
+    def on_mouse_enter(self):
+        if self.mainloop.mouse_over[0] is not None:
+            self.mainloop.mouse_over[0].on_mouse_out()
+        self.mainloop.mouse_over[0] = self
+        if self.mainloop.mouse_over[1] is not None:
+            self.mainloop.mouse_over[1].on_mouse_out()
+        self.mainloop.mouse_over[1] = None
+        if self.mainloop.mouse_over[2] is not None:
+            self.mainloop.mouse_over[2].on_mouse_out()
+        self.mainloop.mouse_over[2] = None
+
+        self.mouse_over = True
+
+    def on_mouse_out(self):
+        if self.mouse_over:
+            self.mouse_over = False
+
 
     def check_direction_kdown(self):
         if self.direction[0] != 0 or self.direction[1] != 0:
@@ -323,7 +354,7 @@ class BoardGame(GameBase):
             self.board.board_bg.color = self.mainloop.scheme.u_color
         else:
             self.mainloop.game_bg.fill((255,255,255))
-        l = self.layout
+        #l = self.layout
         if self.show_msg == False:
 
             #update the grid with new locations and colours
@@ -343,11 +374,14 @@ class BoardGame(GameBase):
                 pygame.draw.line(self.mainloop.game_bg,self.line_color,[self.layout.game_left-self.layout.menu_w,self.screen_hx],[self.screen_wx+self.layout.game_left-self.layout.menu_w-1,self.screen_hx],1)
 
     def update_score(self, points):
+        pass
+        """
         userid = self.mainloop.userid
         new_score = self.mainloop.db.increase_score(userid, points)
         if new_score is not None:
             self.mainloop.sb.set_score(new_score)
             self.mainloop.sb.update_me = True
+        """
 
     def check_result(self):
         pass

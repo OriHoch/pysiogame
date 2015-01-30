@@ -91,7 +91,7 @@ class Board(gd.BoardGame):
             if self.word[i] in lowered:
                 picked = True
             if data[4] == 1:
-                h = random.randrange(0, 255, 5)
+                s = 100
             else:
                 if picked:
                     letter = lowered[j]

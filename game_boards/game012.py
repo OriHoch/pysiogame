@@ -15,7 +15,7 @@ class Board(gd.BoardGame):
 
     def create_game_objects(self, level = 1):
         self.ai_enabled = True
-        self.board.draw_grid = False
+        self.board.draw_grid = True
         white = [255,255,255]
 
         scheme = "white"
@@ -43,6 +43,7 @@ class Board(gd.BoardGame):
             data = [7,5,8,-2]
         elif self.level.lvl == 10:
             data = [7,5,8,-1]
+
 
         self.ai_speed = data[2]
         #stretch width to fit the screen size
@@ -140,7 +141,6 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def after_keydown_move(self):
-
         self.update_arrows()
         if self.owl_pos == self.moves[self.current_step]:
             self.highlight_color(self.move_buttons[self.current_step])

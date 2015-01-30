@@ -13,12 +13,13 @@ class Board(gd.BoardGame):
 
     def create_game_objects(self, level = 1):
         self.board.draw_grid = True
+        self.show_info_btn = False
 
         color1 = (220,220,220)
         color2 = (255,255,255)
 
         font_color = (40,40,40)
-        data = [15,10]
+        data = [15,11]
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
         if x_count > 15:
@@ -66,7 +67,9 @@ class Board(gd.BoardGame):
         top += 1
         self.board.add_unit(0,top,3,1,classes.board.Label,["Spanish","Español"],color1,"",6)
         self.board.add_unit(3,top,data[0]-3,1,classes.board.Label,["Miriam Ruiz","http://www.miriamruiz.es"],color1,"",6)
-
+        top += 1
+        self.board.add_unit(0,top,3,1,classes.board.Label,["Ukrainian","Українська"],color2,"",6)
+        self.board.add_unit(3,top,data[0]-3,1,classes.board.Label,"Yuri Chornoivan (Юрій Чорноіван)",color2,"",6)
         """
         self.board.add_unit(0,5,3,1,classes.board.Label,"French",color1,"",6)
         self.board.add_unit(3,5,data[0]-3,1,classes.board.Label,"Not Translated",color1,"",6)

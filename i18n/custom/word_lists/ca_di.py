@@ -8,7 +8,6 @@
 #the sublists are consisting of words with len() of 3 - 10
 #I think the way of going about internationalization here would be to create a new list
 #with words most commonly used in your language rather than translating this
-#the code at the end would format/sort etc. a mixed list of words with different lenghts. - add , between the sub-list (or if using python3 use the print(row, end=', ').
 #I am not sure if they are appriopriate for children, but if anyone is interested we can try to built something more suitable.
 
 di =[[79, 'ala', 'alt', 'alè', 'amb', 'ara', 'aus', 'bel', 'bip', 'cap', 'cec', 'cel', 'com', 'cop', 'cor', 'cua', 'dia', 'dir', 'dit', 'dos', 'dur', 'ell', 'els', 'era', 'fam', 'fer', 'fet', 'foc', 'fre', 'fum', 'gat', 'gel', 'gir', 'gos', 'gra', 'joc', 'mai', 'mar', 'meu', 'més', 'món', 'nas', 'nen', 'neu', 'nit', 'nom', 'nou', 'ous', 'pal', 'pes', 'pis', 'pla', 'poc', 'por', 'pot', 'pro', 'pèl', 'que', 'qui', 'què', 'rar', 'raó', 'reg', 'rei', 'res', 'ric', 'riu', 'sec', 'ser', 'seu', 'sol', 'sud', 'síl', 'són', 'toc', 'tot', 'tub', 'veu', 'viu', 'xoc'],
@@ -19,29 +18,3 @@ di =[[79, 'ala', 'alt', 'alè', 'amb', 'ara', 'aus', 'bel', 'bip', 'cap', 'cec',
 [130, 'adjectiu', 'aiguaneu', 'aprendre', 'arraulir', 'arrencar', 'assentat', 'aventura', 'barrabás', 'branques', 'brillant', 'brutícia', 'bufetada', 'cadascun', 'calamars', 'caminada', 'celebrar', 'cicatriu', 'cobdícia', 'colpejar', 'colpejat', 'comparar', 'condemna', 'congelar', 'contenir', 'conèixer', 'correcte', 'corretja', 'cremades', 'cristall', 'davantal', 'declaren', 'degoteig', 'delectar', 'desitjos', 'dibuixar', 'diferent', 'direcció', 'diversos', 'divertit', 'drenatge', 'elaborat', 'eliminar', 'empremta', 'endolcir', 'enganxar', 'escaldat', 'escoltar', 'escoltat', 'escombra', 'escriure', 'església', 'espatlla', 'especial', 'esquerra', 'esquirol', 'establir', 'esternut', 'estrella', 'estricte', 'exercici', 'explicar', 'faldilla', 'ferralla', 'filferro', 'finestra', 'generals', 'història', 'igualtat', 'imprimir', 'impulsar', 'indiquen', 'insectes', 'intentar', 'interior', 'longitud', 'malament', 'mantenir', 'moviment', 'multitud', 'observar', 'pagament', 'pallasso', 'pantalla', 'paraules', 'pasturar', 'permetre', 'personal', 'pissarra', 'planetes', 'ploraven', 'preciosa', 'preparar', 'preparat', 'presoner', 'princesa', 'principi', 'problema', 'producte', 'profunda', 'programa', 'projecte', 'protegir', 'pràctica', 'puntades', 'qualitat', 'rabassut', 'realitat', 'recórrer', 'rellotge', 'repetida', 'resposta', 'resultat', 'retorçar', 'romandre', 'sacerdot', 'salvatge', 'scooters', 'semblava', 'similars', 'somriure', 'sorpresa', 'sostenir', 'sucursal', 'suggerit', 'tempesta', 'tranquil', 'trompeta', 'vagabund', 'voluntat', 'xerraire'],
 [58, 'aleshores', 'aparèixer', 'blanqueig', 'cabrioles', 'carabassa', 'cloquejar', 'coincidir', 'compostos', 'compromís', 'concessió', 'confiança', 'construït', 'convertir', 'convèncer', 'descobert', 'descriure', 'difamació', 'dissident', 'encanteri', 'endevinar', 'enganxosa', 'equilibri', 'escombrat', 'esperança', 'esplèndid', 'estranger', 'excrement', 'finalment', 'fàbriques', 'grandària', 'grapadora', 'habilitat', 'indústria', 'inundació', 'llanterna', 'meravella', 'molècules', 'muntanyes', 'pertànyer', 'preguntar', 'preguntes', 'primavera', 'problemes', 'productes', 'propietat', 'puntuació', 'quantitat', 'retallada', 'sabatilla', 'sentiment', 'senyoreta', 'serveixen', 'suficient', 'tancament', 'terrossos', 'velocitat', 'vessament', 'xipolleig'],
 [30, 'brillantor', 'científics', 'comprendre', 'comprensió', 'condicions', 'consideren', 'determinar', 'diccionari', 'diferència', 'enderrocat', 'espionatge', 'estampilla', 'estudiants', 'exactament', 'excrements', 'importants', 'inclinació', 'llenguatge', 'necessitat', 'occidental', 'parpelleig', 'primerenca', 'principals', 'pronunciar', 'relliscada', 'resplendor', 'rondinaire', 'solucionar', 'subratllat', 'superfície']]
-
-
-"""
-a = 2
-for each in mixed_list_of_words:
-    if len(each)>a:
-        a = len(each)
-        
-word_sets = [[] for i in range(a)]
-
-for each in mixed_list_of_words:
-    b = len(each)
-    if " " not in each and "'" not in each:
-        e = each.lower()
-        if e not in di:
-            if e not in word_sets[b-1]:
-                word_sets[b-1].append(e)
-    
-for each in word_sets:
-    each.sort()
-    a = len(each)
-    row = []
-    row.append(a)
-    row.extend(each)
-    print(row)
-"""

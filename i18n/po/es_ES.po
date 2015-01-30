@@ -1,5 +1,5 @@
 # pySioGame - Educational Activity Pack - translation file.
-# Copyright (C) 2012 - 2013 Ireneusz Imiolek
+# Copyright (C) 2012 - 2014 Ireneusz Imiolek
 # This file is distributed under the same license as the pysiogame package.
 # Ireneusz Imiolek <imiolek.i@googlemail.com>, 2013.
 # Translated by Miriam Ruiz
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-27 05:17+0100\n"
+"PO-Revision-Date: 2014-11-24 19:31+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Miriam Ruiz\n"
 "Language: Spanish\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -551,13 +552,17 @@ msgid "Take your sheep to the rest of the herd."
 msgstr "Lleva tu oveja hasta donde está el resto del rebaño."
 
 msgid "Check the shopping list and drag all needed items into the basket."
-msgstr "Comprueba la lista de la compra y arrastra dentro de la cesta todas las cosas necesarias."
+msgstr ""
+"Comprueba la lista de la compra y arrastra dentro de la cesta todas las "
+"cosas necesarias."
 
 msgid "Drag one of the <, > or = (lesser, greater or equal) to the red square."
 msgstr "Arrastra hasta el cuadrado rojo: <, > ó = (menor, mayor, o igual que)."
 
 msgid "Drag one of the lesser, greater or equal to the red square."
-msgstr "Arrastra hasta el cuadrado rojo uno de los símbolos de menor que, mayor que, o igual."
+msgstr ""
+"Arrastra hasta el cuadrado rojo uno de los símbolos de menor que, mayor que, "
+"o igual."
 
 msgid "Re-arrange the above numbers so they are in the right order"
 msgstr "Reordena los números de arriba para que estén en el orden correcto"
@@ -568,8 +573,14 @@ msgstr "Completa el abecedario utilizando las letras de arriba."
 msgid "Write a word:"
 msgstr "Escribe una palabra:"
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
-msgstr "Encuentra y separa los números pares de los números impares en la serie de arriba."
+msgid "Build the following word using the letters below."
+msgstr ""
+
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
+msgstr ""
+"Encuentra y separa los números pares de los números impares en la serie de "
+"arriba."
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
 msgstr "Reordena las letras de arriba para que estén en orden alfabético."
@@ -817,17 +828,29 @@ msgstr "Relaciones"
 msgid "Match fraction charts on the right to the ones on the left"
 msgstr "Empareja las imágenes de la derecha con las de la izquierda"
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
-msgstr "Empareja las imágenes y las fracciones de la derecha con las imágenes de la izquierda"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
+msgstr ""
+"Empareja las imágenes y las fracciones de la derecha con las imágenes de la "
+"izquierda"
 
 msgid "Match fraction charts to the fractions on the left"
 msgstr "Empareja las imágenes con las fracciones de la izquierda"
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
-msgstr "Empareja las imágenes, fracciones y números decimales de la derecha con sus representaciones en forma de porcentaje"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
+msgstr ""
+"Empareja las imágenes, fracciones y números decimales de la derecha con sus "
+"representaciones en forma de porcentaje"
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "Empareja las gráficas con las relaciones de la izquierda expresadas como una proporción entre partes coloreadas y partes blancas"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
+msgstr ""
+"Empareja las gráficas con las relaciones de la izquierda expresadas como una "
+"proporción entre partes coloreadas y partes blancas"
 
 msgid "Maths Matching Game"
 msgstr "Empareja los números"
@@ -841,8 +864,12 @@ msgstr "Resta"
 msgid "Multiplication"
 msgstr "Multiplicación"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "Busca una versión más actualizada, reporta fallos, debate, traduce o revisa este proyecto en:"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
+msgstr ""
+"Busca una versión más actualizada, reporta fallos, debate, traduce o revisa "
+"este proyecto en:"
 
 msgid "Match numbers to their spelling"
 msgstr "Relaciona los números con su forma escrita"
@@ -865,7 +892,9 @@ msgstr "Figura a dibujar: %s"
 
 #, python-format
 msgid "such that lengths of its bases are equal to %d and %d and height to %d"
-msgstr "las longitudes de sus bases sean iguales a %d y a %d y que su altura sea igual a %d"
+msgstr ""
+"las longitudes de sus bases sean iguales a %d y a %d y que su altura sea "
+"igual a %d"
 
 #, python-format
 msgid "such that lengths of its sides are equal to %d"
@@ -876,8 +905,11 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr "las longitudes de sus lados sean iguales a %d y %d"
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
-msgstr "la longitud de sus dos bases paralelas sea igual a %d y que su altura sea igual a %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgstr ""
+"la longitud de sus dos bases paralelas sea igual a %d y que su altura sea "
+"igual a %d"
 
 #, python-format
 msgid "such that length of its base is equal to %d and height to %d"
@@ -897,7 +929,8 @@ msgstr "la longitud de su hipotenusa sea igual a %d"
 
 #, python-format
 msgid "such that length of one of its sides is equal to %d and height to %d"
-msgstr "la longitud de uno de sus lados sea igual a %d y que su altura sea igual a %d"
+msgstr ""
+"la longitud de uno de sus lados sea igual a %d y que su altura sea igual a %d"
 
 #, python-format
 msgid "such that length of its radius is equal to %d"
@@ -1086,24 +1119,38 @@ msgstr "el amarillo está bien"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 
 msgid "Licence"
 msgstr "Licence"
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
-msgstr "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
 msgid "A little set of educational apps for kids"
-msgstr "A little set of educational apps for kids"
-
-
+msgstr "Un conjunto de aplicaciones educativas para niños"
 
 msgid "Word Builder - Animals"
 msgstr ""
@@ -1144,5 +1191,82 @@ msgstr ""
 msgid "Word Builder - Food"
 msgstr ""
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
+msgstr ""
+
+msgid "Decimals and Fractions"
+msgstr ""
+
+msgid "Decimals, fractions and percentages"
+msgstr ""
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr ""
+
+msgid "Shapes and Solids"
+msgstr ""
+
+msgid "Translation Credits"
+msgstr ""
+
+msgid "Level"
+msgstr ""
+
+msgid "Find solution"
+msgstr ""
+
+msgid "Find missing number"
+msgstr ""
+
+msgid "Achievements"
+msgstr ""
+
+msgid "Select age group:"
+msgstr ""
+
+msgid "show activities for:"
+msgstr ""
+
+msgid "preschool"
+msgstr ""
+
+msgid "Year 1"
+msgstr ""
+
+msgid "Year 2"
+msgstr ""
+
+msgid "Year 3"
+msgstr ""
+
+msgid "Year 4"
+msgstr ""
+
+msgid "Year 5"
+msgstr ""
+
+msgid "Year 6"
+msgstr ""
+
+msgid "show all"
+msgstr ""
+
+msgid "Do you want to exit the game?"
+msgstr ""
+
+msgid "Do you want to  log out of the game?"
+msgstr ""
+
+msgid "Ready to go to the next level?"
+msgstr ""
+
+msgid "Language arts"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Educational Activity Pack for Kids"
 msgstr ""

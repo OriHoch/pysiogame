@@ -5,15 +5,7 @@ import colorsys
 import os, sys
 import random
 import copy
-import pygame.mixer
 import classes.extras as ex
-
-sounds = pygame.mixer
-sounds.init()
-sound_8 = '104874__robinhood76__02020-cartoon-slide_1.ogg'
-sound_6 = '104874__robinhood76__02020-cartoon-slide_2.ogg'
-s1 = sounds.Sound(os.path.join('res', 'sounds', sound_8))
-s2 = sounds.Sound(os.path.join('res', 'sounds', sound_6))
 
 class Unit(pygame.sprite.Sprite):
     'basic class for all on-board objects'
@@ -69,6 +61,9 @@ class Unit(pygame.sprite.Sprite):
         self.font = board.font_sizes[0]
         self.text_wrap = True
 
+    def set_value(self,new_value):
+        self.value = ex.unival(new_value)
+
     def pos_update(self):
         if self.grid_w > 0 and self.grid_h > 0:
             self.image = pygame.Surface([self.grid_w*self.board.scale-1, self.grid_h*self.board.scale-1])
@@ -106,12 +101,6 @@ class Unit(pygame.sprite.Sprite):
                 self.initcolor = self.board.mainloop.scheme.u_initcolor#(255,255,255)
                 self.color = self.board.mainloop.scheme.u_color#(255,255,255)
                 self.font_color = self.board.mainloop.scheme.u_font_color#(0,0,0)
-                """
-                elif self.board.mainloop.game_board.color_scheme == 2:
-                    self.initcolor = (0,0,0)
-                    self.color = (0,0,0)
-                    self.font_color = (255,255,255)
-                """
 
             self.image.fill(self.color)
             self.image.blit(self.painting,(0,0))
@@ -238,19 +227,19 @@ class Unit(pygame.sprite.Sprite):
                             else:
                                 if self.valign == 0:
                                     #lv - total
-                                    line_h = self.font.size(value[0])[1]
+                                    line_h = self.font.size(value[0])[1]/self.board.mainloop.config.font_line_height_adjustment
                                     line_margin = 0 #(board.scale*self.grid_h - line_h*lv)//lv #self.font.size(value[0])[1]//4
                                     step = line_h + line_margin
                                     center = (board.scale*self.grid_h)//2
-                                    start_at = center - (step*lv - line_margin)//2
+                                    start_at = center - (step*lv - line_margin)//2 - self.board.mainloop.config.font_start_at_adjustment
                                     font_y = start_at + step*i
                                 else:
                                     #lv - total
-                                    line_h = self.font.size(value[0])[1]
+                                    line_h = self.font.size(value[0])[1]/self.board.mainloop.config.font_line_height_adjustment
                                     line_margin = 0 #(board.scale*self.grid_h - line_h*lv)//lv #self.font.size(value[0])[1]//4
                                     step = line_h + line_margin
                                     center = (board.scale*self.grid_h)//2
-                                    start_at = 5#center - (step*lv - line_margin)//2
+                                    start_at = 5 #center - (step*lv - line_margin)//2
                                     font_y = start_at + step*i
 
                             self.image.blit(text, (font_x,font_y))
@@ -386,6 +375,97 @@ class Letter(Ship):
     def update(self, board, **kwargs):
         Unit.update(self,board)
 
+class MultiColorLetters(Letter):
+    """accepts string formatted in a way to allow multiple colours in one line, e.g. "<1>this is in colour one<2>this is in colour two". to initialize colours use the set_font_colours method """
+    def __init__(self,board,grid_x=0,grid_y=0,grid_w=1,grid_h=1,value="",initcolor=(0,0,0), **kwargs):
+        Letter.__init__(self,board,grid_x,grid_y,grid_w,grid_h,value,initcolor,**kwargs)
+        self.set_font_colors((0,0,0),(0,0,0))
+        self.set_value(value)
+
+        #print(self.value)
+
+    def set_value(self,new_value):
+        self.value = ex.unival(new_value)
+        value = ex.unival(new_value)
+        self.coltxt = self.split_tags(value)
+        self.value = "".join(self.coltxt[1])
+
+    def set_font_colors(self,color1, color2, color3 = (0,0,0), color4 = (0,0,0)):
+        self.colors = [color1, color2, color3, color4]
+
+    def split_tags(self, text):
+
+        txt = []
+        col = []
+        txtln = []
+        tmp = ""
+
+        #for i in range(ln-1):
+        ln = len(text)
+        i = 0
+        while i < ln:
+            if text[i] == "<":
+                if i > 0:
+                    if len(txt) > 0:
+                        txtln.append(self.font.size("".join(txt) + tmp)[0] - self.font.size(tmp)[0])
+                    else:
+                        txtln.append(0)
+                    txt.append(tmp)
+                    tmp = ""
+                i += 1
+            if text[i] == ">":
+                col.append(int(tmp)-1)
+                tmp = ""
+                i += 1
+
+            tmp += text[i]
+            i += 1
+
+        txtln.append(self.font.size("".join(txt) + tmp)[0] - self.font.size(tmp)[0])
+        txt.append(tmp)
+        return [col,txt,txtln]
+
+    # Update color, image or text
+    def update(self, board, **kwargs):
+        #print(self.value)
+        #self.update_me = True
+        if self.update_me:
+            self.update_me = False
+            if self.board.mainloop.scheme is not None and self.board.decolorable and self.decolorable and self.board.mainloop.game_board is not None and (isinstance(self, Letter) or isinstance(self, Label)):
+                self.initcolor = self.board.mainloop.scheme.u_initcolor#(255,255,255)
+                self.color = self.board.mainloop.scheme.u_color#(255,255,255)
+                self.font_color = self.board.mainloop.scheme.u_font_color#(0,0,0)
+
+            self.image.fill(self.color)
+            self.image.blit(self.painting,(0,0))
+            #if self.hasimg == False:
+            #    if len(self.value) > 0:
+            if self.show_value:
+                val = ex.unival(self.value)
+                #lv = len(val)
+
+
+
+                if self.align == 0:
+                    font_x = ((board.scale*self.grid_w-self.font.size(val)[0])//2)
+                elif self.align == 1:
+                    font_x = 5
+                elif self.align == 2:
+                    font_x = board.scale*self.grid_w - self.font.size(val)[0]-5
+                font_y = ((board.scale*self.grid_h-self.font.size(val)[1])//2)
+
+                for i in range(len(self.coltxt[0])):
+                    text = self.font.render("%s" % (self.coltxt[1][i]), 1, self.colors[self.coltxt[0][i]])
+                    self.image.blit(text, (font_x+self.coltxt[2][i],font_y))
+
+
+
+            if self.speaker_val_update:
+                self.speaker_val = self.value
+
+            if self.perm_outline:
+                self.draw_outline()
+
 class ImgSurf(pygame.sprite.Sprite):
     def __init__(self,board,grid_w=1,grid_h=1,color = (255,157,23), img_src=''):
         pygame.sprite.Sprite.__init__(self)
@@ -468,6 +548,50 @@ class ImgShip(Ship):
     @property
     def brighter(self):
         return self.color
+
+class TwoImgsShip(Ship):
+    def __init__(self,board,grid_x=0,grid_y=0,grid_w=1,grid_h=1,value="",initcolor = (255,157,23), img_src='', img2_src='', row_data=(0,0),**kwargs):
+        Ship.__init__(self,board,grid_x,grid_y,grid_w,grid_h,value,initcolor,**kwargs)
+        self.img2_pos = row_data
+        self.change_image(img_src, img2_src)
+
+    def change_image(self, img_src, img2_src):
+        self.img_src = img_src
+        self.img2_src = img2_src
+        if len(self.img_src) > 0:
+            self.hasimg = True
+            self.img = self.image
+            self.img_pos = (0,0)
+            self.outline = True
+            #try:
+            if True:
+                self.img_org = pygame.image.load(self.img_src).convert()
+                self.img2_org = pygame.image.load(self.img2_src).convert()
+                self.img = self.img_org
+                self.img.blit(self.img2_org, self.img2_pos)
+                self.img_rect = self.img.get_rect()
+                #resize the image
+                self.scale_img(self.rect.w, self.rect.h)
+
+                self.img_rect = self.img.get_rect()
+                pos_x = ((self.board.scale*self.grid_w-self.img_rect.w)//2)
+                pos_y = ((self.board.scale*self.grid_h-self.img_rect.h)//2)
+                self.img_pos = (pos_x,pos_y)
+            #except IOError:
+            #    pass
+
+    def update(self, board, **kwargs):
+        if self.update_me:
+            Unit.update(self,board)
+            if len(self.img_src) > 0:
+                self.image.blit(self.img, self.img_pos)
+            if self.unit_id == board.active_ship and self.outline == True:
+                lines = [[0,0],[self.grid_w*board.scale-2,0],[self.grid_w*board.scale-2,self.grid_h*board.scale-2],[0,self.grid_h*board.scale-2]]
+                pygame.draw.lines(self.image, (255, 200, 200), True, lines)
+            if hasattr(self, "door_outline") and self.door_outline == True:
+                self.set_outline(self.perm_outline_color,2)
+            if self.perm_outline:
+                self.draw_outline()
 
 class ImgAlphaShip(ImgShip):
     def __init__(self,board,grid_x=0,grid_y=0,grid_w=1,grid_h=1,value="",initcolor = (255,157,23), img_src='',**kwargs):
@@ -711,8 +835,6 @@ class Board:
         self.check_laby = False
         self.laby_dir = -1
         self.level_start(x_count,y_count,scale)
-        self.s1 = s1
-        self.s2 = s2
 
     def level_start(self,x_count,y_count,scale):
         self.grid  = []     #square availability list
@@ -723,6 +845,7 @@ class Board:
         self.x_count=x_count #number of columns
         self.y_count=y_count #number of rows
         self.scale = scale  #number of pixels per grid unit
+        self.mainloop.config.set_start_at(scale)
         self._create_board(x_count,y_count)
         self.active_ship = -1
         self.board_changed = False
@@ -739,9 +862,13 @@ class Board:
 
         #sizes= [0 1    2   3    4 5    6   7    8 9   10 11 11-hw 12-hw]
 
+
         #sizes = [1.0,1.25,1.5,1.75,2.0,2.25,2.5,2.75,3.0,3.5,4.0]
         sizes = [1.25,1.5,1.75,2.0,2.25,2.5,2.75,3.0,3.5,4.0,4.75,7]
-        self.font_sizes = [pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(float(self.points)/float(sizes[i])))) for i in range(len(sizes))]
+        for i in range(len(sizes)):
+            sizes[i] = sizes[i]/self.mainloop.config.font_multiplier
+
+        self.font_sizes = [pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_1), (int(float(self.points)/float(sizes[i])))) for i in range(len(sizes))]
         #12+ handwritten
         h_sizes = [25,17,10,1.1,1.5,2,2.3,0.7]
         handwritten_sizes = [pygame.font.Font(os.path.join('res', 'fonts', 'pysiogameFonts', 'pysiogameHand.ttf'), (int(float(self.points)*float(h_sizes[i])))) for i in range(len(h_sizes))]
@@ -749,19 +876,19 @@ class Board:
         #20
         self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'pysiogameFonts', 'pysiogameLatinPrint.ttf'), (int(float(self.points)*float(30)))))
         #21 - extra large normal print
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points*2.0))))
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points*1.5))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_1), (int(self.points*2.0))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_1), (int(self.points*1.5))))
         #23 - mini clock sizes
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/15))))
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/25))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_1), (int(self.points/15))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_1), (int(self.points/25))))
 
         #25 - h2 - title size
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_1), (int(self.points))))
 
         #26 clock font
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSans.ttf'), (int(float(self.points)/float(sizes[7])))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_2), (int(float(self.points)/float(sizes[7])))))
         #27 credits line under word building games
-        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSans.ttf'), (int(float(self.points)/float(sizes[4])))))
+        self.font_sizes.append(pygame.font.Font(os.path.join('res', 'fonts', self.mainloop.config.font_dir, self.mainloop.config.font_name_2), (int(float(self.points)/float(sizes[4])))))
 
         self.board_bg = BoardBg(self,0,0,x_count,y_count,"",(255,255,255))
         self.unit_list.add(self.board_bg)
@@ -814,10 +941,10 @@ class Board:
             return True
         return False
 
-    def add_unit(self, grid_x=0, grid_y=0, grid_w=1, grid_h=1, unit_class=Ship, value="A", color=(0,0,0), img_src='',font_size=0,frame_flow=[0],frame_count=1,row_data=[1,1]):
+    def add_unit(self, grid_x=0, grid_y=0, grid_w=1, grid_h=1, unit_class=Ship, value="A", color=(0,0,0), img_src='',font_size=0,frame_flow=[0],frame_count=1,row_data=[1,1],img2_src = None):
         'adds a new unit to the board'
         if self._isfree(grid_x,grid_y,grid_w,grid_h):
-            unit = unit_class(self,grid_x,grid_y,grid_w,grid_h,value,initcolor=color,img_src = img_src,font_size = font_size,frame_flow = frame_flow,frame_count=frame_count,row_data=row_data)
+            unit = unit_class(self,grid_x,grid_y,grid_w,grid_h,value,initcolor=color,img_src = img_src,font_size = font_size,frame_flow = frame_flow,frame_count=frame_count,row_data=row_data,img2_src = img2_src)
             if isinstance(unit, Ship):
                 if isinstance(unit, AIUnit):
                     self.aiunits.append(unit)
@@ -867,28 +994,30 @@ class Board:
             new_rect = right
             self.laby_dir = 0
 
-        #diagonal move: prepare the 2 step move alternatives to check against
+        #diagonal move (but only for 1x1 blocks: prepare the 2 step move alternatives to check against
         #alt1a -> alternative path 1 firt move: a, second move: b
-        elif x <= -1 and y <= -1: #up-left
-            alt1a = up
-            alt1b = (s.grid_x - 1, s.grid_y-1, 1, s.grid_h)
-            alt2a = left
-            alt2b = (s.grid_x -1 , s.grid_y -1, s.grid_w, 1)
-        elif x >=  1 and y <= -1: #up-right
-            alt1a = up
-            alt1b = (s.grid_x + s.grid_w, s.grid_y-1, 1, s.grid_h)
-            alt2a = right
-            alt2b = (s.grid_x+1, s.grid_y -1, s.grid_w, 1)
-        elif x <= -1 and y >=  1: #down-left
-            alt1a = down
-            alt1b = (s.grid_x - 1, s.grid_y+1, 1, s.grid_h)
-            alt2a = left
-            alt2b = (s.grid_x-1, s.grid_y + s.grid_h, s.grid_w,1)
-        elif x >=  1 and y >=  1: #down-right
-            alt1a = down
-            alt1b = (s.grid_x + s.grid_w, s.grid_y+1, 1, s.grid_h)
-            alt2a = right
-            alt2b = (s.grid_x+1, s.grid_y + s.grid_h, s.grid_w,1)
+        else:
+            if True:#s.grid_w == 1 and s.grid_h == 1:
+                if x <= -1 and y <= -1: #up-left
+                    alt1a = up
+                    alt1b = (s.grid_x - 1, s.grid_y-1, 1, s.grid_h)
+                    alt2a = left
+                    alt2b = (s.grid_x -1 , s.grid_y -1, s.grid_w, 1)
+                elif x >=  1 and y <= -1: #up-right
+                    alt1a = up
+                    alt1b = (s.grid_x + s.grid_w, s.grid_y-1, 1, s.grid_h)
+                    alt2a = right
+                    alt2b = (s.grid_x+1, s.grid_y -1, s.grid_w, 1)
+                elif x <= -1 and y >=  1: #down-left
+                    alt1a = down
+                    alt1b = (s.grid_x - 1, s.grid_y+1, 1, s.grid_h)
+                    alt2a = left
+                    alt2b = (s.grid_x-1, s.grid_y + s.grid_h, s.grid_w,1)
+                elif x >=  1 and y >=  1: #down-right
+                    alt1a = down
+                    alt1b = (s.grid_x + s.grid_w, s.grid_y+1, 1, s.grid_h)
+                    alt2a = right
+                    alt2b = (s.grid_x+1, s.grid_y + s.grid_h, s.grid_w,1)
         mdir = [0,0]
         if x==0 or y==0:
             #standard move: check if positions are empty and move the unit
@@ -896,28 +1025,27 @@ class Board:
                 self._move_unit(ship_id,ai,x,y)
             else:
                 if ai == False and s.audible:
-                    if self.mainloop.config.settings["sounds"]:
-                        s2.play()
+                    self.mainloop.sfx.play(11)
         elif x != 0 and y != 0:
-            self.labi_dir = -1
-            #diagonal move simple path finder: check both alternatives in turn and move if possible
-            #decreased number of checks to get the direction
-            if self._isfree(*alt1a): #if move up or down possible change y in first alternative
-                mdir[1]=y
-                if self._isfree(*alt1b): #if move left or right possible change x in first alt.
-                    mdir[0]=x
-                else: mdir[0]=0
-            elif self._isfree(*alt2a): #else if horizontal move possible change x first
-                mdir[0]=x
-                if self._isfree(*alt2b): #and if second move possible change y second
+            if True:#s.grid_w == 1 and s.grid_h == 1:
+                self.labi_dir = -1
+                #diagonal move simple path finder: check both alternatives in turn and move if possible
+                #decreased number of checks to get the direction
+                if self._isfree(*alt1a): #if move up or down possible change y in first alternative
                     mdir[1]=y
-                else: mdir[1]=0
-            else:
-                if ai == False and s.audible:
-                    if self.mainloop.config.settings["sounds"]:
-                        s2.play()
-            if mdir != [0,0]:
-                self._move_unit(ship_id,ai,mdir[0],mdir[1])
+                    if self._isfree(*alt1b): #if move left or right possible change x in first alt.
+                        mdir[0]=x
+                    else: mdir[0]=0
+                elif self._isfree(*alt2a): #else if horizontal move possible change x first
+                    mdir[0]=x
+                    if self._isfree(*alt2b): #and if second move possible change y second
+                        mdir[1]=y
+                    else: mdir[1]=0
+                else:
+                    if ai == False and s.audible:
+                        self.mainloop.sfx.play(11)
+                if mdir != [0,0]:
+                    self._move_unit(ship_id,ai,mdir[0],mdir[1])
 
     def moved(self):
         pass #print("board - moved")
@@ -945,8 +1073,8 @@ class Board:
             if ai == False:
                 self.moved()
                 if ship.audible:
-                    if self.mainloop.config.settings["sounds"]:
-                        s1.play()
+                    self.mainloop.sfx.play(10)
+
 
     def _place_unit(self, ship_id, pos):
         ship = self.ships[ship_id]

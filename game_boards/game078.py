@@ -435,9 +435,9 @@ class Board(gd.BoardGame):
         self.size = self.board.scale
         self.clock_fonts = []
         self.points = int(round((self.board.scale * 72 /96)*1.2,0))
-        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(42*self.size/500.0))))))
-        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
-        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSansBold', 'FreeSans.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
+        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(42*self.size/500.0))))))
+        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSansBold.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
+        self.clock_fonts.append(pygame.font.Font(os.path.join('res', 'fonts', 'FreeSans', 'FreeSans.ttf'), (int(self.points/(self.board.scale/(21*self.size/500.0))))))
 
         slots = []
         for j in range(0,data[1]):

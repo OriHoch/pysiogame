@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-28 23:50+0100\n"
+"PO-Revision-Date: 2014-11-24 19:30+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language: Polish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0: n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0: n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -174,7 +176,8 @@ msgid "Guest"
 msgstr "Gość"
 
 msgid "Hi Stranger :) Would you like to log in so we know who you are?"
-msgstr "Witaj Nieznajomy :) Czy zechcesz się zalogować byśmy wiedzieli kim jesteś?"
+msgstr ""
+"Witaj Nieznajomy :) Czy zechcesz się zalogować byśmy wiedzieli kim jesteś?"
 
 msgid "Log in:"
 msgstr "Logowanie:"
@@ -569,7 +572,9 @@ msgid "Check the shopping list and drag all needed items into the basket."
 msgstr "Sprawdź listę zakupów i przeciągnij potrzebne owoce do koszyka."
 
 msgid "Drag one of the <, > or = (lesser, greater or equal) to the red square."
-msgstr "Przeciągnij jeden z <, > lub = (mniejsze, większe lub równe) do czerwonego kwadratu w środku."
+msgstr ""
+"Przeciągnij jeden z <, > lub = (mniejsze, większe lub równe) do czerwonego "
+"kwadratu w środku."
 
 msgid "Drag one of the lesser, greater or equal to the red square."
 msgstr "Przeciągnij większy, mniejszy lub równy do czerwonego kwadratu."
@@ -580,10 +585,11 @@ msgstr "Ułóż powyższe liczby we właściwej kolejności"
 msgid "Complete the abc using the letters above."
 msgstr "Uzupełnij alfabet."
 
-msgid "Write a word:"
-msgstr "Ułóż słowo:"
+msgid "Build the following word using the letters below."
+msgstr "Ułóż słowo z liter poniżej."
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
 msgstr "Znajdź i oddziel liczby parzyste od nieparzystych."
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
@@ -832,17 +838,31 @@ msgstr "Stosunki"
 msgid "Match fraction charts on the right to the ones on the left"
 msgstr "Dopasuj graficzne reprezentacje ułamków po prawej do tych po lewej"
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
-msgstr "Dopasuj ułamki zwykłe i ich graficzne reprezentacje po prawej to tych po lewej"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
+msgstr ""
+"Dopasuj ułamki zwykłe i ich graficzne reprezentacje po prawej to tych po "
+"lewej"
 
 msgid "Match fraction charts to the fractions on the left"
-msgstr "Dopasuj graficzne reprezentacje ułamków po prawej do ułamków zwykłych po lewej"
+msgstr ""
+"Dopasuj graficzne reprezentacje ułamków po prawej do ułamków zwykłych po "
+"lewej"
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
-msgstr "Dopasuj graficzne reprezentacje ułamków, ułamki zwykłe i dziesiętne  do procentów po lewej"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
+msgstr ""
+"Dopasuj graficzne reprezentacje ułamków, ułamki zwykłe i dziesiętne  do "
+"procentów po lewej"
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "Dopasuj graficzne reprezentacje stosunku kolorowych części do białych do ich liczbowego zapisu po lewej"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
+msgstr ""
+"Dopasuj graficzne reprezentacje stosunku kolorowych części do białych do ich "
+"liczbowego zapisu po lewej"
 
 msgid "Maths Matching Game"
 msgstr "Matematyczna dopasowanka"
@@ -856,8 +876,12 @@ msgstr "Odejmowanie"
 msgid "Multiplication"
 msgstr "Mnożenie"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "Sprawdź najnowszą wersję, zgłaszaj błędy i pomysły, przetłumacz lub oceń ten projekt na:"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
+msgstr ""
+"Sprawdź najnowszą wersję, zgłaszaj błędy i pomysły, przetłumacz lub oceń ten "
+"projekt na:"
 
 msgid "Match numbers to their spelling"
 msgstr "Dopasuj liczby do ich słownego zapisu"
@@ -895,7 +919,8 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr "o długości ścian równej %d i %d"
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
 msgstr "o długości jednej z podstaw równej %d i wysokości równej %d"
 
 #, python-format
@@ -916,7 +941,8 @@ msgstr "o długości przeciwprostokątnej równej %d"
 
 #, python-format
 msgid "such that length of one of its sides is equal to %d and height to %d"
-msgstr "o długości jednej ze ścian równej %d i wysokości spadającej na nią równej %d"
+msgstr ""
+"o długości jednej ze ścian równej %d i wysokości spadającej na nią równej %d"
 
 #, python-format
 msgid "such that length of its radius is equal to %d"
@@ -1031,7 +1057,7 @@ msgid "Do it yourself"
 msgstr "Zrób to sam"
 
 msgid "Ratio"
-msgstr "Ratio"
+msgstr "Stosunek"
 
 msgid "Working with large numbers"
 msgstr "Działania na dużych liczbach"
@@ -1108,63 +1134,156 @@ msgstr "zapamiętaj mnie"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 
 msgid "Licence"
 msgstr "Licence"
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
-msgstr "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
 msgid "A little set of educational apps for kids"
-msgstr "A little set of educational apps for kids"
+msgstr "Zbiór programów edukacyjnych dla dzieci"
 
 msgid "Word Builder - Animals"
-msgstr "Nowe słówka - zwierzakowa układanka"
+msgstr "Słowna Układanka - Zwierzęta"
 
 msgid "Complete the word"
 msgstr "Uzupełnij słowo"
 
-
-
 msgid "Word Builder - Sports"
-msgstr ""
+msgstr "Słowna Układanka - Sport"
 
 msgid "Word Builder - Body"
-msgstr ""
+msgstr "Słowna Układanka - Ciało"
 
 msgid "Word Builder - People"
-msgstr ""
+msgstr "Słowna Układanka - Ludzie"
 
 msgid "Word Builder - Actions"
-msgstr ""
+msgstr "Słowna Układanka - Czynności"
 
 msgid "Word Builder - Constructions"
-msgstr ""
+msgstr "Słowna Układanka - Budynki"
 
 msgid "Word Builder - Nature"
-msgstr ""
+msgstr "Słowna Układanka - Natura"
 
 msgid "Word Builder - Jobs"
-msgstr ""
+msgstr "Słowna Układanka - Zawody"
 
 msgid "Word Builder - Clothes and Accessories"
-msgstr ""
+msgstr "Słowna Układanka - Odzież i Akcesoria"
 
 msgid "Word Builder - Fruits and Vegetables"
-msgstr ""
+msgstr "Słowna Układanka - Owoce i Ważywa"
 
 msgid "Word Builder - Transport"
-msgstr ""
+msgstr "Słowna Układanka - Środki Transportu"
 
 msgid "Word Builder - Food"
-msgstr ""
+msgstr "Słowna Układanka - Żywność"
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
 msgstr ""
+"Grafiki pobrane z: http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"Creative Commons License (CC BY-SA)"
+
+msgid "Decimals and Fractions"
+msgstr "Ułamki zwykłe i dziesiętne"
+
+msgid "Decimals, fractions and percentages"
+msgstr "Procenty, ułamki zwykłe i dziesiętne"
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr "Stosunki, procenty, ułamki zwykłe i dziesiętne"
+
+msgid "Shapes and Solids"
+msgstr "Kształty i figury"
+
+msgid "Translation Credits"
+msgstr "Translatorzy"
+
+msgid "Level"
+msgstr "Poziom"
+
+msgid "Find solution"
+msgstr "Znajdź rozwiązanie"
+
+msgid "Find missing number"
+msgstr "Znajdź brakującą liczbe"
+
+msgid "Achievements"
+msgstr "Osiągnięcia"
+
+msgid "Select age group:"
+msgstr "Wybierz grupę wiekową"
+
+msgid "show activities for:"
+msgstr "pokaż zadania dla: "
+
+msgid "preschool"
+msgstr "Przedszkole"
+
+msgid "Year 1"
+msgstr "Klasa 1"
+
+msgid "Year 2"
+msgstr "Klasa 2"
+
+msgid "Year 3"
+msgstr "Klasa 3"
+
+msgid "Year 4"
+msgstr "Klasa 4"
+
+msgid "Year 5"
+msgstr "Klasa 5"
+
+msgid "Year 6"
+msgstr "Klasa 6"
+
+msgid "show all"
+msgstr "Pokaż wszystkie"
+
+msgid "Do you want to exit the game?"
+msgstr "Chcesz wyjść z gry?"
+
+msgid "Do you want to  log out of the game?"
+msgstr "Chcesz się wylogować?"
+
+msgid "Ready to go to the next level?"
+msgstr "Gotów na następny poziom?"
+
+msgid "Language arts"
+msgstr "Język polski"
+
+msgid "Other"
+msgstr "Inne"
+
+msgid "Educational Activity Pack for Kids"
+msgstr "Zbiór edukacyjnych zadań"

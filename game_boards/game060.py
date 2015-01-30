@@ -11,7 +11,7 @@ import os
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,3,10)
+        self.level = lc.Level(self,mainloop,7,10)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,13,9)
 
     def create_game_objects(self, level = 1):
@@ -47,15 +47,20 @@ class Board(gd.BoardGame):
         elif self.mainloop.m.game_variant in [1,3]:
             self.level.lvl_count = 6
 
-
         if self.level.lvl > self.level.lvl_count:
             self.level.lvl = self.level.lvl_count
 
-        if self.mainloop.m.game_variant < 4 :
+        if self.mainloop.m.game_variant < 4:
             if self.level.lvl == lvl+1:
                 data = [6,4,3,4,2]
             elif self.level.lvl == lvl+2:
                 data = [7,4,3,5,2]
+            """
+            if self.mainloop.m.game_variant == 3:
+                if self.uage == 3 and self.level.lvl < 3:
+                    self.level.lvl = self.min_level = 3
+            """
+
 
         if self.level.lvl == lvl+3:
             data = [6,5,3,4,3]
@@ -308,6 +313,7 @@ class Board(gd.BoardGame):
         else:
             if self.completed_mode:
                 self.history = [None, None]
+                self.ai_enabled = False
                 self.level.next_board()
             else:
                 self.history[0].perm_outline_width = 1

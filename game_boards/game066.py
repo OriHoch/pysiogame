@@ -13,11 +13,11 @@ from math import pi,cos,acos,sin,asin,sqrt
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,1,2)
+        self.level = lc.Level(self,mainloop,1,1)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,19,10)
 
     def create_game_objects(self, level = 1):
-        self.vis_buttons = [0,1,1,1,1,0,1,0,0]
+        self.vis_buttons = [0,0,0,0,1,0,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
 
         self.hand_id = 0
@@ -57,10 +57,11 @@ class Board(gd.BoardGame):
         self.colors2 = [color3,color4]
         self.colors3 = [color5,color6]
         self.colors4 = [color7,color8]
-        if self.level.lvl == 1:
-            data = [19,10,True,True,False,False,False,False,False,True,True,15]
-        elif self.level.lvl == 2:
+
+        if self.mainloop.m.game_variant == 2:
             data = [19,10,True,True,False,False,False,False,True,True,True,15]
+        else:
+            data = [19,10,True,True,False,False,False,False,False,True,True,15]
         h_pool = range(1,13)
         m_pool = range(0,60)
 
@@ -147,7 +148,7 @@ class Board(gd.BoardGame):
 
     def update_text_time(self):
         tt = self.time
-        if self.mainloop.m.game_variant == 0:
+        if self.mainloop.m.game_variant in [0,2]:
             self.text_string = self.lang.time2str(tt[0],tt[1])
             if self.lang.lang in ["ru","he"]:
                 spk_txt = self.lang.time2spk(tt[0],tt[1])
@@ -155,7 +156,7 @@ class Board(gd.BoardGame):
                 self.text_time.speaker_val_update = False
         elif self.mainloop.m.game_variant == 1:
             self.text_string = self.lang.time2officialstr(tt[0],tt[1])
-            if self.lang.lang in ["ru","he"]:
+            if self.lang.lang == "ru":
                 spk_txt = self.lang.time2officialspk(tt[0],tt[1])
                 self.text_time.speaker_val = spk_txt
                 self.text_time.speaker_val_update = False
@@ -190,11 +191,11 @@ class Board(gd.BoardGame):
         time = self.time
 
         if self.show_outer_ring:
-            pygame.draw.circle(self.canvas,self.colors4[1],self.center,int(rs[1]+10),0)
-            pygame.draw.circle(self.canvas,self.colors2[1],self.center,int(rs[1]+10),1)
+            pygame.draw.circle(self.canvas,self.colors4[1],self.center,int(rs[1]+10*self.layout.scale/62),0)
+            pygame.draw.circle(self.canvas,self.colors2[1],self.center,int(rs[1]+10*self.layout.scale/62),1)
 
-        pygame.draw.circle(self.canvas,self.colors4[0],self.center,int(rs[2]+10),0)
-        pygame.draw.circle(self.canvas,self.colors2[0],self.center,int(rs[2]+10),1)
+        pygame.draw.circle(self.canvas,self.colors4[0],self.center,int(rs[2]+10*self.layout.scale/62),0)
+        pygame.draw.circle(self.canvas,self.colors2[0],self.center,int(rs[2]+10*self.layout.scale/62),1)
 
         if self.show_outer_ring:
             for i in range(60):
@@ -215,29 +216,29 @@ class Board(gd.BoardGame):
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors2[1])
                     else:
                         text = self.clock_canvas.font3.render("%s" % (val), 1, self.colors[1])
-                    x3=(rs[1]+30+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
-                    y3=(rs[1]+30+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
+                    x3=(rs[1]+30*self.layout.scale/62+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
+                    y3=(rs[1]+30*self.layout.scale/62+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
 
                     self.canvas.blit(text, (x3,y3))
                     if self.show_only_quarters_m or self.show_only_fives_m:
                         if (i+1)%15 == 0:
-                            marklen = 30
+                            marklen = 30*self.layout.scale/62
                         elif (i+1)%5 == 0:
-                            marklen = 25
+                            marklen = 25*self.layout.scale/62
                         else:
-                            marklen = 15
+                            marklen = 15*self.layout.scale/62
                     else:
-                        marklen = 25
+                        marklen = 25*self.layout.scale/62
                 else:
                     if (i+1)%15 == 0:
-                        marklen = 30
+                        marklen = 30*self.layout.scale/62
                     elif (i+1)%5 == 0:
-                        marklen = 25
+                        marklen = 25*self.layout.scale/62
                     else:
-                        marklen = 15
+                        marklen = 15*self.layout.scale/62
                 if self.show_outer_ring:
-                    x1=(rs[1]+10)*cos(a)+self.center[0]
-                    y1=(rs[1]+10)*sin(a)+self.center[1]
+                    x1=(rs[1]+10*self.layout.scale/62)*cos(a)+self.center[0]
+                    y1=(rs[1]+10*self.layout.scale/62)*sin(a)+self.center[1]
 
                     x2=(rs[1]+marklen)*cos(a)+self.center[0]
                     y2=(rs[1]+marklen)*sin(a)+self.center[1]
@@ -251,11 +252,11 @@ class Board(gd.BoardGame):
                     val = ""
 
             a = self.angle_start + self.angle_step_12*(i+1)
-            x1=(rs[2]+10)*cos(a)+self.center[0]
-            y1=(rs[2]+10)*sin(a)+self.center[1]
+            x1=(rs[2]+10*self.layout.scale/62)*cos(a)+self.center[0]
+            y1=(rs[2]+10*self.layout.scale/62)*sin(a)+self.center[1]
 
-            x2=(rs[2]+20)*cos(a)+self.center[0]
-            y2=(rs[2]+20)*sin(a)+self.center[1]
+            x2=(rs[2]+20*self.layout.scale/62)*cos(a)+self.center[0]
+            y2=(rs[2]+20*self.layout.scale/62)*sin(a)+self.center[1]
 
             pygame.draw.aaline(self.canvas, self.colors2[0], [x1,y1],[x2,y2])
 
@@ -270,12 +271,12 @@ class Board(gd.BoardGame):
                 text_angle = -(360/12.0) * (i+1)
                 text = pygame.transform.rotate(text, text_angle)
                 rect = text.get_rect()
-                x3=(rs[2]+20+font_size[1]//2)*cos(a)+self.center[0] - rect.width / 2
-                y3=(rs[2]+20+font_size[1]//2)*sin(a)+self.center[1] - rect.height / 2
+                x3=(rs[2]+20*self.layout.scale/62+font_size[1]//2)*cos(a)+self.center[0] - rect.width / 2
+                y3=(rs[2]+20*self.layout.scale/62+font_size[1]//2)*sin(a)+self.center[1] - rect.height / 2
 
             else:
-                x3=(rs[2]+20+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
-                y3=(rs[2]+20+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
+                x3=(rs[2]+20*self.layout.scale/62+font_size[1]//2)*cos(a)+self.center[0] - font_size[0] / 2
+                y3=(rs[2]+20*self.layout.scale/62+font_size[1]//2)*sin(a)+self.center[1] - font_size[1] / 2
             self.canvas.blit(text, (x3,y3))
 
             if self.show_24h:

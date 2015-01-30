@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2013-11-27 05:17+0100\n"
+"PO-Revision-Date: 2014-11-24 19:30+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language: Italian\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -541,16 +542,22 @@ msgid "With a Twist"
 msgstr "Con una torsione"
 
 msgid "Drag the slider up or down so that the right sign is in the red square."
-msgstr "Trascina il dispositivo di scorrimento verso l'alto o verso il basso in modo che il segno giusto si trovi nel quadrato rosso"
+msgstr ""
+"Trascina il dispositivo di scorrimento verso l'alto o verso il basso in modo "
+"che il segno giusto si trovi nel quadrato rosso"
 
 msgid "Take your sheep to the rest of the herd."
 msgstr "Unisci la tua pecora al resto del gregge"
 
 msgid "Check the shopping list and drag all needed items into the basket."
-msgstr "Controlla la lista della spesa e metti nel cesto tutti gli oggetti che servono."
+msgstr ""
+"Controlla la lista della spesa e metti nel cesto tutti gli oggetti che "
+"servono."
 
 msgid "Drag one of the <, > or = (lesser, greater or equal) to the red square."
-msgstr "Trascina uno tra <, > o = (minore, maggiore o uguale) dentro il riquadro rosso."
+msgstr ""
+"Trascina uno tra <, > o = (minore, maggiore o uguale) dentro il riquadro "
+"rosso."
 
 msgid "Drag one of the lesser, greater or equal to the red square."
 msgstr "Trascina uno dei minore, maggiore o uguale dentro il riquadro rosso."
@@ -564,8 +571,13 @@ msgstr "Completa l'alfabeto usando le lettere sovrastanti"
 msgid "Write a word:"
 msgstr "Scrivi una parola:"
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
-msgstr "Trova e separa i numeri pari da quelli dispari nelle serie sovrastanti."
+msgid "Build the following word using the letters below."
+msgstr "Forma la seguente parola usando le lettere qui sotto."
+
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
+msgstr ""
+"Trova e separa i numeri pari da quelli dispari nelle serie sovrastanti."
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
 msgstr "Riposiziona le lettere sovrastanti in ordine alfabetico."
@@ -811,19 +823,32 @@ msgid "Ratios"
 msgstr "Rapporti"
 
 msgid "Match fraction charts on the right to the ones on the left"
-msgstr "Confronta le carte delle frazioni sulla destra con quelle sulla sinistra"
+msgstr ""
+"Confronta le carte delle frazioni sulla destra con quelle sulla sinistra"
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
-msgstr "Confronta le carte e le frazioni sulla destra con le carte delle frazioni sulla sinistra"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
+msgstr ""
+"Confronta le carte e le frazioni sulla destra con le carte delle frazioni "
+"sulla sinistra"
 
 msgid "Match fraction charts to the fractions on the left"
 msgstr "Confronta le carte delle frazioni con le frazioni sulla sinistra"
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
-msgstr "Confronta le carte delle frazioni, le frazioni e le frazioni decimali sulla destra con le loro rappresentazioni in percentuale"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
+msgstr ""
+"Confronta le carte delle frazioni, le frazioni e le frazioni decimali sulla "
+"destra con le loro rappresentazioni in percentuale"
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "Confronta le carte con i rapporti sulla sinistra. I rapporti sono espressi come rapporto di pezzi colorati con pezzi bianchi"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
+msgstr ""
+"Confronta le carte con i rapporti sulla sinistra. I rapporti sono espressi "
+"come rapporto di pezzi colorati con pezzi bianchi"
 
 msgid "Maths Matching Game"
 msgstr "Gioco di confronto matematico"
@@ -837,8 +862,12 @@ msgstr "Sottrazione"
 msgid "Multiplication"
 msgstr "Moltiplicazione"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "Controlla la presenza di versioni più nuove, riferisci sui bug, discuti, traduci o revisiona questo progetto su:"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
+msgstr ""
+"Controlla la presenza di versioni più nuove, riferisci sui bug, discuti, "
+"traduci o revisiona questo progetto su:"
 
 msgid "Match numbers to their spelling"
 msgstr "Confronta i numeri con la loro pronuncia"
@@ -861,7 +890,8 @@ msgstr "Forma da disegnare: %s "
 
 #, python-format
 msgid "such that lengths of its bases are equal to %d and %d and height to %d"
-msgstr "così che le lunghezze delle loro basi siano uguali a %d e %d e l'altezza a %d"
+msgstr ""
+"così che le lunghezze delle loro basi siano uguali a %d e %d e l'altezza a %d"
 
 #, python-format
 msgid "such that lengths of its sides are equal to %d"
@@ -872,8 +902,11 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr "così che le lunghezze dei loro lati siano uguali a %d e %d"
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
-msgstr "così che le lunghezze delle loro 2 basi parallele siano uguali a %d e l'altezza a %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgstr ""
+"così che le lunghezze delle loro 2 basi parallele siano uguali a %d e "
+"l'altezza a %d"
 
 #, python-format
 msgid "such that length of its base is equal to %d and height to %d"
@@ -893,7 +926,8 @@ msgstr "così che la lunghezza della sua ipotenusa sia uguale a %d"
 
 #, python-format
 msgid "such that length of one of its sides is equal to %d and height to %d"
-msgstr "così che la lunghezza di uno dei suoi lati sia uguale a %d e l'altezza a %d"
+msgstr ""
+"così che la lunghezza di uno dei suoi lati sia uguale a %d e l'altezza a %d"
 
 #, python-format
 msgid "such that length of its radius is equal to %d"
@@ -1085,63 +1119,156 @@ msgstr "ricordati di me"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 
 msgid "Licence"
 msgstr "Licence"
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
-msgstr "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
 msgid "A little set of educational apps for kids"
-msgstr "A little set of educational apps for kids"
-
-
+msgstr "Una piccola raccolta di applicazioni educative per ragazzi"
 
 msgid "Word Builder - Animals"
-msgstr ""
+msgstr "Creatore di parole - Animali"
 
 msgid "Complete the word"
-msgstr ""
+msgstr "Completa la parola"
 
 msgid "Word Builder - Sports"
-msgstr ""
+msgstr "Creatore di parole - Sport"
 
 msgid "Word Builder - Body"
-msgstr ""
+msgstr "Creatore di parole - Corpo"
 
 msgid "Word Builder - People"
-msgstr ""
+msgstr "Creatore di parole - Gente"
 
 msgid "Word Builder - Actions"
-msgstr ""
+msgstr "Creatore di parole - Azioni"
 
 msgid "Word Builder - Constructions"
-msgstr ""
+msgstr "Creatore di parole - Costruzioni"
 
 msgid "Word Builder - Nature"
-msgstr ""
+msgstr "Creatore di parole - Natura"
 
 msgid "Word Builder - Jobs"
-msgstr ""
+msgstr "Creatore di parole - Lavori"
 
 msgid "Word Builder - Clothes and Accessories"
-msgstr ""
+msgstr "Creatore di parole - Vestiti e Accessori"
 
 msgid "Word Builder - Fruits and Vegetables"
-msgstr ""
+msgstr "Creatore di parole - Frutta e Verdura"
 
 msgid "Word Builder - Transport"
-msgstr ""
+msgstr "Creatore di parole - Trasporti"
 
 msgid "Word Builder - Food"
-msgstr ""
+msgstr "Creatore di parole - Cibo"
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
+msgstr ""
+"Immagini da: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
+
+msgid "Decimals and Fractions"
+msgstr "Decimali e Frazioni"
+
+msgid "Decimals, fractions and percentages"
+msgstr "Decimali, frazioni e percentuali"
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr "Decimali, frazioni, rapporti e percentuali"
+
+msgid "Shapes and Solids"
+msgstr "Forme e Solidi"
+
+msgid "Translation Credits"
+msgstr "Ringraziamenti per la traduzione"
+
+msgid "Level"
+msgstr "Livello"
+
+msgid "Find solution"
+msgstr "Trova una soluzione"
+
+msgid "Find missing number"
+msgstr "Trova il numero mancante"
+
+msgid "Achievements"
+msgstr "Risultati"
+
+msgid "Select age group:"
+msgstr "Scegliere il gruppo di età"
+
+msgid "show activities for:"
+msgstr "mostra le attività per:"
+
+msgid "preschool"
+msgstr "asilo infantile"
+
+msgid "Year 1"
+msgstr "Classe I^"
+
+msgid "Year 2"
+msgstr "Classe II^"
+
+msgid "Year 3"
+msgstr "Classe III^"
+
+msgid "Year 4"
+msgstr "Classe IV^"
+
+msgid "Year 5"
+msgstr "Classe V^"
+
+msgid "Year 6"
+msgstr "Classe VI^ (In Italy do not exists!)"
+
+msgid "show all"
+msgstr "mostra tutto"
+
+msgid "Do you want to exit the game?"
+msgstr "Vuoi chiudere il gioco?"
+
+msgid "Do you want to  log out of the game?"
+msgstr "Vuoi uscire dal gioco?"
+
+msgid "Ready to go to the next level?"
+msgstr "Sei pronto ad andare al prossimo livello?"
+
+msgid "Language arts"
+msgstr "Arti del linguaggio"
+
+msgid "Other"
+msgstr "Altro"
+
+msgid "Educational Activity Pack for Kids"
 msgstr ""

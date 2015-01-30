@@ -11,8 +11,11 @@
 
 import sys
 from classes.extras import reverse
+from classes.extras import unival
 
 d = dict()
+dp = dict() # messages with pronunciation exceptions - this dictionary will override entries in a copy of d
+
 
 #alphabet he
 alphabet_lc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת']
@@ -24,13 +27,14 @@ alphabet_uc = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ',
 letter_names = ["[[aalEf]]", "[[bEit]]", "[[gimEl]]", "[[daled]]", "[[he]]", "[[vav]]", "za'yin", "[[khet]]", "[[tet]]", "[[iud]]", "[[khaf]]", "[[lamed]]", "[[mem]]", "[[nun]]", "[[samekh]", "[[ain]]", "[[pe]]", "[[tsadik]", "[[kuf]]", "[[reish]]", "[[Cin]]", "[[taf]]"]
 
 #alpha = "אבגדהוזחטיךכלםמןנסעףפץצקרשתװױײ׳״"
+#alpha = "אבּבגדהוזחטיכּכךּךלמםנןסעפּפףצץקרשׁשׂתּתװױײ׳״"
 alpha = "אבּבגדהוזחטיכּכךּךלמםנןסעפּפףצץקרשׁשׂתּתװױײ׳״"
-
+alpha += ",.;:?-!"
 def r(s):
-    return reverse(s,alpha)
+    return reverse(s,alpha,"he")
 
 numbers = ['אחד', 'שתיים', 'שלוש', 'ארבע', 'חמש', 'שש', 'שבע', 'שמונה', 'תשע', 'עשר', 'אחד עשרה', 'שתים עשרה', 'שלוש-עשרה', 'ארבע-עשרה', 'חמש-עשרה', 'שש-עשרה', 'שבע-עשרה', 'שמונה-עשרה', 'תשע-עשרה', 'עשרים', 'עשרים ואחת', 'עשרים ושתים', 'עשרים ושלוש', 'עשרים וארבע', 'עשרים וחמש', 'עשרים ושש', 'עשרים ושבע', 'עשרים ושמונה', 'עשרים ותשע']
-numbers2090 = ['עשרים','שלושים','ארבעים','חמישים','שישים','שבעים','שמונים','תשעים']
+numbers2090 = ['עשרים', 'שלושים', 'ארבעים', 'חמישים', 'שישים', 'שבעים', 'שמונים', 'תשעים']
 
 
 #The following 2 lines are not to be translated but replaced with a sequence of words starting in each of the letters of your alphabet in order, best if these words have a corresponding picture in images/flashcard_images.jpg. The second line has the number of the image that the word describes.
@@ -38,6 +42,7 @@ numbers2090 = ['עשרים','שלושים','ארבעים','חמישים','שיש
 #d['abc_flashcards_word_sequence'] = ['אבטיח', 'בננה', 'גיטרה', 'Dolphin', 'Elephant', 'Fortepiano', 'Guitar', 'Hedgehog', 'Igloo', 'Jar', 'Koala', 'Lion', 'Monitor', 'Notebook', 'Ocean', 'Parrot', 'Queen', 'Rabbit', 'Street', 'Tomato', 'Umbrella', 'Violin', 'Watermelon', 'Xylophone', 'Yarn', 'Zebra']
 #d['abc_flashcards_word_sequence'] = [r("אבטיח"), r("בננה"), r("גיטרה"), r("דולפין"), r("היפופוטם"), r("ורד"), r("זברה"), r("חלזון"), r("טלפון"), r("ינשוף"), r("כינור"), r("לחם"), r("מסך"), r("נעליים"), r("סירה"), r("עין"), r("פרח"), r("צליל"), r("קוף"), r("רכבת"), r("שעון"), r("תפוח")]
 d['abc_flashcards_word_sequence'] = ["אבטיח", "בננה", "גיטרה", "דולפין", "היפופוטם", "ורד", "זברה", "חלזון", "טלפון", "ינשוף", "כינור", "לחם", "מסך", "נעליים", "סירה", "עין", "פרח", "צליל", "קוף", "רכבת", "שעון", "תפוח"]
+d['abc_flashcards_word_sequencer'] = [r("אבטיח"), r("בננה"), r("גיטרה"), r("דולפין"), r("היפופוטם"), r("ורד"), r("זברה"), r("חלזון"), r("טלפון"), r("ינשוף"), r("כינור"), r("לחם"), r("מסך"), r("נעליים"), r("סירה"), r("עין"), r("פרח"), r("צליל"), r("קוף"), r("רכבת"), r("שעון"), r("תפוח")]
 
 d['abc_flashcards_frame_sequence'] = [26, 71, 28, 59, 47, 78, 25, 61, 79, 14, 21, 35, 40, 60, 1, 75, 69, 83, 37, 63, 51, 42]
 
@@ -55,7 +60,7 @@ def n2txt(n, twoliner = False):
         m = n % 10
         tens = r(numbers2090[(n//10)-2])
         if m == 0:
-            return r(tens)
+            return tens
         elif m > 0:
             ones = r(numbers[m-1])
             if twoliner:
@@ -84,12 +89,9 @@ def n2spk(n, twoliner = False):
             return tens
         elif m > 0:
             ones = numbersp[m-1]
-            if twoliner:
-                return [tens, ones]
-            else:
-                return tens + " " + ones
+            return tens + " " + ones
 
-    elif n == 0: return "אחד"
+    elif n == 0: return "אפס"
     elif n == 100: return "מאה"
     else: return ""
 
@@ -100,7 +102,7 @@ def time2str(h, m):
         else: h += 1
     #if sys.version_info < (3, 0):
     if sys.version_info[0] < 3:
-        if m == 0: return unicode("%s" % n2txt(h), "utf-8")
+        if m == 0: return unival(n2txt(h))
         elif m == 1: return r(unicode(" דקה אחרי", "utf-8")) + n2txt(h)
         elif m == 15: return r(unicode(" רבע אחרי", "utf-8")) + n2txt(h)
         elif m == 30: return r(unicode("חצי אחרי ", "utf-8")) + n2txt(h)
@@ -110,7 +112,7 @@ def time2str(h, m):
         elif m > 30: return n2txt(60-m) + r(unicode(" ל ", "utf-8")) +n2txt(h)
         return ""
     else:
-        if m == 0: return "%s" % n2txt(h)
+        if m == 0: return n2txt(h)
         elif m == 1: return r(" דקה אחרי") + n2txt(h)
         elif m == 15: return r(" רבע אחרי") + n2txt(h)
         elif m == 30: return r("חצי אחרי ") + n2txt(h)
@@ -121,39 +123,25 @@ def time2str(h, m):
         return ""
 
 def time2spk(h, m):
-    'takes 2 variables: h - hour, m - minute, returns time as a string, ie. five to seven - for 6:55'
-    'but this time in Latin letters for espeak so it can to read it phonetically'
+    """takes 2 variables: h - hour, m - minute, returns time as a string, ie. five to seven - for 6:55
+    but this time in Latin letters for espeak so it can to read it phonetically"""
     if m > 30:
         if h == 12: h = 1
         else: h += 1
-    if sys.version_info < (3, 0):
-        if m == 0: return unicode("%s" % n2spk(h), "utf-8")
-        elif m == 1: return unicode(" [[daka akhrei]] ", "utf-8") + n2spk(h)
-        elif m == 15: return unicode(" [[reva akhrei]] ", "utf-8") + n2spk(h)
-        elif m == 30: return unicode(" [[khetsi akhrei]] ", "utf-8") + n2spk(h)
-        elif m == 45: return unicode(" [[reva akhrei]] ", "utf-8") + n2spk(h)
-        elif m == 59: return unicode(" [[daka le]] ", "utf-8") + n2spk(h)
-        elif m < 30: return n2spk(m) + unicode(" [[akhrei]] ", "utf-8") +n2spk(h)
-        elif m > 30: return n2spk(60-m) + unicode(" [[le]] ", "utf-8") +n2spk(h)
-        return ""
-    else:
-        if m == 0: return "%s" % n2spk(h)
-        elif m == 1: return " [[daka akhrei]]" + n2spk(h)
-        elif m == 15: return " [[reva akhrei]]" + n2spk(h)
-        elif m == 30: return " [[khetsi akhrei]] " + n2spk(h)
-        elif m == 45: return " [[reva akhrei]] " + n2spk(h)
-        elif m == 59: return " [[daka le]] " + n2spk(h)
-        elif m < 30: return n2spk(m) + " [[akhrei]] " +n2spk(h)
-        elif m > 30: return n2spk(60-m) + " [[le]] " +n2spk(h)
-        return ""
-
-#dictionary used to override the text that's being passed to tts engine
-dp = dict()
+    if m == 0: return n2spk(h)
+    elif m == 1: return n2spk(h) + " [[daka akhrei]]"
+    elif m == 15: return n2spk(h) + " [[reva akhrei]]"
+    elif m == 30: return n2spk(h) + " [[khetsi akhrei]] "
+    elif m == 45: return n2spk(h) + " [[reva akhrei]] "
+    elif m == 59: return n2spk(h) + " [[daka le]] "
+    elif m < 30: return n2spk(h) + " [[akhrei]] " + n2spk(m)
+    elif m > 30: return n2spk(h) + " [[le]] " + n2spk(60-m)
+    return ""
 
 dp["Hebrew"] = "Hebrew"
 dp['shape_names'] = ["Equilateral Triangle", "Isosceles Triangle", "Obtuse Triangle", "Right Triangle", "Acute Triangle", "Square", "Rectangle", "Right Trapezium", "Isosceles Trapezium", "Rhombus", "Parallelogram", "Pentagon", "Hexagon", "Circle", "Ellipse"]
 dp['solid_names'] = ["Cube", "Square Prism", "Triangular Prism", "Square Pyramid", "Triangular Pyramid", "Sphere", "Cylinder", "Cone", "Torus"]
-dp['abc_flashcards_word_sequence'] = [r("[[avatiakh]]"), r("[[banana]]"), r("[[gitara]]"), r("[[dolfin]]"), r("[[hipopotam]]"), r("[[vered]]"), r("[[zebra]]"), r("[[khilazon]]"), r("[[telefon]]"), r("[[ianshuf]]"), r("[[kinor]]"), r("[[lekhem]]"), r("[[masakh]]"), r("[[na alaim]]"), r("[[sira]]"), r("[[ain]]"), r("[[perakh]]"), r("[[tslil]]"), r("[[kof]]"), r("[[rakevet]]"), r("[[Caon]]"), r("[[tapuakh]]")]
+dp['abc_flashcards_word_sequence'] = ["[[avatiakh]]", "[[banana]]", "[[gitara]]", "[[dolfin]]", "[[hipopotam]]", "[[vered]]", "[[zebra]]", "[[khilazon]]", "[[telefon]]", "[[ianshuf]]", "[[kinor]]", "[[lekhem]]", "[[masakh]]", "[[na alaim]]", "[[sira]]", "[[ain]]", "[[perakh]]", "[[tslil]]", "[[kof]]", "[[rakevet]]", "[[Caon]]", "[[tapuakh]]"]
 
 #game start
 dp["Hello"] = "[[Calom]]"
@@ -166,10 +154,10 @@ dp["Drag lt2"] = "Drag one of the lesser, greater or equal to the red square."
 dp["Re-arrange right"] = "Re-arrange the above numbers so they are in the right order"
 dp["Complete abc"] = "Complete the abc using the letters above."
 dp["Write a word:"] = "Write a word:"
-dp["Find and separate"] = "Find and separate the Even Numbers form the Odd Numbers in the above series."
+dp["Find and separate"] = "Find and separate the Even Numbers from the Odd Numbers in the above series."
 dp["Re-arrange alphabetical"] = "Re-arrange the above letters so they are in the alphabetical order."
 dp["Re-arrange ascending"] = "Re-arrange the above numbers so they are in the ascending order."
-
+dp["Build the following word using the letters below."] = "Build the following word using the letters below."
 dp["Perfect! Task solved!"] = "Perfect! Task solved!"
 dp["work harder"] = "You need to work a little bit harder next time."
 
@@ -238,3 +226,16 @@ dp["Fract instr1"] = "Match fraction charts and fractions on the right to the fr
 dp["Fract instr2"] = "Match fraction charts to the fractions on the left"
 dp["Fract instr3"] = "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
 dp["Fract instr4"] = "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
+
+d["a4a_animals"] = ["cow", "turkey", "shrimp", "wolf", "panther", "panda", "magpie", "clam", "pony", "mouse", "pug", "koala", "frog", "ladybug", "gorilla", "llama", "vulture", "hamster", "bird", "starfish", "crow", "parakeet", "caterpillar", "tiger", "hummingbird", "piranha", "pig", "scorpion", "fox", "leopard", "iguana", "dolphin", "bat", "chick", "crab", "hen", "wasp", "chameleon", "whale", "hedgehog", "fawn", "moose", "bee", "viper", "shrike", "donkey", "guinea pig", "sloth", "horse", "penguin", "otter", "bear", "zebra", "ostrich", "camel", "antelope", "lemur", "pigeon", "lama", "mole", "ray", "ram", "skunk", "jellyfish", "sheep", "shark", "kitten", "deer", "snail", "flamingo", "rabbit", "oyster", "beaver", "sparrow", "dove", "eagle", "beetle", "hippopotamus", "owl", "cobra", "salamander", "goose", "kangaroo", "dragonfly", "toad", "pelican", "squid", "lion cub", "jaguar", "duck", "lizard", "rhinoceros", "hyena", "ox", "peacock", "parrot", "elk", "alligator", "ant", "goat", "baby rabbit", "lion", "squirrel", "opossum", "chimp", "doe", "gopher", "elephant", "giraffe", "spider", "puppy", "jay", "seal", "rooster", "turtle", "bull", "cat", "lamb", "rat", "slug", "buffalo", "blackbird", "swan", "lobster", "dog", "mosquito", "snake", "chicken", "anteater"]
+d["a4a_sport"] = ["judo", "pool", "ride", "stretch", "helmet", "ice skating", "walk", "ran", "run", "swim", "hop", "hike", "boxing", "hockey", "race", "throw", "skate", "win", "squat", "ski", "golf", "whistle", "torch", "sailing", "stand", "tennis", "jump", "rowing", "jog", "rope"]
+d["a4a_body"] = ["teeth", "cheek", "ankle", "knee", "toe", "muscle", "mouth", "feet", "hand", "elbow", "hair", "eyelash", "beard", "belly button", "thumb", "breast", "nostril", "nose", "hip", "arm", "eyebrow", "fist", "neck", "wrist", "throat", "eye", "leg", "spine", "ear", "finger", "foot", "braid", "face", "back", "chin", "bottom", "thigh", "belly"]
+d["a4a_people"] = ["girl", "male", "son", "mates", "friends", "baby", "child", "dad", "mom", "twin boys", "brothers", "man", "mother", "grandfather", "family", "female", "wife", "husband", "bride", "madam", "grandmother", "couple", "lad", "twin girls", "tribe", "boy", "sisters", "woman", "lady"]
+d["a4a_food"] = ["candy", "sausage", "hamburger", "steak", "fudge", "doughnut", "coconut", "rice", "ice cream", "jelly", "yoghurt", "dessert", "pretzel", "peanut", "jam", "feast", "cookie", "bacon", "spice", "coffee", "pie", "lemonade", "chocolate", "water bottle", "lunch", "ice", "sugar", "sauce", "soup", "juice", "fries", "cake", "mashed potatoes", "tea", "bun", "cheese", "beef", "sandwich", "slice", "sprinkle", "pizza", "flour", "gum", "spaghetti", "roast", "drink", "stew", "spread", "meat", "milk", "meal", "corn", "bread", "walnut", "egg", "hot dog", "ham"]
+d["a4a_clothes_n_accessories"] = ["jewellery", "sock", "jacket", "heel", "smock", "shorts", "pocket", "necklace", "sweatshirt", "uniform", "raincoat", "trousers", "sunglasses", "coat", "pullover", "shirt", "sandals", "suit", "pyjamas", "skirt", "zip", "shoes", "jewel", "tie", "slippers", "gloves", "hat", "sleeve", "cap", "swimming suit", "trainer", "vest", "glasses", "shoelace", "patch", "scarf", "shoe", "button", "dress", "sash", "shoe sole", "robe", "pants", "kimono", "overalls"]
+d["a4a_actions"] = ["lick", "slam", "beg", "fell", "scratch", "touch", "sniff", "see", "climb", "dig", "howl", "sleep", "explore", "draw", "hug", "teach", "nap", "clay", "catch", "clap", "cry", "sing", "meet", "sell", "peck", "beat", "kneel", "find", "dance", "cough", "cut", "think", "bark", "speak", "cheer", "bake", "write", "punch", "strum", "study", "plow", "dream", "post", "dive", "whisper", "sob", "shake", "feed", "crawl", "camp", "spill", "clean", "scream", "tear", "float", "pull", "ate", "kiss", "sit", "hatch", "blink", "hear", "smooch", "play", "wash", "chat", "drive", "drink", "fly", "juggle", "bit", "sweep", "look", "knit", "lift", "fetch", "read", "croak", "stare", "eat"]
+d["a4a_construction"] = ["lighthouse", "door", "circus", "church", "kennel", "temple", "smoke", "chimney", "brick", "well", "street", "castle", "store", "staircase", "school", "farm", "bridge", "dam", "pyramid", "barn", "mill", "window", "cabin", "step", "shop", "shed", "roof", "steeple", "garage", "mosque", "hospital", "tent", "house", "wall", "bank", "shutter", "hut"]
+d["a4a_nature"] = ["land", "cliff", "hill", "canyon", "rock", "sea", "lake", "coast", "shore", "mountain", "pond", "peak", "lava", "cave", "dune", "island", "forest", "desert", "iceberg"]
+d["a4a_jobs"] = ["clown", "engineer", "priest", "vet", "judge", "chef", "athlete", "librarian", "juggler", "police", "plumber", "badge", "queen", "farmer", "magic", "knight", "doctor", "bricklayer", "cleaner", "teacher", "hunter", "soldier", "musician", "lawyer", "fisherman", "princess", "fireman", "nun", "chief", "pirate", "cowboy", "electrician", "nurse", "king", "president", "office", "carpenter", "jockey", "worker", "mechanic", "pilot", "actor", "cook", "student", "butcher", "accountant", "prince", "pope", "sailor", "boxer", "ballet", "coach", "astronaut", "painter", "anaesthesiologist", "scientist"]
+d["a4a_fruit_n_veg"] = ["carrot", "blackberries", "celery", "turnip", "cacao", "peach", "melon", "grapefruit", "broccoli", "grapes", "spinach", "fig", "kernel", "radish", "tomato", "kiwi", "asparagus", "olives", "cucumbers", "beans", "strawberry", "peppers", "raspberry", "apricot", "potatoes", "peas", "cabbage", "cherries", "squash", "blueberries", "pear", "orange", "pumpkin", "avocado", "garlic", "onion", "apple", "lime", "cauliflower", "mango", "lettuce", "lemon", "aubergine", "artichokes", "plums", "leek", "bananas", "papaya"]
+d["a4a_transport"] = ["sail", "taxi", "car", "bike", "raft", "pedal", "bus", "handlebar", "boat", "truck", "sleigh", "carpet", "motorcycle", "train", "ship", "van", "canoe", "rocket", "mast", "sledge", "bicycle"]

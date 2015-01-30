@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.31.105\n"
 "Report-Msgid-Bugs-To: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "POT-Creation-Date: 2013-11-01 15:33+0000\n"
-"PO-Revision-Date: 2014-01-24 21:19+0100\n"
+"PO-Revision-Date: 2014-11-24 19:31+0100\n"
 "Last-Translator: Ireneusz Imiolek <imiolek.i@googlemail.com>\n"
 "Language-Team: Ireneusz Imiolek <imiolek.i@gmail.com>\n"
 "Language: English GB\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "green apple"
 msgid_plural "green apples"
@@ -541,7 +542,8 @@ msgid "With a Twist"
 msgstr "With a Twist"
 
 msgid "Drag the slider up or down so that the right sign is in the red square."
-msgstr "Drag the slider up or down so that the right sign is in the red square."
+msgstr ""
+"Drag the slider up or down so that the right sign is in the red square."
 
 msgid "Take your sheep to the rest of the herd."
 msgstr "Take your sheep to the rest of the herd."
@@ -550,7 +552,8 @@ msgid "Check the shopping list and drag all needed items into the basket."
 msgstr "Check the shopping list and drag all needed items into the basket."
 
 msgid "Drag one of the <, > or = (lesser, greater or equal) to the red square."
-msgstr "Drag one of the <, > or = (lesser, greater or equal) to the red square."
+msgstr ""
+"Drag one of the <, > or = (lesser, greater or equal) to the red square."
 
 msgid "Drag one of the lesser, greater or equal to the red square."
 msgstr "Drag one of the lesser, greater or equal to the red square."
@@ -561,11 +564,13 @@ msgstr "Re-arrange the above numbers so they are in the right order"
 msgid "Complete the abc using the letters above."
 msgstr "Complete the abc using the letters above."
 
-msgid "Write a word:"
-msgstr "Write a word:"
+msgid "Build the following word using the letters below."
+msgstr "Build the following word using the letters below."
 
-msgid "Find and separate the Even Numbers form the Odd Numbers in the above series."
-msgstr "Find and separate the Even Numbers form the Odd Numbers in the above series."
+msgid ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
+msgstr ""
+"Find and separate the Even Numbers from the Odd Numbers in the above series."
 
 msgid "Re-arrange the above letters so they are in the alphabetical order."
 msgstr "Re-arrange the above letters so they are in the alphabetical order."
@@ -718,7 +723,7 @@ msgid "English Alphabet"
 msgstr "English Alphabet"
 
 msgid "Your Alphabet"
-msgstr "English Alphabet 2"
+msgstr "English Alphabet "
 
 msgid "Mixing Colours for Painting"
 msgstr "Mixing Colours for Painting"
@@ -813,17 +818,29 @@ msgstr "Ratios"
 msgid "Match fraction charts on the right to the ones on the left"
 msgstr "Match fraction charts on the right to the ones on the left"
 
-msgid "Match fraction charts and fractions on the right to the fraction charts on the left"
-msgstr "Match fraction charts and fractions on the right to the fraction charts on the left"
+msgid ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
+msgstr ""
+"Match fraction charts and fractions on the right to the fraction charts on "
+"the left"
 
 msgid "Match fraction charts to the fractions on the left"
 msgstr "Match fraction charts to the fractions on the left"
 
-msgid "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
-msgstr "Match fraction charts, fractions and decimal fractions on the right to their percentage representations"
+msgid ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
+msgstr ""
+"Match fraction charts, fractions and decimal fractions on the right to their "
+"percentage representations"
 
-msgid "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
-msgstr "Match charts to the ratios on the left. Ratios are expressed as ratio of coloured pieces to white pieces"
+msgid ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
+msgstr ""
+"Match charts to the ratios on the left. Ratios are expressed as ratio of "
+"coloured pieces to white pieces"
 
 msgid "Maths Matching Game"
 msgstr "Maths Matching Game"
@@ -837,8 +854,12 @@ msgstr "Subtraction"
 msgid "Multiplication"
 msgstr "Multiplication"
 
-msgid "Check for newer version, report bugs, discuss, translate or review this project at:"
-msgstr "Check for newer version, report bugs, discuss, translate or review this project at:"
+msgid ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
+msgstr ""
+"Check for newer version, report bugs, discuss, translate or review this "
+"project at:"
 
 msgid "Match numbers to their spelling"
 msgstr "Match numbers to their spelling"
@@ -872,8 +893,10 @@ msgid "such that lengths of its sides are equal to %d and %d"
 msgstr "such that lengths of its sides are equal to %d and %d"
 
 #, python-format
-msgid "such that lengths of its 2 parallel bases are equal to %d and height to %d"
-msgstr "such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgid ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
+msgstr ""
+"such that lengths of its 2 parallel bases are equal to %d and height to %d"
 
 #, python-format
 msgid "such that length of its base is equal to %d and height to %d"
@@ -1085,19 +1108,35 @@ msgstr "remember me"
 msgid ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 msgstr ""
 "Laby, 2010 by Mehdi Cherti (mehdidc) \n"
 " Sounds by various authors who contributed their works to freesound.org. \n"
-" Images by various authors who contributed their works to openclipart.org (Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - under a Creative Commons License (CC BY-SA). \n"
-" Please view credits.txt for more info about authors of media files used in this project"
+" Images by various authors who contributed their works to openclipart.org "
+"(Public Domain) and http://www.art4apps.org/ - Art4Apps by Smart4Kids - "
+"under a Creative Commons License (CC BY-SA). \n"
+" Please view credits.txt for more info about authors of media files used in "
+"this project"
 
 msgid "Licence"
 msgstr "Licence"
 
-msgid "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
-msgstr "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version. You should have received a copy of the GNU General Public "
+"License along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
 msgid "A little set of educational apps for kids"
 msgstr "A little set of educational apps for kids"
@@ -1141,6 +1180,82 @@ msgstr "Word Builder - Food"
 msgid "Complete the word"
 msgstr "Complete the word"
 
-msgid "Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative Commons License (CC BY-SA)"
+msgid ""
+"Images from: http://www.art4apps.org/ - Art4Apps by Smart4Kids - Creative "
+"Commons License (CC BY-SA)"
 msgstr ""
 
+msgid "Decimals and Fractions"
+msgstr "Decimals and Fractions"
+
+msgid "Decimals, fractions and percentages"
+msgstr "Decimals, fractions and percentages"
+
+msgid "Decimals, fractions, ratios and percentages"
+msgstr "Decimals, fractions, ratios and percentages"
+
+msgid "Shapes and Solids"
+msgstr "Shapes and Solids"
+
+msgid "Translation Credits"
+msgstr "Translation Credits"
+
+msgid "Level"
+msgstr "Level"
+
+msgid "Find solution"
+msgstr "Find solution"
+
+msgid "Find missing number"
+msgstr "Find missing number"
+
+msgid "Achievements"
+msgstr "Achievements"
+
+msgid "Select age group:"
+msgstr "Select age group:"
+
+msgid "show activities for:"
+msgstr "show activities for:"
+
+msgid "preschool"
+msgstr "Preschool"
+
+msgid "Year 1"
+msgstr "Year 1"
+
+msgid "Year 2"
+msgstr "Year 2"
+
+msgid "Year 3"
+msgstr "Year 3"
+
+msgid "Year 4"
+msgstr "Year 4"
+
+msgid "Year 5"
+msgstr "Year 5"
+
+msgid "Year 6"
+msgstr "Year 6"
+
+msgid "show all"
+msgstr "Show all"
+
+msgid "Do you want to exit the game?"
+msgstr ""
+
+msgid "Do you want to  log out of the game?"
+msgstr ""
+
+msgid "Ready to go to the next level?"
+msgstr ""
+
+msgid "Language arts"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Educational Activity Pack for Kids"
+msgstr "Educational Activity Pack for Kids"

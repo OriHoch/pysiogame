@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import pickle
 import os, sys
+import classes.extras as ex
 from classes.cversion import ver
 
 class Config():
     'holds some basic configuration data - screen size among others'
     def __init__(self):
+
+        self.font_multiplier = 1
+        self.font_line_height_adjustment = 1
+        self.font_start_at_adjustment = 0
+        self.font_variant = 0
         self.version = ver
         self.settings_changed = False
         self.fs_width = 1024
@@ -31,6 +36,8 @@ class Config():
         #self.read_inst = False #no longer used
         self.google_trans_languages = False
 
+        self.user_age_group = 0 # default group - showing all games - TO DO: will be overridden by data stored in database
+
         #Window title
         self.window_caption = "pySioGame - v " + self.version
 
@@ -46,6 +53,9 @@ class Config():
         """
         p = sys.platform
         if p == "linux" or p == "linux2":
+            self.window_pos = (3,30)
+            #self.window_pos = (10,30)
+            self.platform = "linux"
             try:
                 xdg_data_home = os.environ.get('XDG_DATA_HOME')
             except:
@@ -56,11 +66,13 @@ class Config():
                 directory = os.path.join(home,'.local','share', 'pysiogame')
             else:
                 directory = os.path.join(xdg_data_home, 'pysiogame')
-            self.file_db = os.path.join(directory, 'pysiogame.db')
+            self.file_db = os.path.join(directory, 'pysiogame3.db')
 
         else: #if p == "darwin" or p == "win32" or p == "cygwin":
+            self.window_pos = (3,30)
+            self.platform = "windows"
             directory = os.path.dirname(os.path.abspath(os.path.expanduser("~/.config/pysiogame/")))
-            self.file_db = os.path.join(directory, 'pysiogame.db')
+            self.file_db = os.path.join(directory, 'pysiogame3.db')
 
         try:
             if not os.path.exists(directory):
@@ -80,11 +92,60 @@ class Config():
         #[0 language, 1 talkative, 2 untranslated languages, 3 full screen, 4 user_name, 5 screen_w, 6 screen_h]
 
         self.settings = dict()
+        try:
+            import pyfribidi
+            self.fribidi_loaded = True
+            self.frididi = pyfribidi
+            s = ex.unival('العربية')
+            self.arabic = self.frididi.log2vis(s)
+        except:
+            self.fribidi_loaded = False
+            self.frididi = None
+            self.arabic = "Arabic"
 
-        #language settings
-        self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "תירבע", "Italiano", "Polski", "Português", "Русский", "Suomalainen","Deutsch","Français", "Test Language"]
-        self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","he","it", "pl" ,"pt_PT","ru","fi","de","fr","te_ST"]
-        self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","he","it", "pl" ,"pt_PT", "ru","fi"]
+        self.set_font_family()
+
+        if self.fribidi_loaded:
+            self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "תירבע", "Italiano", "Polski", "Português", "Русский", "Suomalainen","Українська",self.arabic,"Dansk","Deutsch","Français","Nederlands", "Slovenčina", "Test Language"]
+            self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","he","it", "pl" ,"pt_PT","ru","fi","uk","ar","da","de","fr","nl","sk","te_ST"]
+            self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","he","it", "pl" ,"pt_PT", "ru", "fi","uk"]
+        else:
+            self.lang_titles = ["English", "American English", "Català", "Español", "Ελληνικά", "תירבע", "Italiano", "Polski", "Português", "Русский", "Suomalainen","Українська","Dansk","Deutsch","Français","Nederlands", "Slovenčina", "Test Language"]
+            self.all_lng = ["en_GB", "en_US", "ca", "es_ES", "el","he","it", "pl" ,"pt_PT","ru","fi","uk","da","de","fr","nl","sk","te_ST"]
+            self.ok_lng = ["en_GB", "en_US", "ca", "es_ES", "el","he","it", "pl" ,"pt_PT", "ru", "fi","uk"]
+
+        self.id2lng = {1:"English", 5:"Català", 8:"Español", 16:"Ελληνικά", 17:"תירבע", 11:"Italiano", 3:"Polski", 9:"Português", 13:"Русский", 15:"Suomalainen",14:"Українська",2:self.arabic,6:"Dansk",12:"Deutsch",10:"Français",7:"Nederlands", 4:"Slovenčina"}
+        self.id2imgsuffix = {1:"", 5:"", 8:"", 16:"el", 17:"he", 11:"", 3:"", 9:"", 13:"ru", 15:"",14:"ru",2:"ar",6:"",12:"",10:"",7:"", 4:""}
+
+    def set_font_family(self, variant = 0):
+        self.font_variant = variant
+        if variant == 0:
+            self.font_dir = 'LinLibertine'
+            self.font_name_1 = 'LinBiolinum_RB_merged_with_Kacst.ttf'
+            self.font_name_2 = 'LinBiolinum_R_merged_with_Kacst.ttf'
+            self.font_multiplier = 1
+            self.font_line_height_adjustment = 1.5
+            self.font_start_at_adjustment = 5
+
+        elif variant == 1:
+            self.font_dir = 'FreeSans'
+            self.font_name_1 = 'FreeSansBold.ttf'
+            self.font_name_2 = 'FreeSans.ttf'
+            self.arabic = "Arabic"
+            self.font_multiplier = 1
+            self.font_line_height_adjustment = 1
+            self.font_start_at_adjustment = 0
+
+        """
+        self.font_dir = 'LinLibertine'
+        self.font_name_1 = 'LinBiolinum_RBah.ttf'
+        self.font_name_2 = 'LinBiolinum_Rah.ttf'
+        """
+
+    def set_start_at(self, scale):
+        if self.font_variant == 0:
+            self.font_start_at_adjustment = int(scale * 5 /100)
+
 
     def reset_settings(self):
         pass
@@ -93,7 +154,7 @@ class Config():
         'loads saved settings from pickled file - language and screen size dimensions and mode'
         #load user settings
         u = db.load_user_settings(userid)
-
+        self.user_age_group = db.get_age_group(userid=userid)
         #load admin settings
         a = db.get_login_defs()
         #lang, sounds, espeak, screenw, screenh
@@ -104,8 +165,13 @@ class Config():
         self.settings["lang"] = u[0]
         self.settings["sounds"] = u[1]
         self.settings["espeak"] = u[2]
+
         self.settings["screenw"] = u[3]
         self.settings["screenh"] = u[4]
+
+        #self.settings["screenw"] = 1264
+        #self.settings["screenh"] = 672
+
         self.settings["scheme"] = u[5]
         self.loaded_settings = True
 

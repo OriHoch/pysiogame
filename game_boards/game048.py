@@ -3,141 +3,175 @@
 import classes.level_controller as lc
 import classes.game_driver as gd
 import classes.extras as ex
-
 import classes.board
+
+import math
+import pygame
 import random
+import os
 
 class Board(gd.BoardGame):
-    def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,5,10)
-        gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,6)
-        
+    def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
+        self.level = lc.Level(self,mainloop,1,1)
+        gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
+
+
     def create_game_objects(self, level = 1):
-        self.vis_buttons = [1,1,1,1,1,1,1,1,0]
-        self.mainloop.info.hide_buttonsa(self.vis_buttons)
-        s = random.randrange(150, 190, 5)
-        v = random.randrange(230, 255, 5)
-        h = random.randrange(0, 255, 5)
-        color0 = ex.hsv_to_rgb(h,40,230) #highlight 1
-        color1 = ex.hsv_to_rgb(h,70,v) #highlight 2
-        color2 = ex.hsv_to_rgb(h,s,v) #normal color
-        color3 = ex.hsv_to_rgb(h,230,100)
-        font_color = ex.hsv_to_rgb(h,255,140)
+        #create non-movable objects
+        self.board.draw_grid = False
+        s = random.randrange(30, 80)
+        v = random.randrange(200, 255)
+        h = random.randrange(0, 225)
+        self.letter_color = ex.hsv_to_rgb(h,s,v)
+        font_color = ex.hsv_to_rgb(h,s,75)
+        font_colors = ((200,0,0), (20,20,20))
+        outline_color =  ex.hsv_to_rgb(h,s+50,v-50)
 
-        #data = [x_count, y_count, letter_count, top_limit, ordered]
-        if self.level.lvl == 1:
-            data = [11,6,3,True,1]
-        elif self.level.lvl == 2:
-            data = [11,6,3,False,1]
-        elif self.level.lvl == 3:
-            data = [11,6,5,True,1]
-        elif self.level.lvl == 4:
-            data = [11,6,5,False,1]
-        elif self.level.lvl == 5:
-            data = [11,6,7,True,1]
-        elif self.level.lvl == 6:
-            data = [11,6,7,False,1]
-        elif self.level.lvl == 7:
-            data = [11,6,9,True,1]
-        elif self.level.lvl == 8:
-            data = [11,6,9,False,1]
-        elif self.level.lvl == 9:
-            data = [11,6,11,True,1]
-        elif self.level.lvl == 10:
-            data = [11,6,11,False,1]
-            
-        self.chapters = [1,3,5,7,9,10]
-        self.points = (data[2]+2) // 3 + self.level.lvl // 4
-        
-        self.data = data
-        self.layout.update_layout(data[0],data[1])
-        self.board.level_start(data[0],data[1],self.layout.scale)
-        self.alphabet = self.lang.alphabet_uc
-        self.alph_len = len(self.alphabet)
-        
-        self.num_list = []
-        self.indexes = []
-        self.choice_indexes = [x for x in range(self.alph_len)]
-        
-        if data[3] == True:
-            choice_list = [x for x in range(self.alph_len-data[2])]
-            index = random.randrange(0,len(choice_list))
-            n = 0
-            for i in range(data[2]):
-                self.num_list.append(choice_list[index]+n)
-                self.indexes.append(index+n)
-                n += 1
+        if self.mainloop.scheme is not None:
+            card_color = self.mainloop.scheme.u_color#(0,0,0)#(255,255,255)#ex.hsv_to_rgb(h+10,s-25,v)
+            if self.mainloop.scheme.dark:
+                font_colors = ((200,0,0), (255,255,255))
         else:
-            choice_list = [x for x in range(self.alph_len)]
-            for i in range(data[2]):
-                index = random.randrange(0,len(choice_list))
-                self.num_list.append(choice_list[index])
-                self.indexes.append(choice_list[index])
-                del(choice_list[index])
-                
-        self.indexes.sort()
-        shuffled = self.num_list[:]
-        random.shuffle(shuffled)
+            card_color = (255,230,255)
 
 
-        color = ((255,255,255))
-        
-        #create table to store 'binary' solution 
-        self.solution_grid = [0 for x in range(data[0])]
+        if self.mainloop.m.game_variant == 0:
+            phonics_seq = ["/a/", "/ae/", "/air/", "/ar/", "/e/", "/ee/", "/eer/", "/er/", "/i/", "/ie/", "/o/", "/oa/", "/oi/", "/oo/ (short)", "/oo/ (long)", "/ou/", "/or/", "/u/", "/ue/", "/uh/", "/ur/"]
+            phonics_words = [["<1>sh<2>ip","<1>sh<2>oe","<2>je<3>lly<4>fi<1>sh","<1>sh<2>rimp","<1>sh<2>ark","<1>sh<2>ore"],["chimp","church"],["foot","boot","food"]]
+            phonics_imgs = [[("transport","ship.jpg"),("clothes_n_accessories","shoe.jpg"),("animals","jellyfish.jpg"),("animals","shrimp.jpg"),("animals","shark.jpg"),("nature","shore.jpg")],[("clothes_n_accessories","shoe.jpg"),("clothes_n_accessories","shoe.jpg")],[("clothes_n_accessories","shoe.jpg"),("clothes_n_accessories","shoe.jpg"),("clothes_n_accessories","shoe.jpg")]]
+        elif self.mainloop.m.game_variant == 1:
+            phonics_seq = ["/b/", "/c/, /k/", "/ch/", "/d/", "/f/", "/g/", "/h/", "/j/", "/ks/", "/l/", "/m/", "/n/", "/ng/", "/p/", "/r/", "/s/", "/sh/", "/t/", "/th/", "/th/", "/v/", "/w/", "/y/", "/z/", "/gz/", "/zh/"]
+            phonics_words = [["<1>sh<2>ip","<1>sh<2>oe","<2>je<3>lly<4>fi<1>sh","<1>sh<2>rimp","<1>sh<2>ark","<1>sh<2>ore"],["chimp","church"],["foot","boot","food"]]
+            phonics_imgs = [[("transport","ship.jpg"),("clothes_n_accessories","shoe.jpg"),("animals","jellyfish.jpg"),("animals","shrimp.jpg"),("animals","shark.jpg"),("nature","shore.jpg")],[("clothes_n_accessories","shoe.jpg"),("clothes_n_accessories","shoe.jpg")],[("clothes_n_accessories","shoe.jpg"),("clothes_n_accessories","shoe.jpg"),("clothes_n_accessories","shoe.jpg")]]
 
-        #find position of first door square
-        x = (data[0]-data[2])//2
 
-        #add objects to the board
-        for i in range(data[2]):
-            self.board.add_door(x+i,0,1,1,classes.board.Door,"",color,"")
-            self.board.units[i].door_outline = True
-            h = random.randrange(0, 255, 5)
-            y = random.randrange(1,5)
-            number_color = ex.hsv_to_rgb(h,s,v) #highlight 1
-            caption = self.alphabet[shuffled[i]]
-            self.board.add_unit(x+i,y,1,1,classes.board.Letter,caption,number_color,"",data[4])
-            self.solution_grid[x+i]=1
+        self.abc_len = len(phonics_seq)
+        if self.abc_len < 14:
+            h = 13
+            dv = 1
+        elif self.abc_len < 27:
+            h = 13
+            dv = 2
+        elif self.abc_len < 39:
+            h = 13
+            dv = 3
+        else:
+            h = int(math.ceil(self.abc_len/3.0))
+            dv = 3
 
+        data = [16,h]
+        #stretch width to fit the screen size
+        x_count = self.get_x_count(data[1],even=True)
+        if x_count < 16:
+            data[0] = 16
+        else:
+            data[0] = x_count
+
+        self.data = data
+
+        self.vis_buttons = [0,0,0,0,1,0,1,0,0]
+        self.mainloop.info.hide_buttonsa(self.vis_buttons)
+
+        self.layout.update_layout(data[0],data[1])
+        scale = self.layout.scale
+        self.board.level_start(data[0],data[1],scale)
+        #self.prev_item = None
+        #self.base26 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        self.font_size = 17
+
+        if self.lang.lang == "el":
+            self.font_size = 16
+        if self.lang.ltr_text:
+            x = 0
+        else:
+            x = data[0] - 3
+        y = 0
+
+        for i in range(self.abc_len):
+            caption = phonics_seq[i]
+            self.board.add_unit(x,y,3,1,classes.board.Letter,caption,self.letter_color,"",2)
+            self.board.ships[i].readable = False
+            self.board.ships[i].set_outline(outline_color,1)
+            y += 1
+            if y >= data[1]:
+                if i > 3*data[1]-3:
+                    if self.lang.ltr_text:
+                        x = 4
+                    else:
+                        x = data[0] - 6
+                    y = 0
+                else:
+                    if self.lang.ltr_text:
+                        x = 3
+                    else:
+                        x = data[0] - 4
+                    y = 0
+        if self.lang.ltr_text:
+            x=(data[0]-4+3+3)//2
+        else:
+            x=(data[0]-10)//2
+
+        y = 1
+        ln = len(phonics_words[0])
+
+        max_w = data[0] - (dv*3+3+1)
+        l = dv*3+1
+        if max_w > 7:
+            w = 7
+            #l = l + (max_w - w) // 2
+        else:
+            w = max_w
+        self.board.add_unit(l,0,data[0]-l-1,1,classes.board.Label,"/sh/",card_color,"",0)
+        for i in range(6):
+            if i < ln:
+                word = phonics_words[0][i]
+                img_src = os.path.join('art4apps',phonics_imgs[0][i][0],phonics_imgs[0][i][1])
+            #self.board.add_unit(l,y+i*2,2,2,classes.board.Label,img_src,card_color,"",2)
+            self.board.add_unit(l+2,y+i*2,w,2,classes.board.MultiColorLetters,word,card_color,"",0)
+            self.board.ships[-1].align = 1
+            self.board.ships[-1].set_font_colors(font_colors[0],font_colors[1])
+            self.board.add_unit(l,y+i*2,2,2,classes.board.ImgShip,self.board.ships[-1].value,card_color,img_src)
+
+
+        for each in self.board.ships:
+            each.immobilize()
+            each.font_color = font_color
         for each in self.board.units:
-            self.board.all_sprites_list.move_to_front(each) 
-        instruction = self.d["Re-arrange alphabetical"]
-        self.board.add_unit(0,5,11,1,classes.board.Letter,instruction,color0,"",7)
-        self.board.ships[-1].immobilize()
-        self.board.ships[-1].font_color = font_color
-        self.board.ships[-1].speaker_val = self.dp["Re-arrange alphabetical"]
-        self.board.ships[-1].speaker_val_update = False
-        self.outline_all(0,1)
+            each.font_color = font_color
 
+        self.active_item = self.board.ships[0]
+        self.active_item.color = (255,255,255)
+        self.prev_item = self.active_item
 
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.abc_len > self.board.active_ship > -1:
+                self.active_i = self.board.ships[self.board.active_ship]
+                if self.active_i.unit_id < self.abc_len:
+                    self.active_item = self.active_i
+                    if self.prev_item is not None:
+                        self.prev_item.color = self.letter_color
+                        self.prev_item.update_me = True
+                    self.active_item.color = (255,255,255)
+                    self.create_card(self.active_item)
+                    self.active_item.update_me = True
+                    self.prev_item = self.active_item
+                    self.mainloop.redraw_needed[0] = True
+            else:
+                if self.prev_item is not None:
+                    self.prev_item.color = (255,255,255)
+
+    def create_card(self, active):
+        #val = ex.unival(active.value)
+        #self.board.units[0].update_me = True
+        #self.board.active_ship = -1
+        self.mainloop.redraw_needed[0] = True
+
 
     def update(self,game):
         game.fill((255,255,255))
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
-        if self.board.grid[0] == self.solution_grid:
-            ships = []
- 
-            #collect value and x position on the grid from ships list
-            for i in range(self.data[2]):
-                ships.append([self.board.ships[i].grid_x,self.board.ships[i].value])
-            ships_sorted = sorted(ships)
-            correct = True
-            for i in range(self.data[2]):
-                if i < self.data[2]-1:
-                    if ships_sorted[i][1] != self.alphabet[self.indexes[i]]:
-                        correct = False
-
-            if correct == True:
-                self.update_score(self.points)
-                self.level.next_board()
-            else:
-                if self.points > 0:
-                    self.points -= 1
-                self.level.try_again()
-        else:
-            self.level.try_again()
-                    
+        pass

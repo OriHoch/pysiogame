@@ -66,6 +66,9 @@ class Language():
         self.ltr_math = True
         self.has_uc = True
         self.has_cursive = True
+        font_variant = 0
+        self.ico_suffix = ""
+        self.lang_id = 0 # used to identify the language in database - do not reorganize numbers when adding new language
         if self.lang == 'en_US':
             import i18n.custom.en_us
             import i18n.custom.word_lists.en_us_di
@@ -77,6 +80,7 @@ class Language():
             self.lang_file = i18n.custom.en_us
             self.kbrd = i18n.custom.kbrd.en_us
             self.kbrd_course_mod = i18n.custom.kbrd.en_course
+            self.lang_id = 1
         elif self.lang == 'pl':
             import i18n.custom.pl
             import i18n.custom.word_lists.pl_di
@@ -88,42 +92,71 @@ class Language():
             self.lang_file = i18n.custom.pl
             self.kbrd = i18n.custom.kbrd.pl
             self.kbrd_course_mod = i18n.custom.kbrd.pl_course
+            self.lang_id = 3
+        elif self.lang == 'sk':
+            import i18n.custom.sk
+            import i18n.custom.word_lists.sk_di
+            #self.voice = ["-s 160","-a 100","-p 80","-vpl+m1"] #"-g 5",
+            self.voice = ["-vsk+m1"]
+            self.di = i18n.custom.word_lists.sk_di.di
+            self.lang_file = i18n.custom.sk
+            self.lang_id = 4
         elif self.lang == 'ca':
             import i18n.custom.ca
             import i18n.custom.word_lists.ca_di
             self.voice = ["-vca+m1"]
             self.di = i18n.custom.word_lists.ca_di.di
             self.lang_file = i18n.custom.ca
+            self.lang_id = 5
+        elif self.lang == 'da':
+            import i18n.custom.da
+            import i18n.custom.word_lists.da_di
+            self.voice = ["-vda+m1"]
+            self.di = i18n.custom.word_lists.da_di.di
+            self.lang_file = i18n.custom.da
+            self.lang_id = 6
+        elif self.lang == 'nl':
+            import i18n.custom.nl
+            import i18n.custom.word_lists.nl_di
+            self.voice = ["-vnl+m1"]
+            self.di = i18n.custom.word_lists.nl_di.di
+            self.lang_file = i18n.custom.nl
+            self.lang_id = 7
         elif self.lang == 'es_ES':
             import i18n.custom.es
             import i18n.custom.word_lists.es_di
             self.voice = ["-ves+m1"]
             self.di = i18n.custom.word_lists.es_di.di
             self.lang_file = i18n.custom.es
+            self.lang_id = 8
         elif self.lang == 'pt_PT':
             import i18n.custom.pt
             import i18n.custom.word_lists.pt_di
             self.voice = ["-vpt-pt+m1"]
             self.di = i18n.custom.word_lists.pt_di.di
             self.lang_file = i18n.custom.pt
+            self.lang_id = 9
         elif self.lang == 'fr':
             import i18n.custom.fr
             import i18n.custom.word_lists.fr_di
             self.voice = ["-vfr+m1"]
             self.di = i18n.custom.word_lists.fr_di.di
             self.lang_file = i18n.custom.fr
+            self.lang_id = 10
         elif self.lang == 'it':
             import i18n.custom.it
             import i18n.custom.word_lists.it_di
             self.voice = ["-vit+m1"]
             self.di = i18n.custom.word_lists.it_di.di
             self.lang_file = i18n.custom.it
+            self.lang_id = 11
         elif self.lang == 'de':
             import i18n.custom.de
             import i18n.custom.word_lists.de_di
             self.voice = ["-vde+m1"]
             self.di = i18n.custom.word_lists.de_di.di
             self.lang_file = i18n.custom.de
+            self.lang_id = 12
         elif self.lang == 'ru':
             import i18n.custom.ru
             import i18n.custom.word_lists.ru_di
@@ -139,12 +172,27 @@ class Language():
             self.time2spk = self.lang_file.time2spk
             self.time2officialstr = self.lang_file.time2officialstr
             self.time2officialspk = self.lang_file.time2officialspk
+            self.ico_suffix = "ru"
+            self.lang_id = 13
+        elif self.lang == 'uk':
+            import i18n.custom.uk
+            import i18n.custom.word_lists.uk_di
+            import i18n.custom.kbrd.uk
+            import i18n.custom.kbrd.uk_course
+            self.voice = None
+            self.di = i18n.custom.word_lists.uk_di.di
+            self.lang_file = i18n.custom.uk
+            self.kbrd = i18n.custom.kbrd.uk
+            self.kbrd_course_mod = i18n.custom.kbrd.uk_course
+            self.ico_suffix = "ru"
+            self.lang_id = 14
         elif self.lang == 'fi':
             import i18n.custom.fi
             import i18n.custom.word_lists.fi_di
             self.voice = ["-vfi+m1"]
             self.di = i18n.custom.word_lists.fi_di.di
             self.lang_file = i18n.custom.fi
+            self.lang_id = 15
         elif self.lang == 'el': #Greek
             import i18n.custom.el
             import i18n.custom.word_lists.el_di
@@ -155,6 +203,8 @@ class Language():
             self.lang_file = i18n.custom.el
             self.kbrd = i18n.custom.kbrd.el
             self.kbrd_course_mod = i18n.custom.kbrd.el_course
+            self.ico_suffix = "el"
+            self.lang_id = 16
         elif self.lang == 'he': #Hebrew
             import i18n.custom.he
             import i18n.custom.word_lists.he_di
@@ -167,12 +217,30 @@ class Language():
             self.has_cursive = False
             self.alpha = i18n.custom.he.alpha
             self.n2spk = self.lang_file.n2spk
+            #font_variant = 1
+            self.ico_suffix = "he"
+            self.lang_id = 17
+        elif self.lang == 'ar': #Arabic
+            import i18n.custom.ar
+            import i18n.custom.word_lists.ar_di
+            self.voice = None
+            self.di = i18n.custom.word_lists.ar_di.di
+            self.lang_file = i18n.custom.ar
+            self.ltr_text = False
+            self.has_uc = False
+            self.has_cursive = False
+            self.alpha = i18n.custom.ar.alpha
+            self.n2spk = self.lang_file.n2spk
+            self.ico_suffix = "ar"
+            self.lang_id = 2
+
         elif self.lang == 'te_ST':
             import i18n.custom.te_st
             import i18n.custom.word_lists.te_st_di
             self.voice = ["-ven+m1"]
             self.di = i18n.custom.word_lists.te_st_di.di
             self.lang_file = i18n.custom.te_st
+            self.lang_id = 1
         else:# self.lang == 'en_GB':
             import i18n.custom.en_gb
             import i18n.custom.word_lists.en_gb_di
@@ -183,8 +251,18 @@ class Language():
             self.lang_file = i18n.custom.en_gb
             self.kbrd = i18n.custom.kbrd.en_gb
             self.kbrd_course_mod = i18n.custom.kbrd.en_course
+            self.lang_id = 1
 
-        if self.lang not in ["en_gb","en_us","pl","ru","el"]:
+        if self.lang in ["ar","he"]:
+            self.config.font_multiplier = 1.1
+            self.config.font_line_height_adjustment = 1.5
+            self.config.font_start_at_adjustment = 5
+        else:
+            self.config.font_multiplier = 1
+            self.config.font_line_height_adjustment = 1
+            self.config.font_start_at_adjustment = 0
+
+        if self.lang not in ["en_gb","en_us","pl","ru","el","uk"]:
             import i18n.custom.kbrd.en_gb
             import i18n.custom.kbrd.en_course
             self.kbrd = i18n.custom.kbrd.en_gb
@@ -205,6 +283,7 @@ class Language():
         self.solid_names = self.oi18n.solid_names
         self.shape_names = self.oi18n.shape_names
         self.letter_names = self.lang_file.letter_names
+        self.config.set_font_family(font_variant)
         if not self.ltr_text:
             for each_d in [self.d, self.b]:
                 for key in each_d.keys():
@@ -212,29 +291,32 @@ class Language():
                         for index in range(len(each_d[key])):
                             if sys.version_info < (3, 0):
                                 if isinstance(each_d[key][index], basestring):
-                                    each_d[key][index] = reverse(each_d[key][index], self.alpha)
+                                    each_d[key][index] = reverse(each_d[key][index], self.alpha, self.lang)
                             else:
                                 if isinstance(each_d[key][index], str):
-                                    each_d[key][index] = reverse(each_d[key][index], self.alpha)
+                                    each_d[key][index] = reverse(each_d[key][index], self.alpha, self.lang)
                     else:
-                        each_d[key] = reverse(each_d[key], self.alpha)
+                        each_d[key] = reverse(each_d[key], self.alpha, self.lang)
             for each in [self.solid_names, self.shape_names]:
                 for index in range(len(each)):
                     if sys.version_info < (3, 0):
                         if isinstance(each[index], basestring):
-                            each[index] = reverse(each[index], self.alpha)
+                            each[index] = reverse(each[index], self.alpha, self.lang)
                     else:
                         if isinstance(each[index], str):
-                            each[index] = reverse(each[index], self.alpha)
+                            each[index] = reverse(each[index], self.alpha, self.lang)
 
 
         self.dp.update(self.d)
-        if self.lang == 'ru' or self.lang == 'he':
-            self.dp.update(self.lang_file.dp)
-            #self.dp["Great job!"] = self.lang_file.dp["Great job!"][:]
+        #if self.lang == 'ru' or self.lang == 'he':
+        self.dp.update(self.lang_file.dp)
+        if self.lang == "he":
+            s = unival(self.d['abc_flashcards_word_sequence'][0])
+            if len(s) > 0:
+                if s[0] == unival("א"):
+                    self.d['abc_flashcards_word_sequence'] = self.d['abc_flashcards_word_sequencer']
 
         self.alphabet_lc = self.lang_file.alphabet_lc
         self.alphabet_uc = self.lang_file.alphabet_uc
         self.accents_lc = self.lang_file.accents_lc
         self.accents_uc = self.lang_file.accents_uc
-

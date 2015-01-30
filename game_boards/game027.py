@@ -80,7 +80,7 @@ class Board(gd.BoardGame):
         for each in self.singular_items:
             caption = self.lang._n(each, 1)
             if not self.lang.ltr_text:
-                caption = ex.reverse(self.lang._n(each, 1), self.lang.alpha)
+                caption = ex.reverse(self.lang._n(each, 1), self.lang.alpha,self.lang.lang)
                 #caption = self.lang._n(each, 1)
             if caption is None:
                 caption = ""
@@ -118,7 +118,7 @@ class Board(gd.BoardGame):
             ind = self.chosen_items[0][i]
             caption = self.lang._n(self.singular_items[ind], self.chosen_items[1][i])
             if not self.lang.ltr_text:
-                caption = ex.reverse(caption, self.lang.alpha)
+                caption = ex.reverse(caption, self.lang.alpha,self.lang.lang)
             if caption is None:
                 caption = ""
             self.board.add_unit(l[0],i+1,1,1,classes.board.Label,str(self.chosen_items[1][i]) +" ",white,"",data[4])

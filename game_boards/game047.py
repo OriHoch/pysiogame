@@ -45,18 +45,21 @@ class Board(gd.BoardGame):
             data = [11,6,11,False,1]
 
         self.chapters = [1,3,5,7,9,10]
-
         self.points = (data[2]+2) // 3 + self.level.lvl // 4
 
         self.data = data
         self.layout.update_layout(data[0],data[1])
         self.board.level_start(data[0],data[1],self.layout.scale)
-        if self.lang.ltr_text:
-            self.alphabet = self.lang.alphabet_lc
-        else:
-            ts = "".join(self.lang.alphabet_lc)
-            ts = ex.unival(ts)
-            self.alphabet = ts[::-1]
+        if self.mainloop.m.game_variant == 0:
+            if self.lang.ltr_text:
+                self.alphabet = self.lang.alphabet_lc
+            else:
+                ts = "".join(self.lang.alphabet_lc)
+                ts = ex.unival(ts)
+                self.alphabet = ts[::-1]
+        elif self.mainloop.m.game_variant == 1:
+            self.alphabet = self.lang.alphabet_uc
+            
         self.alph_len = len(self.alphabet)
 
         self.num_list = []

@@ -23,7 +23,16 @@ class Board(gd.BoardGame):
         white = (255,255,255)
         font_color = (100,12,100)
         footer_font = (100,100,100)
-        data = [10,13]
+        data = [19,13]
+
+        if self.lang.lang == "pl":
+            data = [26,13]
+        elif self.lang.lang == "ru":
+            data = [23,13]
+        elif self.lang.lang == "uk":
+            data = [21,13]
+
+
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=True)
         if x_count > data[0]:
@@ -42,59 +51,57 @@ class Board(gd.BoardGame):
         img_size = 4
         img_left = (base_len - img_size)//2 + 1
         img_top = 2
-        if self.mainloop.m.game_variant == 0:
+        gv = self.mainloop.m.game_variant
+        if gv == 0:
             category = "animals"
-            self.words = ['cow', 'turkey', 'shrimp', 'wolf', 'panther', 'panda', 'magpie', 'clam', 'pony', 'mouse', 'pug', 'koala', 'frog', 'ladybug', 'gorilla', 'llama', 'vulture', 'hamster', 'bird', 'starfish', 'crow', 'parakeet', 'caterpillar', 'tiger', 'hummingbird', 'piranha', 'pig', 'scorpion', 'fox', 'leopard', 'iguana', 'dolphin', 'bat', 'chick', 'crab', 'hen', 'wasp', 'chameleon', 'whale', 'hedgehog', 'fawn', 'moose', 'bee', 'viper', 'shrike', 'donkey', 'guinea_pig', 'sloth', 'horse', 'penguin', 'otter', 'bear', 'zebra', 'ostrich', 'camel', 'antelope', 'lemur', 'pigeon', 'lama', 'mole', 'ray', 'ram', 'skunk', 'jellyfish', 'sheep', 'shark', 'kitten', 'deer', 'snail', 'flamingo', 'rabbit', 'oyster', 'beaver', 'sparrow', 'dove', 'eagle', 'beetle', 'hippopotamus', 'owl', 'cobra', 'salamander', 'goose', 'kangaroo', 'dragonfly', 'toad', 'pelican', 'squid', 'lion_cub', 'jaguar', 'duck', 'lizard', 'rhinoceros', 'hyena', 'ox', 'peacock', 'parrot', 'elk', 'alligator', 'ant', 'goat', 'baby_rabbit', 'lion', 'squirrel', 'opossum', 'chimp', 'doe', 'gopher', 'elephant', 'giraffe', 'spider', 'puppy', 'jay', 'seal', 'rooster', 'turtle', 'bull', 'cat', 'lamb', 'rat', 'slug', 'buffalo', 'blackbird', 'swan', 'lobster', 'dog', 'mosquito', 'snake', 'chicken', 'anteater']
-        elif self.mainloop.m.game_variant == 1:
+            self.imgs = ['cow', 'turkey', 'shrimp', 'wolf', 'panther', 'panda', 'magpie', 'clam', 'pony', 'mouse', 'pug', 'koala', 'frog', 'ladybug', 'gorilla', 'llama', 'vulture', 'hamster', 'bird', 'starfish', 'crow', 'parakeet', 'caterpillar', 'tiger', 'hummingbird', 'piranha', 'pig', 'scorpion', 'fox', 'leopard', 'iguana', 'dolphin', 'bat', 'chick', 'crab', 'hen', 'wasp', 'chameleon', 'whale', 'hedgehog', 'fawn', 'moose', 'bee', 'viper', 'shrike', 'donkey', 'guinea_pig', 'sloth', 'horse', 'penguin', 'otter', 'bear', 'zebra', 'ostrich', 'camel', 'antelope', 'lemur', 'pigeon', 'lama', 'mole', 'ray', 'ram', 'skunk', 'jellyfish', 'sheep', 'shark', 'kitten', 'deer', 'snail', 'flamingo', 'rabbit', 'oyster', 'beaver', 'sparrow', 'dove', 'eagle', 'beetle', 'hippopotamus', 'owl', 'cobra', 'salamander', 'goose', 'kangaroo', 'dragonfly', 'toad', 'pelican', 'squid', 'lion_cub', 'jaguar', 'duck', 'lizard', 'rhinoceros', 'hyena', 'ox', 'peacock', 'parrot', 'elk', 'alligator', 'ant', 'goat', 'baby_rabbit', 'lion', 'squirrel', 'opossum', 'chimp', 'doe', 'gopher', 'elephant', 'giraffe', 'spider', 'puppy', 'jay', 'seal', 'rooster', 'turtle', 'bull', 'cat', 'lamb', 'rat', 'slug', 'buffalo', 'blackbird', 'swan', 'lobster', 'dog', 'mosquito', 'snake', 'chicken', 'anteater']
+        elif gv == 1:
             category = "sport"
-            self.words = ['judo', 'pool', 'ride', 'stretch', 'helmet', 'ice_skating', 'walk', 'ran', 'run', 'swim', 'hop', 'hike', 'boxing', 'hockey', 'race', 'throw', 'skate', 'win', 'squat', 'ski', 'golf', 'whistle', 'torch', 'sailing', 'stand', 'tennis', 'jump', 'rowing', 'jog', 'rope']
-        elif self.mainloop.m.game_variant == 2:
+            self.imgs = ['judo', 'pool', 'ride', 'stretch', 'helmet', 'ice_skating', 'walk', 'ran', 'run', 'swim', 'hop', 'hike', 'boxing', 'hockey', 'race', 'throw', 'skate', 'win', 'squat', 'ski', 'golf', 'whistle', 'torch', 'sailing', 'stand', 'tennis', 'jump', 'rowing', 'jog', 'rope']
+        elif gv == 2:
             category = "body"
-            self.words = ['teeth', 'cheek', 'ankle', 'knee', 'toe', 'muscle', 'mouth', 'feet', 'hand', 'elbow', 'hair', 'eyelash', 'beard', 'belly_button', 'thumb', 'breast', 'nostril', 'nose', 'hip', 'arm', 'eyebrow', 'fist', 'neck', 'wrist', 'throat', 'eye', 'leg', 'spine', 'ear', 'finger', 'foot', 'braid', 'face', 'back', 'chin', 'bottom', 'thigh', 'belly']
-        elif self.mainloop.m.game_variant == 3:
+            self.imgs = ['teeth', 'cheek', 'ankle', 'knee', 'toe', 'muscle', 'mouth', 'feet', 'hand', 'elbow', 'hair', 'eyelash', 'beard', 'belly_button', 'thumb', 'breast', 'nostril', 'nose', 'hip', 'arm', 'eyebrow', 'fist', 'neck', 'wrist', 'throat', 'eye', 'leg', 'spine', 'ear', 'finger', 'foot', 'braid', 'face', 'back', 'chin', 'bottom', 'thigh', 'belly']
+        elif gv == 3:
             category = "people"
-            self.words = ['girl', 'male', 'son', 'mates', 'friends', 'baby', 'child', 'dad', 'mom', 'twin_boys', 'brothers', 'man', 'mother', 'grandfather', 'family', 'female', 'wife', 'husband', 'bride', 'madam', 'grandmother', 'couple', 'lad', 'twin_girls', 'tribe', 'boy', 'sisters', 'woman', 'lady']
-
-        elif self.mainloop.m.game_variant == 4:
+            self.imgs = ['girl', 'male', 'son', 'mates', 'friends', 'baby', 'child', 'dad', 'mom', 'twin_boys', 'brothers', 'man', 'mother', 'grandfather', 'family', 'female', 'wife', 'husband', 'bride', 'madam', 'grandmother', 'couple', 'lad', 'twin_girls', 'tribe', 'boy', 'sisters', 'woman', 'lady']
+        elif gv == 4:
             category = "actions"
-            self.words = ['lick', 'slam', 'beg', 'fell', 'scratch', 'touch', 'sniff', 'see', 'climb', 'dig', 'howl', 'sleep', 'explore', 'draw', 'hug', 'teach', 'nap', 'clay', 'catch', 'clap', 'cry', 'sing', 'meet', 'sell', 'peck', 'beat', 'kneel', 'find', 'dance', 'cough', 'cut', 'think', 'bark', 'speak', 'cheer', 'bake', 'write', 'punch', 'strum', 'study', 'plow', 'dream', 'post', 'dive', 'whisper', 'sob', 'shake', 'feed', 'crawl', 'camp', 'spill', 'clean', 'scream', 'tear', 'float', 'pull', 'ate', 'kiss', 'sit', 'hatch', 'blink', 'hear', 'smooch', 'play', 'wash', 'chat', 'drive', 'drink', 'fly', 'juggle', 'bit', 'sweep', 'look', 'knit', 'lift', 'fetch', 'read', 'croak', 'stare', 'eat']
-
-        elif self.mainloop.m.game_variant == 5:
+            self.imgs = ['lick', 'slam', 'beg', 'fell', 'scratch', 'touch', 'sniff', 'see', 'climb', 'dig', 'howl', 'sleep', 'explore', 'draw', 'hug', 'teach', 'nap', 'clay', 'catch', 'clap', 'cry', 'sing', 'meet', 'sell', 'peck', 'beat', 'kneel', 'find', 'dance', 'cough', 'cut', 'think', 'bark', 'speak', 'cheer', 'bake', 'write', 'punch', 'strum', 'study', 'plow', 'dream', 'post', 'dive', 'whisper', 'sob', 'shake', 'feed', 'crawl', 'camp', 'spill', 'clean', 'scream', 'tear', 'float', 'pull', 'ate', 'kiss', 'sit', 'hatch', 'blink', 'hear', 'smooch', 'play', 'wash', 'chat', 'drive', 'drink', 'fly', 'juggle', 'bit', 'sweep', 'look', 'knit', 'lift', 'fetch', 'read', 'croak', 'stare', 'eat']
+        elif gv == 5:
             category = "construction"
-            self.words = ['lighthouse', 'door', 'circus', 'church', 'kennel', 'temple', 'smoke', 'chimney', 'brick', 'well', 'street', 'castle', 'store', 'staircase', 'school', 'farm', 'bridge', 'dam', 'pyramid', 'barn', 'mill', 'window', 'cabin', 'step', 'shop', 'shed', 'roof', 'steeple', 'garage', 'mosque', 'hospital', 'tent', 'house', 'wall', 'bank', 'shutter', 'hut']
-
-        elif self.mainloop.m.game_variant == 6:
+            self.imgs = ['lighthouse', 'door', 'circus', 'church', 'kennel', 'temple', 'smoke', 'chimney', 'brick', 'well', 'street', 'castle', 'store', 'staircase', 'school', 'farm', 'bridge', 'dam', 'pyramid', 'barn', 'mill', 'window', 'cabin', 'step', 'shop', 'shed', 'roof', 'steeple', 'garage', 'mosque', 'hospital', 'tent', 'house', 'wall', 'bank', 'shutter', 'hut']
+        elif gv == 6:
             category = "nature"
-            self.words = ['land', 'cliff', 'hill', 'canyon', 'rock', 'sea', 'lake', 'coast', 'shore', 'mountain', 'pond', 'peak', 'lava', 'cave', 'dune', 'island', 'forest', 'desert', 'iceberg']
-
-        elif self.mainloop.m.game_variant == 7:
+            self.imgs = ['land', 'cliff', 'hill', 'canyon', 'rock', 'sea', 'lake', 'coast', 'shore', 'mountain', 'pond', 'peak', 'lava', 'cave', 'dune', 'island', 'forest', 'desert', 'iceberg']
+        elif gv == 7:
             category = "jobs"
-            self.words = ['clown', 'engineer', 'priest', 'vet', 'judge', 'chef', 'athlete', 'librarian', 'juggler', 'police', 'plumber', 'badge', 'queen', 'farmer', 'magic', 'knight', 'doctor', 'bricklayer', 'cleaner', 'teacher', 'hunter', 'soldier', 'musician', 'lawyer', 'fisherman', 'princess', 'fireman', 'nun', 'chief', 'pirate', 'cowboy', 'electrician', 'nurse', 'king', 'president', 'office', 'carpenter', 'jockey', 'worker', 'mechanic', 'pilot', 'actor', 'cook', 'student', 'butcher', 'accountant', 'prince', 'pope', 'sailor', 'boxer', 'ballet', 'coach', 'astronaut', 'painter', 'anesthesiologist', 'scientist']
-
-        elif self.mainloop.m.game_variant == 8:
+            self.imgs = ['clown', 'engineer', 'priest', 'vet', 'judge', 'chef', 'athlete', 'librarian', 'juggler', 'police', 'plumber', 'badge', 'queen', 'farmer', 'magic', 'knight', 'doctor', 'bricklayer', 'cleaner', 'teacher', 'hunter', 'soldier', 'musician', 'lawyer', 'fisherman', 'princess', 'fireman', 'nun', 'chief', 'pirate', 'cowboy', 'electrician', 'nurse', 'king', 'president', 'office', 'carpenter', 'jockey', 'worker', 'mechanic', 'pilot', 'actor', 'cook', 'student', 'butcher', 'accountant', 'prince', 'pope', 'sailor', 'boxer', 'ballet', 'coach', 'astronaut', 'painter', 'anaesthesiologist', 'scientist']
+        elif gv == 8:
             category = "clothes_n_accessories"
-            self.words = ['jewelry', 'sock', 'jacket', 'heel', 'smock', 'shorts', 'pocket', 'necklace', 'sweatshirt', 'uniform', 'raincoat', 'trousers', 'sunglasses', 'coat', 'pullover', 'shirt', 'sandals', 'suit', 'pajamas', 'skirt', 'zip', 'shoes', 'jewel', 'tie', 'slippers', 'gloves', 'hat', 'sleeve', 'cap', 'swimming_suit', 'sneaker', 'vest', 'glasses', 'shoelace', 'patch', 'scarf', 'shoe', 'button', 'dress', 'sash', 'shoe_sole', 'robe', 'pants', 'kimono', 'overalls']
-
-        elif self.mainloop.m.game_variant == 9:
+            self.imgs = ['jewellery', 'sock', 'jacket', 'heel', 'smock', 'shorts', 'pocket', 'necklace', 'sweatshirt', 'uniform', 'raincoat', 'trousers', 'sunglasses', 'coat', 'pullover', 'shirt', 'sandals', 'suit', 'pyjamas', 'skirt', 'zip', 'shoes', 'jewel', 'tie', 'slippers', 'gloves', 'hat', 'sleeve', 'cap', 'swimming_suit', 'sneaker', 'vest', 'glasses', 'shoelace', 'patch', 'scarf', 'shoe', 'button', 'dress', 'sash', 'shoe_sole', 'robe', 'pants', 'kimono', 'overalls']
+        elif gv == 9:
             category = "fruit_n_veg"
-            self.words = ['carrot', 'blackberries', 'celery', 'turnip', 'cacao', 'peach', 'melon', 'grapefruit', 'broccoli', 'grapes', 'spinach', 'fig', 'kernel', 'radish', 'tomatoe', 'kiwi', 'asparagus', 'olives', 'cucumbers', 'beans', 'strawberry', 'peppers', 'raspberry', 'apricot', 'potatoes', 'peas', 'cabbage', 'cherries', 'squash', 'blueberries', 'pear', 'orange', 'pumpkin', 'avocado', 'garlic', 'onion', 'apple', 'lime', 'cauliflower', 'mango', 'lettuce', 'lemon', 'aubergine', 'artichokes', 'plums', 'leek', 'bananas', 'papaya']
-
-        elif self.mainloop.m.game_variant == 10:
+            self.imgs = ['carrot', 'blackberries', 'celery', 'turnip', 'cacao', 'peach', 'melon', 'grapefruit', 'broccoli', 'grapes', 'spinach', 'fig', 'kernel', 'radish', 'tomato', 'kiwi', 'asparagus', 'olives', 'cucumbers', 'beans', 'strawberry', 'peppers', 'raspberry', 'apricot', 'potatoes', 'peas', 'cabbage', 'cherries', 'squash', 'blueberries', 'pear', 'orange', 'pumpkin', 'avocado', 'garlic', 'onion', 'apple', 'lime', 'cauliflower', 'mango', 'lettuce', 'lemon', 'aubergine', 'artichokes', 'plums', 'leek', 'bananas', 'papaya']
+        elif gv == 10:
             category = "transport"
-            self.words = ['sail', 'taxi', 'car', 'bike', 'raft', 'pedal', 'bus', 'handlebar', 'boat', 'truck', 'sleigh', 'carpet', 'motorcycle', 'train', 'ship', 'van', 'canoe', 'rocket', 'mast', 'sledge', 'bicycle']
-
-        elif self.mainloop.m.game_variant == 11:
+            self.imgs = ['sail', 'taxi', 'car', 'bike', 'raft', 'pedal', 'bus', 'handlebar', 'boat', 'truck', 'sleigh', 'carpet', 'motorcycle', 'train', 'ship', 'van', 'canoe', 'rocket', 'mast', 'sledge', 'bicycle']
+        elif gv == 11:
             category = "food"
-            self.words = ['candy', 'sausage', 'hamburger', 'steak', 'fudge', 'doughnut', 'coconut', 'rice', 'ice_cream', 'jelly', 'yogurt', 'dessert', 'pretzel', 'peanut', 'jam', 'feast', 'cookie', 'bacon', 'spice', 'coffee', 'pie', 'lemonade', 'chocolate', 'water_bottle', 'lunch', 'ice', 'sugar', 'sauce', 'soup', 'juice', 'fries', 'cake', 'mashed_potatoes', 'tea', 'bun', 'cheese', 'beef', 'sandwich', 'slice', 'sprinkle', 'pizza', 'flour', 'gum', 'spaghetti', 'roast', 'drink', 'stew', 'spread', 'meat', 'milk', 'meal', 'corn', 'bread', 'walnut', 'egg', 'hot_dog', 'ham']
+            self.imgs = ['candy', 'sausage', 'hamburger', 'steak', 'fudge', 'doughnut', 'coconut', 'rice', 'ice_cream', 'jelly', 'yoghurt', 'dessert', 'pretzel', 'peanut', 'jam', 'feast', 'cookie', 'bacon', 'spice', 'coffee', 'pie', 'lemonade', 'chocolate', 'water_bottle', 'lunch', 'ice', 'sugar', 'sauce', 'soup', 'juice', 'fries', 'cake', 'mashed_potatoes', 'tea', 'bun', 'cheese', 'beef', 'sandwich', 'slice', 'sprinkle', 'pizza', 'flour', 'gum', 'spaghetti', 'roast', 'drink', 'stew', 'spread', 'meat', 'milk', 'meal', 'corn', 'bread', 'walnut', 'egg', 'hot_dog', 'ham']
 
-        if self.mainloop.m.game_variant == 0:
-            self.level.games_per_lvl = len(self.words)//2
-        else:
-            self.level.games_per_lvl = len(self.words)
+        self.words = self.d["a4a_%s" % category]
+
+        self.level.games_per_lvl = 10
 
         self.w_index = random.randint(0,len(self.words)-1)
-        self.word = self.lang.d["a4a_%s" % category][self.w_index]
-        img_src = "%s.jpg" % self.words[self.w_index]
+        self.word = ex.unival(self.words[self.w_index])
+        #print(len(self.dp["a4a_animals"]))
+        if self.mainloop.lang.lang == "ru" and gv > 12:
+            self.wordsp = eval("self.dp['a4a_%s']" % category)
+            self.wordp = ex.unival(self.wordsp[self.w_index])
+        else:
+            self.wordp = self.word
+        img_src = "%s.jpg" % self.imgs[self.w_index]
 
         w_len = len(self.word)
 
@@ -119,11 +126,11 @@ class Board(gd.BoardGame):
         #frame around image
         self.board.add_door(img_left - 1,1,img_size+2,img_size+3,classes.board.Door,"",white,"",font_size = 2)
         self.board.units[-1].image.set_colorkey(None)
-        self.board.units[-1].set_outline(color = border_color, width = 1)
+        #self.board.units[-1].set_outline(color = border_color, width = 1)
 
         self.board.add_door(1,img_size+3,base_len,3,classes.board.Door,"",clx,"",font_size = 2)
         self.board.units[-1].image.set_colorkey(None)
-        self.board.units[-1].set_outline(color = border_color, width = 1)
+        #self.board.units[-1].set_outline(color = border_color, width = 1)
 
         #temp frame around word
         w = len(self.word)
@@ -133,7 +140,7 @@ class Board(gd.BoardGame):
         self.board.add_door(img_left - 1,img_size + img_top + 1,img_size +2,1,classes.board.Door,"",clx,"",font_size = 2)
         self.board.units[-1].image.set_colorkey(None)
 
-        self.board.add_unit(img_left,img_top,img_size,img_size,classes.board.ImgShip,self.word,color,os.path.join('art4apps', category,img_src))
+        self.board.add_unit(img_left,img_top,img_size,img_size,classes.board.ImgShip,self.wordp,color,os.path.join('art4apps', category,img_src))
         self.board.ships[-1].immobilize()
 
         choice_list = self.word[:]
@@ -178,6 +185,7 @@ class Board(gd.BoardGame):
                 self.board.ships[-1].outline_highlight = True
                 self.board.ships[-1].set_outline(color = border_color, width = 1)
                 self.board.ships[-1].font_color = font_color
+                self.board.ships[-1].readable = False
                 j += 1
             else:
                 caption = self.word[i]
@@ -187,6 +195,7 @@ class Board(gd.BoardGame):
                 self.board.ships[-1].outline_highlight = False
                 self.board.ships[-1].set_outline(color = border_color, width = 2)
                 self.board.ships[-1].font_color = font_color
+                self.board.ships[-1].readable = False
             x += 1
         for i in range(3, 3+n_letters):
             self.board.all_sprites_list.move_to_front(self.board.units[i])
@@ -202,6 +211,7 @@ class Board(gd.BoardGame):
         gd.BoardGame.update(self, game) #rest of painting done by parent
 
     def check_result(self):
+
         result = [" " for i in range(self.data[0])]
         if self.board.grid[self.sol_grid_y] == self.solution_grid:
             #print(self.board.grid[self.sol_grid_y])

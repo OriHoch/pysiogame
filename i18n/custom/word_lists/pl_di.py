@@ -8,7 +8,6 @@
 #the sublists are consisting of words with len() of 3 - 10
 #I think the way of going about internationalization here would be to create a new list
 #with words most commonly used in your language rather than translating this
-#the code at the end would format/sort etc. a mixed list of words with different lenghts. - add , between the sub-list (or if using python3 use the print(row, end=', ').
 
 #ta lista jest bezpośrednim tłumaczeniem z angielskiego przy pomocy google translate - usunięte duplikaty, nie przetłumaczone słowa i przesortowana.
 
@@ -21,24 +20,3 @@ di = [[61, 'akt', 'ale', 'ani', 'bez', 'boi', 'być', 'coś', 'cud', 'czy', 'da�
 ,[77, 'czasownik', 'dokładnie', 'dopasować', 'dorosłego', 'drukowane', 'elegancki', 'jednostka', 'kiełkować',  'kompletna', 'konieczne', 'kroplówka', 'kręgosłup', 'mieszanki', 'możliwość', 'najlepszy', 'naturalny', 'niebieski', 'obietnica', 'oczekiwać', 'odpowiedź', 'odwiedzić', 'ostrożnie', 'pieniądze', 'pierścień', 'pociągnął', 'polowanie', 'potomstwa', 'powietrze', 'powitalny', 'pozostaje', 'prezydent', 'produkcji', 'prowadził', 'przeszedł', 'przyczyna', 'przynieść', 'przyniósł', 'przypadek', 'przyszedł', 'przytulny', 'pęknięcie', 'rozumiesz', 'rozwiązać', 'rumieniec', 'specjalny', 'spożywcze', 'szczegóły', 'szczelina', 'szlifować', 'szorstkim', 'słodzenia', 'słyszałem', 'truskawka', 'uderzenie', 'udowodnić', 'warczenie', 'wciśnięty', 'widziałem', 'wiewiórka', 'winogrona', 'winogrono', 'większość', 'wspaniały', 'wyciągnąć', 'wyciągnął', 'wyrażenie', 'zamrożone', 'zapowiedź', 'zbudowany', 'zderzenie', 'zniesiony', 'zszywanie', 'zwierzęta', 'zwłaszcza', 'ćwiczenia', 'śpiewania', 'żołnierzy']
 ,[57, 'bezpieczny', 'ciężarówka', 'cząsteczki', 'członkowie', 'deklaracja', 'dziesiętny', 'dziewczyny', 'energiczny', 'faktycznie', 'kliknięcie', 'kwadratowa', 'materiałem', 'nakrzyczeć', 'nauczyciel', 'niedźwiedź', 'nowoczesny', 'obserwować', 'podzielone', 'porównanie', 'powiedział', 'powiedzieć', 'pozdrawiam', 'przeglądać', 'przestrzeń', 'przeszczep', 'przeszłość', 'przyjaciel', 'przyjechał', 'przyrostek', 'przystawki', 'roszczenie', 'rozgwiazda', 'rozlewania', 'rozwinięte', 'rzeczownik', 'rękawiczka', 'samogłoskę', 'silniejszy', 'skanowanie', 'spojrzenie', 'spuchnięta', 'spółgłoska', 'strumykiem', 'stworzenie', 'substancje', 'szczęśliwy', 'szlachetny', 'uzgodniony', 'uśmiechnął', 'wszystkich', 'wypełnione', 'wypróbować', 'zadowolony', 'zamrożenie', 'zamówienie', 'zawieszona', 'świerszcza']
 ]
-
-"""
-a = 0
-for each in mixed_list_of_words:
-    if len(each)>a:
-        a = len(each)
-        
-word_sets = [[] for i in range(a)]
-
-for each in mixed_list_of_words:
-    b = len(each)
-    word_sets[b-1].append(each)
-    
-for each in word_sets:
-    each.sort()
-    a = len(each)
-    row = []
-    row.append(a)
-    row.extend(each)
-    print(row)
-"""

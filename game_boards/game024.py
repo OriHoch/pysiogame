@@ -13,7 +13,7 @@ import os
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config,  screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,1,2)
+        self.level = lc.Level(self,mainloop,99,2)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,11,9)
         self.max_size = 99
 
@@ -56,7 +56,7 @@ class Board(gd.BoardGame):
         self.shape_id = -1
         self.tria_variant = 0
 
-        data = [25,12]
+        data = [25,14]
         #stretch width to fit the screen size
         x_count = self.get_x_count(data[1],even=None)
         if x_count > data[0]:
@@ -119,7 +119,7 @@ class Board(gd.BoardGame):
         self.board.add_unit(0,6,2,2,classes.board.ImgShip,"",white,os.path.join("schemes",scheme,"c_circle.png"),0)
         self.circle_btn = self.board.ships[-1]
 
-        self.board.add_unit(0,8,2,4,classes.board.Label,"",color,"",4)
+        self.board.add_unit(0,8,2,6,classes.board.Label,"",color,"",4)
         self.lengths = self.board.units[-1]
         self.lengths.align = 1
 
@@ -424,9 +424,12 @@ class Board(gd.BoardGame):
                     self.paint_line(1)
 
     def next_shape(self):
+        #self.level.next_board()
+        #"""
         self.next_btn.keyable = False
         self.pick_shape()
         self.mainloop.redraw_needed[0] = True
+        #"""
 
     def change_tool(self, tool):
         self.max_points = tool

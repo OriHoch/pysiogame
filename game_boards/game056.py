@@ -12,7 +12,7 @@ from math import pi,cos,sin
 
 class Board(gd.BoardGame):
     def __init__(self, mainloop, speaker, config, screen_w, screen_h):
-        self.level = lc.Level(self,mainloop,99,6)
+        self.level = lc.Level(self,mainloop,5,6)
         gd.BoardGame.__init__(self,mainloop,speaker,config,screen_w,screen_h,9,6)
 
     def create_game_objects(self, level = 1):
@@ -330,7 +330,8 @@ class Board(gd.BoardGame):
 
     def draw_fractions(self,numbers,canvas,size,center,color):
         lh = max(int(size * 0.04),2)
-        pygame.draw.line(canvas,self.color2,[center[0]-size//7,center[1]-lh//2],[center[0]+size//7,center[1]-lh//2],lh)
+        la = self.mainloop.config.font_start_at_adjustment*60//size
+        pygame.draw.line(canvas,self.color2,[center[0]-size//7,center[1]-lh//2+la],[center[0]+size//7,center[1]-lh//2+la],lh)
 
     def draw_ratios(self,numbers,canvas,size,center,color):
         pygame.draw.line(canvas,self.color2,[center[0],center[1]],[center[0]*3,center[1]],1)

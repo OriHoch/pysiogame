@@ -31,7 +31,7 @@ class Board(gd.BoardGame):
 
         self.points = (data[0]+data[1]) // 5
 
-        self.vis_buttons = [0,1,1,1,1,1,1,0,1]
+        self.vis_buttons = [0,1,1,1,1,1,1,0,0]
         self.mainloop.info.hide_buttonsa(self.vis_buttons)
 
         self.layout.update_layout(data[0],data[1])
@@ -55,20 +55,19 @@ class Board(gd.BoardGame):
 
         self.board.add_unit(0,0,1,1,classes.board.ImgShip,"",bg_col,img_src1)
         self.person = self.board.ships[0]
-        self.person.audible = True
-        self.person.draggable = False
+        self.person.audible = False
+        self.person.draggable = True
         self.board.add_door(data[0]-1,data[1]-1,1,1,classes.board.Door,"",bg_col,img_src2)
         self.board.units[0].outline=False
         self.board.ships[0].outline=False
         self.board.all_sprites_list.move_to_front(self.person)
         self.board.active_ship = 0
         self.ship_id = 0
+        self.board.moved = self.check_result
+        self.drag = False
 
     def handle(self,event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pass
-        else:
-            gd.BoardGame.handle(self, event) #send event handling up
+        gd.BoardGame.handle(self, event) #send event handling up
 
 
     def update(self,game):
@@ -78,8 +77,9 @@ class Board(gd.BoardGame):
             self.mylaby.show(game)
 
     def after_keydown_move(self):
-        self.changed_since_check = True
-        self.check_result()
+        pass
+        #self.changed_since_check = True
+        #self.check_result()
 
     def check_result(self):
         target = pygame.sprite.spritecollide(self.board.units[0], self.board.ship_list, False, collided = None)

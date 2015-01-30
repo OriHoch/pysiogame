@@ -28,19 +28,20 @@ class Board(gd.BoardGame):
         self.activated_col = self.font_hl
         white = (255,255,255)
         self.bg_col = white
+        self.top_line = 3#self.board.scale//2
         if self.mainloop.scheme is not None:
             if self.mainloop.scheme.dark:
                 self.bg_col = (0,0,0)
         self.level.games_per_lvl = 5
         if self.level.lvl == 1:
             rngs = [11,50,11,20]
-            self.level.games_per_lvl = 2
+            self.level.games_per_lvl = 3
         elif self.level.lvl == 2:
             rngs = [20,50,20,30]
-            self.level.games_per_lvl = 2
+            self.level.games_per_lvl = 3
         elif self.level.lvl == 3:
             rngs = [50,150,30,75]
-            self.level.games_per_lvl = 2
+            self.level.games_per_lvl = 3
         elif self.level.lvl == 4:
             rngs = [150,500,50,75]
         elif self.level.lvl == 5:
@@ -134,8 +135,9 @@ class Board(gd.BoardGame):
         self.board.add_unit(data[0]-3-i*3,6,3,3,classes.board.Label,"×",self.bg_col,"",21)
         self.plus_label = self.board.units[-1]
         #line
-        line = "―" * (self.sumn1n2sl*2)
-        self.board.add_unit(data[0]-self.sumn1n2sl*3,9,self.sumn1n2sl*3,1,classes.board.Label,line,self.bg_col,"",21)
+        #line = "―" * (self.sumn1n2sl*2)
+        self.board.add_unit(data[0]-self.sumn1n2sl*3,9,self.sumn1n2sl*3,1,classes.board.Label,"",self.bg_col,"",21)
+        self.draw_hori_line(self.board.units[-1])
         self.board.units[-1].text_wrap = False
 
         for i in range(self.sumn1n2sl - 2):
@@ -153,8 +155,9 @@ class Board(gd.BoardGame):
                 self.semiresultl[j][-1].posy_id = j
                 self.semiresultlall.append(self.semiresultl[j][-1])
 
-        self.board.add_unit(data[0]-self.sumn1n2sl*3,10+self.n2sl*3+1,self.sumn1n2sl*3,1,classes.board.Label,line,self.bg_col,"",21)
-        self.board.units[-1].text_wrap = False
+        self.board.add_unit(data[0]-self.sumn1n2sl*3,10+self.n2sl*3+1,self.sumn1n2sl*3,1,classes.board.Label,"",self.bg_col,"",21)
+        self.draw_hori_line(self.board.units[-1])
+        #self.board.units[-1].text_wrap = False
         self.board.add_unit(data[0]-(self.sumn1n2sl+1)*3,7+self.n2sl*3+1,3,3,classes.board.Label," + ",self.bg_col,"",21)
         self.plus2_label = self.board.units[-1]
         for i in range(self.sumn1n2sl):
@@ -175,7 +178,19 @@ class Board(gd.BoardGame):
 
         self.deactivate_colors()
         self.reactivate_colors()
-
+        
+    def draw_hori_line(self,unit):
+        w = unit.grid_w*self.board.scale
+        h = unit.grid_h*self.board.scale
+        center = [w//2,h//2]
+        
+        canv = pygame.Surface([w, h-1])
+        canv.fill(self.bg_col)
+        
+        pygame.draw.line(canv,self.grey,(0,self.top_line),(w,self.top_line),3)
+        unit.painting = canv.copy()        
+        unit.update_me = True
+        
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:

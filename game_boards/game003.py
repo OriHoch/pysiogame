@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
+from math import ceil
 import classes.level_controller as lc
 import classes.game_driver as gd
 
@@ -14,8 +15,9 @@ class Board(gd.BoardGame):
 
     def create_game_objects(self, level = 1):
         self.board.draw_grid = False
+        self.show_info_btn = False
 
-        white = ((255,255,255))
+        white = (255,255,255)
         color = white
 
         self.lang_titles = self.mainloop.lang.lang_titles
@@ -27,8 +29,9 @@ class Board(gd.BoardGame):
             self.languages = self.ok_lng
 
         self.lang_count = len(self.languages)
+        half = int(ceil(self.lang_count / 2))
 
-        data = [22,self.lang_count + 2]
+        data = [20,half + 3]
 
         max_x_count = self.get_x_count(data[1],even=True)
         if max_x_count > self.lang_count*2 and max_x_count > 24:
@@ -45,14 +48,20 @@ class Board(gd.BoardGame):
 
         self.center = self.data[0] // 2
 
-        self.board.add_unit(0,0,data[0],2,classes.board.Label,self.d["Language"]+":",color,"",25)
+        self.board.add_unit(0,0,data[0],2,classes.board.Label,self.d["Language"],color,"",25)
         self.board.units[-1].font_color = (255,75,0,0)
 
         lang = self.mainloop.config.settings["lang"]
         lng_index = 0
 
         for i in range(self.lang_count):
-            self.board.add_unit(self.center-5,i+2,10,1,classes.board.Letter,self.lang_titles[i],white,"",2)
+            if i <= half:
+                c = self.center - 4
+                t = i+2
+            else:
+                c = self.center + 4
+                t = i-half-1+2
+            self.board.add_unit(c-4,t,8,1,classes.board.Letter,self.lang_titles[i],white,"",2)
             """
             if self.all_lng[i] == "he" and self.lang.lang == "he":
                 self.board.ships[-1].speaker_val = self.lang.dp["Hebrew"]

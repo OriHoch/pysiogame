@@ -42,6 +42,11 @@ class Board(gd.BoardGame):
             numbero = 14
         elif self.level.lvl == 10:
             numbero = 15
+        if self.level.lvl < 5:
+            self.max_len = 2
+        else:
+            self.max_len = 3
+
         self.points = 1
         self.bonus = numbero * numbero
         data = [numbero*2,numbero]
@@ -145,7 +150,7 @@ class Board(gd.BoardGame):
                 else:
                     char = event.unicode
                     if char in self.digits:
-                        if len(char)>0 and lhv < 3:
+                        if len(char)>0 and lhv < self.max_len:
                             self.home_square.value += char
                         else:
                             self.home_square.value = char

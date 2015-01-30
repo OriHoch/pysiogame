@@ -29,6 +29,7 @@ class Board(gd.BoardGame):
         self.activated_col = self.font_hl
         white = (255,255,255)
         self.bg_col = white
+        self.top_line = 3#self.board.scale//2
         if self.mainloop.scheme is not None:
             if self.mainloop.scheme.dark:
                 self.bg_col = (0,0,0)
@@ -115,9 +116,10 @@ class Board(gd.BoardGame):
         self.board.add_unit(data[0]-3-i*3,5,3,3,classes.board.Label,"+",self.bg_col,"",21)
         self.plus_label = self.board.units[-1]
         #line
-        line = "―" * (self.sumn1n2sl*2)
-        self.board.add_unit(data[0]-self.sumn1n2sl*3,8,self.sumn1n2sl*3,1,classes.board.Label,line,self.bg_col,"",21)
-        self.board.units[-1].text_wrap = False
+        #line = "―" * (self.sumn1n2sl*2)
+        self.board.add_unit(data[0]-self.sumn1n2sl*3,8,self.sumn1n2sl*3,1,classes.board.Label,"",self.bg_col,"",21)
+        self.draw_hori_line(self.board.units[-1])
+        #self.board.units[-1].text_wrap = False
 
         #result
         for i in range(self.sumn1n2sl):
@@ -151,7 +153,18 @@ class Board(gd.BoardGame):
         self.board.units[0].font_color = self.task_str_color
         self.next_step_btn.font_color = (0,200,0)
 
-
+    def draw_hori_line(self,unit):
+        w = unit.grid_w*self.board.scale
+        h = unit.grid_h*self.board.scale
+        center = [w//2,h//2]
+        
+        canv = pygame.Surface([w, h-1])
+        canv.fill(self.bg_col)
+        
+        pygame.draw.line(canv,self.grey,(0,self.top_line),(w,self.top_line),3)
+        unit.painting = canv.copy()        
+        unit.update_me = True
+        
     def handle(self,event):
         gd.BoardGame.handle(self, event) #send event handling up
         if self.show_msg == False:

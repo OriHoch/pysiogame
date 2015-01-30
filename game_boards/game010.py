@@ -83,7 +83,7 @@ class Board(gd.BoardGame):
         self.board.add_door(data[0]-1,17,1,1,classes.board.Door,"",color,"")
         tool_len = len(self.board.ships)
         tool_max = tool_len - 3
-        self.word_list = ['Apple', 'Bear', 'Car', 'Dog', 'Egg', 'Flower', 'Goat','House', 'Ice', 'Jar', 'Kite', 'Leaf', 'Mug', 'Nut', 'Owl', 'Pig', 'Queen', 'Rabbit', 'Snake', 'Turtle', 'Unit', 'Violin', 'Wagon', 'X-ray', 'Yarn', 'Zebra','apple', 'bear', 'car', 'dog', 'egg', 'flower', 'goat', 'house', 'ice', 'jar', 'kite', 'leaf', 'mug', 'nut', 'owl', 'pig', 'queen', 'rabbit', 'snake', 'turtle', 'unit', 'violin', 'wagon', 'x-ray', 'yarn', 'zebra','zero','one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine','ten', 'eleven', 'twelve']
+        #self.word_list = ['Apple', 'Bear', 'Car', 'Dog', 'Egg', 'Flower', 'Goat','House', 'Ice', 'Jar', 'Kite', 'Leaf', 'Mug', 'Nut', 'Owl', 'Pig', 'Queen', 'Rabbit', 'Snake', 'Turtle', 'Unit', 'Violin', 'Wagon', 'X-ray', 'Yarn', 'Zebra','apple', 'bear', 'car', 'dog', 'egg', 'flower', 'goat', 'house', 'ice', 'jar', 'kite', 'leaf', 'mug', 'nut', 'owl', 'pig', 'queen', 'rabbit', 'snake', 'turtle', 'unit', 'violin', 'wagon', 'x-ray', 'yarn', 'zebra','zero','one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine','ten', 'eleven', 'twelve']
 
         #color pallette
         h = 0
@@ -162,15 +162,15 @@ class Board(gd.BoardGame):
                     self.p_current = canvas_pos
 
                     #depending on starting position - increase or decrease the line width
-                    if canvas_pos[1] > self.word_pos_y:
-                        self.brush_size = self.data[3]//2
-                    else:
-                        self.brush_size = self.data[3]
+                    #if canvas_pos[1] > self.word_pos_y:
+                    #    self.brush_size = self.data[3]//2
+                    #else:
+                    self.brush_size = self.data[3]
                     self.paint_pencil(0)
                     pygame.mouse.set_cursor(*pygame.cursors.broken_x)
                 elif 0 < active < 66:
                     self.active_letter = self.board.ships[self.board.active_ship].value
-                    self.active_word = self.word_list[self.board.active_ship-1]#"Zebra"#self.active_letter
+                    #self.active_word = self.word_list[self.board.active_ship-1]#"Zebra"#self.active_letter
                     self.tool_door.set_pos(self.board.active_ship_pos)
                     self.paint_bg_letter()
                 elif active > 65:
@@ -209,18 +209,19 @@ class Board(gd.BoardGame):
         text = self.canvas_block.font.render("%s" % (txt), 1, (220, 220, 220, 0))
 
         font_x = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font.size(txt)[0])//2)
-        font_y = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font.size(txt)[1])//2) - 5*self.board.scale
-
+        font_y = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font.size(txt)[1])//2) - 3*self.board.scale
+        """
         txt2 = self.active_word
         text2 = self.canvas_block.font3.render("%s" % (txt2), 1, (220, 220, 220, 0))
         font_x2 = ((self.board.scale*self.canvas_block.grid_w-self.canvas_block.font3.size(txt2)[0])//2)
         font_y2 = ((self.board.scale*self.canvas_block.grid_h-self.canvas_block.font3.size(txt2)[1])//2) + 8*self.board.scale
 
         self.word_pos_y = font_y2
+        """
         self.canvas.fill(self.bg_color)
 
         self.canvas.blit(text, (font_x,font_y))
-        self.canvas.blit(text2, (font_x2,font_y2))
+        #self.canvas.blit(text2, (font_x2,font_y2))
         self.copy_to_screen()
 
     #states => mouse states => 0 - mouse_btn_down, 1 - mouse_move, 2 - mouse_btn_up

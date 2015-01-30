@@ -85,7 +85,7 @@ class Board(gd.BoardGame):
         self.solution_grid = [1 for x in range(data[0])]
 
         x = 0
-        y = 3
+        y = 4
         for i in range(len(shuffled)):
             if self.mainloop.scheme is not None:
                 number_color =  self.mainloop.scheme.u_font_color
@@ -104,19 +104,19 @@ class Board(gd.BoardGame):
 
         #add objects to the board
         for i in range(word_len):
-            self.board.add_door(x+i,0,1,1,classes.board.Door,"",color,"")
+            self.board.add_door(x+i,2,1,1,classes.board.Door,"",color,"")
             self.board.units[i].door_outline = True
             self.board.all_sprites_list.move_to_front(self.board.units[i])
 
-        self.board.add_unit(0,0,x,1,classes.board.Obstacle,"",color0)
-        self.board.add_unit(x+word_len,0,data[0]-x-word_len,1,classes.board.Obstacle,"",color0)
+        self.board.add_unit(0,2,x,1,classes.board.Obstacle,"",color0)
+        self.board.add_unit(x+word_len,2,data[0]-x-word_len,1,classes.board.Obstacle,"",color0)
 
-        self.board.add_unit(0,data[1]-2,data[0],1,classes.board.Letter,self.d["Write a word:"],color0,"",1)
+        self.board.add_unit(0,0,data[0],1,classes.board.Letter,self.d["Build the following word using the letters below."],color0,"",3)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
-        self.board.ships[-1].speaker_val = self.dp["Write a word:"]
+        self.board.ships[-1].speaker_val = self.dp["Build the following word using the letters below."]
         self.board.ships[-1].speaker_val_update = False
-        self.board.add_unit(0,data[1]-1,data[0],1,classes.board.Letter,self.word,color0,"",0)
+        self.board.add_unit(0,1,data[0],1,classes.board.Letter,self.word,color0,"",0)
         self.board.ships[-1].immobilize()
         self.board.ships[-1].font_color = font_color
         self.outline_all(0,1)
@@ -130,9 +130,9 @@ class Board(gd.BoardGame):
 
     def check_result(self):
         result = [" " for i in range(self.data[0])]
-        if self.board.grid[0] == self.solution_grid:
+        if self.board.grid[2] == self.solution_grid:
             for i in range(len(self.board.ships)):
-                if self.board.ships[i].grid_y == 0:
+                if self.board.ships[i].grid_y == 2:
                     result[self.board.ships[i].grid_x] = self.board.ships[i].value
             result_s = ''.join(result).strip()
             if self.word == result_s:

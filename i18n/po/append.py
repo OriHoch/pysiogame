@@ -19,9 +19,6 @@ def add_all():
                 f.write('\n\nmsgid "%s"' % line)
                 f.write('\nmsgstr ""')
     
-#msgid "remember me"
-#msgstr ""
-
 if __name__ == "__main__":
     add_all()
     print("Done!")
